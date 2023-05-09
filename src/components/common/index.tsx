@@ -52,6 +52,30 @@ export const Button: React.FC<ButtonProps> = ({
       
     )
   }
+  export const ButtonSecondary: React.FC<ButtonProps> = ({
+    type , 
+    className ,
+    text
+    }) => {
+      return (
+        
+      <button
+      type={type}  
+      className={` 
+      py-3
+      px-6 
+      bg-[#959824] 
+      text-white 
+      font-bold 
+      rounded-sm 
+     
+      ${className}
+      `}>
+        {text}
+      </button>
+        
+      )
+    }
 
 const LinkButton: React.FC<LinkButtonProps> = ({
 to , 

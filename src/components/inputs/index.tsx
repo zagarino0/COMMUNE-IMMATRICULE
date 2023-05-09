@@ -26,3 +26,23 @@ placeholder ,
 }
 
 export default Input ;
+
+export const InputSecondary: React.FC<InputProps> = ({
+  type , 
+  className ,
+  placeholder ,
+  }) => {
+    return (
+      <>
+      <input 
+      type={type} 
+      className={`
+      border-[2px]
+      py-3
+      px-6 
+  
+      ${className}`} placeholder={placeholder} />
+      </>
+    )
+  }
+  
