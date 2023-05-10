@@ -52,6 +52,7 @@ export const Button: React.FC<ButtonProps> = ({
       
     )
   }
+  
   export const ButtonSecondary: React.FC<ButtonProps> = ({
     type , 
     className ,
@@ -169,3 +170,5 @@ export const LinkButtonSecondary: React.FC<LinkButtonProps> = ({
        
       )
     }  
+
+    

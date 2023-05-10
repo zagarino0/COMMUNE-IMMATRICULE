@@ -10,7 +10,7 @@ import {FaUniversity} from "react-icons/fa"
 import {BiBody} from "react-icons/bi"
 import {MdPermIdentity} from "react-icons/md"
 import {IoIosPerson} from "react-icons/io"
-function DashboardPage() {
+function MAJRenseignementPage() {
 const ContentCardProfil = (
 <div
 className="
@@ -222,4 +222,4 @@ contentCard={ContentCardInformation}
   )
 }
 
-export default DashboardPage
+export default MAJRenseignementPage

@@ -8,6 +8,7 @@ export default {
     extend: {
       backgroundImage: {
         'image': 'url("./src/assets/bord.png")',
+        'logo': 'url("./src/assets/logo.png")',
       },
     },
   },
