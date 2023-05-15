@@ -5,7 +5,7 @@ function DemandeDeMAJPage() {
   const ContentPage = (
 <div>
  <LinkButton
- to="/"
+ to="/demandeDeNIFValider"
  text="Validation"
  className="w-96 text-center font-semibold"
  ></LinkButton>
