@@ -14,12 +14,13 @@ function DemandeDeNIFAValiderPage() {
       setSelectedOption(value);
     };
     const [isChecked, setIsChecked] = useState(false);
+    const [isChecked2nd, setIsChecked2nd] = useState(false);
 
     const handleCheckboxChange = (checked: boolean) => {
       setIsChecked(checked);
     };
     const handleCheckboxChangeSecond = (checked: boolean) => {
-        setIsChecked(checked);
+        setIsChecked2nd(checked);
       };
   
     const options = [
@@ -66,7 +67,7 @@ function DemandeDeNIFAValiderPage() {
     <Label text="Trasfert :"></Label>
     <div className="flex flex-row mx-32">
     <Checkbox label="Première validation" checked={isChecked} onChange={handleCheckboxChange} className="ml-1"/>
-    <Checkbox label="Deuxième validation" checked={isChecked} onChange={handleCheckboxChangeSecond} className="ml-4"/>
+    <Checkbox label="Deuxième validation" checked={isChecked2nd} onChange={handleCheckboxChangeSecond} className="ml-4"/>
     </div>
 </div>
 <Button type="submit" text="Rechercher" className="w-96 ml-[180px] mt-4"></Button>
@@ -84,7 +85,7 @@ data={data}
   return (
     <div className="bg-neutral-800/70 h-screen flex flex-col">
 <div>
-<Navbar className="fixed p-2 " content={ContentSearch}></Navbar>
+<Navbar className="h-screen p-2 " content={ContentSearch}></Navbar>
 </div>
 
     </div>
