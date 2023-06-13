@@ -11,7 +11,7 @@ className,
         {
 return(
     <>
-    <div className={`bg-white shadow-xl w-screen   ${className}`}>
+    <div className={`bg-white shadow-xl w-full fixed py-2 px-4  z-50 m-auto  ${className}`}>
      {content}
     </div>
     </>

@@ -9,6 +9,9 @@ export default {
       backgroundImage: {
         'image': 'url("./src/assets/bord.png")',
         'logo': 'url("./src/assets/logo.png")',
+        'hoteldeville': 'url("./src/assets/hoteldeville.jpg")',
+        'majunga01': 'url("./src/assets/majunga01.jpg")',
+        'majunga02': 'url("./src/assets/majunga02.jpg")',
       },
     },
   },

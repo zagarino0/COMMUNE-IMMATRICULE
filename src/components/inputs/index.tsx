@@ -13,13 +13,11 @@ placeholder ,
     <input 
     type={type} 
     className={`
-    border-[2px]
+    border-[3px]
+    
     py-3
     px-6 
-    hover:scale-110
-    transition 
-    duration-300 
-    ease-in-out
+   hover:bg-gray-200
     ${className}`} placeholder={placeholder} />
     </>
   )

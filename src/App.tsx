@@ -15,6 +15,13 @@ import VehiculePage from "./pages/vehicule/vehicule";
 import ConsultationPage from "./pages/consultation/consultation";
 import AutresOperationsPage from "./pages/autresOperations/autresOperations";
 import EtatPage from "./pages/etat/etat";
+import AjouterUnCompteOperateurPage from "./pages/ajouterUnCompteOperateur/AjouterUnCompteOperateur";
+import GererLesComptesOperateurDeVotreCentrePage from "./pages/gererLesCompte/GererLesComptesOperateur";
+import DebloquerUnComptePage from "./pages/debloquerUnCompteContribuable/DebloquerUnCompte";
+import TelechargerLeGuidePage from "./pages/telechargerLeGuide/TelechargerLeGuide";
+import ModifierMotDePassePage from "./pages/modifierMotDePasse/ModifierMotDePasse";
+import AjoutVehiculePage from "./pages/ajoutVehicule/AjoutVehiculePage";
+import RectificationVehiculePage from "./pages/RectificationVehiculesContribuablesNifonline/RectificationVehiculePage";
 function App() {
   
   return (
@@ -35,6 +42,14 @@ function App() {
         <Route path="/consultation" element={< ConsultationPage/>}></Route>
         <Route path="/autresoperations" element={< AutresOperationsPage/>}></Route>
         <Route path="/etat" element={< EtatPage/>}></Route>
+        <Route path="/ajoutcompteoperateur" element={< AjouterUnCompteOperateurPage/>}></Route>
+        <Route path="/gerercompte" element={< GererLesComptesOperateurDeVotreCentrePage/>}></Route>
+        <Route path="/debloquercompte" element={< DebloquerUnComptePage/>}></Route>
+        <Route path="/telechargerleguide" element={< TelechargerLeGuidePage/>}></Route>
+        <Route path="/modifierlemotdepasse" element={< ModifierMotDePassePage/>}></Route>
+        <Route path="/consulteraction" element={< ConsultationPage/>}></Route>
+        <Route path="/ajoutvehicule" element={< AjoutVehiculePage/>}></Route>
+        <Route path="/rectificationvehicule" element={< RectificationVehiculePage/>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>

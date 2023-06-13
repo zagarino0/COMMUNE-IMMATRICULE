@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import "../font/font.css"
 
 interface LinkButtonProps{
   to: string | undefined;
@@ -38,13 +38,11 @@ export const Button: React.FC<ButtonProps> = ({
     px-6 
     bg-[#959824] 
     text-white 
-    font-bold 
+    font-[Grand Space] 
     rounded-sm 
-    hover:scale-110
+   
     hover:shadow-xl 
-    transition 
-    duration-300 
-    ease-in-out
+   
     ${className}
     `}>
       {text}

@@ -15,12 +15,10 @@ interface SelectProps {
 const Select: React.FC<SelectProps> = ({ options, value, onChange , className }) => {
   return (
     <select
-      className={`border-[2px]
+      className={`border-[3px]
       py-3
-      hover:scale-110
-      transition 
-      duration-300 
-      ease-in-out
+     hover:bg-gray-200
+     bg-white
       px-4  ${className}`}
       value={value}
       onChange={(e) => onChange(e.target.value)}

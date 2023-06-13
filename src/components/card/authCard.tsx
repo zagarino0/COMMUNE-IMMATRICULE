@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import "../font/font.css"
 interface AuthCardProps{
     title?: string ;
     header?:React.ReactElement;
@@ -38,8 +38,8 @@ flex-row
 </div>
         <div 
     className="
-    text-3xl
-    font-semibold
+    text-5xl
+    font-[Cintaly]
     text-center
     py-6
         ">{title}</div>

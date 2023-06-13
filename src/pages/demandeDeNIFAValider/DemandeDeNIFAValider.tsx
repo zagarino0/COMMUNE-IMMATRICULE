@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { Card } from "../../components/card/card";
 import { Button } from "../../components/common"
 import Checkbox from "../../components/common/checkbox";
 import Input from "../../components/inputs"
 import Select from "../../components/inputs/selectInput";
 import { Label } from "../../components/label/label"
-import { Navbar } from "../../components/navbar/Nabvar"
 import Table from "../../components/table/table";
+import { MainLayout } from "../../layouts/main";
+import "./font.css";
 
 function DemandeDeNIFAValiderPage() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -37,16 +39,22 @@ function DemandeDeNIFAValiderPage() {
    
   ];
     const ContentSearch =(
-     <div className="flex justify-center items-center">
-<div className="flex flex-col">
-        
-<div className="flex flex-col">
-  <div className="text-center font-semibold text-xl py-4">
-    DEMANDES DE MISE A JOUR DES RENSEIGNEMENTS SUR LES CONTRIBUABLES A VALIDER
-  </div>
-      <div className="text-xl font-semibold text-center p-4">
-        Recherche des contribuables
+      <div>     
+         <div className="bg-hoteldeville py-32  bg-cover h-96 p-4">
+     <div className="bg-white rounded-md shadow-xl">
+     <div className="text-center   font-[Cintaly] text-3xl py-4">
+         DEMANDES DE MISE A JOUR DES RENSEIGNEMENTS SUR LES CONTRIBUABLES A VALIDER
+       </div>
+           <div className="text-3xl  font-[Cintaly] text-center p-4 ">
+             Recherche des contribuables
+           </div>
+     </div>
       </div>
+     <div className="flex justify-center items-center ">
+<div className="flex flex-col ">
+        
+<div className="flex flex-col py-4">
+
 <div className="mt-6 flex flex-row">
     <Label text="Domaine de recherche :"></Label>
     <Select options={options} value={selectedOption} onChange={handleOptionChange} className="w-96 mx-6"/>
@@ -81,14 +89,14 @@ data={data}
 </div>
 </div>
      </div>
+     </div>
     )
   return (
-    <div className="bg-neutral-800/70 h-screen flex flex-col">
-<div>
-<Navbar className="h-screen p-2 " content={ContentSearch}></Navbar>
-</div>
-
+    <MainLayout>
+    <div className="mt-24 p-6">
+    <Card contentCard={ContentSearch} className="w-[1000px] h-[1200px]"></Card>
     </div>
+        </MainLayout>
   )
 }
 
