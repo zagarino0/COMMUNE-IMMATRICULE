@@ -49,7 +49,7 @@ function AutresOperationsPage() {
       )
   return (
     <MainLayout>
-        <div className="">
+        <div className="h-screen">
         <Card contentCard={contentCard} className='w-[600px] h-[480px] bg-white mt-24'></Card>
         </div>
     </MainLayout>

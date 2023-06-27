@@ -19,7 +19,7 @@ function ValidationPage() {
         { title: "Transfert sans changement d'adresse des contribuables ", link: "/debloquercompte" },
         { title: "Saisi du droit d'accises sur Nifonline", link: "/consulteraction" },
         { title: "Attribution preNIF ", link: "/modifierlemotdepasse" },
-        { title: "Rectification des principaux renseignements des contribuables", link: "/telechargerleguide" },
+        { title: "Rectification des principaux renseignements des contribuables", link: "/rectificationprincipauxrenseignementcontribuable" },
         { title: "Mise à jour des codes activités", link: "/telechargerleguide" },
         { title: "Ajout de société étrangère", link: "/telechargerleguide" },
         { title: "Annulation de transfert", link: "/telechargerleguide" },

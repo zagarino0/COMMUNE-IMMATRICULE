@@ -22,6 +22,8 @@ import TelechargerLeGuidePage from "./pages/telechargerLeGuide/TelechargerLeGuid
 import ModifierMotDePassePage from "./pages/modifierMotDePasse/ModifierMotDePasse";
 import AjoutVehiculePage from "./pages/ajoutVehicule/AjoutVehiculePage";
 import RectificationVehiculePage from "./pages/RectificationVehiculesContribuablesNifonline/RectificationVehiculePage";
+import RechercheContribuablePage from "./pages/rechercheContribuable/RechercheContribuable";
+import RectificationPrincipauxPage from "./pages/rectificationPrincipauxRenseignement/RectificationPrincipauxPage";
 function App() {
   
   return (
@@ -50,6 +52,8 @@ function App() {
         <Route path="/consulteraction" element={< ConsultationPage/>}></Route>
         <Route path="/ajoutvehicule" element={< AjoutVehiculePage/>}></Route>
         <Route path="/rectificationvehicule" element={< RectificationVehiculePage/>}></Route>
+        <Route path="/recherchecontribuable" element={< RechercheContribuablePage/>}></Route>
+        <Route path="/rectificationprincipauxrenseignementcontribuable" element={< RectificationPrincipauxPage/>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>

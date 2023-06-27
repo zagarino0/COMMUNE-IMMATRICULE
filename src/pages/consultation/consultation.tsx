@@ -14,7 +14,7 @@ function ConsultationPage() {
 
       //Links navbar
       const links = [
-          { title: "Consulter les contribuables", link: "/ajoutcompteoperateur" },
+          { title: "Rechercher les contribuables", link: "/recherchecontribuable" },
           { title: "Consulter les contibuables bloqués", link: "/gerercompte" },
           { title: "Consulter les contibuables débloqués", link: "/debloquercompte" },
           { title: "Consulter l'historique d'un contribuable", link: "/consulteraction" },

@@ -51,7 +51,7 @@ function VehiculePage() {
     )
   return (
     <MainLayout>
-        <div className="">
+        <div className="h-screen">
         <Card contentCard={contentCard} className='w-[800px] h-[580px] bg-white mt-24'></Card>
         </div>
     </MainLayout>

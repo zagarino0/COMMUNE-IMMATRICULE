@@ -2,6 +2,7 @@
 import AuthCard from "../../components/card/authCard"
 import { Button } from "../../components/common"
 import Input from "../../components/inputs"
+import "../../components/font/font.css"
 function LoginPage() {
 
 const ImageContent = (

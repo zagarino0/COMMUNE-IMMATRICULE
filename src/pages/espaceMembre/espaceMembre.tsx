@@ -49,7 +49,9 @@ function EspaceMembrePage() {
     )
   return (
     <MainLayout>
-        <Card contentCard={contentCard} className='w-[800px] h-[500px] bg-white mt-24'></Card>
+       <div className="h-screen">
+       <Card contentCard={contentCard} className='w-[800px] h-[500px] bg-white mt-24'></Card>
+       </div>
     </MainLayout>
   )
 }
