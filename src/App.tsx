@@ -24,6 +24,8 @@ import AjoutVehiculePage from "./pages/ajoutVehicule/AjoutVehiculePage";
 import RectificationVehiculePage from "./pages/RectificationVehiculesContribuablesNifonline/RectificationVehiculePage";
 import RechercheContribuablePage from "./pages/rechercheContribuable/RechercheContribuable";
 import RectificationPrincipauxPage from "./pages/rectificationPrincipauxRenseignement/RectificationPrincipauxPage";
+import ConsultationContribuableBloque from "./pages/consulationContribuablesBloqué/Consultation";
+import HIstoriqueContribuable from "./pages/consultationHistoriqueContribuable/HIstoriqueContribuable";
 function App() {
   
   return (
@@ -54,6 +56,8 @@ function App() {
         <Route path="/rectificationvehicule" element={< RectificationVehiculePage/>}></Route>
         <Route path="/recherchecontribuable" element={< RechercheContribuablePage/>}></Route>
         <Route path="/rectificationprincipauxrenseignementcontribuable" element={< RectificationPrincipauxPage/>}></Route>
+        <Route path="/consultationContribuableBloque" element={< ConsultationContribuableBloque/>}></Route>
+        <Route path="/consultationhistorique" element={< HIstoriqueContribuable/>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>

@@ -15,9 +15,9 @@ function ConsultationPage() {
       //Links navbar
       const links = [
           { title: "Rechercher les contribuables", link: "/recherchecontribuable" },
-          { title: "Consulter les contibuables bloqués", link: "/gerercompte" },
+          { title: "Consulter les contibuables bloqués", link: "/consultationContribuableBloque" },
           { title: "Consulter les contibuables débloqués", link: "/debloquercompte" },
-          { title: "Consulter l'historique d'un contribuable", link: "/consulteraction" },
+          { title: "Consulter l'historique d'un contribuable", link: "/consultationhistorique" },
           { title: "Consulter la liste des demandes à valider", link: "/modifierlemotdepasse" },
           { title: "Consulter la liste des mises à jour à valider", link: "/telechargerleguide" },
           { title: "Consulter la liste des transferts en attente de votre première validation", link: "/telechargerleguide" },
