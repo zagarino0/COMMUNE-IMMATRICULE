@@ -14,6 +14,7 @@ function ValidationPage() {
     
       //Links navbar
       const links = [
+        {title:"Ajout Référence fiscal" , link:"/AjoutReferenceFiscal"},
         { title: "Validation des démandes d'immatriculation ", link: "/demandeDeNIFValider" },
         { title: "Validation des mise à jour sur les renseignements des contribuables", link: "/demandeDeNIFValider" },
         { title: "Transfert sans changement d'adresse des contribuables ", link: "/debloquercompte" },
@@ -45,7 +46,7 @@ function ValidationPage() {
         {links.map((link) => (
           <li
             key={link.title}
-            className={`mx-4 font-semibold mt-2 text-gray-500  py-2 px-3 hover:cursor-pointer border-[1px]  font-semibold shadow-xl hover:bg-[#959824] hover:text-white hover:scale-110 max-w-xs transition duration-300  ease-in-out ${
+            className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2 hover:border-[#959824] ${
               selectedLink === link.title.toLowerCase() 
               
             } `}
@@ -60,7 +61,7 @@ function ValidationPage() {
   return (
     <MainLayout>
 <div className="mt-24 p-6">
-<Card contentCard={contentCard} className="w-[1000px] h-[1200px]"></Card>
+<Card contentCard={contentCard} className="w-[1000px] h-[1000px]"></Card>
 </div>
     </MainLayout>
   )

@@ -80,7 +80,7 @@ function EtatPage() {
   return (
     <MainLayout>
       <div className="p-6">
-        <Card contentCard={contentCard} className='w-[600px] h-[1900px] bg-white mt-24'></Card>
+        <Card contentCard={contentCard} className='w-[800px] h-[1900px] bg-white mt-24'></Card>
         </div>
     </MainLayout>
   )

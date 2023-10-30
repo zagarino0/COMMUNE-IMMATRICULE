@@ -37,7 +37,7 @@ function VehiculePage() {
         {links.map((link) => (
           <li
             key={link.title}
-            className={`mx-4 font-semibold mt-2 text-gray-500  py-2 px-3 hover:cursor-pointer border-[1px]  font-semibold shadow-xl hover:bg-[#959824] hover:text-white hover:scale-110 max-w-xs transition duration-300  ease-in-out ${
+            className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2 hover:border-[#959824] ${
               selectedLink === link.title.toLowerCase() 
               
             } `}
@@ -51,8 +51,8 @@ function VehiculePage() {
     )
   return (
     <MainLayout>
-        <div className="h-screen p-6">
-        <Card contentCard={contentCard} className='w-[800px] h-[650px]  mt-24'></Card>
+        <div className="h-screen w-screen p-6">
+        <Card contentCard={contentCard} className='w-[800px] h-[520px]  mt-24'></Card>
         </div>
     </MainLayout>
   )

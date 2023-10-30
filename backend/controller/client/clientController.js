@@ -13,7 +13,7 @@ const getAllclients = (req, res) => {
 const addnewClient = async (req, res) => {
     
     const newClient = {
-        "id": data.users[data.users.length - 1 ].id + 1 || 1,
+        "id": data.clients[data.clients.length - 1].id + 1 || 1,
         "nif": req.body.nif,
         "raison_sociale": req.body.raisonsocial,
         "nom_commerciale": req.body.nomcomm,

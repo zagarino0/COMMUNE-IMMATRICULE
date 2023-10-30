@@ -6,7 +6,7 @@ import { Navbar } from "../components/navbar/Nabvar";
 import { states } from "../states/states";
 
 interface mainLayoutProps {
-children : React.ReactElement | string | []  ;
+children : React.ReactElement | string |React.ReactNode| []  ;
 
 }
 

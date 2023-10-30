@@ -12,6 +12,7 @@ interface ButtonProps{
     type?: "button" | "submit"|"reset", 
     className?: string , 
     text?: string ,
+    onClick?: () => void | boolean    
   
     
 }
@@ -40,7 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
     text-white 
     font-[Grand Space] 
     rounded-sm 
-   
+    font-semibold
     hover:shadow-xl 
    
     ${className}

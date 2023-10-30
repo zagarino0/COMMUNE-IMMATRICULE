@@ -26,6 +26,7 @@ import RechercheContribuablePage from "./pages/consultation/rechercheContribuabl
 import RectificationPrincipauxPage from "./pages/validation/rectificationPrincipauxRenseignement/RectificationPrincipauxPage";
 import ConsultationContribuableBloque from "./pages/consultation/consulationContribuablesBloqué/Consultation";
 import HIstoriqueContribuable from "./pages/consultation/consultationHistoriqueContribuable/HIstoriqueContribuable";
+import  AjoutReferenceFiscal from "./pages/validation/AjoutReferenceFiscal/AjoutReferenceFiscal";
 function App() {
   
   return (
@@ -58,6 +59,7 @@ function App() {
         <Route path="/rectificationprincipauxrenseignementcontribuable" element={< RectificationPrincipauxPage/>}></Route>
         <Route path="/consultationContribuableBloque" element={< ConsultationContribuableBloque/>}></Route>
         <Route path="/consultationhistorique" element={< HIstoriqueContribuable/>}></Route>
+        <Route path="/AjoutReferenceFiscal" element={< AjoutReferenceFiscal/>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>
