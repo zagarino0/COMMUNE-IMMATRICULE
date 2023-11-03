@@ -6,6 +6,7 @@ import { Label } from "../../../components/label/label"
 import { MainLayout } from "../../../layouts/main"
 import axios from "axios"
 import Modal from "../../../components/modals/modals"
+import Checkbox from "../../../components/common/checkbox"
 
 
 function AjoutReferenceFiscal() {
@@ -34,8 +35,8 @@ function AjoutReferenceFiscal() {
         date_debut_exe: string;
         date_cloture_exe: string;
         resident:string;
-        exportateur: string;
-        importateur: string;
+        exportateur: boolean;
+        importateur: boolean;
         rib: string;
         province: string;
         region:string ,
@@ -73,8 +74,8 @@ function AjoutReferenceFiscal() {
         date_debut_exe: "",
         date_cloture_exe: "",
         resident:"",
-        exportateur: "",
-        importateur: "",
+        exportateur: false,
+        importateur: false,
         rib: "",
         province: "",
         region:"" ,
@@ -97,6 +98,7 @@ function AjoutReferenceFiscal() {
           // Envoyer les données du formulaire au serveur via Axios
           const response = await axios.post("http://localhost:3500/client", formData);
           console.log("Données envoyées avec succès", response.data);
+          console.log(formData)
           setIsModalSuccess(true);
           // Réinitialiser le formulaire ou effectuer d'autres actions nécessaires
           // Réinitialiser le formulaire ou effectuer d'autres actions nécessaires
@@ -123,8 +125,8 @@ function AjoutReferenceFiscal() {
       date_debut_exe: "",
       date_cloture_exe: "",
       resident: "",
-      exportateur: "",
-      importateur: "",
+      exportateur: false,
+      importateur: false,
       rib: "",
       province: "",
       region: "",
@@ -145,7 +147,20 @@ function AjoutReferenceFiscal() {
         }
       };
     
-
+      const handleCheckboxChangeEx  = (checked:boolean) => {  
+        setFormData({
+          ...formData,
+          exportateur: checked,
+        });
+      };
+      const handleCheckboxChange  = (checked:boolean) => {
+        
+        setFormData({
+          ...formData,
+        importateur: checked,
+        });
+      };
+    
 
     const ContentSearch =(
       <div>     
@@ -337,19 +352,17 @@ function AjoutReferenceFiscal() {
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Exportateur"></Label>
-      <Input type="text" placeholder="Exportateur"
-        value={formData.exportateur}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, exportateur: e.target.value })}
-  
-      ></Input>
+      <Checkbox
+        checked={formData.exportateur}
+        onChange={handleCheckboxChangeEx}
+      />
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Importateur"></Label>
-      <Input type="text" placeholder="Importateur"
-        value={formData.importateur}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, importateur: e.target.value })}
-  
-      ></Input>
+      <Checkbox
+        checked={formData.importateur}
+        onChange={handleCheckboxChange}
+      />
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Rib"></Label>
