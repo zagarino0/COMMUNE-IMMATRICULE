@@ -14,26 +14,26 @@ function AjoutReferenceFiscal() {
   const [isModalError, setIsModalError] = useState(false);
     const [formData, setFormData] = useState<{
       nif: string;
-      raison_sociale: string;
-      nom_commerciale: string;
+      raisonsocial: string;
+      nomcomm: string;
       type: string;
-      forme_juridique: string;
-      regime_fiscal: string;
-        date_agrement: string;
-        reference_agrement: string;
-        periode_grace: string;
-        date_creation: string;
+      formjuri: string;
+      regfisc: string;
+      dateagrem: string;
+      refagrem: string;
+      periodgra: string;
+      datecreation: string;
         capital: string;
         activite: string;
-        precision_activite: string;
-        date_demande_modif: string;
-        date_attribution_nif: string;
-        registre_commerce: string;
-        date_registre: string;
-        numero_statistique: string;
-        delivree_le: string;
-        date_debut_exe: string;
-        date_cloture_exe: string;
+        precactivite: string;
+        datedemandemodif: string;
+        dateattribnif: string;
+        regcomm: string;
+        datereg: string;
+        numstat: string;
+        datedelivre: string;
+        datedebutexe: string;
+        dateclotexe: string;
         resident:string;
         exportateur: boolean;
         importateur: boolean;
@@ -43,36 +43,36 @@ function AjoutReferenceFiscal() {
         district:string;
         commune: string;
         fokontany: string;
-        adresse: string;
-        nombre_salarie: string;
+        adress: string;
+        nbsalarie: string;
         proprietaire: string;
-        type_demande: string;
-        date_acte: string;
-        date_accord: string;
+        typedemande: string;
+        dateacte: string;
+        dateacc: string;
         titre: string
       // Ajoutez les autres propriétés ici
     }>({
         nif: "",   
-        raison_sociale: "",
-        nom_commerciale:"",
+        raisonsocial: "",
+        nomcomm:"",
         type:"",      
-        forme_juridique: "",
-        regime_fiscal: "",
-        date_agrement: "",
-        reference_agrement: "",
-        periode_grace: "",
-        date_creation: "",
+        formjuri: "",
+        regfisc: "",
+        dateagrem: "",
+        refagrem: "",
+        periodgra: "",
+        datecreation: "",
         capital: "",
         activite: "",
-        precision_activite: "",
-        date_demande_modif: "",
-        date_attribution_nif: "",
-        registre_commerce: "",
-        date_registre: "",
-        numero_statistique: "",
-        delivree_le: "",
-        date_debut_exe: "",
-        date_cloture_exe: "",
+        precactivite: "",
+        datedemandemodif: "",
+        dateattribnif: "",
+        regcomm: "",
+        datereg: "",
+        numstat: "",
+        datedelivre: "",
+        datedebutexe: "",
+        dateclotexe: "",
         resident:"",
         exportateur: false,
         importateur: false,
@@ -82,12 +82,12 @@ function AjoutReferenceFiscal() {
         district:"",
         commune: "",
         fokontany: "",
-        adresse: "",
-        nombre_salarie: "",
+        adress: "",
+        nbsalarie: "",
         proprietaire: "",
-        type_demande: "",
-        date_acte: "",
-        date_accord: "",
+        typedemande: "",
+        dateacte: "",
+        dateacc: "",
         titre: ""
       });
 
@@ -104,26 +104,26 @@ function AjoutReferenceFiscal() {
           // Réinitialiser le formulaire ou effectuer d'autres actions nécessaires
     setFormData({
       nif: "",
-      raison_sociale: "",
-      nom_commerciale: "",
+      raisonsocial: "",
+      nomcomm: "",
       type: "",
-      forme_juridique: "",
-      regime_fiscal: "",
-      date_agrement: "",
-      reference_agrement: "",
-      periode_grace: "",
-      date_creation: "",
+      formjuri: "",
+      regfisc: "",
+      dateagrem: "",
+      refagrem: "",
+      periodgra: "",
+      datecreation: "",
       capital: "",
       activite: "",
-      precision_activite: "",
-      date_demande_modif: "",
-      date_attribution_nif: "",
-      registre_commerce: "",
-      date_registre: "",
-      numero_statistique: "",
-      delivree_le: "",
-      date_debut_exe: "",
-      date_cloture_exe: "",
+      precactivite: "",
+      datedemandemodif: "",
+      dateattribnif: "",
+      regcomm: "",
+      datereg: "",
+      numstat: "",
+      datedelivre: "",
+      datedebutexe: "",
+      dateclotexe: "",
       resident: "",
       exportateur: false,
       importateur: false,
@@ -133,12 +133,12 @@ function AjoutReferenceFiscal() {
       district: "",
       commune: "",
       fokontany: "",
-      adresse: "",
-      nombre_salarie: "",
+      adress: "",
+      nbsalarie: "",
       proprietaire: "",
-      type_demande: "",
-      date_acte: "",
-      date_accord: "",
+      typedemande: "",
+      dateacte: "",
+      dateacc: "",
       titre: ""
     });
         } catch (error) {
@@ -185,16 +185,16 @@ function AjoutReferenceFiscal() {
       <div className="flex justify-between mt-2">
       <Label text="Raison social"></Label>
       <Input type="text" placeholder="Raison social"
-             value={formData.raison_sociale}
-             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, raison_sociale: e.target.value })}
+             value={formData.raisonsocial}
+             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, raisonsocial: e.target.value })}
        
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Nom commercial"></Label>
       <Input type="text" placeholder="Nom commercial"
-         value={formData.nom_commerciale}
-         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, nom_commerciale: e.target.value })}
+         value={formData.nomcomm}
+         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, nomcomm: e.target.value })}
        
       ></Input>
       </div>
@@ -209,48 +209,48 @@ function AjoutReferenceFiscal() {
       <div className="flex justify-between mt-2">
       <Label text="Forme juridique"></Label>
       <Input type="text" placeholder="Forme juridique"
-             value={formData.forme_juridique}
-             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, forme_juridique: e.target.value })}
+             value={formData.formjuri}
+             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, formjuri: e.target.value })}
        
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Régime Fiscal"></Label>
       <Input type="text" placeholder="Régime Fiscal"
-             value={formData.regime_fiscal}
-             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, regime_fiscal: e.target.value })}
+             value={formData.regfisc}
+             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, regfisc: e.target.value })}
        
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date agrement "></Label>
       <Input type="date"
-      value={formData.date_agrement}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_agrement: e.target.value })}
+      value={formData.dateagrem}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, dateagrem: e.target.value })}
 
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Référence agrement"></Label>
       <Input type="text" placeholder="Référence agrement"
-      value={formData.reference_agrement}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, reference_agrement: e.target.value })}
+      value={formData.refagrem}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, refagrem: e.target.value })}
 
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Période grace"></Label>
       <Input type="text" placeholder="Période grace"
-      value={formData.periode_grace}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, periode_grace: e.target.value })}
+      value={formData.periodgra}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, periodgra: e.target.value })}
 
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date création"></Label>
       <Input type="date" 
-      value={formData.date_creation}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_creation: e.target.value })}
+      value={formData.datecreation}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, datecreation: e.target.value })}
 
       ></Input>
       </div>
@@ -273,72 +273,72 @@ function AjoutReferenceFiscal() {
       <div className="flex justify-between mt-2">
       <Label text="Précision Activité"></Label>
       <Input type="text" placeholder="Précision Activité"
-        value={formData.precision_activite}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, precision_activite: e.target.value })}
+        value={formData.precactivite}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, precactivite: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date demande modif"></Label>
       <Input type="date" 
-        value={formData.date_demande_modif}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_demande_modif: e.target.value })}
+        value={formData.datedemandemodif}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, datedemandemodif: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date Attribution RF"></Label>
       <Input type="date"
-        value={formData.date_attribution_nif}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_attribution_nif: e.target.value })}
+        value={formData.dateattribnif}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, dateattribnif: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Registre commerce"></Label>
       <Input type="text" placeholder="Registre commerce" 
-        value={formData.registre_commerce}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, registre_commerce: e.target.value })}
+        value={formData.regcomm}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, regcomm: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date registre"></Label>
       <Input type="date" 
-        value={formData.date_registre}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_registre: e.target.value })}
+        value={formData.datereg}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, datereg: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Numéro statistique"></Label>
       <Input type="text" placeholder="Numéro statistique"
-        value={formData.numero_statistique}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, numero_statistique: e.target.value })}
+        value={formData.numstat}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, numstat: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Delivré le "></Label>
       <Input type="date" 
-        value={formData.delivree_le}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, delivree_le: e.target.value })}
+        value={formData.datedelivre}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, datedelivre: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date début exercice"></Label>
       <Input type="date"
-        value={formData.date_debut_exe}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_debut_exe: e.target.value })}
+        value={formData.datedebutexe}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, datedebutexe: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date cloture exercice"></Label>
       <Input type="date"  
-        value={formData.date_cloture_exe}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_cloture_exe: e.target.value })}
+        value={formData.dateclotexe}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, dateclotexe: e.target.value })}
   
       ></Input>
       </div>
@@ -415,16 +415,16 @@ function AjoutReferenceFiscal() {
       <div className="flex justify-between mt-2">
       <Label text="Adresse"></Label>
       <Input type="text" placeholder="Adresse"
-        value={formData.adresse}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, adresse: e.target.value })}
+        value={formData.adress}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, adress: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Nombre salaire"></Label>
       <Input type="text" placeholder="Nombre salaire"
-        value={formData.nombre_salarie}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, nombre_salarie: e.target.value })}
+        value={formData.nbsalarie}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, nbsalarie: e.target.value })}
   
       ></Input>
       </div>
@@ -439,24 +439,24 @@ function AjoutReferenceFiscal() {
       <div className="flex justify-between mt-2">
       <Label text="Type demande"></Label>
       <Input type="text" placeholder="Type demande"
-        value={formData.type_demande}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, type_demande: e.target.value })}
+        value={formData.typedemande}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, typedemande: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date acte"></Label>
       <Input type="date" 
-        value={formData.date_acte}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_acte: e.target.value })}
+        value={formData.dateacte}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, dateacte: e.target.value })}
   
       ></Input>
       </div>
       <div className="flex justify-between mt-2">
       <Label text="Date  accord"></Label>
       <Input type="date" 
-        value={formData.date_accord}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, date_accord: e.target.value })}
+        value={formData.dateacc}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, dateacc: e.target.value })}
   
       ></Input>
       </div>
