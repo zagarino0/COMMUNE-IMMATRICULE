@@ -11,9 +11,10 @@ const getAllclients = (req, res) => {
 }
 
 const addnewClient = async (req, res) => {
-    
+    const id =  (data.clients.length === 0 ) ? 1 : data.clients[data.clients.length - 1 ].id + 1 ;
+
     const newClient = {
-        "id": data.users[data.users.length - 1 ].id + 1 || 1,
+        "id":  id,
         "nif": req.body.nif,
         "raison_sociale": req.body.raisonsocial,
         "nom_commerciale": req.body.nomcomm,
