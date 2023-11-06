@@ -13,7 +13,7 @@ const getAllclients = (req, res) => {
 const addnewClient = async (req, res) => {
     
     const newClient = {
-        "id": data.clients[data.clients.length - 1].id + 1 || 1,
+        "id": data.users[data.users.length - 1 ].id + 1 || 1,
         "nif": req.body.nif,
         "raison_sociale": req.body.raisonsocial,
         "nom_commerciale": req.body.nomcomm,
@@ -58,6 +58,10 @@ const addnewClient = async (req, res) => {
     }
     data.setClients([...data.clients, newClient]);
     res.json(data.clients);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'client.json'),
+        JSON.stringify(data.clients)
+    )
 }
 
 const updateClient = async (req, res) => {
