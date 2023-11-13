@@ -37,6 +37,7 @@ app.use('/user/logout', require('./routes/api/user/logout'));
 //app.use(verifyJWT);
 app.use('/client', require('./routes/api/client/client'));
 app.use('/vehicle', require('./routes/api/client/vehicle'));
+app.use('/impot', require('./routes/api/impot/impot'));
 
 // Route to get client
 app.use('/getclientbynif', require('./routes/api/client/getClientByNif'));

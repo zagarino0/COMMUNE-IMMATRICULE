@@ -1,0 +1,30 @@
+[
+    {
+        "code": "1",
+        "libelle": "Impot sur les revenus"
+    },
+    {
+        "code": "2",
+        "libelle": "Impot sur le patrimoine"
+    },
+    {
+        "code": "3",
+        "libelle": "impots sur les biens et services"
+    },
+    {
+        "code": "4",
+        "libelle": "Autres recettes fiscales"
+    },
+    {
+        "code": "5",
+        "libelle": "Recettes non fiscales"
+    },
+    {
+        "code": "6",
+        "libelle": "Redevance sur autorisation administratives"
+    },
+    {
+        "code": "7",
+        "libelle": "Autres redevances locales"
+    }
+]
