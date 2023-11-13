@@ -7,6 +7,7 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setAssujetissement = async (req, res) => {
+    const id_client = req.params.id_client;
     const imposition = req.body.imposition;
     const date_debut = req.body.date_debut;
     const periodicite = req.body.periodicite;
@@ -19,7 +20,11 @@ const setAssujetissement = async (req, res) => {
     const date_exe = req.body.date_exe;
     const date_assujetissement = req.body.date_assujetissement;
 
+    const id = data.assujetissements.length === 0 ? 1 : data.assujetissements[data.assujetissements.length - 1].id + 1;
+
     const new_imposition = {
+        id_client,
+        id,
         imposition,
         date_debut,
         periodicite,
