@@ -27,6 +27,8 @@ import RectificationPrincipauxPage from "./pages/validation/rectificationPrincip
 import ConsultationContribuableBloque from "./pages/consultation/consulationContribuablesBloqué/Consultation";
 import HIstoriqueContribuable from "./pages/consultation/consultationHistoriqueContribuable/HIstoriqueContribuable";
 import  AjoutReferenceFiscal from "./pages/validation/AjoutReferenceFiscal/AjoutReferenceFiscal";
+import Rectification from "./pages/validation/rectificationPrincipauxRenseignement/Rectification";
+import TelechargementFichierExport from "./pages/validation/TelechargementFichierExpotNIFonline/TelechargementFichierExport";
 function App() {
   
   return (
@@ -60,6 +62,9 @@ function App() {
         <Route path="/consultationContribuableBloque" element={< ConsultationContribuableBloque/>}></Route>
         <Route path="/consultationhistorique" element={< HIstoriqueContribuable/>}></Route>
         <Route path="/AjoutReferenceFiscal" element={< AjoutReferenceFiscal/>}></Route>
+        <Route path="/Rectification" element={< Rectification/>}></Route>
+        <Route path="/TelechargementFichierExport" element={< TelechargementFichierExport/>}></Route>
+
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>

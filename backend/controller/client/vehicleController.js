@@ -13,7 +13,7 @@ const getAllVehicles = (req, res) => {
 const addNewVehicle = (req, res) => {
     
     const newVehicle = {
-        "id": data.users[data.users.length - 1 ].id + 1 || 1,
+        "id": data.vehicles[data.vehicles.length - 1 ].id + 1 || 1,
         "numero_immatriculation": req.body.numimmatriculation_v,
         "marque": req.body.marque_v,
         "type": req.body.type_v,

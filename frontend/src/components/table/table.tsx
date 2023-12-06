@@ -3,9 +3,10 @@ import * as React from "react";
 interface TableProps {
   headers: string[];
   data: string[][];
+  onClick?: ()=> void ;
 }
 
-const Table: React.FC<TableProps> = ({ headers, data }) => {
+const Table: React.FC<TableProps> = ({ headers , data , onClick }) => {
   return (
     <table className="min-w-full bg-white">
       <thead>
@@ -20,13 +21,15 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody className="hover:cursor-pointer hover:bg-gray-300" onClick={onClick}>
         {data.map((row, rowIndex) => (
           <tr key={`row-${rowIndex}`}>
             {row.map((cell, cellIndex) => (
+            
               <td
                 key={`cell-${rowIndex}-${cellIndex}`}
-                className="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 "
+              
               >
                 {cell}
               </td>

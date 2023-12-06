@@ -56,7 +56,7 @@ function EtatPage() {
   
       const contentCard =(
         <div className="flex justify-center item-center ">
-    <div className="flex flex-col py-6">
+    <div className="flex flex-col ">
     <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
            Etat
           </div>
@@ -79,8 +79,8 @@ function EtatPage() {
       )
   return (
     <MainLayout>
-      <div className="p-6">
-        <Card contentCard={contentCard} className='w-[800px] h-[1900px] bg-white mt-24'></Card>
+      <div className=" overflow-y-auto h-[700px] mt-14  ">
+        <Card contentCard={contentCard} className='w-[800px] h-[1900px]  '></Card>
         </div>
     </MainLayout>
   )
