@@ -38,6 +38,8 @@ app.use('/user/logout', require('./routes/api/user/logout'));
 //Espace contribuable
 app.use('/contribuable', require('./routes/api/contribuable/contribuable'));
 app.use('/actionnaire', require('./routes/api/contribuable/actionnaire'));
+app.use('/dirigeant', require('./routes/api/contribuable/dirigeant'));
+app.use('/interlocuteur', require('./routes/api/contribuable/interlocuteur'));
 
 
 //app.use(verifyJWT);

@@ -56,7 +56,7 @@ const setActionnaire = async (req, res) => {
     data.setActionnaires([...data.actionnaires, newActionnaire]);
     res.json(data.actionnaires);
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'actionnaire.json'),
         JSON.stringify(data.actionnaires)
     )
 }
