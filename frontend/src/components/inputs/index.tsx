@@ -20,11 +20,7 @@ onChange
     value={value}
     onChange={onChange}
     className={`
-    border-[3px]
-    
-    py-3
-    px-6 
-   hover:bg-gray-200
+    shadow appearance-none border h-10 rounded w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline
     ${className}`} placeholder={placeholder} />
     </>
   )

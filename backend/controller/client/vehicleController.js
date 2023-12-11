@@ -16,7 +16,10 @@ const getAllVehicles = (req, res) => {
 const addNewVehicle = async (req, res) => {
     
     const newVehicle = {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3db1fe2d0e0b6f1c6551da9dcf759c5e9b05a2cf
         "id": data.vehicles[data.vehicles.length - 1 ].id + 1 || 1,
         "numero_immatriculation": req.body.numimmatriculation_v,
         "marque": req.body.marque_v,

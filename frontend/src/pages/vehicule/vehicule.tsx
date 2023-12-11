@@ -51,7 +51,7 @@ function VehiculePage() {
     )
   return (
     <MainLayout>
-        <div className="h-screen w-screen p-6">
+        <div className="h-screen flex justify-center w-screen p-6">
         <Card contentCard={contentCard} className='w-[800px] h-[520px]  mt-24'></Card>
         </div>
     </MainLayout>

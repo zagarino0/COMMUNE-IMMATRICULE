@@ -47,7 +47,7 @@ export const MainLayout : React.FC<mainLayoutProps> = ( props ) => {
   return (
     <div className="bg-gray-200 h-screen  w-screen">
       <Navbar content={contentNavbar} />
-      <main className=" flex justify-center items-center bg-neutral-800/70 ">{props.children}</main>
+      <main className=" flex justify-center h-screen p-8 items-center bg-neutral-800/70 ">{props.children}</main>
     </div>
   );
 };

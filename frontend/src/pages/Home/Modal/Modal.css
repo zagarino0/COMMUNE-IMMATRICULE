@@ -1,0 +1,19 @@
+/* Add this CSS to your stylesheet or in a style tag in your component */
+.card-container {
+    transition: transform 0.5s;
+  }
+  
+  .card-container:hover {
+    transform: rotateY(180deg);
+  }
+  
+  .card-content,
+  .card-content-back {
+    backface-visibility: hidden;
+    transition: transform 0.5s;
+  }
+  
+  .card-content-back {
+    transform: rotateY(180deg);
+  }
+  

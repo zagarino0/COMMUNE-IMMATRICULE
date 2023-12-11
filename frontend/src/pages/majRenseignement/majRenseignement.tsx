@@ -197,10 +197,11 @@ const ContentCardInformation =(
     <div
     className="
     bg-neutral-800/70
-    w-auto 
-    h-[900px]
+    w-screen 
+    h-screen
     flex
-    flex-row
+    items-center
+    justify-center
     "
     >
 <div 

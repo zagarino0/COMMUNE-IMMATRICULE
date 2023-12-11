@@ -16,10 +16,7 @@ const Select: React.FC<SelectProps> = ({ options, value, onChange , className })
   return (
     <select
       className={`border-[3px]
-      py-3
-     hover:bg-gray-200
-     bg-white
-      px-4  ${className}`}
+      shadow appearance-none border h-10 rounded w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  ${className}`}
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >

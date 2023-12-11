@@ -12,7 +12,7 @@ interface ButtonProps{
     type?: "button" | "submit"|"reset", 
     className?: string , 
     text?: string ,
-    onClick?: () => void | boolean    
+    onClick?: () => void    
   
     
 }
@@ -41,7 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
     text-white 
     font-[Grand Space] 
     rounded-sm 
-    font-semibold
+    font-[Tara]
     hover:shadow-xl 
    
     ${className}
@@ -90,13 +90,14 @@ text
   px-6 
   bg-[#959824] 
   text-white 
-  text-bold 
+  font-[Tara]
   rounded-sm 
   hover:scale-110
   hover:shadow-xl 
   transition 
   duration-300 
   ease-in-out
+  font-bold
   ${className}
   `}>
     {text}
@@ -117,9 +118,9 @@ export const LinkButtonSecondary: React.FC<LinkButtonProps> = ({
     <div  
     className={` 
     
-    text-bold 
+     
     rounded-sm 
-    text-bold
+    
     hover:scale-110 
     hover:border-[#959824]
     hover:border-b-2

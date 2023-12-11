@@ -27,13 +27,35 @@ import RectificationPrincipauxPage from "./pages/validation/rectificationPrincip
 import ConsultationContribuableBloque from "./pages/consultation/consulationContribuablesBloqué/Consultation";
 import HIstoriqueContribuable from "./pages/consultation/consultationHistoriqueContribuable/HIstoriqueContribuable";
 import  AjoutReferenceFiscal from "./pages/validation/AjoutReferenceFiscal/AjoutReferenceFiscal";
+import Rectification from "./pages/validation/rectificationPrincipauxRenseignement/Rectification";
+import TelechargementFichierExport from "./pages/validation/TelechargementFichierExpotNIFonline/TelechargementFichierExport";
+import HomePage from "./pages/Home/HomePage";
+import Immatriculation from "./pages/Immatriculation/Immatriculation";
+import Activite from "./pages/register/Activite";
+import Siege from "./pages/register/Siege";
+import Interlocuteur from "./pages/register/Interlocuteur";
+import Etablissement from "./pages/register/Etablissement";
+import Associe from "./pages/register/Associe";
+import Dirigeant from "./pages/register/Dirigeant";
+import Autre from "./pages/register/Autre";
+import LoginClient from "./pages/login/LoginClient";
 function App() {
   
   return (
     <>
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />}></Route>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/Activite" element={<Activite/>}></Route>
+        <Route path="/Siege" element={<Siege/>}></Route>
+        <Route path="/Interlocuteur" element={<Interlocuteur/>}></Route>
+        <Route path="/Etablissement" element={<Etablissement/>}></Route>
+        <Route path="/Associe" element={<Associe/>}></Route>
+        <Route path="/Dirigeant" element={<Dirigeant/>}></Route>
+        <Route path="/Autre" element={<Autre/>}></Route>
+        <Route path="/Immatriculation" element={<Immatriculation/>}></Route>
+        <Route path="/loginAdmin" element={<LoginPage />}></Route>
+        <Route path="/LoginClient" element={<LoginClient />}></Route>
         <Route path="/register" element={<ResgisterPage />}></Route>
         <Route path="/majRenseignement" element={<MAJRenseignementPage />}></Route>
         <Route path="/demandeMiseAJour" element={<DemandeDeMAJPage />}></Route>
@@ -60,6 +82,9 @@ function App() {
         <Route path="/consultationContribuableBloque" element={< ConsultationContribuableBloque/>}></Route>
         <Route path="/consultationhistorique" element={< HIstoriqueContribuable/>}></Route>
         <Route path="/AjoutReferenceFiscal" element={< AjoutReferenceFiscal/>}></Route>
+        <Route path="/Rectification" element={< Rectification/>}></Route>
+        <Route path="/TelechargementFichierExport" element={< TelechargementFichierExport/>}></Route>
+
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>

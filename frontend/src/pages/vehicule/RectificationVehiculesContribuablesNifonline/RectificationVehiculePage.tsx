@@ -1,4 +1,5 @@
 import { Card } from "../../../components/card/card"
+import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
@@ -19,7 +20,7 @@ function RectificationVehiculePage() {
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Votre recherche :" className="mt-4"></Label>
 <Input type="text" className="w-96  "></Input>
-
+<Button text="Rechercher"></Button>
 </div>
 <div className="mt-10">
 <Table
@@ -37,7 +38,7 @@ data={data}
     )
   return (
    <MainLayout>
-    <Card contentCard={contentCard} className="w-[800px] h-[800px] mt-24"></Card>
+    <Card contentCard={contentCard} className="w-[800px] h-[600px] mt-24"></Card>
    </MainLayout>
   )
 }

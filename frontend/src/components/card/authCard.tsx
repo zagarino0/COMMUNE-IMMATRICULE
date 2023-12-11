@@ -39,7 +39,7 @@ flex-row
         <div 
     className="
     text-5xl
-    font-[Cintaly]
+    font-[kaldera]
     text-center
     py-6
         ">{title}</div>
