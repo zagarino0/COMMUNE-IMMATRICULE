@@ -34,8 +34,11 @@ app.use('/user/auth', require('./routes/api/user/auth'));
 app.use('/user/refresh', require('./routes/api/user/refreshToken'));
 app.use('/user/logout', require('./routes/api/user/logout'));
 
+
 //Espace contribuable
 app.use('/contribuable', require('./routes/api/contribuable/contribuable'));
+app.use('/actionnaire', require('./routes/api/contribuable/actionnaire'));
+
 
 //app.use(verifyJWT);
 app.use('/client', require('./routes/api/client/client'));
