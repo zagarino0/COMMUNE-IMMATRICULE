@@ -3,6 +3,9 @@ const data = {
     setVehicles: function (data) { this.vehicles = data }
 };
 
+const path = require('path');
+const fsPromises = require('fs').promises;
+
 //-------------function to get all vehicles--------------
 const getAllVehicles = (req, res) => {
     res.json(data.vehicles);
@@ -10,10 +13,11 @@ const getAllVehicles = (req, res) => {
 
 
 //-------------function to add new vehicle---------------
-const addNewVehicle = (req, res) => {
+const addNewVehicle = async (req, res) => {
     
     const newVehicle = {
-        "id": data.users[data.users.length - 1 ].id + 1 || 1,
+
+        "id": data.vehicles[data.vehicles.length - 1 ].id + 1 || 1,
         "numero_immatriculation": req.body.numimmatriculation_v,
         "marque": req.body.marque_v,
         "type": req.body.type_v,
@@ -34,21 +38,30 @@ const addNewVehicle = (req, res) => {
         "categorie": req.body.categ_v,
         "sous_categorie": req.body.souscateg_v,
         "zone": req.body.zone_v,
-        "age": req.body.age_v,
+        "age": req.body.age_v
+
     }
 
     if(!newVehicle.numero_immatriculation || !newVehicle.marque){
         return res.status(400).json({'message': 'immatriculation and marq are required'})
     }
+
     data.setVehicles([...data.vehicles, newVehicle]);
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
+        JSON.stringify(data.clients)
+    )
+
     res.json(data.vehicles);
 }
 
 
 
 //----------------function to update vehicle--------------------
-const updateVehicle = (req, res) => {
+const updateVehicle = async (req, res) => {
     const vehicle = data.vehicles.find(veh => veh.immatriculation === req.body.immatriculation);
+    
     if(vehicle){
         return res.status(400).json({'message': 'vehicle not found'});
     }
@@ -75,10 +88,15 @@ const updateVehicle = (req, res) => {
     if(req.body.zone_v) vehicle.zone = req.body.zone_v;
     if(req.body.age_v) vehicle.age = req.body.age_v;
 
-
     const filteredArray = data.vehicles.filter(veh => veh.immatriculation !== req.body.immatriculation);
     const unsortedArray = [...filteredArray, vehicle];
     data.setVehicles(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
+        JSON.stringify(data.clients)
+    )
+    
     res.json(data.vehicles);
 }
 
@@ -87,13 +105,17 @@ const updateVehicle = (req, res) => {
 
 
 //--------------function to delete vehicle---------------------
-const deleteVehicle = (req, res) => {
+const deleteVehicle = async (req, res) => {
     const vehicle = data.vehicles.find(veh => veh.immatriculation === req.body.immatriculation);
     if(!vehicle){
         res.status(400).json({'message': 'vehicle not found'});
     }
     const filteredArray = data.vehicles.filter(veh => veh.immatriculation !== req.body.immatriculation);
     data.setVehicles([...filteredArray]);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
+        JSON.stringify(data.clients)
+    )
     res.json(data.vehicles);
 }
 

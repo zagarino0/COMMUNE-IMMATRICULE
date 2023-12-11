@@ -11,4 +11,10 @@ router.route('/')
 router.route('/:nif')
     .get(clientController.getClient);
 
+router.route('/contribuable')
+    .post(clientController.getContribuableByReference);
+
+router.route('/validation/contribuable')
+    .post(clientController.validationContribuable);
+
 module.exports = router;

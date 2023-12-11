@@ -46,6 +46,11 @@ const setAssujetissement = async (req, res) => {
     )
 }
 
+const getAssujetissementById = (req, res) => {
+    
+}
+
 module.exports = {
-    setAssujetissement
+    setAssujetissement,
+    getAssujetissementById
 }

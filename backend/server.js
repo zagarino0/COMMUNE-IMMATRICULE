@@ -34,17 +34,13 @@ app.use('/user/auth', require('./routes/api/user/auth'));
 app.use('/user/refresh', require('./routes/api/user/refreshToken'));
 app.use('/user/logout', require('./routes/api/user/logout'));
 
+//Espace contribuable
+app.use('/contribuable', require('./routes/api/contribuable/contribuable'));
+
 //app.use(verifyJWT);
 app.use('/client', require('./routes/api/client/client'));
 app.use('/vehicle', require('./routes/api/client/vehicle'));
 app.use('/impot', require('./routes/api/impot/impot'));
 
-// Route to get client
-app.use('/getclientbynif', require('./routes/api/client/getClientByNif'));
-//app.use('/getclientbyreference', require('./routes/api/getClientByReference'));
-//app.use('/getclientbyraisonsocial', require('./routes/api/getClientByRaisonSociale'));
-//app.use('/getclientbycin', require('./routes/api/getClientByCin'));
-//app.use('/getclientbyadress', require('./routes/api/getClientByAdress'));
-//app.use('/getclientbynomcommercial', require('./routes/api/getClientByNomCommercial'));
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
