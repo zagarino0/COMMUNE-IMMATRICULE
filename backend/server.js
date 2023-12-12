@@ -34,8 +34,14 @@ app.use('/user/auth', require('./routes/api/user/auth'));
 app.use('/user/refresh', require('./routes/api/user/refreshToken'));
 app.use('/user/logout', require('./routes/api/user/logout'));
 
+
 //Espace contribuable
 app.use('/contribuable', require('./routes/api/contribuable/contribuable'));
+app.use('/actionnaire', require('./routes/api/contribuable/actionnaire'));
+app.use('/dirigeant', require('./routes/api/contribuable/dirigeant'));
+app.use('/interlocuteur', require('./routes/api/contribuable/interlocuteur'));
+app.use('/activite', require('./routes/api/contribuable/activite'));
+app.use('/siege', require('./routes/api/contribuable/siege'));
 
 //app.use(verifyJWT);
 app.use('/client', require('./routes/api/client/client'));
