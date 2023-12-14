@@ -17,7 +17,7 @@ function EspaceMembrePage() {
       { title: "Ajouter un compte opérateur", link: "/ajoutcompteoperateur" },
       { title: "Gérer les comptes opérateurs de votre centre", link: "/gerercompte" },
       { title: "Débloquer un compte contribuable (Mise à jour de 5 fois dans une journée)", link: "/debloquercompte" },
-      { title: "Consulter les actions utilisateur", link: "/consulteraction" },
+      { title: "Consulter les actions utilisateur", link: "/ConsulterActionUtilisateur" },
       { title: "Modifier le mot de passe ", link: "/modifierlemotdepasse" },
       { title: "Télécharger le guide utilisateur ", link: "/telechargerleguide" },
     ];

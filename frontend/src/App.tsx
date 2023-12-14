@@ -42,6 +42,7 @@ import LoginClient from "./pages/login/LoginClient";
 import Declaration from "./pages/majRenseignement/Declaration";
 import Annexe from "./pages/majRenseignement/Annexe";
 import Paiment from "./pages/majRenseignement/Paiment";
+import ConsulterActionUtilisateur from "./pages/espaceMembre/ConsulterActionUtilisateur/ConsulterActionUtilisateur";
 function App() {
   
   return (
@@ -72,6 +73,7 @@ function App() {
         <Route path="/demandedemiseajour" element={<DemandeDeMiseAJourPage />}></Route>
         <Route path="/validation" element={<ValidationPage />}></Route>
         <Route path="/espacemembre" element={< EspaceMembrePage/>}></Route>
+        <Route path="/ConsulterActionUtilisateur" element={< ConsulterActionUtilisateur/>}></Route>
         <Route path="/vehicule" element={< VehiculePage/>}></Route>
         <Route path="/consultation" element={< ConsultationPage/>}></Route>
         <Route path="/autresoperations" element={< AutresOperationsPage/>}></Route>

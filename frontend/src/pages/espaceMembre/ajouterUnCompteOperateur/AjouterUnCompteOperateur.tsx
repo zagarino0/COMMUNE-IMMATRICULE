@@ -22,7 +22,9 @@ function AjouterUnCompteOperateurPage() {
 <Input type="text" placeholder="Login" className="mt-6"></Input>
 <Input type="password" placeholder="Mot de passe" className="mt-6"></Input>
 <Input type="password" placeholder="Resaisir le mot de passe" className="mt-6"></Input>
-<Button type="submit" text="Enregistrer" className="mt-6"></Button>
+
+<Button type="submit" text="Enregistrer" className="mt-6 w-96"></Button>
+
   </div>
 </div>
 </div>
