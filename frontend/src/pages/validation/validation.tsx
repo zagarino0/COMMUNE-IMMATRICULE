@@ -15,21 +15,21 @@ function ValidationPage() {
       //Links navbar
       const links = [
         {title:"Ajout Référence fiscal" , link:"/AjoutReferenceFiscal"},
-        { title: "Validation des démandes d'immatriculation ", link: "/demandeDeNIFValider" },
+        { title: "Validation des démandes d'immatriculation ", link: "/ValidationDemandeImmatriculation" },
         { title: "Validation des mise à jour sur les renseignements des contribuables", link: "/demandeDeNIFValider" },
-        { title: "Transfert sans changement d'adresse des contribuables ", link: "/debloquercompte" },
-        { title: "Saisi du droit d'accises sur Nifonline", link: "/consulteraction" },
-        { title: "Attribution preNIF ", link: "/" },
+        { title: "Transfert sans changement d'adresse des contribuables ", link: "#" },
+        { title: "Saisi du droit d'accises sur Nifonline", link: "#" },
+        { title: "Attribution preNIF ", link: "#" },
         { title: "Rectification des principaux renseignements des contribuables", link: "/rectificationprincipauxrenseignementcontribuable" },
-        { title: "Mise à jour des codes activités", link: "/telechargerleguide" },
-        { title: "Ajout de société étrangère", link: "/telechargerleguide" },
-        { title: "Annulation de transfert", link: "/telechargerleguide" },
+        { title: "Mise à jour des codes activités", link: "#" },
+        { title: "Ajout de société étrangère", link: "#" },
+        { title: "Annulation de transfert", link: "#" },
         { title: "Téléchargement du fichier export Nifonline", link: "/TelechargementFichierExport" },
-        { title: "Téléchargement du fichier export Nifonline (Nouvelle version)", link: "/telechargerleguide" },
-        { title: "Envoi d'état des cartes fiscales", link: "/telechargerleguide" },
-        { title: "Envoi de fichier pour mise à jour des NIF spéciaux", link: "/telechargerleguide" },
-        { title: "Consultation des IR intermittents pour les recettes courrières", link: "/telechargerleguide" },
-        { title: "Consultation des ordres de virment", link: "/telechargerleguide" },
+        { title: "Téléchargement du fichier export Nifonline (Nouvelle version)", link: "#" },
+        { title: "Envoi d'état des cartes fiscales", link: "#" },
+        { title: "Envoi de fichier pour mise à jour des NIF spéciaux", link: "#" },
+        { title: "Consultation des IR intermittents pour les recettes courrières", link: "#" },
+        { title: "Consultation des ordres de virment", link: "#" },
       ];
 
   
@@ -60,7 +60,7 @@ function ValidationPage() {
     )
   return (
     <MainLayout>
-<div className=" overflow-y-auto h-[700px] mt-14 mb-8  ">
+<div className=" overflow-y-auto h-[500px] mt-14 mb-8  ">
 <Card contentCard={contentCard} className="w-[1000px] h-[1000px] "></Card>
 </div>
     </MainLayout>

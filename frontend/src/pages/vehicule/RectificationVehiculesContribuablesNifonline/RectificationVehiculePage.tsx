@@ -11,6 +11,9 @@ function RectificationVehiculePage() {
       ["none", "none", "none", "none"],
      
     ];
+    const dataRectifie =()=>{
+      window.location.href = "/RectificationVehiculeRF"
+     }
     const contentCard=(
         <div >
 
@@ -24,7 +27,7 @@ function RectificationVehiculePage() {
 </div>
 <div className="mt-10">
 <Table
-
+onClick={dataRectifie}
 headers={headers}
 data={data}
 ></Table>
@@ -38,7 +41,9 @@ data={data}
     )
   return (
    <MainLayout>
-    <Card contentCard={contentCard} className="w-[800px] h-[600px] mt-24"></Card>
+    <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
+    <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
+    </div>
    </MainLayout>
   )
 }

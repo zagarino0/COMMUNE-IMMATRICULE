@@ -54,8 +54,8 @@ function ConsultationPage() {
       )
   return (
     <MainLayout>
-        <div className="p-6">
-        <Card  contentCard={contentCard} className='w-[800px] h-[700px] bg-white mt-24'></Card>
+        <div className="overflow-y-auto h-[500px] mt-14 mb-8">
+        <Card  contentCard={contentCard} className='w-[800px] h-[700px] bg-white '></Card>
         </div>
     </MainLayout>
   )

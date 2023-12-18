@@ -7,7 +7,7 @@ import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label"
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
-import "./font.css";
+import "../../../components/font/font.css";
 
 function DemandeDeNIFAValiderPage() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -41,11 +41,11 @@ function DemandeDeNIFAValiderPage() {
     const ContentSearch =(
       <div>     
          <div className="bg-hoteldeville py-32  bg-cover h-96 p-4">
-     <div className="bg-white rounded-md shadow-xl">
-     <div className="text-center   font-[Cintaly] text-3xl py-4">
+     <div className="bg-white rounded-md shadow-xl p-4">
+     <div className="text-center   font-[kaldera] text-3xl py-4">
          DEMANDES DE MISE A JOUR DES RENSEIGNEMENTS SUR LES CONTRIBUABLES A VALIDER
        </div>
-           <div className="text-3xl  font-[Cintaly] text-center p-4 ">
+           <div className="text-3xl  font-[kaldera] text-center p-4 ">
              Recherche des contribuables
            </div>
      </div>
@@ -85,6 +85,7 @@ function DemandeDeNIFAValiderPage() {
 <Table
 headers={headers}
 data={data}
+onClick={()=>{window.location.href="/DemandeValidationNif"}}
 ></Table>
 </div>
 </div>
@@ -93,7 +94,7 @@ data={data}
     )
   return (
     <MainLayout>
-    <div className="overflow-y-auto h-[700px] mt-14 mb-8">
+    <div className="overflow-y-auto h-[500px] mt-14 mb-8">
     <Card contentCard={ContentSearch} className="w-[1000px] h-[1200px]"></Card>
     </div>
         </MainLayout>

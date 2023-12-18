@@ -66,7 +66,7 @@ function RechercheContribuablePage() {
       ];
     const contentCard = (
         <div className="m-4">
-            <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4"> Recherche contribuable</div>
+            <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation des Référence Fiscal</div>
            <div className="flex flex-col m-4">
 <div className="mt-6 flex flex-row justify-between">
     <Label text="Domaine de Recherche :" className="mt-4"></Label>
@@ -131,7 +131,9 @@ data={data}
     )
   return (
     <MainLayout>
-    <Card contentCard={contentCard} className="w-[800px] h-[1000px] mt-24"></Card>
+   <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
+   <Card contentCard={contentCard} className="w-[800px] h-[1000px] "></Card> 
+   </div>
    </MainLayout>
   )
 }

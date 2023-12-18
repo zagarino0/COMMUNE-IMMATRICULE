@@ -16,7 +16,7 @@ function ModifierMotDePassePage() {
   <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">
     Modification mot de passe 
   </div>
-<div className="flex flex-col p-2  border-[#959824] mt-6">
+<div className="flex flex-col p-2  border-[#959824] mt-14">
 <Input type="text" placeholder="Ancien mot de passe" className="mt-6"></Input>
 <Input type="text" placeholder="Nouveau mot de passe" className="mt-6"></Input>
 <Input type="text" placeholder="Resaisir le nouveau mot de passe "className="mt-4"></Input>

@@ -21,14 +21,16 @@ interface LinkHrefProps{
   
     className?: string , 
     text?: string ,
-    href?: string
+    href?: string, 
+    onClick?: ()=> void,
     
 }
 
 export const Button: React.FC<ButtonProps> = ({
   type , 
   className ,
-  text
+  text,
+  onClick
   }) => {
     return (
       
@@ -45,7 +47,9 @@ export const Button: React.FC<ButtonProps> = ({
     hover:shadow-xl 
    
     ${className}
-    `}>
+    `}
+    onClick={onClick}
+    >
       {text}
     </button>
       

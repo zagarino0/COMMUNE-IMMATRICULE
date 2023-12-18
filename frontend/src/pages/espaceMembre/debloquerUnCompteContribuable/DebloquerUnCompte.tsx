@@ -30,7 +30,7 @@ function DebloquerUnComptePage() {
       )  
       return (
       <MainLayout>
-          <div className="m-20">
+          <div className="overflow-y-auto h-[500px] mt-14 mb-8">
           <Card className="w-[800px] h-[600px]" contentCard={contentCard}></Card>
           </div>
       </MainLayout>

@@ -15,7 +15,7 @@ function AutresOperationsPage() {
 
       //Links navbar
     const links = [
-      { title: "Relance des défaillants(IR , IS)", link: "/ajoutcompteoperateur" },
+      { title: "Relance des défaillants(IR , IS)", link: "/RelanceDeffaillant" },
       { title: "Blocage Administratif / Mise en veilleuse d'un contribuable", link: "/gerercompte" },
       { title: "Déblocage Administratif / réveil d'un contribuable ", link: "/debloquercompte" },
       { title: "Cessation d'activité", link: "/consulteraction" },

@@ -6,14 +6,13 @@ import Input from "../../../components/inputs"
 import { Label } from "../../../components/label/label"
 import { MainLayout } from "../../../layouts/main"
 import Select from "../../../components/inputs/selectInput"
-import {  IoIosAddCircleOutline } from "react-icons/io"
 import { GrSubtractCircle } from "react-icons/gr";
 import { MdOutlineAddCircleOutline } from "react-icons/md"
 
 function Rectification() {
   const [selectedOption, setSelectedOption] = useState('');
 
-  const handleCheckboxChange  = (checked:boolean) => {
+  const handleCheckboxChange  = () => {
         
   };
   const options = [
@@ -209,7 +208,7 @@ function Rectification() {
 )
 return (
 <MainLayout>
-<div className="  overflow-y-auto h-[700px] mt-14 mb-8 ">
+<div className="  overflow-y-auto h-[500px] mt-14 mb-8 ">
 <Card contentCard={contentCard} className="w-[800px] h-[3000px]"></Card>
 </div>
     </MainLayout>

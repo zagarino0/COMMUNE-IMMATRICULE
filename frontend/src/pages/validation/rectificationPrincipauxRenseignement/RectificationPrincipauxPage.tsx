@@ -35,7 +35,7 @@ data={data}
     )
   return (
     <MainLayout>
-    <div className=" mt-14 mb-8">
+    <div  className="overflow-y-auto h-[500px] mt-14 mb-8 ">
     <Card contentCard={contentCard} className="w-[800px] h-[500px]"></Card>
     </div>
         </MainLayout>

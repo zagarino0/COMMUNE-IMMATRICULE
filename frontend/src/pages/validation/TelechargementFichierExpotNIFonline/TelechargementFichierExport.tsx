@@ -1,12 +1,12 @@
 import { Card } from "../../../components/card/card"
-import { Button } from "../../../components/common"
+import  Button  from "../../../components/common/Button"
 import Checkbox from "../../../components/common/checkbox"
 import Input from "../../../components/inputs"
 import { Label } from "../../../components/label/label"
 import { MainLayout } from "../../../layouts/main"
 
 function TelechargementFichierExport() {
-  const handleCheckboxChange  = (checked:boolean) => {
+  const handleCheckboxChange  = () => {
         
   };
   const contentCard = (
@@ -27,6 +27,7 @@ function TelechargementFichierExport() {
 <Label text="Date fin " className="mt-4"></Label>
 <Input type="date" className="w-96  "></Input>
 
+
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Tous les Contribuable du centre" className="mt-4"></Label>
@@ -35,9 +36,11 @@ function TelechargementFichierExport() {
 <Checkbox label="Non" checked onChange={handleCheckboxChange} className="ml-4"></Checkbox>
 </div>
 </div>
-<div className="mt-10">
-<Button text="Préparer"></Button>
+<div className="flex justify-center w-full mt-12">
+<div className="w-96">
+<Button label="Préparer" onClick={()=> window}></Button>
 </div> 
+</div>
     </div>
 )
   return (

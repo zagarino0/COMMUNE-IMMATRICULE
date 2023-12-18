@@ -19,19 +19,19 @@ function ConsulterActionUtilisateur() {
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Consutation action utilisateur</div>
 <div className="mt-6 flex flex-col  ">
 
-<div className="flex justify-between">
+<div className="flex justify-between mt-6">
   <Label text="Login"></Label>
-<Input type="text" placeholder="Login" className="mt-6 w-full"></Input>*
+<Input type="text" placeholder="Login" className=" w-40"></Input>
 
 </div>
-<div className=" flex justif">
+<div className=" flex justify-between mt-6">
   <Label text="Date debut"></Label>
-<Input type="date" placeholder="Resaisir le mot de passe" className="mt-6 w-full"></Input>
+<Input type="date" placeholder="Resaisir le mot de passe" className=" w-40"></Input>
 
 </div>
-<div className="">
+<div className="flex justify-between mt-6">
   <Label text="Date fin"></Label>
-<Input type="date" placeholder="Resaisir le mot de passe" className="mt-6 w-full"></Input>
+<Input type="date" placeholder="Resaisir le mot de passe" className=" w-40"></Input>
 
 </div>
 <Button text="Rechercher" className="mt-6"></Button>
@@ -52,7 +52,9 @@ data={data}
   )
 return (
  <MainLayout>
-  <Card contentCard={contentCard} className="w-[800px] h-[600px] mt-24"></Card>
+  <div className="overflow-y-auto h-[500px] mt-14 mb-8">
+  <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
+  </div>
  </MainLayout>
 )
 }

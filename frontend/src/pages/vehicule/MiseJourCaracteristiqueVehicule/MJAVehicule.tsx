@@ -1,15 +1,15 @@
-import { useState } from "react"
-import { Card } from "../../../components/card/card"
-import { Button } from "../../../components/common"
-import Checkbox from "../../../components/common/checkbox"
-import Input from "../../../components/inputs"
-import Select from "../../../components/inputs/selectInput"
-import { Label } from "../../../components/label/label"
-import { MainLayout } from "../../../layouts/main"
-import Modal from "../../../components/modals/modals"
-import axios from "axios"
+import axios from "axios";
+import { Card } from "../../../components/card/card";
+import { Button } from "../../../components/common";
+import Checkbox from "../../../components/common/checkbox";
+import Input from "../../../components/inputs";
+import Select from "../../../components/inputs/selectInput";
+import { Label } from "../../../components/label/label";
+import Modal from "../../../components/modals/modals";
+import { MainLayout } from "../../../layouts/main";
+import { useState } from "react";
 
-function AjoutVehiculePage() {
+function MJAVehicule() {
     const [isChecked, setIsChecked] = useState(false);
     const [isChecked2nd, setIsChecked2nd] = useState(false);
     const [isModalSuccess, setIsModalSuccess] = useState(false);
@@ -122,7 +122,7 @@ function AjoutVehiculePage() {
         <div className="flex justify-center items-center">
           <form onSubmit={handleSubmit}>
   <div className="flex flex-col ">
-  <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Ajout de véhicule</div>
+  <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Mise à jour des caractéristiques du vehicule : Numéro d'automobile</div>
   
     <div className="flex flex-col  ">
  <div className="flex flex-row mt-6 justify-between">
@@ -295,4 +295,4 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datev
   )
 }
 
-export default AjoutVehiculePage
+export default MJAVehicule

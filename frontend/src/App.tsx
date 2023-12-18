@@ -7,7 +7,7 @@ import DemandeDeMAJPage from "./pages/validation/demandeDeMAJ/DemandNifValide";
 import MAJRenseignementPage from "./pages/majRenseignement/majRenseignement";
 import DemandeDeNIFAValiderPage from "./pages/validation/demandeDeNIFAValider/DemandeDeNIFAValider";
 import ZoneValidationPage from "./pages/zoneValidationDemandesContribuables/zoneValidation";
-import SaisirMotifRejetPage from "./pages/saisirMotifRejet/saisirMotifRejet";
+import SaisirMotifRejetPage from "./pages/validation/ValidationDemandeImmatriculation/saisirMotifRejet/saisirMotifRejet";
 import DemandeDeMiseAJourPage from "./pages/demanDeMiseAJour/demandeDeMiseAJour";
 import ValidationPage from "./pages/validation/validation";
 import EspaceMembrePage from "./pages/espaceMembre/espaceMembre";
@@ -43,6 +43,17 @@ import Declaration from "./pages/majRenseignement/Declaration";
 import Annexe from "./pages/majRenseignement/Annexe";
 import Paiment from "./pages/majRenseignement/Paiment";
 import ConsulterActionUtilisateur from "./pages/espaceMembre/ConsulterActionUtilisateur/ConsulterActionUtilisateur";
+import RelanceDeffaillant from "./pages/autresOperations/RelanceDeffaillants/RelanceDeffaillant";
+import ValidationDemandeImmatriculation from "./pages/validation/ValidationDemandeImmatriculation/ValidationDemandeImmatriculation";
+import Assujetissement from "./pages/validation/ValidationDemandeImmatriculation/Assujetissement/Assujetissement";
+import DemandeValidationNif from "./pages/validation/demandeDeNIFAValider/DemandeValidationNif";
+import RectificationVehicule from "./pages/vehicule/RectificationVehiculesContribuablesNifonline/RectificationVehicule";
+import TelechargementVehicule from "./pages/vehicule/TelechargementVehiculeNIFOnline/TelechargementVehicule";
+import MiseJourCaracteristiqueVehicule from "./pages/vehicule/MiseJourCaracteristiqueVehicule/MiseJourCaracteristiqueVehicule";
+import MJAVehicule from "./pages/vehicule/MiseJourCaracteristiqueVehicule/MJAVehicule";
+import ConsultationVehicule from "./pages/vehicule/ConsultationVehicule/ConsultationVehicule";
+import ConsultationVehiculeNum from "./pages/vehicule/ConsultationVehicule/ConsultationVehiculeNum";
+import ConsultationHistoriqueVehicule from "./pages/vehicule/ConsultationVehicule/ConsultationHistoriqueVehicule";
 function App() {
   
   return (
@@ -93,7 +104,17 @@ function App() {
         <Route path="/AjoutReferenceFiscal" element={< AjoutReferenceFiscal/>}></Route>
         <Route path="/Rectification" element={< Rectification/>}></Route>
         <Route path="/TelechargementFichierExport" element={< TelechargementFichierExport/>}></Route>
-
+        <Route path="/RelanceDeffaillant" element={<RelanceDeffaillant/>}></Route>
+        <Route path="/ValidationDemandeImmatriculation" element={<ValidationDemandeImmatriculation/>}></Route>
+        <Route path="/Assujetissement" element={<Assujetissement/>}></Route>
+        <Route path="/DemandeValidationNif" element={<DemandeValidationNif/>}></Route>
+        <Route path="/RectificationVehiculeRF" element={<RectificationVehicule/>}></Route>
+        <Route path="/TelechargementVehicule" element={<TelechargementVehicule/>}></Route>
+        <Route path="/MiseJourCaracteristiqueVehicule" element={<MiseJourCaracteristiqueVehicule/>}></Route>
+        <Route path="/MJAVehicule" element={<MJAVehicule/>}></Route>
+        <Route path="/ConsultationVehicule" element={<ConsultationVehicule/>}></Route>
+        <Route path="/ConsultationVehiculeNum" element={<ConsultationVehiculeNum/>}></Route>  
+        <Route path="/ConsultationHistoriqueVehicule" element={<ConsultationHistoriqueVehicule/>}></Route>  
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>

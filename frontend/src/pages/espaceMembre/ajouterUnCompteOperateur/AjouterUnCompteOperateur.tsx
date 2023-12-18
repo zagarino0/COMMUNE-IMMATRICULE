@@ -10,11 +10,11 @@ function AjouterUnCompteOperateurPage() {
         states.selectedLink = "ajoutcompteoperateur";
       }, []);
     const contentCard =(
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center ">
 <div className="flex flex-col">
 <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Ajout compte opérateur - Centre fiscal Mahajanga A</div>
 
-  <div className="flex flex-col mt-6 p-12">
+  <div className="flex flex-col mt-6 p-12 ml-24">
 <Input type="text" placeholder="Nom" className="mt-6"></Input>
 <Input type="text" placeholder="Prénom" className="mt-6"></Input>
 <Input type="text" placeholder="Numéro matricule" className="mt-6"></Input>
@@ -32,8 +32,8 @@ function AjouterUnCompteOperateurPage() {
     )  
   return (
     <MainLayout>
-        <div className="m-20">
-        <Card className="w-[800px] h-[800px]" contentCard={contentCard}></Card>
+        <div className="overflow-y-auto h-[500px] mt-14 mb-8">
+        <Card className="w-[800px] h-[800px] flex justify-center" contentCard={contentCard}></Card>
         </div>
     </MainLayout>
   )

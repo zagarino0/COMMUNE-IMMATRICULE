@@ -17,11 +17,11 @@ function VehiculePage() {
     const links = [
       { title: "Ajouter de véhicule sur Nifonline", link: "/ajoutvehicule" },
       { title: "Rectification des véhicules des contribuables sur Nifonline", link: "/rectificationvehicule" },
-      { title: "Téléchargement des véhicules sur Nifonline", link: "/debloquercompte" },
-      { title: "Téléchargement des vehicules vers SAFIRA", link: "/consulteraction" },
-      { title: "Mise à jour des caractéristiques des vehicules sur Nifonline", link: "/modifierlemotdepasse" },
-      { title: "Consultation des vehicules sur Nifonline", link: "/telechargerleguide" },
-      { title: "Attestation de non affectation", link: "/telechargerleguide" },
+      { title: "Téléchargement des véhicules sur Nifonline", link: "/TelechargementVehicule" },
+      { title: "Téléchargement des vehicules vers SAFIRA", link: "#" },
+      { title: "Mise à jour des caractéristiques des vehicules sur Nifonline", link: "/MiseJourCaracteristiqueVehicule" },
+      { title: "Consultation des vehicules sur Nifonline", link: "/ConsultationVehicule" },
+      { title: "Attestation de non affectation", link: "#" },
     ];
   
     const contentCard =(
@@ -52,7 +52,7 @@ function VehiculePage() {
   return (
     <MainLayout>
         <div className="h-screen flex justify-center w-screen p-6">
-        <Card contentCard={contentCard} className='w-[800px] h-[520px]  mt-24'></Card>
+        <Card contentCard={contentCard} className='w-[800px] h-[520px]  mt-14'></Card>
         </div>
     </MainLayout>
   )

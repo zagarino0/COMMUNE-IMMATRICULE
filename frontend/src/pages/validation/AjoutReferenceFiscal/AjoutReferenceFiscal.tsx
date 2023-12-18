@@ -480,7 +480,7 @@ function AjoutReferenceFiscal() {
   return (
   <div>
       <MainLayout>
-    <div className="overflow-y-auto h-[700px] mt-14 mb-8">
+    <div className="overflow-y-auto h-[500px] mt-14 mb-8">
     <Card contentCard={ContentSearch} className="w-[1000px] h-[2800px]"></Card>
     </div>
   
