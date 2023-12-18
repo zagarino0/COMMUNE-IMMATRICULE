@@ -1,1 +1,32 @@
-[]
+[
+    {
+        "id": 1,
+        "id_contribuable": 6,
+        "imposition": "IS",
+        "date_debut": "2023-01-12",
+        "periodicite": "annuel",
+        "annee": 2023,
+        "actif": 2023,
+        "exonere": "",
+        "period_1": "01/01",
+        "period_2": "31/12",
+        "etat": "",
+        "date_exe": "2023-01-12",
+        "date_assujetissement": "2023-01-12"
+    },
+    {
+        "id": 2,
+        "id_contribuable": 6,
+        "imposition": "IRSA",
+        "date_debut": "2023-01-12",
+        "periodicite": "annuel",
+        "annee": 2023,
+        "actif": 2023,
+        "exonere": "",
+        "period_1": "01/01",
+        "period_2": "31/12",
+        "etat": "",
+        "date_exe": "2023-01-12",
+        "date_assujetissement": "2023-01-12"
+    }
+]

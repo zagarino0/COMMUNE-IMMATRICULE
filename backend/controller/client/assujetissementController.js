@@ -7,7 +7,7 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setAssujetissement = async (req, res) => {
-    const id_client = req.params.id_client;
+    const id_contribuable = req.params.id_contribuable;
     const imposition = req.body.imposition;
     const date_debut = req.body.date_debut;
     const periodicite = req.body.periodicite;
@@ -23,19 +23,19 @@ const setAssujetissement = async (req, res) => {
     const id = data.assujetissements.length === 0 ? 1 : data.assujetissements[data.assujetissements.length - 1].id + 1;
 
     const new_imposition = {
-        id_client,
-        id,
-        imposition,
-        date_debut,
-        periodicite,
-        annee,
-        actif,
-        exonere,
-        period_1,
-        period_2,
-        etat,
-        date_exe,
-        date_assujetissement
+        "id": id,
+        "id_contribuable": id_contribuable,
+        "imposition": imposition,
+        "date_debut": date_debut,
+        "periodicite": periodicite,
+        "annee": annee,
+        "actif": annee,
+        "exonere": exonere,
+        "period_1": period_1,
+        "period_2": period_2,
+        "etat": etat,
+        "date_exe": date_exe,
+        "date_assujetissement": date_assujetissement
     }
 
     data.setAssujetissement([...data.assujetissements, new_imposition]);
@@ -44,10 +44,15 @@ const setAssujetissement = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'assujetissement.json'),
         JSON.stringify(data.assujetissements)
     )
+
+    res.json(data.assujetissements);
 }
 
 const getAssujetissementById = (req, res) => {
-    
+    const id_user = req.params.id_user;
+    const assujetissements = data.assujetissements.find(ass => ass.id_user === id_user);
+
+    res.json(assujetissements);
 }
 
 module.exports = {

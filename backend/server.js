@@ -45,6 +45,7 @@ app.use('/siege', require('./routes/api/contribuable/siege'));
 
 //app.use(verifyJWT);
 app.use('/client', require('./routes/api/client/client'));
+app.use('/assujetissement', require('./routes/api/client/assujetissement'));
 app.use('/vehicle', require('./routes/api/client/vehicle'));
 app.use('/impot', require('./routes/api/impot/impot'));
 
