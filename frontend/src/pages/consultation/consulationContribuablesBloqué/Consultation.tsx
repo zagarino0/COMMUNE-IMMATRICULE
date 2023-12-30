@@ -5,6 +5,12 @@ import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label"
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
+import { Button } from "../../../components/common";
+import { Link } from "react-router-dom";
+import { SiMicrosoftexcel } from "react-icons/si";
+import { ImFilePdf } from "react-icons/im";
+import { TiDocumentText } from "react-icons/ti";
+import { TitleH3 } from "../../../components/title";
 
 function ConsultationContribuableBloque() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -68,6 +74,9 @@ const data = [
 <Label text="CF gestionnaire :" className="mt-4"></Label>
 <Select options={options1} value={selectedOption1} onChange={handleOptionChange1} className="w-96 mx-6"/>
 </div>
+<div className="mt-4">
+<Button text="Lister" className="rounded w-40"></Button>
+</div>
 <div className="flex justify-center items-center mt-12" >
 
 <Table
@@ -75,17 +84,19 @@ headers={headers}
 data={data}
 ></Table>
 </div>
-<div className="mt-12">
-
+<div className="flex justify-between mt-6">
+<button className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
+<button  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
+<Link to="#"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
 </div>
     </div>
   )
   return (
-    <div>
-      <MainLayout>
-<Card contentCard={contentCard}  className='w-[800px] h-[700px] bg-white mt-24'></Card>
-      </MainLayout>
-    </div>
+    <MainLayout>
+   <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
+   <Card contentCard={contentCard} className="w-[1000px] h-[700px] "></Card> 
+   </div>
+   </MainLayout>
   )
 }
 

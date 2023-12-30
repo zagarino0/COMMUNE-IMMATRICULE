@@ -15,12 +15,12 @@ function AutresOperationsPage() {
 
       //Links navbar
     const links = [
-      { title: "Relance des défaillants(IR , IS)", link: "/RelanceDeffaillant" },
-      { title: "Blocage Administratif / Mise en veilleuse d'un contribuable", link: "/gerercompte" },
-      { title: "Déblocage Administratif / réveil d'un contribuable ", link: "/debloquercompte" },
-      { title: "Cessation d'activité", link: "/consulteraction" },
-      { title: "Reprise d'activité", link: "/modifierlemotdepasse" },
-      { title: "Gestion des annexes TVA", link: "/telechargerleguide" },
+      { title: "Relance des défaillants", link: "/RelanceDeffaillant" },
+      { title: "Blocage Administratif / Mise en veilleuse d'un contribuable", link: "/BlocageAdministratif" },
+      { title: "Déblocage Administratif / réveil d'un contribuable ", link: "/DeblocageAdministratif" },
+      { title: "Cessation d'activité", link: "/CessationActivite" },
+      { title: "Reprise d'activité", link: "/RepriseActivite" },
+     
      
     ];
   
@@ -50,7 +50,7 @@ function AutresOperationsPage() {
   return (
     <MainLayout>
         <div className="h-screen">
-        <Card contentCard={contentCard} className='w-[600px] h-[480px] bg-white mt-24'></Card>
+        <Card contentCard={contentCard} className='w-[600px] h-[400px] bg-white mt-24'></Card>
         </div>
     </MainLayout>
   )

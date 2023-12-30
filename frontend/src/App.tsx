@@ -54,6 +54,26 @@ import MJAVehicule from "./pages/vehicule/MiseJourCaracteristiqueVehicule/MJAVeh
 import ConsultationVehicule from "./pages/vehicule/ConsultationVehicule/ConsultationVehicule";
 import ConsultationVehiculeNum from "./pages/vehicule/ConsultationVehicule/ConsultationVehiculeNum";
 import ConsultationHistoriqueVehicule from "./pages/vehicule/ConsultationVehicule/ConsultationHistoriqueVehicule";
+import VoirContribuableDetail from "./pages/consultation/rechercheContribuable/VoirContribuableDetail";
+import ConsultationHistoriqueRF from "./pages/consultation/consultationHistoriqueContribuable/ConsultationHistoriqueRF";
+import ConsulterListeDemandeValide from "./pages/consultation/ConsulterListeDemandeValider/ConsulterListeDemandeValide";
+import BlocageAdministratif from "./pages/autresOperations/BlocageAdministratif/BlocageAdministratif";
+import CessationActivite from "./pages/autresOperations/CessationActivite/CessationActivite";
+import CessationInformation from "./pages/autresOperations/CessationActivite/CessationInformation";
+import RepriseActivite from "./pages/autresOperations/RepriseActivite/RepriseActivite";
+import ImpressionDuplicataCessation from "./pages/etat/ImpressionDuplicataCessation/ImpressionDuplicataCessation";
+import ListeNIFDelivre from "./pages/etat/ListeNIFDelivre/ListeNIFDelivre";
+import DeblocageAdministratif from "./pages/autresOperations/DeblocageAdministratif/DeblocageAdministratif";
+import ConsulationContribuableDebloque from "./pages/consultation/ConsulationContribuableDebloque/ConsulationContribuableDebloque";
+import ConsulterListeMJRValider from "./pages/consultation/ConsulteListeMJRValider/ConsulterListeMJRValider";
+import LivreMotPassDelivre from "./pages/etat/ListeMotPassDelivre/LivreMotPassDelivre";
+import ListeActif from "./pages/etat/ListeActif/ListeActif";
+import ListeReprise from "./pages/etat/ListeReprise/ListeReprise";
+import ListeContribuableVeilleuse from "./pages/etat/ListeContribuableVeilleuse/ListeContribuableVeilleuse";
+import ListeProtocolaire from "./pages/etat/ListeProtocolaire/ListeProtocolaire";
+import EtatpaimentMobile from "./pages/etat/EtatPaimentMobile/EtatpaimentMobile";
+import ListePaimentMobileBanking from "./pages/etat/EtatPaimentMobile/ListePaimentMobileBanking";
+import RecuperationDeclarationMobileBaking from "./pages/etat/EtatPaimentMobile/RecuperationDeclarationMobileBaking";
 function App() {
   
   return (
@@ -115,6 +135,27 @@ function App() {
         <Route path="/ConsultationVehicule" element={<ConsultationVehicule/>}></Route>
         <Route path="/ConsultationVehiculeNum" element={<ConsultationVehiculeNum/>}></Route>  
         <Route path="/ConsultationHistoriqueVehicule" element={<ConsultationHistoriqueVehicule/>}></Route>  
+        <Route path="/VoirContribuableDetail" element={<VoirContribuableDetail/>}></Route>  
+        <Route path="/HIstoriqueContribuable" element={<HIstoriqueContribuable/>}></Route> 
+        <Route path="/ConsultationHistoriqueRF" element={<ConsultationHistoriqueRF/>}></Route> 
+        <Route path="/ConsulterListeDemandeValide" element={<ConsulterListeDemandeValide/>}></Route>  
+        <Route path="/BlocageAdministratif" element={<BlocageAdministratif/>}></Route> 
+        <Route path="/CessationActivite" element={<CessationActivite/>}></Route> 
+        <Route path="/CessationInformation" element={<CessationInformation/>}></Route> 
+        <Route path="/RepriseActivite" element={<RepriseActivite/>}></Route>
+        <Route path="/ImpressionDuplicataCessation" element={<ImpressionDuplicataCessation/>}></Route>
+        <Route path="/ListeNIFDelivre" element={<ListeNIFDelivre/>}></Route>  
+        <Route path="/DeblocageAdministratif" element={<DeblocageAdministratif/>}></Route>
+        <Route path="/ConsulationContribuableDebloque" element={<ConsulationContribuableDebloque/>}></Route> 
+        <Route path="/ConsulterListeMJRValider" element={<ConsulterListeMJRValider/>}></Route>
+        <Route path="/LivreMotPassDelivre" element={<LivreMotPassDelivre/>}></Route>   
+        <Route path="/ListeActif" element={<ListeActif/>}></Route>
+        <Route path="/ListeReprise" element={<ListeReprise/>}></Route>
+        <Route path="/ListeContribuableVeilleuse" element={<ListeContribuableVeilleuse/>}></Route>
+        <Route path="/ListeProtocolaire" element={<ListeProtocolaire/>}></Route>
+        <Route path="/EtatpaimentMobile" element={<EtatpaimentMobile/>}></Route>
+        <Route path="/ListePaimentMobileBanking" element={<ListePaimentMobileBanking/>}></Route>
+        <Route path="/RecuperationDeclarationMobileBaking" element={<RecuperationDeclarationMobileBaking/>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>        
       </Routes>
     </Router>

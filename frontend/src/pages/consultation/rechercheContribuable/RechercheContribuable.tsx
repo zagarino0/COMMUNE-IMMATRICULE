@@ -6,6 +6,11 @@ import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
+import { Link } from "react-router-dom";
+import { SiMicrosoftexcel } from "react-icons/si";
+import { TitleH3 } from "../../../components/title";
+import { ImFilePdf } from "react-icons/im";
+import { TiDocumentText } from "react-icons/ti";
 
 function RechercheContribuablePage() {
     const [isChecked, setIsChecked] = useState(false);
@@ -127,12 +132,18 @@ headers={headers}
 data={data}
 ></Table>
 </div>
+<div className="flex justify-between mt-12">
+<button className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
+<button  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
+<Link to="/VoirContribuableDetail"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
+
+</div>
         </div>
     )
   return (
     <MainLayout>
    <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-   <Card contentCard={contentCard} className="w-[800px] h-[1000px] "></Card> 
+   <Card contentCard={contentCard} className="w-[800px] h-[1200px] "></Card> 
    </div>
    </MainLayout>
   )

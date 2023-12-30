@@ -15,43 +15,24 @@ function EtatPage() {
 
       //Links navbar
     const links = [
-      { title: "Impression duplicata Cessation", link: "/ajoutcompteoperateur" },
-      { title: "Liste des NIFs délivrés", link: "/gerercompte" },
-      { title: "Liste des mots de passe délivrés ", link: "/debloquercompte" },
-      { title: "Statistique des demandes ", link: "/consulteraction" },
-      { title: "Récapitulation sur les demandes validées", link: "/modifierlemotdepasse" },
-      { title: "Liste des actifs", link: "/telechargerleguide" },
-      { title: "Récaputilation sur les Contribuables actifs", link: "/telechargerleguide" },
-      { title: "Liste des preNIFs", link: "/telechargerleguide" },
-      { title: "Liste des Contribuables en Cessation", link: "/telechargerleguide" },
-      { title: "Récapitulation sur les Contribuables en cessation", link: "/telechargerleguide" },
-      { title: "Liste des reprises", link: "/telechargerleguide" },
-      { title: "Liste des Contribuables mise en veilleuse", link: "/telechargerleguide" },
-      { title: "Liste des Contribuables suspendus", link: "/telechargerleguide" },
-      { title: "Liste des Contribuables radiés", link: "/telechargerleguide" },
-      { title: "Récapitulation sur les Contribuables ayant repris leur activité", link: "/telechargerleguide" },
-      { title: "Liste des demandes d'immatriculation rejetées", link: "/telechargerleguide" },
-      { title: "Liste des demandes de mise à jour rejetées ", link: "/telechargerleguide" },
-      { title: "Liste des Contribuables réimmatriculés", link: "/telechargerleguide" },
-      { title: "Statistique des Contribuables réimmatriculés", link: "/telechargerleguide" },
-      { title: "Liste des Contribuables nouvellement immatriculés", link: "/telechargerleguide" },
-      { title: "Statistique des Contribuables nouvellement immatriculés", link: "/telechargerleguide" },
-      { title: "Statistique sur les mises à jour validées", link: "/telechargerleguide" },
-      { title: "Liste des transfert", link: "/telechargerleguide" },
-      { title: "Liste de vos transferts en attente de deuxième validation", link: "/telechargerleguide" },
-      { title: "Liste des Attestations CNAVTTO délivrées", link: "/telechargerleguide" },
-      { title: "Liste des Cartes Fiscales délivrées", link: "/telechargerleguide" },
-      { title: "Liste Protocolaire", link: "/telechargerleguide" },
-      { title: "Compte bancaire des centre fiscaux ", link: "/telechargerleguide" },
-      { title: "Statistique sur les IRI et DAT pour les recettes douanières", link: "/telechargerleguide" },
-      { title: "Liste des paiments du Droit d'accises ", link: "/telechargerleguide" },
-      { title: "Etats sur les recettes fiscales ", link: "/telechargerleguide" },
-      { title: "Statistique sur les performances des centres fiscaux", link: "/telechargerleguide" },
-      { title: "Etats sur toutes les réalisations confondus ", link: "/telechargerleguide" },
-      { title: "Etats sur les recettes centralisées (fichier brut )", link: "/telechargerleguide" },
-      { title: "Liste des Utilisateurs", link: "/telechargerleguide" },
-      { title: "Etats sur les paiments mobile banking", link: "/telechargerleguide" },
-      { title: "Répartition des Contribuables", link: "/telechargerleguide" },     
+      { title: "Impression duplicata Cessation", link: "/ImpressionDuplicataCessation" },
+      { title: "Liste des RFes délivrés", link: "/ListeNIFDelivre" },
+      { title: "Liste des mots de passe délivrés ", link: "/LivreMotPassDelivre" },
+      { title: "Liste des actifs", link: "/ListeActif" },
+      { title: "Liste des reprises", link: "/ListeReprise" },
+      { title: "Liste des Contribuables mise en veilleuse", link: "/ListeContribuableVeilleuse" },
+      { title: "Liste des Contribuables suspendus", link: "#" },
+      { title: "Liste des Contribuables radiés", link: "#" },
+      { title: "Liste des demandes d'immatriculation rejetées", link: "#" },
+      { title: "Liste des demandes de mise à jour rejetées ", link: "#" },
+      { title: "Liste des Contribuables nouvellement immatriculés", link: "#" },
+      { title: "Liste des Attestations ", link: "#" },
+      { title: "Liste des Cartes de Régularité", link: "#" },
+      { title: "Liste Protocolaire", link: "/ListeProtocolaire" },
+      { title: "Etats sur toutes les réalisations confondus ", link: "#" },
+      { title: "Liste des Utilisateurs", link: "#" },
+      { title: "Etats sur les paiments mobile banking", link: "/EtatpaimentMobile" },
+         
     ];
   
       const contentCard =(
@@ -80,7 +61,7 @@ function EtatPage() {
   return (
     <MainLayout>
       <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-        <Card contentCard={contentCard} className='w-[800px] h-[1900px]  '></Card>
+        <Card contentCard={contentCard} className='w-[800px] h-[1000px]  '></Card>
         </div>
     </MainLayout>
   )

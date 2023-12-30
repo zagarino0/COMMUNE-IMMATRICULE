@@ -27,7 +27,7 @@ export const MainLayout : React.FC<mainLayoutProps> = ( props ) => {
     //Navbar content
     const contentNavbar = (
         <nav className=" flex items-center justify-between  ">
-      <a href="#" className="font-semibold flex flex-row "><p className="text-3xl text-[#959824]  ">E</p><p className="text-3xl">-mmatriculation</p></a>
+      <a href="#" className="font-semibold flex flex-row "><p className="text-3xl text-[#959824]  ">E</p><p className="text-3xl">-immatriculation</p></a>
       <ul className="flex">
         {links.map((link) => (
           <li

@@ -25,15 +25,11 @@ function RelanceDeffaillant() {
 
 </div>
 <div className=" flex justify-between mt-6">
-  <Label text="Impôt"></Label>
+  <Label text="Nature de prélévement"></Label>
 <Input type="text"  className=" w-40"></Input>
 
 </div>
-<div className="flex justify-between mt-6">
-  <Label text="CF Gestionnaire"></Label>
-<Input type="text"  className=" w-40"></Input>
 
-</div>
 <Button text="Lister" className="mt-6"></Button>
 </div>
 <div className="mt-10">

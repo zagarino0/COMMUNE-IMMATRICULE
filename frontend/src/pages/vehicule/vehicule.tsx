@@ -15,13 +15,13 @@ function VehiculePage() {
 
       //Links navbar
     const links = [
-      { title: "Ajouter de véhicule sur Nifonline", link: "/ajoutvehicule" },
-      { title: "Rectification des véhicules des contribuables sur Nifonline", link: "/rectificationvehicule" },
-      { title: "Téléchargement des véhicules sur Nifonline", link: "/TelechargementVehicule" },
-      { title: "Téléchargement des vehicules vers SAFIRA", link: "#" },
-      { title: "Mise à jour des caractéristiques des vehicules sur Nifonline", link: "/MiseJourCaracteristiqueVehicule" },
-      { title: "Consultation des vehicules sur Nifonline", link: "/ConsultationVehicule" },
-      { title: "Attestation de non affectation", link: "#" },
+      { title: "Ajouter de véhicule sur Référence Fiscal", link: "/ajoutvehicule" },
+      { title: "Rectification des véhicules des contribuables sur Référence Fiscal", link: "/rectificationvehicule" },
+      { title: "Téléchargement des véhicules sur Référence Fiscal", link: "/TelechargementVehicule" },
+     
+      { title: "Mise à jour des caractéristiques des vehicules sur Référence Fiscal", link: "/MiseJourCaracteristiqueVehicule" },
+      { title: "Consultation des vehicules sur Référence Fiscal", link: "/ConsultationVehicule" },
+     
     ];
   
     const contentCard =(

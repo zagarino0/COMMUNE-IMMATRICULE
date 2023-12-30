@@ -12,7 +12,7 @@ function AjouterUnCompteOperateurPage() {
     const contentCard =(
       <div className="flex items-center justify-center ">
 <div className="flex flex-col">
-<div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Ajout compte opérateur - Centre fiscal Mahajanga A</div>
+<div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Ajout compte un opérateur </div>
 
   <div className="flex flex-col mt-6 p-12 ml-24">
 <Input type="text" placeholder="Nom" className="mt-6"></Input>
