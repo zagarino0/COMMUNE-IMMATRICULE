@@ -15,11 +15,8 @@ const setActivite = async (req, res) => {
     const date_delivrance_statistique = req.body.date_delivrance_statistique;
     const registre_commerce = req.body.registre_commerce;
     const date_registre_commerce = req.body.date_registre_commerce;
-    const debut_exercice_comptable = req.body.debut_exercice_comptable;
-    const cloture_exercice_comptable = req.body.cloture_exercice_comptable;
-    const importateur = req.body.importateur;
-    const exportateur = req.body.exportateur;
-    const nombre_salarie = req.body.nombre_salarie;
+    const debut_exercice = req.body.debut_exercice;
+    const cloture_exercice = req.body.cloture_exercice;
 
     const newActivite = {
         "id": id,
@@ -30,11 +27,8 @@ const setActivite = async (req, res) => {
         "date_delivrance_statistique": date_delivrance_statistique,
         "registre_commerce": registre_commerce,
         "date_registre_commerce": date_registre_commerce,
-        "debut_exercice_comptable": debut_exercice_comptable,
-        "cloture_exercice_comptable": cloture_exercice_comptable,
-        "importateur": importateur,
-        "exportateur": exportateur,
-        "nombre_salarie": nombre_salarie
+        "debut_exercice": debut_exercice,
+        "cloture_exercice": cloture_exercice
     }
 
     data.setActivite([...data.activites, newActivite]);
