@@ -12,7 +12,7 @@ const setDirigeant = async (req, res) => {
 
     const nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
     
-    const id_contribuable = "";
+    const id_contribuable = req.body.id_contribuable;
 
     const activite_dirigeant = req.body.activite_dirigeant;
     const titre_dirigeant = req.body.titre_dirigeant;

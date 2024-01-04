@@ -3,8 +3,8 @@ const router = express.Router();
 const contribuableController = require('../../../controller/espace_contribuable/contribuableController');
 
 router.route('/')
-    .put(contribuableController.updateContribuablePhysique)
-    .post(contribuableController.setContribuableMorale);
+    .put(contribuableController.updateContribuable)
+    .post(contribuableController.setContribuable);
 
 router.route('/login')
     .post(contribuableController.authContribuable);

@@ -6,22 +6,46 @@ const data = {
     modifications: require('../../model/modificationContribuable.json'),
     setModifications: function (data) { this.modifications },
     validation: require('../../model/validation.json'),
-    setValidation: function (data) { this.validation = data }
+    setValidation: function (data) { this.validation = data },
+    cessations: require('../../model/cessation_activite.json'),
+    setCessations: function (data) { this.cessations = data },
+
+    //Temp model
+    actionnairesTemps: require('../../model/model_temp/actionnaire.json'),
+    setActionnaireTemps: function (data) { this.actionnairesTemps = data},
+    activiteTemps: require('../../model/model_temp/activite.json'),
+    setActiviteTemps: function (data) { this.activiteTemps = data},
+    dirigeantTemps: require('../../model/model_temp/dirigeant.json'),
+    setDirigeantTemps: function (data) { this.dirigeantTemps = data },
+    interlocuteurTemps: require('../../model/model_temp/interlocuteur.json'),
+    setInterlocuteurTemps: function (data) { this.interlocuteurTemps = data },
+    siegeTemps: require('../../model/model_temp/siege.json'),
+    setSiegeTemps: function (data) { this.siegeTemps = data },
+    
+    //real model
+    actionnaires: require('../../model/actionnaire.json'),
+    setActionnaire: function (data) { this.actionnaires = data},
+    activite: require('../../model/activite.json'),
+    setActivite: function (data) { this.activite = data},
+    dirigeant: require('../../model/dirigeant.json'),
+    setDirigeant: function (data) { this.dirigeant = data },
+    interlocuteur: require('../../model/interlocuteur.json'),
+    setInterlocuteur: function (data) { this.interlocuteur = data },
+    siege: require('../../model/siege.json'),
+    setSiege: function (data) { this.siege = data }
 }
 
 const bcrypt = require('bcrypt');
-
-const random = require('../../utils/random');
-
 const path = require('path');
 const fsPromises = require('fs').promises;
 
-const setContribuableMorale = async (req, res) => {
+const setContribuable = async (req, res) => {
 
-    const id = random.generateId();
+    const id = req.body.id;
     
     const newContribuable = {
         "id": id,
+        "raison_social": req.body.raisonsocial,
         "personne_physique": req.body.persnphys,
         "personne_morale": req.body.persnmorale,
         "situation_matrimoiniale": req.body.situationmatrimoinial,
@@ -41,39 +65,11 @@ const setContribuableMorale = async (req, res) => {
         "RIB": req.body.rib
     }
 
-    const id_validation = data.validation.length === 0 ? 1 : data.validation[data.validation.length - 1].id + 1;
-
-    const validation = {
-        "id_validation": id_validation,
-        "id_contribuable": id,
-        "validation": false
-    }
-
-    const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
-
-    const modification = {
-        "id_modification": id_modification, 
-        "id_contribuable": id,
-        "nombre_modification": 0,
-        "blockage": false,
-        "date_blockage": ""
-    }
-
     data.setContribuable([...data.contribuables, newContribuable]);
-    data.setModifications([...data.modifications, modification]);
-    data.setValidation([...data.validation, validation]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
-    )
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
-        JSON.stringify(data.modifications)
-    )
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'validation.json'),
-        JSON.stringify(data.modifications)
     )
 
     res.json(data.contribuables);
@@ -101,17 +97,34 @@ const validationContribuable = async (req, res) => {
 
     const filteredArray = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
     data.setContribuable(filteredArray);
+    data.setContribs([...data.contribs, contribuable]);
 
-    const filteredContribs = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
-    const unsortedContribs = [...filteredContribs, contribuable];
-    data.setContribs(unsortedContribs.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    const id_validation = data.validation.length === 0 ? 1 : data.validation[data.validation.length - 1].id + 1;
+    const validation = {
+        "id_validation": id_validation,
+        "id_contribuable": id,
+        "validation": false
+    }
+    data.setValidation([...data.validation, validation]);
 
-    const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
-    validation.validation = true;
+    const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
+    const modification = {
+        "id_modification": id_modification,
+        "id_contribuable": id,
+        "nombre_modification": 0,
+        "blockage": false,
+        "date_blockage": ""
+    }
+    data.setModifications([...data.modifications, modification]);
 
-    const filterdValidation = data.validation.filter(val => val.id_contribuable !== contribuable.id);
-    const unsortedValidation = [...filterdValidation, validation];
-    data.setValidation(unsortedValidation.sort((a, b)=> a.id_validation > b.id_validation ? 1 : a.id_validation < b.id_validation ? -1 : 0));
+    const id_cessation = data.cessations.length === 0 ? 1 : data.cessations[data.cessations.length - 1].id + 1;
+    const cessation = {
+        "id_cessation": id_cessation,
+        "id_contribuable": id,
+        "date_cessation": "",
+        "cessation": false
+    }
+    data.setCessations([...data.cessations, cessation]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
@@ -122,13 +135,20 @@ const validationContribuable = async (req, res) => {
         JSON.stringify(data.contribuables)
     )
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
-        JSON.stringify(data.validation)
+        path.join(__dirname, '..', '..', 'model', 'validation.json'),
+        JSON.stringify(data.modifications)
     )
-
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
+        JSON.stringify(data.modifications)
+    )
 }
 
-const updateContribuablePhysique = async (req, res) => {
+const updateContribuable = async (req, res) => {
     const contribuable = data.contribs.find(con => con.nif === req.body.nif);
     
     if(contribuable){
@@ -255,9 +275,9 @@ const validationMiseAJour = async (req, res) => {
 
 
 module.exports = {
-    setContribuableMorale,
+    setContribuable,
     authContribuable,
-    updateContribuablePhysique,
+    updateContribuable,
     getContribuableNonBloque,
     getContribuablebloque,
     validationMiseAJour,

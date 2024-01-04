@@ -8,7 +8,7 @@ const fsPromises = require('fs').promises;
 
 const setActivite = async (req, res) => {
     const id = data.activites.length === 0 ? 1 : data.activites[data.activites.length - 1];
-    const id_contribuable = "";
+    const id_contribuable = req.body.id_contribuable;
     const activite = req.body.activite;
     const precision_activite = req.body.precision_activite;
     const numero_statistique = req.body.numero_statistique;

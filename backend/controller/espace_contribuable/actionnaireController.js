@@ -23,7 +23,7 @@ const setActionnaire = async (req, res) => {
 
     const id = data.actionnaires.length === 0 ? 1 : data.actionnaires[data.actionnaires.length - 1].id + 1;
 
-    const id_contribuable = "";
+    const id_contribuable = req.body.id_contribuable;
 
     const nif_actionnaire = req.body.nif_actionnaire;
     const email_actionnaire = req.body.email_actionnaire;
