@@ -15,4 +15,10 @@ router.route('/bloque')
 router.route('/debloque')
     .post(contribuableController.getContribuableNonBloque);
 
+router.route('/validation/miseajour')
+    .post(contribuableController.validationMiseAJour)
+
+router.route('/validation/contribuable')
+    .post(contribuableController.validationContribuable);
+
 module.exports = router;

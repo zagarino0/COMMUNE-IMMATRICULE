@@ -4,7 +4,9 @@ const data = {
     contribs: require('../../model/contribuable.json'),
     setContribs: function(data) {this.contribs = data},
     modifications: require('../../model/modificationContribuable.json'),
-    setModifications: function (data) { this.modifications }
+    setModifications: function (data) { this.modifications },
+    validation: require('../../model/validation.json'),
+    setValidation: function (data) { this.validation = data }
 }
 
 const bcrypt = require('bcrypt');
@@ -15,9 +17,11 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setContribuableMorale = async (req, res) => {
+
+    const id = random.generateId();
     
     const newContribuable = {
-        "id": random.generateId,
+        "id": id,
         "personne_physique": req.body.persnphys,
         "personne_morale": req.body.persnmorale,
         "situation_matrimoiniale": req.body.situationmatrimoinial,
@@ -37,6 +41,14 @@ const setContribuableMorale = async (req, res) => {
         "RIB": req.body.rib
     }
 
+    const id_validation = data.validation.length === 0 ? 1 : data.validation[data.validation.length - 1].id + 1;
+
+    const validation = {
+        "id_validation": id_validation,
+        "id_contribuable": id,
+        "validation": false
+    }
+
     const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
 
     const modification = {
@@ -49,13 +61,18 @@ const setContribuableMorale = async (req, res) => {
 
     data.setContribuable([...data.contribuables, newContribuable]);
     data.setModifications([...data.modifications, modification]);
-    
+    data.setValidation([...data.validation, validation]);
+
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'validation.json'),
         JSON.stringify(data.modifications)
     )
 
@@ -73,6 +90,42 @@ const authContribuable = (req, res) => {
         return res.status(404).json({'message': 'contribuable introuvable'});
 
     res.json(contribuable);
+}
+
+const validationContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return res.status(400).json({'message': 'contribuable introuvable'});
+
+    const filteredArray = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
+    data.setContribuable(filteredArray);
+
+    const filteredContribs = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
+    const unsortedContribs = [...filteredContribs, contribuable];
+    data.setContribs(unsortedContribs.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+    const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
+    validation.validation = true;
+
+    const filterdValidation = data.validation.filter(val => val.id_contribuable !== contribuable.id);
+    const unsortedValidation = [...filterdValidation, validation];
+    data.setValidation(unsortedValidation.sort((a, b)=> a.id_validation > b.id_validation ? 1 : a.id_validation < b.id_validation ? -1 : 0));
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        JSON.stringify(data.contribuables)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.validation)
+    )
+
 }
 
 const updateContribuablePhysique = async (req, res) => {
@@ -173,10 +226,40 @@ const getContribuableNonBloque = (req, res) => {
         res.json({'message': 'aucun contribuable bloqué'});
 }
 
+const validationMiseAJour = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const mise_a_jour_contribuable = data.contribuables.find(con => con.nif === reference_fiscal);
+    if(!mise_a_jour_contribuable)
+        return res.status(400).json({'message': 'mise à jour introuvable'});
+
+    const filteredArray = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
+    const unsortedArray = [...filteredArray, mise_a_jour_contribuable];
+
+    const filteredContribuable = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
+
+    data.setContribs(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    data.setContribuable(filteredContribuable);
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+
+    res.json(data.contribs);
+}
+
+
 module.exports = {
     setContribuableMorale,
     authContribuable,
     updateContribuablePhysique,
     getContribuableNonBloque,
-    getContribuablebloque
+    getContribuablebloque,
+    validationMiseAJour,
+    validationContribuable
 }
