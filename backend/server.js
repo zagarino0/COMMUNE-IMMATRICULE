@@ -46,5 +46,8 @@ app.use('/assujetissement', require('./routes/api/client/assujetissement'));
 app.use('/vehicle', require('./routes/api/client/vehicle'));
 app.use('/impot', require('./routes/api/impot/impot'));
 
+//consultation
+app.use('/consultation', require('./routes/api/consultation/consultation'));
+
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
