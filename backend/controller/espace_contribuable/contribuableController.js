@@ -2,7 +2,9 @@ const data = {
     contribuables: require('../../model/model_temp/contribuable.json'),
     setContribuable: function(data) {this.contribuables = data},
     contribs: require('../../model/contribuable.json'),
-    setContribs: function(data) {this.contribs = data}
+    setContribs: function(data) {this.contribs = data},
+    modifications: require('../../model/modificationContribuable.json'),
+    setModifications: function (data) { this.modifications }
 }
 
 const bcrypt = require('bcrypt');
@@ -33,14 +35,30 @@ const setContribuableMorale = async (req, res) => {
         "date_creation": req.body.datecreation,
         "capital": req.body.capital,
         "RIB": req.body.rib,
+        "blockage": false
+    }
+
+    const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
+
+    const modification = {
+        "id_modification": id_modification, 
+        "id_contribuable": id,
+        "nombre_modification": 0
     }
 
     data.setContribuable([...data.contribuables, newContribuable]);
-    res.json(data.contribuables);
+    data.setModifications([...data.modifications, modification]);
+    
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
     )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    )
+
+    res.json(data.contribuables);
 }
    
 
@@ -58,10 +76,13 @@ const authContribuable = (req, res) => {
 
 const updateContribuablePhysique = async (req, res) => {
     const contribuable = data.contribs.find(con => con.nif === req.body.nif);
+    
     if(contribuable){
         return res.status(400).json({'message': 'contribuable not found'});
     }
-    
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+    modification.nombre_modification =+ 1;
+
     if(req.body.nif) contribuable.nif = req.body.nif;
     if(req.body.raisonsocial) contribuable.raison_sociale = req.body.raisonsocial;
     if(req.body.nomcomm) contribuable.nom_commerciale = req.body.nomcomm;
@@ -99,15 +120,25 @@ const updateContribuablePhysique = async (req, res) => {
     if(req.body.dateacte) contribuable.date_acte = req.body.dateacte;
     if(req.body.dateacc) contribuable.date_accord = req.body.dateacc;
     if(req.body.titre) contribuable.titre = req.body.titre;
+    if(modification.nombre_modification === 5) contribuable.blockage = true;
 
     const filteredArray = data.contribs.filter(cli => cli.nif !== req.body.nif);
     const unsortedArray = [...filteredArray, contribuable];
-    data.setcontribs(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-    res.json(data.contribs);
+    data.setContribs(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+    const filteredModif = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
+    const unsortedModif = [...filteredModif, modification];
+    data.setModifications(unsortedModif.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
+    
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
         JSON.stringify(data.contribs)
     )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+    res.json(data.contribs);
 }
 
 

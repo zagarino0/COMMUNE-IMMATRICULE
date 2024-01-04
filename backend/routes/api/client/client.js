@@ -17,4 +17,7 @@ router.route('/contribuable')
 router.route('/validation/contribuable')
     .post(clientController.validationContribuable);
 
+router.route('/deblockage')
+    .post(clientController.deblockageContribuable);
+
 module.exports = router;

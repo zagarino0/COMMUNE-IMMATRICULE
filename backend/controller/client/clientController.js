@@ -4,7 +4,11 @@ const data = {
     impots: require('../../model/impot.json'),
     setClients: function (data) { this.clients = data },
     deletes: require('../../model/model_delete/contribuable.json'),
-    setDeletes: function (data) { this.deletes = data}
+    modifications: require('../../model/modificationContribuable.json'),
+    setModifications: function (data) { this.modifications = data},
+    setDeletes: function (data) { this.deletes = data},
+    contribs: require('../../model/contribuable.json'),
+    setContribs: function (data) { this.contribs = data}
 };
 
 const path = require('path');
@@ -181,6 +185,39 @@ const getClient = (req, res) => {
     res.json(client);
 }
 
+const deblockageContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribs.find(con => con.nif === reference_fiscal);
+
+    if(!contribuable){
+        return res.status(400).json({'message': 'contribuable introuvable'});
+    }
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+    
+    contribuable.blockage = true;
+    modification.nombre_modification = 0;
+
+    const filteredArray = data.contribs.filter(con => con.nif !== reference_fiscal);
+    const unsortedArray = [...filteredArray, contribuable]
+
+    data.setContribs(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+    const filteredModif = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
+    const unsortedModif = [...filteredModif, modification];
+    data.setModifications(unsortedModif.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+
+    res.json(data.contribs);
+}
+
 module.exports = {
     getAllclients,
     addnewClient,
@@ -188,5 +225,6 @@ module.exports = {
     deleteClient,
     getClient,
     getContribuableByReference,
-    validationContribuable
+    validationContribuable,
+    deblockageContribuable
 }
