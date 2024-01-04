@@ -9,4 +9,10 @@ router.route('/')
 router.route('/login')
     .post(contribuableController.authContribuable);
 
+router.route('/bloque')
+    .post(contribuableController.getContribuablebloque);
+
+router.route('/debloque')
+    .post(contribuableController.getContribuableNonBloque);
+
 module.exports = router;

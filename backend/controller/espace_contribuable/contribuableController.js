@@ -34,8 +34,7 @@ const setContribuableMorale = async (req, res) => {
         "periode_grace": req.body.periodegrace,
         "date_creation": req.body.datecreation,
         "capital": req.body.capital,
-        "RIB": req.body.rib,
-        "blockage": false
+        "RIB": req.body.rib
     }
 
     const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
@@ -43,7 +42,9 @@ const setContribuableMorale = async (req, res) => {
     const modification = {
         "id_modification": id_modification, 
         "id_contribuable": id,
-        "nombre_modification": 0
+        "nombre_modification": 0,
+        "blockage": false,
+        "date_blockage": ""
     }
 
     data.setContribuable([...data.contribuables, newContribuable]);
@@ -120,7 +121,10 @@ const updateContribuablePhysique = async (req, res) => {
     if(req.body.dateacte) contribuable.date_acte = req.body.dateacte;
     if(req.body.dateacc) contribuable.date_accord = req.body.dateacc;
     if(req.body.titre) contribuable.titre = req.body.titre;
-    if(modification.nombre_modification === 5) contribuable.blockage = true;
+    if(modification.nombre_modification === 5){
+        modification.blockage = true,
+        modification.date_blockage = new Date();
+    };
 
     const filteredArray = data.contribs.filter(cli => cli.nif !== req.body.nif);
     const unsortedArray = [...filteredArray, contribuable];
@@ -141,9 +145,38 @@ const updateContribuablePhysique = async (req, res) => {
     res.json(data.contribs);
 }
 
+const getContribuablebloque = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
+
+    if(!contribuable)
+        return res.status(400).json({'message': 'contribuable introuvable'})
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+    
+    if(modification.blockage)
+        res.json(contribuable);
+    else   
+        res.json({'message': 'aucun contribuable bloqué'});
+}
+
+const getContribuableNonBloque = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
+
+    if(!contribuable)
+        return res.status(400).json({'message': 'contribuable introuvable'})
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+    
+    if(!modification.blockage)
+        res.json(contribuable);
+    else   
+        res.json({'message': 'aucun contribuable bloqué'});
+}
 
 module.exports = {
     setContribuableMorale,
     authContribuable,
-    updateContribuablePhysique
+    updateContribuablePhysique,
+    getContribuableNonBloque,
+    getContribuablebloque
 }
