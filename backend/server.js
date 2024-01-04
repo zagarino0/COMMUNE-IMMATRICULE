@@ -25,9 +25,6 @@ app.use(express.json());
 // middleware for cookies
 app.use(cookieParser());
 
-// Routes
-app.use('/', require('./routes/root'));
-
 // User routes
 app.use('/user/register', require('./routes/api/user/register'));
 app.use('/user/auth', require('./routes/api/user/auth'));
