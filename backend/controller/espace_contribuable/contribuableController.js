@@ -376,6 +376,77 @@ const validationMiseAJour = async (req, res) => {
     res.json(data.contribs);
 }
 
+const cessationActivite = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return res.status(400).json({'message': 'contribuable introuvable'});
+
+    const cessation = data.cessations.find(ces => ces.id_contribuable === contribuable.id);
+    cessation.cessation = true;
+    cessation.date_cessation = new Date();
+
+    const filteredCessation = data.cessations.filter(ces => ces.id_contribuable !== contribuable.id);
+    const unsortedCessation = [...filteredCessation, cessation];
+    data.setCessations(unsortedCessation.sort((a, b) => a.id_cessation > b.id_cessation ? 1 : a.id_cessation < b.id_cessation ? -1 : 0));
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
+        JSON.stringify(data.cessations)
+    )
+
+    res.json({'message': 'Validation effectué'});
+}
+
+const repriseActivite = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribs.find(con => con.id_contribuable === reference_fiscal);
+    if(!contribuable)
+        return res.status(404).json({'message': 'Contribuable introuvable'});
+
+    const cessation = data.cessations.find(ces => ces.id_contribuable === contribuable.id);
+    if(cessation.cessation && ((new Date()).getMonth() - (new Date(cessation.date_cessation)).getMonth()) < 3 )
+        return res.status(400).json({'message': `La cessation de l'activité du contribuable ${contribuable.reference_fiscal} n'est pas encore plus de 3 mois`});
+
+    cessation.cessation = false;
+    cessation.date_cessation = '';
+
+    const filteredCessation = data.cessations.filter(ces => ces.id_contribuable !== contribuable.id);
+    const unsortedCessation = [...filteredCessation, cessation];
+
+    data.setCessations(unsortedCessation.sort((a, b) => a.id_cessation > b.id_cessation ? 1 : a.id_cessation < b.id_cessation ? -1 : 0));
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
+        JSON.stringify(data.cessations)
+    )
+    res.json({'message': `Reprise d'activité effectué`});
+}
+
+const debloquageContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return res.status(400).json({"message": "Contribuable introuvable"});
+
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+    modification.blockage = false;
+    modification.date_blockage = '';
+
+    const filteredModification = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
+    const unsortedModification = [...filteredModification, modification];
+
+    data.setModifications(unsortedModification.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    )
+
+    res.json({'success': 'Contribuable debloqué'});
+}
 
 module.exports = {
     setContribuable,
@@ -384,5 +455,8 @@ module.exports = {
     getContribuableNonBloque,
     getContribuablebloque,
     validationMiseAJour,
-    validationContribuable
+    validationContribuable,
+    cessationActivite,
+    repriseActivite,
+    debloquageContribuable
 }

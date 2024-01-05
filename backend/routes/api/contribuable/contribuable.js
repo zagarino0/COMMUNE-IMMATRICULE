@@ -21,4 +21,13 @@ router.route('/validation/miseajour')
 router.route('/validation/contribuable')
     .post(contribuableController.validationContribuable);
 
+router.route('/activite/cessation')
+    .post(contribuableController.cessationActivite);
+
+router.route('/activite/reprise')
+    .post(contribuableController.repriseActivite);
+
+router.route('/deblockage')
+    .post(contribuableController.debloquageContribuable);
+
 module.exports = router;
