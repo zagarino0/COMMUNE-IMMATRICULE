@@ -3,6 +3,10 @@ const router = express.Router();
 const siegeController = require('../../../controller/espace_contribuable/siegeController');
 
 router.route('/')
-    .report(siegeController.setSiege);
+    .post(siegeController.setSiege);
+
+router.route('/:id_contribuable')
+    .put(siegeController.updateSiege);
+
 
 module.exports = router;
