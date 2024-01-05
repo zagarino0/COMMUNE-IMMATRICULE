@@ -5,4 +5,11 @@ const interlocuteurController = require('../../../controller/espace_contribuable
 router.route('/')
     .post(interlocuteurController.setInterlocuteur);
 
+router.route('/:id_interlocuteur')
+    .get(interlocuteurController.getInterlocuteurById)
+    .put(interlocuteurController.updateInterlocuteur);
+
+router.route('/contribuable/:id_contribuable')
+    .get(interlocuteurController.getInterlocuteurByIdContribuable);
+
 module.exports = router;

@@ -1,6 +1,7 @@
 const data = {
     activites: require('../../model/model_temp/contribuable.json'),
-    setActivites: function(data) {this.contribuables = data}
+    setActivites: function(data) {this.contribuables = data},
+    actives: require('../../model/activite.json')
 }
 
 const path = require('path');
@@ -41,7 +42,7 @@ const setActivite = async (req, res) => {
 
 const getActiviteById = (req, res) => {
     const id_activite = req.params.id_activite;
-    const activite = data.activites.find(act => act.id_activite === id_activite);
+    const activite = data.actives.find(act => act.id_activite === id_activite);
     res.json(activite);
 }
 
@@ -49,7 +50,7 @@ const getActiviteByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
     let activites = [];
 
-    data.activites.map(act => {
+    data.actives.map(act => {
         if(act.id_contribuable === id_contribuable)
             activites.push(act);
     })
@@ -60,7 +61,7 @@ const getActiviteByIdContribuable = (req, res) => {
 
 const updateActivite = async (req, res) => {
     const id_activite = req.body.id_activite;
-    const activites = data.activites.find(act => act.id_activite === id_activite);
+    const activites = data.actives.find(act => act.id_activite === id_activite);
 
     if(req.body.activite) activites.activite = req.body.activite;
     if(req.body.precision_activite) activites.precision_activite = req.body.precision_activite;

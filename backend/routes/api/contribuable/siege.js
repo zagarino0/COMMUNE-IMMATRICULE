@@ -5,8 +5,12 @@ const siegeController = require('../../../controller/espace_contribuable/siegeCo
 router.route('/')
     .post(siegeController.setSiege);
 
-router.route('/:id_contribuable')
+router.route('/:id_siege')
+    .get(siegeController.getSiegeById)
     .put(siegeController.updateSiege);
+
+router.route('/contribuable/:id_contribuable')
+    .get(siegeController.getSiegeByIdContribuable);
 
 
 module.exports = router;

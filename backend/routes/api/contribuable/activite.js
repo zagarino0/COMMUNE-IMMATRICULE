@@ -5,4 +5,11 @@ const activiteController = require('../../../controller/espace_contribuable/acti
 router.route('/')
     .post(activiteController.setActivite);
 
+router.route('/:id_activite')
+    .get(activiteController.getActiviteById)
+    .put(activiteController.updateActivite);
+
+router.route('/contribuable/:id_contribuable')
+    .get(activiteController.getActiviteByIdContribuable);
+
 module.exports = router;

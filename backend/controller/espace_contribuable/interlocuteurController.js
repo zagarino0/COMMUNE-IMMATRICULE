@@ -1,6 +1,7 @@
 const data = {
     interlocuteurs: require('../../model/model_temp/interlocuteur.json'),
-    setInterlocuteurs: function(data) {this.contribuables = data}
+    setInterlocuteurs: function(data) {this.contribuables = data},
+    interlocs: require('../../model/interlocuteur.json')
 }
 
 const path = require('path');
@@ -35,14 +36,14 @@ const setInterlocuteur = async (req, res) => {
 
 const getInterlocuteurById = (req, res) => {
     const id_interlocuteur = req.params.id_interlocuteur;
-    const interlocuteur = data.interlocuteurs.find(inter => inter.id_interlocuteur === id_interlocuteur);
+    const interlocuteur = data.interlocs.find(inter => inter.id_interlocuteur === id_interlocuteur);
     res.json(interlocuteur);
 }
 
 const getInterlocuteurByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
     let interlocuteur = [];
-    data.interlocuteurs.map(inter => {
+    data.interlocs.map(inter => {
         if(inter.id_contribuable === id_contribuable)
             interlocuteur.push(inter);
     })
@@ -52,7 +53,7 @@ const getInterlocuteurByIdContribuable = (req, res) => {
 
 const updateInterlocuteur = async (req, res) => {
     const id_interlocuteur = req.params.id_interlocuteur;
-    const interlocuteur = data.interlocuteurs.find(inter => inter.id_interlocuteur === id_interlocuteur);
+    const interlocuteur = data.interlocs.find(inter => inter.id_interlocuteur === id_interlocuteur);
 
     if(req.body.nom_interlocuteur)interlocuteur.nom_interlocuteur = req.body.nom_interlocuteur;
     if(req.body.titre_interlocuteur)interlocuteur.titre_interlocuteur = req.body.titre_interlocuteur;

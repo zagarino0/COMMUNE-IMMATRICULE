@@ -6,4 +6,11 @@ const dirigeantController = require('../../../controller/espace_contribuable/dir
 router.route('/')
     .post(dirigeantController.setDirigeant);
 
+router.route('/:id_dirigeant')
+    .get(dirigeantController.getDirigeantById)
+    .put(dirigeantController.updateDirigeant);
+
+router.route('/contribuable/:id_contribuable')
+    .get(dirigeantController.getDirigeantByIdContribuable);
+
 module.exports = router;

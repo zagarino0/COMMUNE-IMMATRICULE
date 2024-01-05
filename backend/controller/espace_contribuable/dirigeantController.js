@@ -1,6 +1,7 @@
 const data = {
     dirigeants: require('../../model/model_temp/dirigeant.json'),
-    setDirigeants: function(data) {this.contribuables = data}
+    setDirigeants: function(data) {this.contribuables = data},
+    diriges: require('../../model/dirigeant.json')
 }
 
 const path = require('path');
@@ -71,7 +72,7 @@ const setDirigeant = async (req, res) => {
 
 const getDirigeantById = (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
-    const dirigeant = data.dirigeants.find(dir => dir.id_dirigeant === id_dirigeant);
+    const dirigeant = data.diriges.find(dir => dir.id_dirigeant === id_dirigeant);
     res.json(dirigeant);
 }
 
@@ -79,7 +80,7 @@ const getDirigeantByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
     let dirigeants = [];
 
-    data.dirigeants.map(dir => {
+    data.diriges.map(dir => {
         if(dir.id_contribuable === id_contribuable)
             dirigeants.push(dir);
     });
@@ -90,7 +91,7 @@ const getDirigeantByIdContribuable = (req, res) => {
 
 const updateDirigeant = async (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
-    const dirigeant = data.dirigeants.find(dir => dir.id_dirigeant === id_dirigeant);
+    const dirigeant = data.diriges.find(dir => dir.id_dirigeant === id_dirigeant);
 
 
     if(req.body.nom_commercial_dirigeant) dirigeant.nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;

@@ -1,6 +1,7 @@
 const data = {
     actionnaires: require('../../model/model_temp/contribuable.json'),
-    setActionnaires: function(data) {this.contribuables = data}
+    setActionnaires: function(data) {this.contribuables = data},
+    actions: require('../../model/actionnaire.json')
 }
 
 const path = require('path');
@@ -64,7 +65,7 @@ const setActionnaire = async (req, res) => {
 const getActionnaireByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
     let actionnaires = [];
-    data.actionnaires.map(act => {
+    data.actions.map(act => {
         if(act.id_contribuable === id_contribuable)
             actionnaires.push(act);
     })
@@ -74,13 +75,13 @@ const getActionnaireByIdContribuable = (req, res) => {
 
 const getActionnaireById = (req, res) => {
     const id_actionnaire = req.params.id_actionnaire;
-    const actionnaire = data.actionnaires.find(act => act.id_actionnaire === id_actionnaire);
+    const actionnaire = data.actions.find(act => act.id_actionnaire === id_actionnaire);
     res.json(actionnaire);
 }
  
 const updateActionnaire = async (req, res) => {
     const id_actionnaire = req.params.id_actionnaire;
-    const actionnaire = data.actionnaires.find(act => act.id_actionnaire === id_actionnaire);
+    const actionnaire = data.actions.find(act => act.id_actionnaire === id_actionnaire);
 
     if(req.body.personne_physique) actionnaire.personne_physique = req.body.personne_physique;
     if(req.body.personne_morale) actionnaire.personne_morale = req.body.personne_morale;

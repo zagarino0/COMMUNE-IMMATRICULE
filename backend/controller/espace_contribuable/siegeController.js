@@ -1,6 +1,7 @@
 const data = {
-    datas: ('../../model/model_temp/siege.json'),
-    setDatas: function(data) {this.datas = data}
+    datas: require('../../model/model_temp/siege.json'),
+    setDatas: function(data) {this.datas = data},
+    siege: require('../../model/siege.json')
 }
 
 const path = require('path');
@@ -34,9 +35,26 @@ const setSiege = async (req, res) => {
     )
 }
 
-const updateSiege = async (req, res) => {
+const getSiegeById = (req, res) => {
+    const id_siege = req.params.id_siege;
+    const siege = data.siege.find(sie => sie.id_siege === id_siege);
+    res.json(siege);
+}
+
+const getSiegeByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
-    const siege = data.datas.find(dat => dat.id_contribuable === id_contribuable);
+    let sieges = [];
+    data.siege.map(sie => {
+        if(sie.id_contribuable === id_contribuable)
+            sieges.push(sie);
+    })
+    res.json(sieges);
+    sieges = [];
+}
+
+const updateSiege = async (req, res) => {
+    const id_siege = req.params.id_siege;
+    const siege = data.siege.find(dat => dat.id_siege === id_siege);
     
     if(req.body.adresse_actuelle) siege.adresse_actuel = req.body.adresse_actuelle;
     if(req.body.fonkotany) siege.fokontany = req.body.fonkotany;
@@ -56,5 +74,7 @@ const updateSiege = async (req, res) => {
 
 module.exports = {
     setSiege,
+    getSiegeById,
+    getSiegeByIdContribuable,
     updateSiege
 }
