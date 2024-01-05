@@ -21,6 +21,8 @@ const data = {
     setInterlocuteurTemps: function (data) { this.interlocuteurTemps = data },
     siegeTemps: require('../../model/model_temp/siege.json'),
     setSiegeTemps: function (data) { this.siegeTemps = data },
+    validationTemps: require('../../model/model_temp/validation.json'),
+    setValidationTemps: function (data) { this.validationTemps = data },
     
     //real model
     actionnaires: require('../../model/actionnaire.json'),
@@ -36,16 +38,22 @@ const data = {
 }
 
 const bcrypt = require('bcrypt');
+
+const random = require('../../utils/random');
+
 const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setContribuable = async (req, res) => {
 
     const id = req.body.id;
+    const reference_fiscal = data.contribs.length === 0 ? 1 : data.contribs[data.contribs.length - 1].id + 1;
+    const nombre_zero = ( data.contribs.length < 10 ) ? '00000000' : ((data.contribs.length >= 10 && data.contribs.length < 100) ? '0000000' : ((data.contribs.length >= 100 && data.contribs.length < 1000) ? '000000' : ((data.contribs.length >= 1000 && data.contribs.length < 10000) ? '00000' : ((data.contribs.length >= 10000 && data.contribs.length < 100000) ? '0000' : ((data.contribs.length >= 100000 && data.contribs.length < 1000000) ? '000' : ((data.contribs.length >= 1000000 && data.contribs.length < 10000000) ? '00' : ((data.contribs.length >= 10000000 && data.contribs.length < 100000000) ? '0' : '')))))));
     
     const newContribuable = {
         "id": id,
         "raison_social": req.body.raisonsocial,
+        "reference_fiscal": nombre_zero + '' + reference_fiscal,
         "personne_physique": req.body.persnphys,
         "personne_morale": req.body.persnmorale,
         "situation_matrimoiniale": req.body.situationmatrimoinial,
@@ -65,11 +73,53 @@ const setContribuable = async (req, res) => {
         "RIB": req.body.rib
     }
 
+    const id_validation = data.validation.length === 0 ? 1 : data.validation[data.validation.length - 1].id + 1;
+
+    const validation = {
+        "id_validation": id_validation,
+        "id_contribuable": id,
+        "validation": false
+    }
+
+    const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
+
+    const modification = {
+        "id_modification": id_modification,
+        "id_contribuable": id,
+        "nombre_modification": 0,
+        "blockage": false,
+        "date_blockage": ""
+    }
+
+    const id_cessation = data.cessations.length === 0 ? 1 : data.cessations[data.cessations.length - 1].id + 1;
+    const cessation = {
+        "id_cessation": id_cessation,
+        "id_contribuable": id,
+        "date_cessation": "",
+        "cessation": false
+    }
+
+
     data.setContribuable([...data.contribuables, newContribuable]);
+    data.setModifications([...data.modifications, modification]);
+    data.setValidation([...data.validation, validation]);
+    data.setCessations([...data.cessations, cessation]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),
+        JSON.stringify(data.modifications)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
+        JSON.stringify(data.modifications)
     )
 
     res.json(data.contribuables);
@@ -95,36 +145,48 @@ const validationContribuable = async (req, res) => {
     if(!contribuable)
         return res.status(400).json({'message': 'contribuable introuvable'});
 
+    //effacement du contribuable du données temporaire et migration du données dans la base réel
     const filteredArray = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
     data.setContribuable(filteredArray);
     data.setContribs([...data.contribs, contribuable]);
 
-    const id_validation = data.validation.length === 0 ? 1 : data.validation[data.validation.length - 1].id + 1;
-    const validation = {
-        "id_validation": id_validation,
-        "id_contribuable": id,
-        "validation": false
-    }
+    //validation vers les données réel
+    const validation = data.validationTemps.find(val => val.id_contribuable === contribuable.id);
+    validation.validation = true;
+    const filterdValidation = data.validationTemps.filter(val => val.id_contribuable !== contribuable.id);
+    data.setValidationTemps(filterdValidation);
     data.setValidation([...data.validation, validation]);
 
-    const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
-    const modification = {
-        "id_modification": id_modification,
-        "id_contribuable": id,
-        "nombre_modification": 0,
-        "blockage": false,
-        "date_blockage": ""
-    }
-    data.setModifications([...data.modifications, modification]);
+    //Actionnaire
+    const actionnaire = data.actionnairesTemps.find(act => act.id_contribuable === contribuable.id);
+    const filtederActionnaire = data.actionnairesTemps.filter(act => act.id_contribuable !== contribuable.id)
+    data.setActionnaireTemps(filtederActionnaire);
+    data.setActionnaire([...data.actionnaires, actionnaire]);
 
-    const id_cessation = data.cessations.length === 0 ? 1 : data.cessations[data.cessations.length - 1].id + 1;
-    const cessation = {
-        "id_cessation": id_cessation,
-        "id_contribuable": id,
-        "date_cessation": "",
-        "cessation": false
-    }
-    data.setCessations([...data.cessations, cessation]);
+    //dirigeant
+    const dirigeant = data.dirigeantTemps.find(dir => dir.id_contribuable === contribuable.id);
+    const filteredDirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable !== contribuable.id);
+    data.setDirigeantTemps(filteredDirigeant);
+    data.setDirigeant([...data.dirigeant, dirigeant]);
+
+    //activite
+    const activite = data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+    const filteredActivite = data.activiteTemps.filter(act => act.id_contribuable !== contribuable.id);
+    data.setActiviteTemps(filteredActivite);
+    data.setActivite([...data.activite, activite]);
+
+    //interlocuteur
+    const interlocuteur = data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+    const filteredInterlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable !== contribuable.id);
+    data.setInterlocuteurTemps(filteredInterlocuteur);
+    data.setInterlocuteur([...data.interlocuteur, interlocuteur]);
+
+    //siege
+    const siege = data.siegeTemps.find(sie => sie.id_contribuable === contribuable.id);
+    const filteredSiege = data.siegeTemps.filter(sie => sie.id_contribuable !== contribuable.id);
+    data.setSiegeTemps(filteredSiege);
+    data.setSiege([...data.siege, siege]);
+
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
@@ -135,84 +197,105 @@ const validationContribuable = async (req, res) => {
         JSON.stringify(data.contribuables)
     )
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'validation.json'),
-        JSON.stringify(data.modifications)
+        path.join(__dirname, '..', '..', 'model', 'actionnaire.json'),
+        JSON.stringify(data.actionnaires)
     )
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
-        JSON.stringify(data.modifications)
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'actionnaire.json'),
+        JSON.stringify(data.actionnairesTemps)
     )
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
-        JSON.stringify(data.modifications)
+        path.join(__dirname, '..', '..', 'model', 'activite.json'),
+        JSON.stringify(data.activite)
     )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'activite.json'),
+        JSON.stringify(data.activiteTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'dirigeant.json'),
+        JSON.stringify(data.dirigeant)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'dirigeant.json'),
+        JSON.stringify(data.dirigeantTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'interlocuteur.json'),
+        JSON.stringify(data.interlocuteur)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'interlocuteur.json'),
+        JSON.stringify(data.interlocuteurTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'siege.json'),
+        JSON.stringify(data.siege)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'siege.json'),
+        JSON.stringify(data.siegeTemps)
+    )
+
+    res.json({"message": `Le contribuable dont l'id ${contribuable.id} est validé`});
 }
 
 const updateContribuable = async (req, res) => {
-    const contribuable = data.contribs.find(con => con.nif === req.body.nif);
-    
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
+    const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+
     if(contribuable){
         return res.status(400).json({'message': 'contribuable not found'});
     }
-    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
-    modification.nombre_modification =+ 1;
 
-    if(req.body.nif) contribuable.nif = req.body.nif;
-    if(req.body.raisonsocial) contribuable.raison_sociale = req.body.raisonsocial;
-    if(req.body.nomcomm) contribuable.nom_commerciale = req.body.nomcomm;
-    if(req.body.type) contribuable.type = req.body.type;
-    if(req.body.formjuri) contribuable.forme_juridique = req.body.formjuri;
-    if(req.body.regfisc) contribuable.regime_fiscal = req.body.regfisc;
-    if(req.body.dateagrem) contribuable.date_agrement = req.body.dateagrem;
-    if(req.body.refagrem) contribuable.reference_agrement = req.body.refagrem;
-    if(req.body.periodgra) contribuable.periode_grace = req.body.periodgra;
+    if(req.body.raisonsocial) contribuable.raison_social = req.body.raisonsocial;
+    if(req.body.situationmatrimoinial) contribuable.situation_matrimoiniale = req.body.situationmatrimoinial;
+    if(req.body.sexe) contribuable.sexe = req.body.sexe;
+    if(req.body.etranger) contribuable.etranger = req.body.etranger;
+    if(req.body.datedelivrance) contribuable.date_de_delivrance = req.body.datedelivrance;
+    if(req.body.lieudelivrance) contribuable.lieu_de_delivrance = req.body.lieudelivrance;
+    if(req.body.datenaissance) contribuable.date_de_naissance = req.body.datenaissance;
+    if(req.body.lieunaissance) contribuable.lieu_de_naissance = req.body.lieunaissance;
+    if(req.body.formejuridique) contribuable.forme_juridique = req.body.formejuridique;
+    if(req.body.regimefiscal) contribuable.regime_fiscal = req.body.regimefiscal;
+    if(req.body.dateagrement) contribuable.date_agrement = req.body.dateagrement;
+    if(req.body.referenceagrement) contribuable.reference_agrement = req.body.referenceagrement;
+    if(req.body.periodegrace) contribuable.periode_grace = req.body.periodegrace;
     if(req.body.datecreation) contribuable.date_creation = req.body.datecreation;
     if(req.body.capital) contribuable.capital = req.body.capital;
-    if(req.body.activite) contribuable.activite = req.body.activite;
-    if(req.body.precactivite) contribuable.precision_activite = req.body.precactivite;
-    if(req.body.datedemandemodif) contribuable.date_demande_modif = req.body.datedemandemodif;
-    if(req.body.dateattribnif) contribuable.date_attribution_nif = req.body.dateattribnif;
-    if(req.body.regcomm) contribuable.registre_commerce = req.body.regcomm;
-    if(req.body.datereg) contribuable.date_registre = req.body.datereg;
-    if(req.body.numstat) contribuable.numero_statistique = req.body.numstat;
-    if(req.body.datedelivre) contribuable.delivree_le = req.body.datedelivre;
-    if(req.body.datedebutexe) contribuable.date_debut_exe = req.body.datedebutexe;
-    if(req.body.dateclotexe) contribuable.date_cloture_exe = req.body.dateclotexe;
-    if(req.body.resident) contribuable.resident = req.body.resident;
-    if(req.body.exportateur) contribuable.exportateur = req.body.exportateur;
-    if(req.body.importateur) contribuable.importateur = req.body.importateur;
     if(req.body.rib) contribuable.rib = req.body.rib;
-    if(req.body.province) contribuable.province = req.body.province;
-    if(req.body.region) contribuable.region = req.body.region;
-    if(req.body.district) contribuable.district = req.body.district;
-    if(req.body.commune) contribuable.commune = req.body.commune;
-    if(req.body.fokontany) contribuable.fokontany = req.body.fokontany;
-    if(req.body.adress) contribuable.adresse = req.body.adress;
-    if(req.body.nbsalarie) contribuable.nombre_salarie = req.body.nbsalarie;
-    if(req.body.proprietaire) contribuable.proprietaire = req.body.proprietaire;
-    if(req.body.typedemande) contribuable.type_demande = req.body.typedemande;
-    if(req.body.dateacte) contribuable.date_acte = req.body.dateacte;
-    if(req.body.dateacc) contribuable.date_accord = req.body.dateacc;
-    if(req.body.titre) contribuable.titre = req.body.titre;
+    
+    modification.nombre_modification =+ 1;
     if(modification.nombre_modification === 5){
         modification.blockage = true,
         modification.date_blockage = new Date();
     };
 
-    const filteredArray = data.contribs.filter(cli => cli.nif !== req.body.nif);
-    const unsortedArray = [...filteredArray, contribuable];
-    data.setContribs(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-
+    validation.validation = false;
+    
     const filteredModif = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
     const unsortedModif = [...filteredModif, modification];
-    data.setModifications(unsortedModif.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
     
+    const filteredValidation = data.validation.filter(val => val.id_contribuable !== contribuable.id);
+    const unsortedValidation = [...filteredValidation, validation];
+    
+    data.setValidation(unsortedValidation.sort((a, b) => a.id_validation > b.id_validation ? 1 : a.id_validation < b.id_validation ? -1 : 0));
+    data.setModifications(unsortedModif.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
+    data.setContribuable([...data.contribuables, contribuable]);
+
+
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribs)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'validation.json'),
         JSON.stringify(data.contribs)
     )
     res.json(data.contribs);
@@ -253,13 +336,25 @@ const validationMiseAJour = async (req, res) => {
     if(!mise_a_jour_contribuable)
         return res.status(400).json({'message': 'mise à jour introuvable'});
 
-    const filteredArray = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
-    const unsortedArray = [...filteredArray, mise_a_jour_contribuable];
+    const validation = data.validation.find(val => val.id_contribuable === mise_a_jour_contribuable.id);
+    validation.validation = true;
 
+    const filteredValidation = data.validation.filter(val => val.id_contribuable !== mise_a_jour_contribuable.id);
+    const unsortedValidation = [...filteredValidation, validation];
+
+    const filteredArray = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
     const filteredContribuable = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
 
-    data.setContribs(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    const modification = data.modifications.find(mod => mod.id_contribuable === mise_a_jour_contribuable.id);
+    modification.nombre_modification = 0;
+
+    const filteredModification = data.modifications.filter(mod => mod.id_contribuable !== mise_a_jour_contribuable.id);
+    const unsortedModification = [...filteredModification, modification];
+
+    data.setModifications(unsortedModification.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
+    data.setContribs([...filteredArray, mise_a_jour_contribuable]);
     data.setContribuable(filteredContribuable);
+    data.setValidation(unsortedValidation.sort((a, b) => a.id_validation > b.id_validation ? 1 : a.id_validation < b.id_validation ? -1 : 0));
     
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
@@ -267,7 +362,15 @@ const validationMiseAJour = async (req, res) => {
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
-        JSON.stringify(data.contribs)
+        JSON.stringify(data.contribuables)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'validation.json'),
+        JSON.stringify(data.validation)
     )
 
     res.json(data.contribs);
