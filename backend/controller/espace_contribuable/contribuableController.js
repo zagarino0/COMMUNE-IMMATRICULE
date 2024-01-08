@@ -512,6 +512,46 @@ const rejetMiseAJourContribuable = async (req, res) => {
     )
 }
 
+const miseEnVeilleuseContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal && con.actif);
+    if(!contribuable)
+        return res.status(400).json({'message': 'Contribuable introuvable'});
+
+    contribuable.actif = false;
+
+    const filteredContribuable = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
+    data.setContribs([...filteredContribuable, contribuable]);
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+
+    res.json({'success': 'Mise en veille du contribuable effectué'});
+}
+
+const reveilleContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal && !con.actif);
+    if(!contribuable)
+        return res.status(400).json({'message': 'Contribuable introuvable'});
+
+    contribuable.actif = true;
+
+    const filteredContribuable = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
+    data.setContribs([...filteredContribuable, contribuable]);
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
+
+    res.json({'success': 'Mise en veille du contribuable effectué'});
+}
+
 module.exports = {
     setContribuable,
     authContribuable,
@@ -524,5 +564,7 @@ module.exports = {
     repriseActivite,
     debloquageContribuable,
     rejetContribuable,
-    rejetMiseAJourContribuable
+    rejetMiseAJourContribuable,
+    miseEnVeilleuseContribuable,
+    reveilleContribuable
 }

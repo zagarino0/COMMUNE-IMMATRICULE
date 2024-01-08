@@ -36,4 +36,10 @@ router.route('/rejetcontribuable')
 router.route('/rejetmiseajour')
     .post(contribuableController.rejetMiseAJourContribuable);
 
+router.route('/miseenveille')
+    .post(contribuableController.miseEnVeilleuseContribuable);
+
+router.route('/reveille')
+    .post(contribuableController.reveilleContribuable);
+
 module.exports = router;
