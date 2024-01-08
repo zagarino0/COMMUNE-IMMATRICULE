@@ -9,7 +9,8 @@ router.route('/contribuable/nonbloque')
     .get(consultationController.getContribuableNonBloque);
 
 router.route('/contribuable/avalide')
-    .get(consultationController.getListeDemandeAValide);
+    .get(consultationController.getListeDemandeAValide)
+    .post(consultationController.getListeDemandeAValideByAll);
 
 router.route('/contribuable/miseajouravalide')
     .get(consultationController.getListeMiseAJourAValide);
