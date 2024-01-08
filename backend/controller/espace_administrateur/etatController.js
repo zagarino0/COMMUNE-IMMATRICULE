@@ -61,6 +61,34 @@ const getContribuableNouvellementImmatriculeByReferenceFiscal = (req, res) => {
     contribuable = {};
 }
 
+const getContribuableVeilleuse = (req, res) => {
+    const contribuables = data.contribuables.filter(con => !con.actif);
+    res.json(contribuables);
+}
+
+const getContribuableVeilleuseByReferenceFiscal = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal && !con.actif)
+    if(!contribuable)
+        return res.status(400).json({'message': 'Contribuable introuvable'});
+
+    res.json(contribuable);
+}
+
+const getContribuableEveille = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal && con.actif)
+    if(!contribuable)
+        return res.status(400).json({'message': 'Contribuable introuvable'});
+
+    res.json(contribuable);
+}
+
+const getContribuableEveilleByReferenceFiscal = (req, res) => {
+    const contribuables = data.contribuables.filter(con => con.actif !== false);
+    res.json(contribuables);
+}
+
 module.exports = {
     getAllContribuableValide,
     getContribuableValideByReferenceFiscal,
@@ -69,5 +97,10 @@ module.exports = {
     getContribuableActif,
     getContribuableActifByReferenceFiscal,
     getContribuableNouvellementImmatricule,
-    getContribuableNouvellementImmatriculeByReferenceFiscal
+    getContribuableNouvellementImmatriculeByReferenceFiscal,
+    getContribuableVeilleuse,
+    getContribuableVeilleuseByReferenceFiscal,
+    getContribuableEveille,
+    getContribuableEveilleByReferenceFiscal
+
 }

@@ -18,5 +18,13 @@ router.route('/contribuable/nouvellementimmatricule')
     .get(etatController.getContribuableNouvellementImmatricule)
     .post(etatController.getDemandeImmatriculationRejeteByReferenceFiscal);
 
+router.route('/contribuable/veille')
+    .get(etatController.getContribuableVeilleuse)
+    .post(etatController.getContribuableVeilleuseByReferenceFiscal);
+
+router.route('/contribuable/eveille')
+    .get(etatController.getContribuableEveille)
+    .post(etatController.getContribuableEveilleByReferenceFiscal);
+
 
 module.exports = router;
