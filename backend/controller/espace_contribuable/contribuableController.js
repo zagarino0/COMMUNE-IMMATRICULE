@@ -34,7 +34,15 @@ const data = {
     interlocuteur: require('../../model/interlocuteur.json'),
     setInterlocuteur: function (data) { this.interlocuteur = data },
     siege: require('../../model/siege.json'),
-    setSiege: function (data) { this.siege = data }
+    setSiege: function (data) { this.siege = data },
+
+    //Rejet
+    rejetContribuable: require('../../model/model_delete/contribuable.json'),
+    setRejetContribuable: function (data) { this.rejetContribuable = data },
+    rejetActionnaire: require('../../model/model_delete/actionnaire'),
+    setRejetActionnaire: function (data) { this.rejetActionnaire  = data },
+    rejetActivite: require('../../model/model_delete/activite.json'),
+
 }
 
 const bcrypt = require('bcrypt');
@@ -57,10 +65,13 @@ const setContribuable = async (req, res) => {
         "personne_physique": req.body.persnphys,
         "personne_morale": req.body.persnmorale,
         "situation_matrimoiniale": req.body.situationmatrimoinial,
+        "cin": req.body.cin,
         "sexe": req.body.sexe,
         "etranger": req.body.etranger,
-        "date_de_delivrance": req.body.datedelivrance,
-        "lieu_de_delivrance": req.body.lieudelivrance,
+        "numero_passeport": req.body.numero_passeport,
+        "date_de_delivrance_passeport": req.body.datedelivrancepasseport,
+        "date_de_delivrance_cin": req.body.datedelivrancecin,
+        "lieu_de_delivrance_cin": req.body.lieudelivrancecin,
         "date_de_naissance": req.body.datenaissance,
         "lieu_de_naissance": req.body.lieunaissance,
         "forme_juridique": req.body.formejuridique,
@@ -70,7 +81,8 @@ const setContribuable = async (req, res) => {
         "periode_grace": req.body.periodegrace,
         "date_creation": req.body.datecreation,
         "capital": req.body.capital,
-        "RIB": req.body.rib
+        "RIB": req.body.rib,
+        "actif": false
     }
 
     const id_validation = data.validation.length === 0 ? 1 : data.validation[data.validation.length - 1].id + 1;
@@ -147,6 +159,8 @@ const validationContribuable = async (req, res) => {
 
     //effacement du contribuable du données temporaire et migration du données dans la base réel
     const filteredArray = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
+    contribuaable.actif = true;
+
     data.setContribuable(filteredArray);
     data.setContribs([...data.contribs, contribuable]);
 
@@ -253,9 +267,13 @@ const updateContribuable = async (req, res) => {
     if(req.body.raisonsocial) contribuable.raison_social = req.body.raisonsocial;
     if(req.body.situationmatrimoinial) contribuable.situation_matrimoiniale = req.body.situationmatrimoinial;
     if(req.body.sexe) contribuable.sexe = req.body.sexe;
+    if(req.body.cin) contribuable.cin = req.body.cin;
     if(req.body.etranger) contribuable.etranger = req.body.etranger;
-    if(req.body.datedelivrance) contribuable.date_de_delivrance = req.body.datedelivrance;
-    if(req.body.lieudelivrance) contribuable.lieu_de_delivrance = req.body.lieudelivrance;
+    if(req.body.numeropasseport) contribuable.numero_passeport = req.body.numeropasseport;
+    if(req.body.carteresidence) contribuable.carte_residence = req.body.carteresidence;
+    if(req.body.datedelivrancepasseport) contribuable.date_de_delivrance_passeport = req.body.datedelivrancepasseport;
+    if(req.body.datedelivrancecin) contribuable.date_de_delivrance_cin = req.body.datedelivrancecin;
+    if(req.body.lieudelivrancecin) contribuable.lieu_de_delivrance_cin = req.body.lieudelivrancecin;
     if(req.body.datenaissance) contribuable.date_de_naissance = req.body.datenaissance;
     if(req.body.lieunaissance) contribuable.lieu_de_naissance = req.body.lieunaissance;
     if(req.body.formejuridique) contribuable.forme_juridique = req.body.formejuridique;
@@ -266,7 +284,8 @@ const updateContribuable = async (req, res) => {
     if(req.body.datecreation) contribuable.date_creation = req.body.datecreation;
     if(req.body.capital) contribuable.capital = req.body.capital;
     if(req.body.rib) contribuable.rib = req.body.rib;
-    
+    contribuable.actif = true;
+
     modification.nombre_modification =+ 1;
     if(modification.nombre_modification === 5){
         modification.blockage = true,
@@ -383,6 +402,7 @@ const cessationActivite = async (req, res) => {
     if(!contribuable)
         return res.status(400).json({'message': 'contribuable introuvable'});
 
+    contribuable.actif = false;
     const cessation = data.cessations.find(ces => ces.id_contribuable === contribuable.id);
     cessation.cessation = true;
     cessation.date_cessation = new Date();
@@ -448,6 +468,50 @@ const debloquageContribuable = async (req, res) => {
     res.json({'success': 'Contribuable debloqué'});
 }
 
+const rejetContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return res.status(401).json({'message': 'contribuable introuvable'});
+    
+    const filteredContribuable = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
+    
+    data.setContribuable(filteredContribuable);
+    data.setRejetContribuable([...data.rejetContribuable, contribuable]);
+
+    res.json({'message': 'mise à jour rejeté'});
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        JSON.stringify(data.contribuables)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_delete', 'contribuable.json'),
+        JSON.stringify(data.rejetContribuable)
+    )
+}
+
+const rejetMiseAJourContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return res.status(401).json({'message': 'contribuable introuvable'});
+    
+    const filteredContribuable = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
+    
+    data.setContribuable(filteredContribuable);
+    data.setRejetContribuable([...data.rejetContribuable, contribuable]);
+
+    res.json({'message': 'mise à jour rejeté'});
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        JSON.stringify(data.contribuables)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_delete', 'contribuable.json'),
+        JSON.stringify(data.rejetContribuable)
+    )
+}
+
 module.exports = {
     setContribuable,
     authContribuable,
@@ -458,5 +522,7 @@ module.exports = {
     validationContribuable,
     cessationActivite,
     repriseActivite,
-    debloquageContribuable
+    debloquageContribuable,
+    rejetContribuable,
+    rejetMiseAJourContribuable
 }

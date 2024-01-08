@@ -31,7 +31,7 @@ app.use('/user/auth', require('./routes/api/user/auth'));
 app.use('/user/refresh', require('./routes/api/user/refreshToken'));
 app.use('/user/logout', require('./routes/api/user/logout'));
 
-
+//app.use(verifyJWT);
 //Espace contribuable
 app.use('/contribuable', require('./routes/api/contribuable/contribuable'));
 app.use('/actionnaire', require('./routes/api/contribuable/actionnaire'));
@@ -40,11 +40,12 @@ app.use('/interlocuteur', require('./routes/api/contribuable/interlocuteur'));
 app.use('/activite', require('./routes/api/contribuable/activite'));
 app.use('/siege', require('./routes/api/contribuable/siege'));
 
-//app.use(verifyJWT);
+//Espace Administrateur
 app.use('/client', require('./routes/api/client/client'));
 app.use('/assujetissement', require('./routes/api/client/assujetissement'));
 app.use('/vehicle', require('./routes/api/client/vehicle'));
 app.use('/impot', require('./routes/api/impot/impot'));
+app.use('/etat', require('./routes/api/administrateur/etat'));
 
 //consultation
 app.use('/consultation', require('./routes/api/consultation/consultation'));

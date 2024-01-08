@@ -30,4 +30,10 @@ router.route('/activite/reprise')
 router.route('/deblockage')
     .post(contribuableController.debloquageContribuable);
 
+router.route('/rejetcontribuable')
+    .post(contribuableController.rejetContribuable);
+
+router.route('/rejetmiseajour')
+    .post(contribuableController.rejetMiseAJourContribuable);
+
 module.exports = router;

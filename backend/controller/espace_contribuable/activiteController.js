@@ -18,6 +18,7 @@ const setActivite = async (req, res) => {
     const date_registre_commerce = req.body.date_registre_commerce;
     const debut_exercice = req.body.debut_exercice;
     const cloture_exercice = req.body.cloture_exercice;
+    const nif = req.body.nif;
 
     const newActivite = {
         "id_activite": id,
@@ -29,7 +30,8 @@ const setActivite = async (req, res) => {
         "registre_commerce": registre_commerce,
         "date_registre_commerce": date_registre_commerce,
         "debut_exercice": debut_exercice,
-        "cloture_exercice": cloture_exercice
+        "cloture_exercice": cloture_exercice,
+        "nif": nif
     }
 
     data.setActivite([...data.activites, newActivite]);
@@ -71,6 +73,7 @@ const updateActivite = async (req, res) => {
     if(req.body.date_registre_commerce) activites.date_registre_commerce = req.body.date_registre_commerce;
     if(req.body.debut_exercice) activites.debut_exercice = req.body.debut_exercice;
     if(req.body.cloture_exercice) activites.cloture_exercice = req.body.cloture_exercice;
+    if(req.body.nif) activites.nif = req.body.nif;
 
     const filteredActivite = data.activites.filter(act => act.id_activite === id_activite);
     const unsortedActivite = [...filteredActivite, activites];
