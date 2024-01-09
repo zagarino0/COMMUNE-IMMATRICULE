@@ -45,7 +45,6 @@ app.use('/autre', require('./routes/api/contribuable/autre'));
 app.use('/user', require('./routes/api/user/user'));
 
 //Espace Administrateur
-app.use('/client', require('./routes/api/client/client'));
 app.use('/assujetissement', require('./routes/api/client/assujetissement'));
 app.use('/vehicle', require('./routes/api/client/vehicle'));
 app.use('/impot', require('./routes/api/impot/impot'));
