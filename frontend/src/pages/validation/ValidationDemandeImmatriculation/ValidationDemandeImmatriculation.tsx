@@ -7,19 +7,62 @@ import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
 import "../../../components/font/font.css"
+import axios from "axios";
 
 function ValidationDemandeImmatriculation() {
-  const [selectedOption, setSelectedOption] = useState('');
+  
+const [Valide , setValide] = useState<{
+domaine_recherche : string ,
+reference : string ,
+cin:string,
+raison_social : string,
+adresse : string,
+nom_commercial: string,
+date_debut : string ,
+date_fin : string,
+reference_fiscal : string
 
-  const handleOptionChange = (value: string) => {
-    setSelectedOption(value);
-  };
- 
+}>({
+  domaine_recherche : "" ,
+  reference : "" ,
+  cin:"",
+  raison_social:"",
+  adresse:"",
+  nom_commercial:"",
+  date_debut : "" ,
+  date_fin : "",
+  reference_fiscal: ""
+})
 
+const [Data , setData] = useState([])
+
+// Fonction pour faire un  recherche d'un client avec référence fiscal
+const handleSearchClient = async () => {
+  const DataSearch ={
+  "reference":Valide.reference,
+  "raison_social":Valide.raison_social,
+  "reference_fiscal": Valide.reference_fiscal,
+  "cin":Valide.cin,
+  "adresse": Valide.adresse,
+  "nom_commercial": Valide.nom_commercial,
+  "date_debut":Valide.date_debut,
+  "date_fin": Valide.date_fin
+  }
+  try {
+    // Make a POST request to your server endpoint
+    const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
+    setData(response.data);
+    // Check the response status or do something with the response
+    console.log("Server Response:", Data );
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+  }
+};
   const options = [
       { value: 'référence', label: 'référence' },
       { value: 'Raison sociale', label: 'Raison sociale' },
-      { value: 'NIF', label: 'NIF' },
+      { value: 'Référence fiscal', label: 'Référence fiscal' },
       { value: 'CIN', label: 'CIN' },
       { value: 'Adresse', label: 'Adresse' },
       { value: 'Nom commercial', label: 'Nom commercial' },
@@ -35,13 +78,13 @@ const dataRectifie =()=>{
  }
   const ContentSearch =(
     <div>     
-       <div className="bg-majunga02 py-32  bg-cover h-96 p-4">
-   <div className="bg-white rounded-md shadow-xl p-4">
-   <div className="text-center   font-[kaldera] text-3xl py-4">
+       <div className="  p-4">
+   <div className="p-4">
+   <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">
        DEMANDES RF A VALIDER
      </div>
-         <div className="text-3xl  font-[kaldera] text-center p-4 ">
-           Recherche des contribuables
+         <div className="text-lg font-semibold p-4 ">
+           Recherche des contribuables :
          </div>
    </div>
     </div>
@@ -52,22 +95,93 @@ const dataRectifie =()=>{
 
 <div className="mt-6 flex flex-row">
   <Label text="Domaine de recherche :"></Label>
-  <Select options={options} value={selectedOption} onChange={handleOptionChange} className="w-96 mx-6"/>
+  <Select options={options} value={Valide.domaine_recherche}
+   onChange={ (options)=>{setValide({...Valide , domaine_recherche: options})}} 
+    className="w-96 mx-6"/>
 </div>
+{Valide.domaine_recherche === "Raison sociale" &&(
+
 <div className="mt-4 flex flex-row">
-  <Label text="Votre recherche :"></Label>
-<Input type="text" className="w-96 mx-[65px] "></Input>
+<Label text="Raison Social :"></Label>
+<Input type="text" className="w-96 mx-[65px] "
+value={Valide.raison_social}
+onChange={(e)=> {setValide({...Valide , raison_social: e.target.value})}}
+></Input>
 </div>
+) 
+}
+
+{Valide.domaine_recherche === "référence" &&(
+
+<div className="mt-4 flex flex-row">
+<Label text="Réference :"></Label>
+<Input type="text" className="w-96 mx-[65px] "
+value={Valide.reference}
+onChange={(e)=> {setValide({...Valide , reference: e.target.value})}}
+></Input>
+</div>
+) 
+}
+{Valide.domaine_recherche === "Référence fiscal" &&(
+
+<div className="mt-4 flex flex-row">
+<Label text="Référence fiscal :"></Label>
+<Input type="text" className="w-96 mx-[65px] "
+value={Valide.reference_fiscal}
+onChange={(e)=> {setValide({...Valide , reference_fiscal: e.target.value})}}
+></Input>
+</div>
+) 
+}
+{Valide.domaine_recherche === "CIN" &&(
+
+<div className="mt-4 flex flex-row">
+<Label text="CIN :"></Label>
+<Input type="text" className="w-96 mx-[65px] "
+value={Valide.cin}
+onChange={(e)=> {setValide({...Valide , cin: e.target.value})}}
+></Input>
+</div>
+) 
+}
+{Valide.domaine_recherche === "Adresse" &&(
+
+<div className="mt-4 flex flex-row">
+<Label text="Adresse :"></Label>
+<Input type="text" className="w-96 mx-[65px] "
+value={Valide.adresse}
+onChange={(e)=> {setValide({...Valide , adresse: e.target.value})}}
+></Input>
+</div>
+) 
+}
+{Valide.domaine_recherche === "Nom commercial" &&(
+
+<div className="mt-4 flex flex-row">
+<Label text="Nom Commercial :"></Label>
+<Input type="text" className="w-96 mx-[65px] "
+value={Valide.nom_commercial}
+onChange={(e)=> {setValide({...Valide , nom_commercial: e.target.value})}}
+></Input>
+</div>
+) 
+}
 <div className="mt-4 flex flex-row">
   <Label text="Date de debut :"></Label>
-<Input type="date" className="w-96 mx-20 "></Input>
+<Input type="date" className="w-96 mx-20 "
+value={Valide.date_debut}
+onChange={(e)=> {setValide({...Valide , date_debut: e.target.value})}}
+></Input>
 </div>
 <div className="mt-4 flex flex-row">
   <Label text="Date fin :"></Label>
-<Input type="date" className="w-96 mx-[120px] "></Input>
+<Input type="date" className="w-96 mx-[120px] "
+value={Valide.date_fin}
+onChange={(e)=> {setValide({...Valide , date_fin: e.target.value})}}
+></Input>
 </div>
 
-<Button type="submit" text="Rechercher" className="w-96 ml-[180px] mt-4"></Button>
+<Button type="submit" text="Rechercher" onClick={handleSearchClient} className="w-96 ml-[180px] mt-4"></Button>
       </div>
 <div className="flex justify-center items-center mt-4" >
 

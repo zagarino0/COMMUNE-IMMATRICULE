@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import { TiDocumentText } from "react-icons/ti";
+import { TitleH1, TitleH3 } from "../../../components/title";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
-import { TitleH1, TitleH3 } from "../../../components/title";
-import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
+import { useState } from "react";
 import { Label } from "../../../components/label/label";
 import Input from "../../../components/inputs";
-import { useState } from "react";
+import { Button } from "../../../components/common";
+import Table from "../../../components/table/table";
+import Select from "../../../components/inputs/selectInput";
 
-function ListeContribuableRadie() {
+function ListeCarteRegularite() {
   const [selectedOption, setSelectedOption] = useState('');
 
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
@@ -42,7 +42,7 @@ function ListeContribuableRadie() {
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables radiés"></TitleH1></div>
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Cartes de Régularité"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 
 <div className="flex justify-between mt-6">
@@ -93,4 +93,4 @@ return (
 )
 }
 
-export default ListeContribuableRadie
+export default ListeCarteRegularite

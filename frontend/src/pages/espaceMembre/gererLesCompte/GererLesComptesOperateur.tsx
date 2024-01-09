@@ -1,26 +1,58 @@
-import { useEffect } from "react";
+
 import { MainLayout } from "../../../layouts/main"
-import { states } from "../../../states/states";
+
 import { Card } from "../../../components/card/card";
 
 import Input from "../../../components/inputs";
 import { Button } from "../../../components/common";
+import { useState } from "react";
 
 function GererLesComptesOperateurDeVotreCentrePage() {
-  useEffect(() => {
-    states.selectedLink = "ajoutcompteoperateur";
-  }, []);
+  const [ Compte , setCompte] = useState<{
+   login_operatreur : string,
+   nom : string ,
+   prenom : string , 
+   numero_matricule : string ,
+   corps : string 
+  }>({
+    login_operatreur : "",
+    nom : "" ,
+    prenom : "" , 
+    numero_matricule : "" ,
+    corps : "" 
+  })
 const contentCard =(
   <div className="flex justify-center items-center">
 <div className="flex flex-col">
 <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Cestion compte opérateur - Centre fiscal Mahajanga A</div>
 
 <div className="flex flex-col mt-6 p-12">
-<Input type="text" placeholder="Login opérateur" className="mt-6 w-full"></Input>
-<Input type="text" placeholder="Nom" className="mt-6 w-full"></Input>
-<Input type="text" placeholder="Prénom" className="mt-6 w-full"></Input>
-<Input type="text" placeholder="Numéro matricule" className="mt-6 w-full"></Input>
-<Input type="text" placeholder="Corps" className="mt-6 w-full"></Input>
+
+<Input type="text"
+value={Compte.login_operatreur}
+onChange={(e)=>{ setCompte({...Compte , login_operatreur: e.target.value})}}
+placeholder="Login opérateur" className="mt-6 w-full"></Input>
+
+<Input type="text"
+value={Compte.nom}
+onChange={(e)=>{ setCompte({...Compte , nom : e.target.value})}}
+placeholder="Nom" className="mt-6 w-full"></Input>
+
+<Input type="text"
+value={Compte.prenom}
+onChange={(e)=>{ setCompte({...Compte , prenom: e.target.value})}}
+placeholder="Prénom" className="mt-6 w-full"></Input>
+
+<Input type="text"
+value={Compte.numero_matricule}
+onChange={(e)=>{ setCompte({...Compte , numero_matricule: e.target.value})}}
+placeholder="Numéro matricule" className="mt-6 w-full"></Input>
+
+<Input type="text"
+value={Compte.corps}
+onChange={(e)=>{ setCompte({...Compte , corps: e.target.value})}}
+placeholder="Corps" className="mt-6 w-full"></Input>
+
 
 <div className="flex justify-between">
 <Button type="submit" text="Desactiver" className="mt-6 "></Button>

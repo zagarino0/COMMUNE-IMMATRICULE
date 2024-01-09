@@ -14,49 +14,54 @@ import { useLocation } from "react-router-dom";
 
 function Etablissement() {
   const location = useLocation(); 
-    // const [value , setValue] = useState<{
-    //   personne_physique:boolean,
-    //   personne_morale:boolean,
-    //   personne_etrangere:boolean,
-    //   associe_unique:boolean,
-    //   resident:boolean,
-    //   avec_rf: boolean,
-    //   salarie : boolean,
-    //   aucune : boolean
-    // }>({
-    //   personne_physique:false,
-    //   personne_morale:false,
-    //   personne_etrangere:false,
-    //   associe_unique:false,
-    //   resident: true ,
-    //   avec_rf: false,
-    //   salarie: false,
-    //   aucune : false
-    // })
+   
+  const [Etablissement , setEtablissment] = useState<{
+nom_commercial:string,
+activite: string,
+titre:string,
+date_ouverture:string,
+adresse: string,
+fokontany: string,
+province: string,
+region: string,
+district: string,
+commune:string,
+telephone_1:string,
+autre_telephone:string,
+fax:string,
+email:string,
+exportateur:boolean,
+importateur:boolean,
+proprietaire_local: boolean,
+
+
+  }>({
+    nom_commercial:"",
+    activite: "",
+    titre:"",
+    date_ouverture:"",
+    adresse: "",
+    fokontany: "",
+    province: "",
+    region: "",
+    district: "",
+    commune:"",
+    telephone_1:"",
+    autre_telephone:"",
+    fax:"",
+    email:"",
+    exportateur:false,
+    importateur:false,
+    proprietaire_local: false,
+    
+  })
     const [add , setAdd] = useState(false);
     const headers = ["Type association", "Nom association", "Fonction", "Résident", "N° CIN", "N° Passport", "Autra act.", "RF Pers. moral", "Nom Pers.physique", "Adresse", "Associe", "Action en"];
     const data = [
       ["none", "none", "none", "none"],
      
     ];
-    // const HandlePersonePhysique  = (checked:boolean) => {  
-    //   setValue({
-    //     ...value,
-    //     personne_physique: checked,
-    //   });
-    // };
-    // const HandlePersoneMorale  = (checked:boolean) => {  
-    //   setValue({
-    //     ...value,
-    //     personne_morale: checked,
-    //   });
-    // };
-    // const HandlePersoneEtrangere = (checked:boolean) => {  
-    //   setValue({
-    //     ...value,
-    //     personne_etrangere: checked,
-    //   });
-    // };
+    
     const content = (
       
       <div className="flex justify-center w-full h-full mt-28 p-8">
@@ -73,79 +78,121 @@ function Etablissement() {
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom commercial"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={Etablissement.nom_commercial}
+      onChange={(e)=>{setEtablissment({...Etablissement , nom_commercial: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Activité"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.activite}
+       onChange={(e)=>{setEtablissment({...Etablissement , activite: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Titre "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.titre}
+       onChange={(e)=>{setEtablissment({...Etablissement , titre: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Date Ouverture "></Label>
-      <Input type="date"></Input>
+      <Input type="date"
+       value={Etablissement.date_ouverture}
+       onChange={(e)=>{setEtablissment({...Etablissement , date_ouverture: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Adresse  / Lot "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.adresse}
+       onChange={(e)=>{setEtablissment({...Etablissement , adresse: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Fokontany "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.fokontany}
+       onChange={(e)=>{setEtablissment({...Etablissement , fokontany: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Province "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.province}
+       onChange={(e)=>{setEtablissment({...Etablissement , province: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Région  "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.region}
+       onChange={(e)=>{setEtablissment({...Etablissement , region: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="District  "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.district}
+       onChange={(e)=>{setEtablissment({...Etablissement , district: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Commune "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.commune}
+       onChange={(e)=>{setEtablissment({...Etablissement , commune: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Téléphone 1  "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.telephone_1}
+       onChange={(e)=>{setEtablissment({...Etablissement , telephone_1: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Autre Téléphone "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.autre_telephone}
+       onChange={(e)=>{setEtablissment({...Etablissement , autre_telephone: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Fax "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.fax}
+       onChange={(e)=>{setEtablissment({...Etablissement , fax: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="E-mail "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Etablissement.email}
+       onChange={(e)=>{setEtablissment({...Etablissement , email: e.target.value})}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Exportateur " />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Oui" onChange={(checked)=>{setEtablissment({...Etablissement , exportateur: checked})}} checked={Etablissement.exportateur == true}></Checkbox>
+    <Checkbox label="Non" onChange={(checked)=>{setEtablissment({...Etablissement , exportateur: !checked})}} checked={Etablissement.exportateur == false}></Checkbox>
     </div>
     </div>
    <div className="flex justify-between mt-6">
             <Label text="Importateur " />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Oui" onChange={(checked)=>{setEtablissment({...Etablissement , importateur: checked})}} checked={Etablissement.importateur == true}></Checkbox>
+    <Checkbox label="Non" onChange={(checked)=>{setEtablissment({...Etablissement , importateur: !checked})}} checked={Etablissement.importateur == false}></Checkbox>
     </div>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Propriétaire du local" />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Oui" onChange={(checked)=>{setEtablissment({...Etablissement , proprietaire_local: checked})}} checked={Etablissement.proprietaire_local == true}></Checkbox>
+    <Checkbox label="Non" onChange={(checked)=>{setEtablissment({...Etablissement , proprietaire_local: !checked})}} checked={Etablissement.proprietaire_local == false}></Checkbox>
     </div>
     </div>
     
