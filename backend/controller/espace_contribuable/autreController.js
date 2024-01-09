@@ -8,10 +8,11 @@ const path = require('path');
 
 const setAutres = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
-    const id_autre = data.autres.length === 0 ? 0 : data.autres[data.autres.length - 1].id_autre + 1;
     const information_mail = req.body.information_mail;
     const depaseement_12_mois = req.body.depaseement_12_mois;
     const certification = req.body.certification;
+
+    const id_autre = data.autres.length === 0 ? 0 : data.autres[data.autres.length - 1].id_autre + 1;
 
     const autre = {
         'id_autre': id_autre,
@@ -23,9 +24,10 @@ const setAutres = async (req, res) => {
 
     data.setAutres([...data.autres, autre]);
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temps', 'autre.json'),
-        JSON.stringify(data.contribs)
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'autre.json'),
+        JSON.stringify(data.autres)
     )
+    res.json({'success': 'enregistrement effectué'});
 
 }
 

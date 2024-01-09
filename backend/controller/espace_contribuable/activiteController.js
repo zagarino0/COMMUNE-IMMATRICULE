@@ -1,6 +1,6 @@
 const data = {
     activites: require('../../model/model_temp/contribuable.json'),
-    setActivites: function(data) {this.contribuables = data},
+    setActivites: function(data) { this.activites = data},
     actives: require('../../model/activite.json')
 }
 
@@ -37,7 +37,7 @@ const setActivite = async (req, res) => {
     data.setActivites([...data.activites, newActivite]);
     res.json(data.activites);
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'activite.json'),
         JSON.stringify(data.activites)
     )
 }
@@ -81,7 +81,7 @@ const updateActivite = async (req, res) => {
     data.setActivites(unsortedActivite.sort((a, b) => a.id_activite > b.id_activite ? 1 : a.id_activite < b.id_activite ? -1 : 0));
 
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'activite.json'),
         JSON.stringify(data.activites)
     )    
 
