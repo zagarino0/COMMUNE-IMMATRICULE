@@ -3,6 +3,9 @@ const data = {
     setEtablissements: function (data) { this.etablissements = data }
 }
 
+const path = require('path');
+const fsPromises = require('fs').promises;
+
 const setEtablissements = async (req, res) => {
     const id_etablissement = data.etablissements.length === 0 ? 1 : data.etablissements[data.etablissements.length - 1].id_etablissement + 1;
     const id_contribuable = req.body.id_contribuable;

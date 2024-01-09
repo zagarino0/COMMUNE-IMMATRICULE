@@ -8,7 +8,7 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setActivite = async (req, res) => {
-    const id = data.activites.length === 0 ? 1 : data.activites[data.activites.length - 1];
+    const id = data.activites.length === 0 ? 1 : data.activites[data.activites.length - 1].id_activite + 1;
     const id_contribuable = req.body.id_contribuable;
     const activite = req.body.activite;
     const precision_activite = req.body.precision_activite;

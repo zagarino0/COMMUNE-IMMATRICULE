@@ -4,6 +4,7 @@ const data = {
 }
 
 const fsPromises = require('fs').promises;
+const path = require('path');
 
 const setAutres = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
