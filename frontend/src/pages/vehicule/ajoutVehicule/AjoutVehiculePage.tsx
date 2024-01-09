@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Card } from "../../../components/card/card"
 import { Button } from "../../../components/common"
-import Checkbox from "../../../components/common/checkbox"
 import Input from "../../../components/inputs"
 import Select from "../../../components/inputs/selectInput"
 import { Label } from "../../../components/label/label"
@@ -10,8 +9,7 @@ import Modal from "../../../components/modals/modals"
 import axios from "axios"
 
 function AjoutVehiculePage() {
-    const [isChecked, setIsChecked] = useState(false);
-    const [isChecked2nd, setIsChecked2nd] = useState(false);
+   
     const [isModalSuccess, setIsModalSuccess] = useState(false);
     const [isModalError, setIsModalError] = useState(false);
     const [value , setValue] = useState<{
@@ -59,17 +57,8 @@ function AjoutVehiculePage() {
        zone_v:"",
        age_v:"",
     })     
-    const handleCheckboxChange = (checked: boolean) => {
-        setIsChecked(checked);
-      };
-      const handleCheckboxChangeSecond = (checked: boolean) => {
-          setIsChecked2nd(checked);
-        };
-        const [selectedOption, setSelectedOption] = useState('');
-
-        const handleOptionChange = (value: string) => {
-          setSelectedOption(value);
-        };
+   
+       
         const handleSubmit = async (e: React.FormEvent) => {
           e.preventDefault();
       
@@ -109,15 +98,20 @@ function AjoutVehiculePage() {
             setIsModalError(true);
           }
         };
-        const options = [
-          { value: 'référence', label: 'Choisissez dans la liste' },
-          { value: 'Raison sociale', label: 'Raison sociale' },
-          { value: 'NIF', label: 'NIF' },
-          { value: 'CIN', label: 'CIN' },
-          { value: 'Adresse', label: 'Adresse' },
-          { value: 'Nom commercial', label: 'Nom commercial' },
+        const optionsExploitation = [
+          { value: 'Urbaine', label: 'Urbaine' },
+          { value: 'Sub-urbaine', label: 'Sub-urbaine' },
+         
         ];
-    
+        const optionsCategorie = [
+          { value: 'Transport en commun', label: 'Transport en commun' },
+          { value: 'Transport Urbaine', label: 'Transport Urbaine' },
+          { value: 'Transport marchandise', label: 'Transport marchandise' },
+        ];
+        const optionsZone = [
+          { value: 'Commune Urbaine de Mahajanga', label: 'Commune Urbaine de Mahajanga' },
+         
+        ];
     const contentCard =(
         <div className="flex justify-center items-center">
           <form onSubmit={handleSubmit}>
@@ -195,13 +189,7 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nbpla
   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, poidsavide_v: e.target.value })}
   ></Input>
   </div>
-<div className="flex flex-row mt-6 justify-between">
-  <Label text="Hikaràma" className="mt-4"></Label>
-  <div >
-<Checkbox label="Oui" checked={isChecked} onChange={handleCheckboxChange}></Checkbox>
-<Checkbox label="Non" checked={isChecked2nd} onChange={handleCheckboxChangeSecond}></Checkbox>
-  </div>
-</div>
+
 <div className="mt-6 flex flex-row justify-between">
 <Label text="Date de début :" className="mt-4"></Label>
 <Input type="date" placeholder="Date de début" className="w-96 "
@@ -216,13 +204,7 @@ value={value.nifproprietaire_v}
 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nifproprietaire_v: e.target.value })}
 ></Input>
 </div>
-<div className="mt-6 flex flex-row justify-between">
-<Label text="Centre Gestionnaire :" className="mt-4"></Label>
-<Input type="text" placeholder="Centre Gestionnaire" className="w-96 "
-value={value.centregestion_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, centregestion_v: e.target.value })}
-></Input>
-</div>
+
 <div className="mt-6 flex flex-row justify-between">
 <Label text="Anc RF Propriétaire :" className="mt-4"></Label>
 <Input type="text" placeholder="Anc RF Propriétaire" className="w-96 "
@@ -232,7 +214,7 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, ancni
 </div>
 <div className="mt-6 flex flex-row justify-between">
 <Label text="Exploitation :" className="mt-4"></Label>
-<Select options={options} value={selectedOption} onChange={handleOptionChange} className="w-96 "/>
+<Select options={optionsExploitation} value={value.exploitation_v} onChange={(option=>{setValue({...value , exploitation_v: option})})} className="w-96 "/>
 </div>
 <div className="mt-6 flex flex-row justify-between">
 <Label text="Date de validité licence :" className="mt-4"></Label>
@@ -243,19 +225,16 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datev
 </div>
 <div className="mt-6 flex flex-row justify-between">
     <Label text="Catégorie :" className="mt-4"></Label>
-    <Select options={options} value={selectedOption} onChange={handleOptionChange} className="w-96  "/>
+    <Select options={optionsCategorie} value={value.categ_v} onChange={(option=>{setValue({...value , categ_v: option})})} className="w-96  "/>
 </div>
-<div className="mt-6 flex flex-row justify-between">
-    <Label text="Sous catégorie :" className="mt-4"></Label>
-    <Select options={options} value={selectedOption} onChange={handleOptionChange} className="w-96 "/>
-</div>
+
 <div className="mt-6 flex flex-row justify-between">
     <Label text="Zone :" className="mt-4"></Label>
-    <Select options={options} value={selectedOption} onChange={handleOptionChange} className="w-96 "/>
+    <Select options={optionsZone} value={value.zone_v} onChange={(option=>{setValue({...value , zone_v: option})})} className="w-96 "/>
 </div>
 <div className="mt-6 flex flex-row justify-between">
     <Label text="Age :" className="mt-4"></Label>
-    <Select options={options} value={selectedOption} onChange={handleOptionChange} className="w-96 "/>
+    <Input type="text" placeholder="âge"></Input>
 </div>
 <Button type="submit" text="Enregistrer" className="mt-6"></Button>
     </div>

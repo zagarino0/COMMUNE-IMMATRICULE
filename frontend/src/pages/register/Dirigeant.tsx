@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 
 function Dirigeant() {
   const location = useLocation(); 
-  const [value , setValue] = useState<{
+  const [Dirigeant , setDirigeant] = useState<{
     personne_physique:boolean,
     personne_morale:boolean,
     personne_etrangere:boolean,
@@ -22,7 +22,16 @@ function Dirigeant() {
     resident:boolean,
     avec_rf: boolean,
     salarie : boolean,
-    aucune : boolean
+    aucune : boolean,
+    nom: string,
+    fonction: string,
+    cin:string,
+    passport:string,
+    adresse:string,
+    rf:string,
+    email:string,
+    telephone:string,
+
   }>({
     personne_physique:false,
     personne_morale:false,
@@ -31,7 +40,16 @@ function Dirigeant() {
     resident: true ,
     avec_rf: false,
     salarie: false,
-    aucune : false
+    aucune : false,
+    nom: "",
+    fonction: "",
+    cin:"",
+    passport:"",
+    adresse:"",
+    rf:"",
+    email:"",
+    telephone:"",
+    
   })
   const [add , setAdd] = useState(false);
   const headers = ["Type association", "Nom association", "Fonction", "Résident", "N° CIN", "N° Passport", "Autra act.", "RF Pers. moral", "Nom Pers.physique", "Adresse", "Associe", "Action en"];
@@ -40,20 +58,20 @@ function Dirigeant() {
    
   ];
   // const HandlePersonePhysique  = (checked:boolean) => {  
-  //   setValue({
-  //     ...value,
+  //   setDirigeant({
+  //     ...Dirigeant,
   //     personne_physique: checked,
   //   });
   // };
   // const HandlePersoneMorale  = (checked:boolean) => {  
-  //   setValue({
-  //     ...value,
+  //   setDirigeant({
+  //     ...Dirigeant,
   //     personne_morale: checked,
   //   });
   // };
   // const HandlePersoneEtrangere = (checked:boolean) => {  
-  //   setValue({
-  //     ...value,
+  //   setDirigeant({
+  //     ...Dirigeant,
   //     personne_etrangere: checked,
   //   });
   // };
@@ -73,34 +91,46 @@ function Dirigeant() {
   <>
   <div className="flex justify-between mt-6">
     <Label text="Nom "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+    value={Dirigeant.nom}
+    onChange={(e)=>{setDirigeant({...Dirigeant , nom: e.target.value})}}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
     <Label text="Fonction"></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+    value={Dirigeant.fonction}
+    onChange={(e)=>{setDirigeant({...Dirigeant , fonction : e.target.value})}}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
             <Label text="Etranger " />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>setValue({ ...value , resident: true})} checked={value.resident == true}></Checkbox>
-    <Checkbox label="Non" onChange={()=>setValue({...value , resident: false})} checked={value.resident == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=>setDirigeant({ ...Dirigeant , resident: true})} checked={Dirigeant.resident == true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>setDirigeant({...Dirigeant , resident: false})} checked={Dirigeant.resident == false}></Checkbox>
     </div>
     </div>
-    { value.resident == false && (
+    { Dirigeant.resident == false && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numero CIN"></Label>
-<Input type="text"></Input>
+<Input type="text"
+value={Dirigeant.cin}
+onChange={(e)=>{setDirigeant({...Dirigeant , cin : e.target.value})}}
+></Input>
       </div>
       </>
     )
 
     }
-    { value.resident == true && (
+    { Dirigeant.resident == true && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numéro Passeport ou Carte Résident"></Label>
-<Input type="text"></Input>
+<Input type="text"
+value={Dirigeant.passport}
+onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
+></Input>
       </div>
       </>
     )
@@ -113,12 +143,12 @@ function Dirigeant() {
   <div className="flex justify-between mt-6">
             <Label text="Autre activité " />
       <div className="flex justify-between w-[300px]">
-    <Checkbox label="Avec RF" onChange={(checked:boolean)=> setValue({...value , avec_rf : checked})} checked={value.avec_rf} ></Checkbox>
-    <Checkbox label="Salarié" onChange={(checked:boolean)=>setValue({...value , salarie: checked})} checked={value.salarie}></Checkbox>
-    <Checkbox label="Aucune " onChange={(checked: boolean)=> setValue({...value , aucune: checked})} checked={value.aucune}></Checkbox>
+    <Checkbox label="Avec RF" onChange={(checked:boolean)=> setDirigeant({...Dirigeant , avec_rf : checked})} checked={Dirigeant.avec_rf} ></Checkbox>
+    <Checkbox label="Salarié" onChange={(checked:boolean)=>setDirigeant({...Dirigeant , salarie: checked})} checked={Dirigeant.salarie}></Checkbox>
+    <Checkbox label="Aucune " onChange={(checked: boolean)=> setDirigeant({...Dirigeant , aucune: checked})} checked={Dirigeant.aucune}></Checkbox>
     </div>
     </div>
-    { value.avec_rf === true && (
+    { Dirigeant.avec_rf === true && (
       <> 
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>

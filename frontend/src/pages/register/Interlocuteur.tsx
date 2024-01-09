@@ -4,9 +4,25 @@ import Input from "../../components/inputs";
 import { Label } from "../../components/label/label";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { Layout } from "./Layout";
+import { useState } from "react";
 
 function Interlocuteur() {
     const location = useLocation(); 
+    const [Interlocuteur , setInterlocuteur] = useState<{
+   nom: string,
+   titre:string,
+   adresse: string,
+   telephone: string,
+   email: string,
+
+    }>({ 
+   nom: "",
+   titre:"",
+   adresse: "",
+   telephone: "",
+   email: "",
+   
+    })
     const content = (
       <div className="flex justify-center w-full h-full mt-28 p-8">
         <div className="flex flex-col w-[1000px]">
@@ -16,7 +32,10 @@ function Interlocuteur() {
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Nom " />
-            <Input type="text" />
+            <Input type="text" 
+            value={Interlocuteur.nom}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , nom : e.target.value})}}
+            />
           </div>
           
    
@@ -24,7 +43,9 @@ function Interlocuteur() {
       <div className='flex justify-between mt-6 '>
       <Label text="Titre"></Label>
       <Input
-        type="text"     
+        type="text"
+        value={Interlocuteur.titre}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , titre: e.target.value})}}     
       ></Input>
     </div>
    
@@ -32,18 +53,24 @@ function Interlocuteur() {
       <Label text="Adresse  "></Label>
       <Input
         type="text"     
+        value={Interlocuteur.adresse}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , adresse : e.target.value})}}
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Téléphone "></Label>
       <Input
-        type="text"     
+        type="text"    
+        value={Interlocuteur.telephone}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , telephone : e.target.value})}} 
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="E-mail"></Label>
       <Input
-        type="text"     
+        type="text"  
+        value={Interlocuteur.email}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , email : e.target.value})}}   
       ></Input>
     </div>
     

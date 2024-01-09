@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Input from "../../components/inputs";
 import { Label } from "../../components/label/label";
@@ -10,13 +10,17 @@ import Button from "../../components/common/Button";
 import { RiSubtractFill } from "react-icons/ri";
 import { MdOutlineZoomInMap } from "react-icons/md";
 import { MdZoomOutMap } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineSave } from "react-icons/ai";
 import Checkbox from "../../components/common/checkbox";
 import { RiArrowGoBackFill } from "react-icons/ri";
 function Associe() {
     const location = useLocation(); 
-    const [value , setValue] = useState<{
+    
+    let navigate = useNavigate();
+
+ 
+    const [Associe , setAssocie] = useState<{
       personne_physique:boolean,
       personne_morale:boolean,
       personne_etrangere:boolean,
@@ -24,7 +28,9 @@ function Associe() {
       resident:boolean,
       avec_rf: boolean,
       salarie : boolean,
-      aucune : boolean
+      aucune : boolean,      
+   
+
     }>({
       personne_physique:false,
       personne_morale:false,
@@ -33,7 +39,41 @@ function Associe() {
       resident: true ,
       avec_rf: false,
       salarie: false,
-      aucune : false
+      aucune : false,
+      
+
+    })
+
+    const [Actionnaire , setActionnaire ] = useState<{
+      type : string ,
+      nom_actionnaire: string ,
+      fonction_actionnaire : string ,
+      resident_actionnaire : string , 
+      cin_passeport_actionnaire: string,
+      adresse_actionnaire : string,
+      autre_activite_actionnaire : string,
+      id_contribuable: string,
+      nif_actionnaire: string,
+      email_actionnaire: string,
+      numero_actionnaire: string,
+      associe_unique_actionnaire: string,
+      action_ou_actionnaire: string,
+
+    }>({
+
+      type : "" ,
+      nom_actionnaire: "" ,
+      fonction_actionnaire : "" ,
+      resident_actionnaire : "" , 
+      cin_passeport_actionnaire: "",
+      adresse_actionnaire : "" ,
+      autre_activite_actionnaire : "",
+      id_contribuable: "",
+      nif_actionnaire: "",
+      email_actionnaire: "",
+      numero_actionnaire: "",
+      associe_unique_actionnaire: "",
+      action_ou_actionnaire: "",
     })
     const [add , setAdd] = useState(false);
     const headers = ["Type association", "Nom association", "Fonction", "Résident", "N° CIN", "N° Passport", "Autra act.", "RF Pers. moral", "Nom Pers.physique", "Adresse", "Associe", "Action en"];
@@ -42,23 +82,48 @@ function Associe() {
      
     ];
     const HandlePersonePhysique  = (checked:boolean) => {  
-      setValue({
-        ...value,
+      setAssocie({
+        ...Associe,
         personne_physique: checked,
       });
+      setActionnaire({...Actionnaire , type : "Personne physique"})
     };
     const HandlePersoneMorale  = (checked:boolean) => {  
-      setValue({
-        ...value,
+      setAssocie({
+        ...Associe,
         personne_morale: checked,
       });
+      setActionnaire({...Actionnaire , type : "Personne morale"})
     };
     const HandlePersoneEtrangere = (checked:boolean) => {  
-      setValue({
-        ...value,
+      setAssocie({
+        ...Associe,
         personne_etrangere: checked,
       });
+      setActionnaire({...Actionnaire , type : "Personne étranger"})
     };
+
+    const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+    useEffect(() => {
+      // Store Value data in localStorage
+      localStorage.setItem("actionnaireData", JSON.stringify(Actionnaire));
+      // Reset the dummy state to trigger rerender
+      setIsStorageUpdated(false);
+    }, [isStorageUpdated]);
+    
+  
+      const handleButtonClick = () => {
+  
+      // Trigger a rerender by updating the dummy state
+      setIsStorageUpdated(true);
+        const routeToNavigate = "/Etablissement";
+        console.log('Navigating to:', routeToNavigate);
+      
+        // Use navigate to navigate to the determined route
+        navigate(routeToNavigate, { state: { Actionnaire } });
+       
+      };
     const content = (
       
       <div className="flex justify-center w-full h-full mt-28 p-8">
@@ -73,43 +138,55 @@ function Associe() {
               <div className='flex justify-between mt-6 '>
     <Label text="Type d'associés / Actionnaires"></Label>
     <div className="flex justify-between w-[700px]">
-    <Checkbox label="Personne physique" onChange={HandlePersonePhysique} checked={value.personne_physique}></Checkbox>
-    <Checkbox label="Personne morale" onChange={HandlePersoneMorale} checked={value.personne_morale}></Checkbox>
-    <Checkbox label="Personne morale etrangère/Etat" onChange={HandlePersoneEtrangere} checked={value.personne_etrangere}></Checkbox>
+    <Checkbox label="Personne physique" onChange={HandlePersonePhysique}  checked={Associe.personne_physique  }></Checkbox>
+    <Checkbox label="Personne morale" onChange={HandlePersoneMorale} checked={Associe.personne_morale}></Checkbox>
+    <Checkbox label="Personne morale etrangère/Etat" onChange={HandlePersoneEtrangere} checked={Associe.personne_etrangere }></Checkbox>
     </div>
   </div>
-  {value.personne_physique===true && (
+  {Associe.personne_physique===true && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={Actionnaire.nom_actionnaire}
+      onChange={(e)=>{setActionnaire({...Actionnaire , nom_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Fonction"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Actionnaire.fonction_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , fonction_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Resident  " />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>setValue({ ...value , resident: true})} checked={value.resident == true}></Checkbox>
-    <Checkbox label="Non" onChange={()=>setValue({...value , resident: false})} checked={value.resident == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=>setAssocie({ ...Associe , resident: true})} checked={Associe.resident == true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>setAssocie({...Associe , resident: false})} checked={Associe.resident == false}></Checkbox>
     </div>
     </div>
-    { value.resident == true && (
+    { Associe.resident == true && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numero CIN"></Label>
-<Input type="text"></Input>
+<Input type="text"
+ value={Actionnaire.cin_passeport_actionnaire}
+ onChange={(e)=>{setActionnaire({...Actionnaire , cin_passeport_actionnaire : e.target.value })}}
+></Input>
       </div>
       </>
     )
 
     }
-    { value.resident == false && (
+    { Associe.resident == false && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numéro Passeport ou Carte Résident"></Label>
-<Input type="text"></Input>
+<Input type="text"
+ value={Actionnaire.cin_passeport_actionnaire}
+ onChange={(e)=>{setActionnaire({...Actionnaire , cin_passeport_actionnaire : e.target.value })}}
+></Input>
       </div>
       </>
     )
@@ -117,21 +194,27 @@ function Associe() {
     }
     <div className="flex justify-between mt-6">
       <Label text="Adresse"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Actionnaire.adresse_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , adresse_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Autre activité " />
       <div className="flex justify-between w-[300px]">
-    <Checkbox label="Avec RF" onChange={(checked:boolean)=> setValue({...value , avec_rf : checked})} checked={value.avec_rf} ></Checkbox>
-    <Checkbox label="Salarié" onChange={(checked:boolean)=>setValue({...value , salarie: checked})} checked={value.salarie}></Checkbox>
-    <Checkbox label="Aucune " onChange={(checked: boolean)=> setValue({...value , aucune: checked})} checked={value.aucune}></Checkbox>
+    <Checkbox label="Avec RF" onChange={(checked:boolean)=> setAssocie({...Associe , avec_rf : checked})} checked={Associe.avec_rf} ></Checkbox>
+    <Checkbox label="Salarié" onChange={(checked:boolean)=>setAssocie({...Associe , salarie: checked})} checked={Associe.salarie}></Checkbox>
+    <Checkbox label="Aucune " onChange={(checked: boolean)=> setAssocie({...Associe , aucune: checked})} checked={Associe.aucune}></Checkbox>
     </div>
     </div>
-    { value.avec_rf === true && (
+    { Associe.avec_rf === true && (
       <> 
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Actionnaire.nif_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , nif_actionnaire : e.target.value })}}
+      ></Input>
     </div>  
       </>
     )
@@ -139,33 +222,48 @@ function Associe() {
     }
     <div className="flex justify-between mt-6">
       <Label text="E-mail"></Label>
-      <Input type="email"></Input>
+      <Input type="text"
+       value={Actionnaire.email_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , email_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Telephone"></Label>
-      <Input type="number"></Input>
+      <Input type="text"
+       value={Actionnaire.numero_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , numero_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     </>
   )}
-  { value.personne_etrangere === true && (
+  { Associe.personne_etrangere === true && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Actionnaire.nom_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , nom_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Adresse"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Actionnaire.adresse_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , adresse_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     </>
   )
 
   }
-   { value.personne_morale === true && (
+   { Associe.personne_morale === true && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+       value={Actionnaire.nif_actionnaire}
+       onChange={(e)=>{setActionnaire({...Actionnaire , nif_actionnaire : e.target.value })}}
+      ></Input>
     </div>
     
     </>
@@ -175,11 +273,11 @@ function Associe() {
               <div className="flex justify-between mt-6">
             <Label text="Associé unique" />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>{setValue({...value , associe_unique : true })}} checked={value.associe_unique == true}></Checkbox>
-    <Checkbox label="Non" onChange={()=>{setValue({...value , associe_unique : false })}} checked={value.associe_unique == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=>{setAssocie({...Associe , associe_unique : true })}} checked={Associe.associe_unique == true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>{setAssocie({...Associe , associe_unique : false })}} checked={Associe.associe_unique == false}></Checkbox>
     </div>
           </div>
-          { value.associe_unique === true && (
+          { Associe.associe_unique === true && (
             <>
             <div className="flex justify-between mt-6">
             <Label text="% Action ou" />
@@ -230,10 +328,10 @@ data={data}
 )} 
  <div className="flex justify-between mt-6">
          <div className="w-40">
-            <Button label="Précédent" onClick={()=>window.location.href = "/Associe"}></Button>
+            <Button label="Précédent" onClick={()=>navigate("/Siege")}></Button>
           </div>
           <div className="w-40">
-            <Button label="Suivant" onClick={()=>window.location.href = "/Etablissement"}></Button>
+            <Button label="Suivant" onClick={handleButtonClick}></Button>
           </div>
          </div>
 </div>

@@ -7,13 +7,38 @@ import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import { TiDocumentText } from "react-icons/ti";
 import { TitleH1, TitleH3 } from "../../../components/title";
+import { useState } from "react";
+import axios from "axios";
 
 function ImpressionDuplicataCessation() {
+  const [reference_fiscal , setReference_fiscal] = useState('');
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
   const data = [
     ["none", "none", "none", "none"],
    
   ];
+
+  
+const [Data , setData] = useState([])
+
+  // Fonction pour faire un  recherche d'un client avec référence fiscal
+const handleSearchClient = async () => {
+  const DataSearch ={
+  
+  "reference_fiscal": reference_fiscal,
+  
+  }
+  try {
+    // Make a POST request to your server endpoint
+    const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
+    setData(response.data);
+    // Check the response status or do something with the response
+    console.log("Server Response:", Data );
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+  }
+};
   const contentCard=(
       <div >
 
@@ -24,10 +49,13 @@ function ImpressionDuplicataCessation() {
 
 <div className="flex justify-between mt-6">
   <Label text="Référence Fiscal"></Label>
-<Input type="text"  className=" w-40"></Input>
+<Input type="text" 
+value={reference_fiscal}
+onChange={(e)=>setReference_fiscal(e.target.value)}
+className=" w-40"></Input>
 
 </div>
-<Button text="Trouver" className="mt-6"></Button>
+<Button onClick={handleSearchClient} text="Trouver" className="mt-6"></Button>
 </div>
 <div className="mt-10">
 <Table

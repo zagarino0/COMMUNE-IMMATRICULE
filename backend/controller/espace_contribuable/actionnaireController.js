@@ -10,10 +10,7 @@ const fsPromises = require('fs').promises;
 const setActionnaire = async (req, res) => {
 
 
-    const personne_physique = req.body.personne_physique;
-    const personne_morale = req.body.personne_morale;
-    const personne_morale_etrangere = req.body.personne_morale_etrangere;
-
+    const type = req.body.type;
     const nom_actionnaire = req.body.nom_actionnaire;
     const fonction_actionnaire = req.body.fonction_actionnaire;
 
@@ -38,9 +35,7 @@ const setActionnaire = async (req, res) => {
     const newActionnaire = {
         "id_actionnaire": id,
         "id_contribuable": id_contribuable,
-        "personne_physique": personne_physique,
-        "personne_morale": personne_morale,
-        "personne_morale_etragere": personne_morale_etrangere,
+        "type": type,
         "nom_actionnaire": nom_actionnaire,
         "fonction_actionnaire":fonction_actionnaire,
         "resident_actionnaire":resident_actionnaire,

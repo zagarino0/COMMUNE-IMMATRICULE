@@ -2,7 +2,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ErrorPage from "./pages/Error";
 import LoginPage from "./pages/login";
-import ResgisterPage from "./pages/register";
 import DemandeDeMAJPage from "./pages/validation/demandeDeMAJ/DemandNifValide";
 import MAJRenseignementPage from "./pages/majRenseignement/majRenseignement";
 import DemandeDeNIFAValiderPage from "./pages/validation/demandeDeNIFAValider/DemandeDeNIFAValider";
@@ -74,6 +73,18 @@ import ListeProtocolaire from "./pages/etat/ListeProtocolaire/ListeProtocolaire"
 import EtatpaimentMobile from "./pages/etat/EtatPaimentMobile/EtatpaimentMobile";
 import ListePaimentMobileBanking from "./pages/etat/EtatPaimentMobile/ListePaimentMobileBanking";
 import RecuperationDeclarationMobileBaking from "./pages/etat/EtatPaimentMobile/RecuperationDeclarationMobileBaking";
+import { ResgisterPage } from "./pages/register";
+import ActivitePersPysique from "./pages/register/ActivitePersMoral";
+import SiegePersPhysique from "./pages/register/SiegePersPhysique";
+import AutrePersPhysique from "./pages/register/AutrePersPhysique";
+import ListeContribuableSuspendu from "./pages/etat/ListeContribuableSuspendu/ListeContribuableSuspendu";
+import ListeContribuableRadie from "./pages/etat/ListeContribuableRadie/ListeContribuableRadie";
+import ListeDemandeImmatriculationRejete from "./pages/etat/ListeDemandeImmatriculationRejete/ListeDemandeImmatriculationRejete";
+import ListeDemandeMJRRejete from "./pages/etat/ListeDemandeMJRRejete/ListeDemandeMJRRejete";
+import ListeContribuableNouvellementImmatricule from "./pages/etat/ListeContribuableNouvellementImmatricule/ListeContribuableNouvellementImmatricule";
+import ListeAttestation from "./pages/etat/ListeAttestation/ListeAttestation";
+import ListeCarteRegularite from "./pages/etat/ListeCarteRegularite/ListeCarteRegularite";
+import ListeUtilisateur from "./pages/etat/ListeUtlisateur/ListeUtilisateur";
 function App() {
   
   return (
@@ -156,7 +167,19 @@ function App() {
         <Route path="/EtatpaimentMobile" element={<EtatpaimentMobile/>}></Route>
         <Route path="/ListePaimentMobileBanking" element={<ListePaimentMobileBanking/>}></Route>
         <Route path="/RecuperationDeclarationMobileBaking" element={<RecuperationDeclarationMobileBaking/>}></Route>
+        <Route path="/ActivitePersPysique" element={<ActivitePersPysique/>}></Route>
+        <Route path="/SiegePersPhysique" element={<SiegePersPhysique/>}></Route>
+        <Route path="/AutrePersPhysique" element={<AutrePersPhysique/>}></Route>
+        <Route path="/ListeContribuableSuspendu" element={<ListeContribuableSuspendu/>}></Route>
+        <Route path="/ListeContribuableRadie" element={<ListeContribuableRadie/>}></Route>*
+        <Route path="/ListeDemandeImmatriculationRejete" element={<ListeDemandeImmatriculationRejete/>}></Route>
+        <Route path="/ListeDemandeMJRRejete" element={<ListeDemandeMJRRejete/>}></Route>
+        <Route path="/ListeContribuableNouvellementImmatricule" element={<ListeContribuableNouvellementImmatricule/>}></Route>
+        <Route path="/ListeAttestation" element={<ListeAttestation/>}></Route>
+        <Route path="/ListeCarteRegularite" element={<ListeCarteRegularite/>}></Route>
+        <Route path="/ListeUtilisateur" element={<ListeUtilisateur/>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>        
+
       </Routes>
     </Router>
     </>

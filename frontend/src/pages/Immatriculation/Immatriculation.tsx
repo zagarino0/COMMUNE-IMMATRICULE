@@ -7,25 +7,70 @@ import { ImPrinter } from "react-icons/im";
 import { GoDot } from "react-icons/go";
 import { TfiWrite } from "react-icons/tfi";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ModalLogin } from "../Home/Modal/ModalLogin";
 function Immatriculation() {
+  const printRef = useRef<HTMLDivElement>(null);
   const [isModal , setIsModal] = useState(false);
-    const content =(
-        <div className="flex justify-between ">
-        <Link to="/"><a href="#" className="font-semibold flex flex-row "><p className="text-3xl text-[#959824]  ">E</p><p className="text-3xl">-mmatriculation</p></a></Link>
-         <div className="flex justify-between py-3 w-[350px]">
-         <a href="#" className="font-[Tara]  hover:border-b-2 hover:border-[#959824]">Immatriculation</a>
-         <a href="https://www.impots.mg" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2 ">Site DGI</a>
-         <a href="#" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2">Contact</a>
-         </div>
-         <div className="w-[180px]">
-         <Button label="Se connecter" onClick={()=> setIsModal(true)} icon={CiLogin } ></Button>
-         </div>
-        </div>
-    )
+  const content = (
+    <div className="flex justify-between ">
+      <Link to="/" className="flex justify-start">
+        <span className="font-semibold flex flex-row">
+          <p className="text-3xl text-[#959824]  ">E</p>
+          <p className="text-3xl">-mmatriculation</p>
+        </span>
+      </Link>
+      <div className="flex justify-between py-3 w-[350px]">
+        <span className="font-[Tara] hover:border-b-2 hover:border-[#959824]">
+          Immatriculation
+        </span>
+        <a
+          href="https://www.impots.mg"
+          className="font-[Tara] hover:border-b-2 hover:border-[#959824] ml-2"
+        >
+          Site DGI
+        </a>
+        <a
+          href="#"
+          className="font-[Tara] hover:border-b-2 hover:border-[#959824] ml-2"
+        >
+          Contact
+        </a>
+      </div>
+      <div className="w-[180px]">
+        <Button
+          label="Se connecter"
+          onClick={() => setIsModal(true)}
+          icon={CiLogin}
+        ></Button>
+      </div>
+    </div>
+  );
    
-   
+  const handlePrint = () => {
+    if (printRef.current) {
+      const content = printRef.current.innerHTML;
+      const originalContent = document.body.innerHTML;
+  
+      // Ajoutez une feuille de style pour l'impression
+      const printStyle = document.createElement('style');
+      printStyle.innerHTML =
+        '@media print { body { visibility: hidden; } .print-content { visibility: visible; } }';
+      document.head.appendChild(printStyle);
+  
+      document.body.innerHTML = `<div class="print-content">${content}</div>`;
+  
+      window.print();
+  
+      // Supprimez la feuille de style après l'impression
+      document.head.removeChild(printStyle);
+  
+      // Restaurez le contenu original après l'impression
+      document.body.innerHTML = originalContent;
+      window.location.reload();
+    }
+  };
+  
   return (
     <div className=" w-full h-full bg-gray-200 ">
       <ModalLogin isOpen={isModal} onClose={()=> setIsModal(false)} quitter={()=> setIsModal(false)}></ModalLogin>
@@ -49,8 +94,8 @@ function Immatriculation() {
        
        </div>
         </div>
-        <div className="bg-white shadow-b-xl rounded flex px-8 w-[800px] h-[1480px] py-8 mt-8">
-          <div className="flex flex-col">
+        <div  className="bg-white shadow-b-xl rounded flex flex-col px-8 w-[800px] h-[1480px] py-8 mt-8">
+          <div ref={printRef} className="flex flex-col">
           <div className="flex flex-col">
           <h1 className="text-2xl text-center font-[Tara]    flex flex-row">Pièces à présenter pour l'obtention du RF :</h1>
           <h1 className="text-2xl text-center font-[Tara] text-gray-800/70 mt-8  flex flex-row">Pour les personnes physiques</h1>
@@ -85,11 +130,11 @@ function Immatriculation() {
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Référence de la demande</h1>
                   
           </div>
-          <div className="w-[200px] mt-8">
-         <Button label="Imprimer tout" onClick={()=> window} icon={ImPrinter  } ></Button>
-         </div>
-          </div>
          
+          </div>
+          <div className="w-[200px] mt-8">
+         <Button label="Imprimer tout" onClick={()=>handlePrint()} icon={ImPrinter  } ></Button>
+         </div>
         </div>
         
         <div className="bg-white shadow-b-xl rounded flex justify-center w-[800px] h-[450px]  px-8  py-8 mt-8">
