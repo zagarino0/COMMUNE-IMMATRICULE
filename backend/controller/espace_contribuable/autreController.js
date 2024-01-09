@@ -3,6 +3,8 @@ const data = {
     setAutres: function (data) { this.autres = data }
 }
 
+const fsPromises = require('fs').promises;
+
 const setAutres = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const id_autre = data.autres.length === 0 ? 0 : data.autres[data.autres.length - 1].id_autre + 1;
