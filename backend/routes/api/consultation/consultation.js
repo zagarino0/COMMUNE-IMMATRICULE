@@ -13,7 +13,8 @@ router.route('/contribuable/avalide')
     .post(consultationController.getListeDemandeAValideByAll);
 
 router.route('/contribuable/miseajouravalide')
-    .get(consultationController.getListeMiseAJourAValide);
+    .get(consultationController.getListeMiseAJourAValide)
+    .post(consultationController.getListeMiseAJourAValideByAll);
 
 
 module.exports = router;
