@@ -9,7 +9,7 @@ const fsPromises = require('fs').promises;
 
 const setSiege = async (req, res) => {
 
-    const id = data.datas.length === 0 ? 1 : data.datas[data.datas.length - 1];
+    const id = data.datas.length === 0 ? 1 : data.datas[data.datas.length - 1].id_siege + 1;
     const id_contribuable = req.body.id_contribuable;
     const adresse_actuelle = req.body.adresse_actuelle;
     const fokontany = req.body.fonkotany;

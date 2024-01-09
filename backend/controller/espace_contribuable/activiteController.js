@@ -1,5 +1,5 @@
 const data = {
-    activites: require('../../model/model_temp/contribuable.json'),
+    activites: require('../../model/model_temp/activite.json'),
     setActivites: function(data) { this.activites = data},
     actives: require('../../model/activite.json')
 }

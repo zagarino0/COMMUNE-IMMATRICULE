@@ -1,5 +1,5 @@
 const data = {
-    actionnaires: require('../../model/model_temp/contribuable.json'),
+    actionnaires: require('../../model/model_temp/actionnaire.json'),
     setActionnaires: function(data) {this.contribuables = data},
     actions: require('../../model/actionnaire.json')
 }
@@ -19,7 +19,7 @@ const setActionnaire = async (req, res) => {
     const adresse_actionnaire = req.body.adresse_actionnaire;
     const autre_activite_actionnaire = req.body.autre_activite_actionnaire;
 
-    const id = data.actionnaires.length === 0 ? 1 : data.actionnaires[data.actionnaires.length - 1].id + 1;
+    const id = data.actionnaires.length === 0 ? 1 : data.actionnaires[data.actionnaires.length - 1].id_actionnaire + 1;
 
     const id_contribuable = req.body.id_contribuable;
 

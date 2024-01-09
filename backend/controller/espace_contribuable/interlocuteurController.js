@@ -8,7 +8,7 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setInterlocuteur = async (req, res) => {
-    const id = data.interlocuteurs.length === 0 ? 1 : data.interlocuteurs[data.interlocuteurs.length - 1].id + 1;
+    const id = data.interlocuteurs.length === 0 ? 1 : data.interlocuteurs[data.interlocuteurs.length - 1].id_interlocuteur + 1;
     const id_contribuable = req.body.id_contribuable;
     const nom_interlocuteur = req.body.nom_interlocuteur;
     const titre_interlocuteur = req.body.titre_interlocuteur;

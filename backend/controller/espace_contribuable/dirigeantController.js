@@ -9,7 +9,7 @@ const fsPromises = require('fs').promises;
 
 const setDirigeant = async (req, res) => {
     
-    const id = data.dirigeants.length === 0 ? 1 : data.dirigeants[data.dirigeants[data.dirigeants.length - 1]].id + 1;
+    const id = data.dirigeants.length === 0 ? 1 : data.dirigeants[data.dirigeants[data.dirigeants.length - 1]].id_dirigeant + 1;
 
     const nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
     
