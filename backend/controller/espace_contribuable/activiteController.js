@@ -34,7 +34,7 @@ const setActivite = async (req, res) => {
         "nif": nif
     }
 
-    data.setActivite([...data.activites, newActivite]);
+    data.setActivites([...data.activites, newActivite]);
     res.json(data.activites);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
