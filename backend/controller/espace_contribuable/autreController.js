@@ -11,7 +11,7 @@ const setAutres = async (req, res) => {
     const certification = req.body.certification;
 
     const autre = {
-        'id_autre': id,
+        'id_autre': id_autre,
         'id_contribuable': id_contribuable,
         'information_mail': information_mail,
         'depassement_12_mois': depaseement_12_mois,
