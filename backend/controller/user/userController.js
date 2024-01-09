@@ -7,6 +7,10 @@ const getAllUserActif = (req, res) => {
     res.json(data.users.filter(use => use.actif));
 }
 
+const getAllUserInactif = (req, res) => {
+    res.json(data.users.filter(use => !use.actif))
+}
+
 const desactivationUser = async (req, res) => {
     const code = req.body.code;    
     const user = data.users.find(use => use.code === code && use.actif);
@@ -48,5 +52,6 @@ const reactivationUser = async (req, res) => {
 module.exports = {
     getAllUserActif,
     desactivationUser,
-    reactivationUser
+    reactivationUser,
+    getAllUserInactif
 }

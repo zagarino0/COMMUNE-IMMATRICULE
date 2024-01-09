@@ -11,4 +11,7 @@ router.route('/reactivation')
 router.route('/desactivatin')
     .post(userController.desactivationUser);
 
+router.route('/inactif')
+    .get(userController.getAllUserInactif);
+
 module.exports = router;
