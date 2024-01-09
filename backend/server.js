@@ -41,6 +41,9 @@ app.use('/activite', require('./routes/api/contribuable/activite'));
 app.use('/siege', require('./routes/api/contribuable/siege'));
 app.use('/autre', require('./routes/api/contribuable/autre'));
 
+//user
+app.use('/user', require('./routes/api/user/user'));
+
 //Espace Administrateur
 app.use('/client', require('./routes/api/client/client'));
 app.use('/assujetissement', require('./routes/api/client/assujetissement'));

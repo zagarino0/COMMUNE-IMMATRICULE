@@ -12,20 +12,20 @@ const path = require('path');
 
 
 const handleLogin = async (req, res) => {
-    const {user, pwd} = req.body;
-    if(!user || !pwd) return res.status(400).json({'message': 'Username and Password are required'});
-    const foundUser = data.users.find(person => person.username === user);
+    const {code, pwd} = req.body;
+    if(!code || !pwd) return res.status(400).json({'message': 'code and Password are required'});
+    const foundUser = data.users.find(person => person.code === code);
     if(!foundUser) return res.sendStatus(401); //Unauthorized
     // evaluate password
     const match = await bcrypt.compare(pwd, foundUser.password);
     if(match){
         const accessToken = jwt.sign(
-            {"username": foundUser.username},
+            {"code": foundUser.code},
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '30s' }
         );
         const refreshToken = jwt.sign(
-            {"username": foundUser.username},
+            {"code": foundUser.code},
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
