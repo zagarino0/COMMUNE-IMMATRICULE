@@ -39,6 +39,7 @@ app.use('/dirigeant', require('./routes/api/contribuable/dirigeant'));
 app.use('/interlocuteur', require('./routes/api/contribuable/interlocuteur'));
 app.use('/activite', require('./routes/api/contribuable/activite'));
 app.use('/siege', require('./routes/api/contribuable/siege'));
+app.use('/autre', require('./routes/api/contribuable/autre'));
 
 //Espace Administrateur
 app.use('/client', require('./routes/api/client/client'));

@@ -16,5 +16,4 @@ router.route('/contribuable/miseajouravalide')
     .get(consultationController.getListeMiseAJourAValide)
     .post(consultationController.getListeMiseAJourAValideByAll);
 
-
 module.exports = router;

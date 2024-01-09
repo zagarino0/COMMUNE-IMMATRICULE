@@ -23,6 +23,8 @@ const data = {
     setSiegeTemps: function (data) { this.siegeTemps = data },
     validationTemps: require('../../model/model_temp/validation.json'),
     setValidationTemps: function (data) { this.validationTemps = data },
+    autresTemps: require('../../model/model_temp/autre.json'),
+    setAutresTemps: function (data) { this.autresTemps = data },
     
     //real model
     actionnaires: require('../../model/actionnaire.json'),
@@ -35,6 +37,8 @@ const data = {
     setInterlocuteur: function (data) { this.interlocuteur = data },
     siege: require('../../model/siege.json'),
     setSiege: function (data) { this.siege = data },
+    autres: require('../../model/autre.json'),
+    setAutres: function (data) {this.autres = data},
 
     //Rejet
     rejetContribuable: require('../../model/model_delete/contribuable.json'),
@@ -42,6 +46,8 @@ const data = {
     rejetActionnaire: require('../../model/model_delete/actionnaire'),
     setRejetActionnaire: function (data) { this.rejetActionnaire  = data },
     rejetActivite: require('../../model/model_delete/activite.json'),
+    setRejetActivite: function (data) {this.rejetActivite = data},
+    rejetAutres: require('../../model/model_delete/autre.json')
 
 }
 
@@ -200,6 +206,12 @@ const validationContribuable = async (req, res) => {
     data.setSiegeTemps(filteredSiege);
     data.setSiege([...data.siege, siege]);
 
+    //autre
+    const autre = data.autresTemps.find(aut => aut.id_contribuable === contribuable.id);
+    const filteredAutres = data.autresTemps.filter(aut => aut.id_contribuable !== contribuable.id);
+    data.setAutresTemps(filteredAutres);
+    data.setAutres([...data.autres, autre]);
+
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
@@ -248,6 +260,14 @@ const validationContribuable = async (req, res) => {
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'siege.json'),
         JSON.stringify(data.siegeTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'autre.json'),
+        JSON.stringify(data.autresTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'autre.json'),
+        JSON.stringify(data.autres)
     )
 
     res.json({"message": `Le contribuable dont l'id ${contribuable.id} est validé`});
