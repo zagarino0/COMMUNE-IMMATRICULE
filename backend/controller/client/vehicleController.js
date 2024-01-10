@@ -11,13 +11,13 @@ const getAllVehicles = (req, res) => {
     res.json(data.vehicles);
 }
 
-
 //-------------function to add new vehicle---------------
 const addNewVehicle = async (req, res) => {
     
-    const newVehicle = {
+    const id_vehicule = data.vehicles.length === 0 ? 1 : data.vehicles[data.vehicles.length - 1].id_vehicule + 1
 
-        "id": data.vehicles[data.vehicles.length - 1 ].id + 1 || 1,
+    const newVehicle = {
+        "id_vehicule": id_vehicule,
         "numero_immatriculation": req.body.numimmatriculation_v,
         "marque": req.body.marque_v,
         "type": req.body.type_v,
@@ -41,18 +41,15 @@ const addNewVehicle = async (req, res) => {
         "age": req.body.age_v
 
     }
-
     if(!newVehicle.numero_immatriculation || !newVehicle.marque){
         return res.status(400).json({'message': 'immatriculation and marq are required'})
     }
-
     data.setVehicles([...data.vehicles, newVehicle]);
     
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
-        JSON.stringify(data.clients)
+        JSON.stringify(data.vehicles)
     )
-
     res.json(data.vehicles);
 }
 
@@ -94,7 +91,7 @@ const updateVehicle = async (req, res) => {
     
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
-        JSON.stringify(data.clients)
+        JSON.stringify(data.vehicles)
     )
     
     res.json(data.vehicles);
@@ -114,7 +111,7 @@ const deleteVehicle = async (req, res) => {
     data.setVehicles([...filteredArray]);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
-        JSON.stringify(data.clients)
+        JSON.stringify(data.vehicles)
     )
     res.json(data.vehicles);
 }
