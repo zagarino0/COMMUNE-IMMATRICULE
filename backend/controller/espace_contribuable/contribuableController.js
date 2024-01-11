@@ -66,8 +66,8 @@ const fsPromises = require('fs').promises;
 const setContribuable = async (req, res) => {
 
     const id = req.body.id;
-    const reference_fiscal = data.contribs.length === 0 ? 1 : data.contribs[data.contribs.length - 1].id + 1;
-    const nombre_zero = ( data.contribs.length < 10 ) ? '00000000' : ((data.contribs.length >= 10 && data.contribs.length < 100) ? '0000000' : ((data.contribs.length >= 100 && data.contribs.length < 1000) ? '000000' : ((data.contribs.length >= 1000 && data.contribs.length < 10000) ? '00000' : ((data.contribs.length >= 10000 && data.contribs.length < 100000) ? '0000' : ((data.contribs.length >= 100000 && data.contribs.length < 1000000) ? '000' : ((data.contribs.length >= 1000000 && data.contribs.length < 10000000) ? '00' : ((data.contribs.length >= 10000000 && data.contribs.length < 100000000) ? '0' : '')))))));
+    const reference_fiscal = data.contribuables.length === 0 ? 1 : data.contribuables[data.contribuables.length - 1].id + 1;
+    const nombre_zero = ( data.contribuables.length < 10 ) ? '00000000' : ((data.contribuables.length >= 10 && data.contribuables.length < 100) ? '0000000' : ((data.contribuables.length >= 100 && data.contribuables.length < 1000) ? '000000' : ((data.contribuables.length >= 1000 && data.contribuables.length < 10000) ? '00000' : ((data.contribuables.length >= 10000 && data.contribuables.length < 100000) ? '0000' : ((data.contribuables.length >= 100000 && data.contribuables.length < 1000000) ? '000' : ((data.contribuables.length >= 1000000 && data.contribuables.length < 10000000) ? '00' : ((data.contribuables.length >= 10000000 && data.contribuables.length < 100000000) ? '0' : '')))))));
     
     const newContribuable = {
         "id": id,
