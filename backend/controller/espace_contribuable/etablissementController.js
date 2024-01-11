@@ -58,7 +58,7 @@ const setEtablissements = async (req, res) => {
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'etablissement.json'),
-        JSON.stringify(data.autres)
+        JSON.stringify(data.etablissements)
     )
 
         res.json({'success': 'enregistrement effectuée'});
