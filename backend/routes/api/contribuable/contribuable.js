@@ -42,4 +42,7 @@ router.route('/miseenveille')
 router.route('/reveille')
     .post(contribuableController.reveilleContribuable);
 
+router.route('/:id')
+    .get(contribuableController.getContribuableById);
+
 module.exports = router;

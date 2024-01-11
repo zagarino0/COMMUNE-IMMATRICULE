@@ -25,6 +25,8 @@ const data = {
     setValidationTemps: function (data) { this.validationTemps = data },
     autresTemps: require('../../model/model_temp/autre.json'),
     setAutresTemps: function (data) { this.autresTemps = data },
+    etablissementsTemps: require('../../model/model_temp/etablissement.json'),
+    setEtablissementsTemps: function (data) { this.etablissementsTemps = data },
     
     //real model
     actionnaires: require('../../model/actionnaire.json'),
@@ -39,6 +41,8 @@ const data = {
     setSiege: function (data) { this.siege = data },
     autres: require('../../model/autre.json'),
     setAutres: function (data) {this.autres = data},
+    etablissements: require('../../model/etablissement.json'),
+    setEtablissements: function (data) { this.etablissements = data },
 
     //Rejet
     rejetContribuable: require('../../model/model_delete/contribuable.json'),
@@ -47,8 +51,9 @@ const data = {
     setRejetActionnaire: function (data) { this.rejetActionnaire  = data },
     rejetActivite: require('../../model/model_delete/activite.json'),
     setRejetActivite: function (data) {this.rejetActivite = data},
-    rejetAutres: require('../../model/model_delete/autre.json')
-
+    rejetAutres: require('../../model/model_delete/autre.json'),
+    setRejetAutres: function (data) { this.rejetAutres = data},
+    rejetEtablissements: require('../../model/model_delete/etablissement.json')
 }
 
 const bcrypt = require('bcrypt');
@@ -148,9 +153,67 @@ const authContribuable = (req, res) => {
     const id = req.body.id;
 
     const contribuable = data.contribs.map(con => con.id === id && con.mot_de_passe === mot_de_passe);
-
     if(!contribuable)
         return res.status(404).json({'message': 'contribuable introuvable'});
+
+    let actionnaires = [];
+    let activite = [];
+    let dirigeant = [];
+    let etablissement = [];
+    let interlocuteur = [];
+    let siege = [];
+    let autre = [];
+
+    data.contribs.map(con => {
+        data.actionnaires.map(act => {
+            if(con.id === id && act.id_contribuable === con.id)
+                actionnaires.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.activite.map(act => {
+            if(con.id === id && act.id_contribuable === con.id)
+                activite.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.dirigeant.map(dir => {
+            if(con.id === id && dir.id_contribuable === con.id)
+                dirigeant.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.etablissements.map(act => {
+            if(con.id === id && act.id_contribuable === con.id)
+                etablissement.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.interlocuteur.map(inter => {
+            if(con.id === id && inter.id_contribuable === con.id)
+                interlocuteur.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.siege.map(sie => {
+            if(con.id === id && sie.id_contribuable === con.id)
+                siege.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.autres.map(aut => {
+            if(con.id === id && aut.id_contribuable === con.id)
+                autre.push(act);
+        })
+    });
+
+    contribuable.actionnaire = actionnaires;
+    contribuable.activite = activite;
+    contribuable.siege = siege;
+    contribuable.interlocuteur = interlocuteur;
+    contribuable.etablissement = etablissement;
+    contribuable.autre = autre;
+    contribuable.dirigeant = dirigeant;
 
     res.json(contribuable);
 }
@@ -571,6 +634,74 @@ const reveilleContribuable = async (req, res) => {
     res.json({'success': 'Mise en veille du contribuable effectué'});
 }
 
+const getContribuableById = (req, res) => {
+    const id = data.params.id;
+    const contribuable = data.contribs.map(con => con.id === id);
+    if(!contribuable)
+        return res.status(404).json({'message': 'contribuable introuvable'});
+
+    let actionnaires = [];
+    let activite = [];
+    let dirigeant = [];
+    let etablissement = [];
+    let interlocuteur = [];
+    let siege = [];
+    let autre = [];
+
+    data.contribs.map(con => {
+        data.actionnaires.map(act => {
+            if(con.id === id && act.id_contribuable === con.id)
+                actionnaires.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.activite.map(act => {
+            if(con.id === id && act.id_contribuable === con.id)
+                activite.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.dirigeant.map(dir => {
+            if(con.id === id && dir.id_contribuable === con.id)
+                dirigeant.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.etablissements.map(act => {
+            if(con.id === id && act.id_contribuable === con.id)
+                etablissement.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.interlocuteur.map(inter => {
+            if(con.id === id && inter.id_contribuable === con.id)
+                interlocuteur.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.siege.map(sie => {
+            if(con.id === id && sie.id_contribuable === con.id)
+                siege.push(act);
+        })
+    });
+    data.contribs.map(con => {
+        data.autres.map(aut => {
+            if(con.id === id && aut.id_contribuable === con.id)
+                autre.push(act);
+        })
+    });
+
+    contribuable.actionnaire = actionnaires;
+    contribuable.activite = activite;
+    contribuable.siege = siege;
+    contribuable.interlocuteur = interlocuteur;
+    contribuable.etablissement = etablissement;
+    contribuable.autre = autre;
+    contribuable.dirigeant = dirigeant;
+
+    res.json(contribuable);
+}
+
 module.exports = {
     setContribuable,
     authContribuable,
@@ -585,5 +716,6 @@ module.exports = {
     rejetContribuable,
     rejetMiseAJourContribuable,
     miseEnVeilleuseContribuable,
-    reveilleContribuable
+    reveilleContribuable,
+    getContribuableById
 }
