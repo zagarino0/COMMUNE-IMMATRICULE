@@ -69,10 +69,12 @@ const setContribuable = async (req, res) => {
     const reference_fiscal = data.contribuables.length === 0 ? 1 : data.contribuables[data.contribuables.length - 1].id + 1;
     const nombre_zero = ( data.contribuables.length < 10 ) ? '00000000' : ((data.contribuables.length >= 10 && data.contribuables.length < 100) ? '0000000' : ((data.contribuables.length >= 100 && data.contribuables.length < 1000) ? '000000' : ((data.contribuables.length >= 1000 && data.contribuables.length < 10000) ? '00000' : ((data.contribuables.length >= 10000 && data.contribuables.length < 100000) ? '0000' : ((data.contribuables.length >= 100000 && data.contribuables.length < 1000000) ? '000' : ((data.contribuables.length >= 1000000 && data.contribuables.length < 10000000) ? '00' : ((data.contribuables.length >= 10000000 && data.contribuables.length < 100000000) ? '0' : '')))))));
     
+    const valeur_reference = reference_fiscal + "" + nombre_zero;
+
     const newContribuable = {
         "id": id,
         "raison_social": req.body.raisonsocial,
-        "reference_fiscal": nombre_zero + '' + reference_fiscal,
+        "reference_fiscal": valeur_reference,
         "type": req.body.type,
         "situation_matrimoiniale": req.body.situationmatrimoinial,
         "cin": req.body.cin,
