@@ -40,6 +40,7 @@ app.use('/interlocuteur', require('./routes/api/contribuable/interlocuteur'));
 app.use('/activite', require('./routes/api/contribuable/activite'));
 app.use('/siege', require('./routes/api/contribuable/siege'));
 app.use('/autre', require('./routes/api/contribuable/autre'));
+app.use('/etablissement', require('./routes/api/contribuable/etablissement'));
 
 //user
 app.use('/user', require('./routes/api/user/user'));
