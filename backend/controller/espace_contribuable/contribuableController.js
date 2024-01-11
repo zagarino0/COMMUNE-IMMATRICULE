@@ -220,6 +220,7 @@ const authContribuable = (req, res) => {
 
 const validationContribuable = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
+    const mot_de_passe = req.body.mot_de_passe;
 
     const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
     if(!contribuable)
@@ -227,7 +228,8 @@ const validationContribuable = async (req, res) => {
 
     //effacement du contribuable du données temporaire et migration du données dans la base réel
     const filteredArray = data.contribuables.filter(con => con.reference_fiscal !== reference_fiscal);
-    contribuaable.actif = true;
+    contribuable.actif = true;
+    contribuable.mot_de_passe = mot_de_passe;
 
     data.setContribuable(filteredArray);
     data.setContribs([...data.contribs, contribuable]);
