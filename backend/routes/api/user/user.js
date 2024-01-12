@@ -14,4 +14,16 @@ router.route('/desactivatin')
 router.route('/inactif')
     .get(userController.getAllUserInactif);
 
+router.route('/actif/code')
+    .post(userController.getUserActifByCode);
+
+router.route('/actif/:id_user')
+    .get(userController.getUserActifById);
+
+router.route('/inactif/code')
+    .post(userController.getUserInactifByCode);
+
+router.route('/inactif/:id_user')
+    .get(userController.getUserInactifById)
+
 module.exports = router;
