@@ -3,6 +3,9 @@ const data = {
     setCoordonnees: function (data) { this.coordonnees = data }
 }
 
+const fsPromises = require('fs').promises;
+const path = require('path');
+
 const setCoordonnees = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const longitude = req.body.longitude;
