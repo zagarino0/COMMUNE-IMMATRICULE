@@ -11,6 +11,38 @@ const getAllUserInactif = (req, res) => {
     res.json(data.users.filter(use => !use.actif))
 }
 
+const getUserActifById = (req, res) => {
+    const id_user = data.params.id_user;
+    const user = data.users.find(use => use.id === id_user && use.actif);
+    if(!user)
+        return res.status(400).json({'message': 'user not found'});
+    res.json(user);
+}
+
+const getUserActifByCode = (req, res) => {
+    const code = req.body.code;
+    const user = data.users.find(use => use.code === code && use.actif);
+    if(!user)
+        return res.status(400).json({'message': 'user not found'});
+    res.json(user);
+}
+
+const getUserInactifById = (req, res) => {
+    const id_user = data.params.id_user;
+    const user = data.users.find(use => use.id === id_user && !use.actif);
+    if(!user)
+        return res.status(400).json({'message': 'user not found'});
+    res.json(user);
+}
+
+const getUserInactifByCode = (req, res) => {
+    const code = req.body.code;
+    const user = data.users.find(use => use.code === code && !use.actif);
+    if(!user)
+        return res.status(400).json({'message': 'user not found'});
+    res.json(user);
+}
+
 const desactivationUser = async (req, res) => {
     const code = req.body.code;    
     const user = data.users.find(use => use.code === code && use.actif);
@@ -53,5 +85,9 @@ module.exports = {
     getAllUserActif,
     desactivationUser,
     reactivationUser,
-    getAllUserInactif
+    getAllUserInactif,
+    getUserActifById,
+    getUserActifByCode,
+    getUserInactifById,
+    getUserInactifByCode
 }

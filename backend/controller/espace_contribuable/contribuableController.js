@@ -537,7 +537,7 @@ const cessationActivite = async (req, res) => {
         'id_user': id_user,
         'motif': motif,
         'comment': comment,
-        'date_history': date_history
+        'date_history': new Date()
     }
 
     const filteredCessation = data.cessations.filter(ces => ces.id_contribuable !== contribuable.id);
@@ -585,6 +585,10 @@ const repriseActivite = async (req, res) => {
 const debloquageContribuable = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
 
+    const id_user = req.body.id_user;
+    const comment = req.body.comment;
+    const motif = req.body.motif;
+
     const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
     if (!contribuable)
         return res.status(400).json({ "message": "Contribuable introuvable" });
@@ -598,9 +602,25 @@ const debloquageContribuable = async (req, res) => {
 
     data.setModifications(unsortedModification.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
 
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': id_user,
+        'comment': comment,
+        'motif': motif,
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
         JSON.stringify(data.modifications)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
     )
 
     res.json({ 'success': 'Contribuable debloqué' });
@@ -694,6 +714,9 @@ const rejetMiseAJourContribuable = async (req, res) => {
 
 const miseEnVeilleuseContribuable = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
+    const comment = req.body.comment;
+    const motif = req.body.motif;
+    const id_user = req.body.id_user;
 
     const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal && con.actif);
     if (!contribuable)
@@ -704,9 +727,26 @@ const miseEnVeilleuseContribuable = async (req, res) => {
     const filteredContribuable = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
     data.setContribs([...filteredContribuable, contribuable]);
 
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': id_user,
+        'motif': motif,
+        'comment': comment,
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
+
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
         JSON.stringify(data.contribs)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
     )
 
     res.json({ 'success': 'Mise en veille du contribuable effectué' });
@@ -714,6 +754,9 @@ const miseEnVeilleuseContribuable = async (req, res) => {
 
 const reveilleContribuable = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
+    const comment = req.body.comment;
+    const motif = req.body.motif;
+    const id_user = req.body.id_user;
 
     const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal && !con.actif);
     if (!contribuable)
@@ -721,12 +764,30 @@ const reveilleContribuable = async (req, res) => {
 
     contribuable.actif = true;
 
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': id_user,
+        'motif': motif,
+        'comment': comment,
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
+
     const filteredContribuable = data.contribs.filter(con => con.reference_fiscal !== reference_fiscal);
     data.setContribs([...filteredContribuable, contribuable]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
         JSON.stringify(data.contribs)
+    )
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
     )
 
     res.json({ 'success': 'Mise en veille du contribuable effectué' });

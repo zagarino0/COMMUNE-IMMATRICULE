@@ -1,6 +1,8 @@
 const data = {
     vehicles: require("../../model/vehicule.json"),
-    setVehicles: function (data) { this.vehicles = data }
+    setVehicles: function (data) { this.vehicles = data },
+    history: require('../../model/history.json'),
+    setHistory: function (data) {this.history = data}
 };
 
 const path = require('path');
@@ -41,6 +43,20 @@ const addNewVehicle = async (req, res) => {
         "age": req.body.age_v
 
     }
+
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': newVehicle.id_vehicule,
+        'id_user': id_user,
+        'motif': motif,
+        'comment': comment,
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
+
     if(!newVehicle.numero_immatriculation || !newVehicle.marque){
         return res.status(400).json({'message': 'immatriculation and marq are required'})
     }
@@ -49,6 +65,10 @@ const addNewVehicle = async (req, res) => {
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
         JSON.stringify(data.vehicles)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
     )
     res.json(data.vehicles);
 }
@@ -85,6 +105,17 @@ const updateVehicle = async (req, res) => {
     if(req.body.zone_v) vehicle.zone = req.body.zone_v;
     if(req.body.age_v) vehicle.age = req.body.age_v;
 
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': vehicle.id_vehicule,
+        'id_user': id_user,
+        'motif': motif,
+        'comment': comment,
+        'date_history': new Date()
+    }
+
     const filteredArray = data.vehicles.filter(veh => veh.immatriculation !== req.body.immatriculation);
     const unsortedArray = [...filteredArray, vehicle];
     data.setVehicles(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
@@ -92,6 +123,10 @@ const updateVehicle = async (req, res) => {
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
         JSON.stringify(data.vehicles)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
     )
     
     res.json(data.vehicles);

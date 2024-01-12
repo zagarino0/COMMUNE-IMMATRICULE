@@ -45,6 +45,7 @@ app.use('/coordonnees', require('./routes/api/contribuable/coordonnees'));
 
 //user
 app.use('/user', require('./routes/api/user/user'));
+app.use('/action', require('./routes/api/user/action'));
 
 //Espace Administrateur
 app.use('/assujetissement', require('./routes/api/client/assujetissement'));
