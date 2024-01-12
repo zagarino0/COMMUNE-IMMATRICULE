@@ -225,8 +225,8 @@ const getListeDemandeAValideByAll = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
-        else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin){
-            contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
+        else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial){
+            contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
@@ -236,8 +236,8 @@ const getListeDemandeAValideByAll = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
-        else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin){
-            contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
+        else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial){
+            contribuable = data.contribuablesNonValide.find(con => con.cin === cin && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
@@ -247,8 +247,8 @@ const getListeDemandeAValideByAll = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
-        else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin){
-            contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
+        else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial){
+            contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
