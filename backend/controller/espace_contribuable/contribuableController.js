@@ -118,17 +118,6 @@ const setContribuable = async (req, res) => {
         "date_blockage": ""
     }
 
-    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
-
-    const history = {
-        'id_history': id_history,
-        'id_user': id_user,
-        'id_contribuable': newContribuable.id,
-        'comment': '',
-        'motif': 'validation contribuable',
-        'date_history': new Date()
-    }
-
     const id_cessation = data.cessations.length === 0 ? 1 : data.cessations[data.cessations.length - 1].id + 1;
     const cessation = {
         "id_cessation": id_cessation,
@@ -142,7 +131,6 @@ const setContribuable = async (req, res) => {
     data.setModifications([...data.modifications, modification]);
     data.setValidation([...data.validation, validation]);
     data.setCessations([...data.cessations, cessation]);
-    data.setHistory([...data.history, history]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
@@ -160,11 +148,6 @@ const setContribuable = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
         JSON.stringify(data.modifications)
     )
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'history.json'),
-        JSON.stringify(data.modifications)
-    )
-
     res.json(data.contribuables);
 }
 
