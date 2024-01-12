@@ -516,6 +516,9 @@ const validationMiseAJour = async (req, res) => {
 
 const cessationActivite = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
+    const motif = req.body.motif;
+    const comment = req.body.comment;
+    const id_user = req.body.id_user;
 
     const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
     if (!contribuable)
@@ -526,13 +529,29 @@ const cessationActivite = async (req, res) => {
     cessation.cessation = true;
     cessation.date_cessation = new Date();
 
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': id_user,
+        'motif': motif,
+        'comment': comment,
+        'date_history': date_history
+    }
+
     const filteredCessation = data.cessations.filter(ces => ces.id_contribuable !== contribuable.id);
     const unsortedCessation = [...filteredCessation, cessation];
     data.setCessations(unsortedCessation.sort((a, b) => a.id_cessation > b.id_cessation ? 1 : a.id_cessation < b.id_cessation ? -1 : 0));
+    data.setHistory([...data.history, history]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
         JSON.stringify(data.cessations)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
     )
 
     res.json({ 'message': 'Validation effectué' });
