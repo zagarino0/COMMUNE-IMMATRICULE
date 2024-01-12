@@ -95,7 +95,6 @@ const updateEtablissement = async (req, res) => {
     if(req.body.etablissement_autre_telephone) etablissement.etablissement_autre_telephone = req.body.etablissement_autre_telephone;
     if(req.body.etablissement_fax) etablissement.etablissement_fax = req.body.etablissement_fax;
     if(req.body.etablissement_email) etablissement.etablissement_email = req.body.etablissement_email;
-    if(req.body.etablissement_importateur) etablissement.etablissement_importateur = req.body.etablissement_importateur;
     if(req.body.etablissement_proprietaire_local) etablissement.etablissement_proprietaire_local = req.body.etablissement_proprietaire_local;
     if(req.body.etablissement_type_proprietaire) etablissement.etablissement_type_proprietaire = req.body.etablissement_type_proprietaire;
     if(req.body.etablissement_nif_proprietaire) etablissement.etablissement_nif_proprietaire = req.body.etablissement_nif_proprietaire;
