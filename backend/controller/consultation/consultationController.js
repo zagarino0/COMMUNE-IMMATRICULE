@@ -133,7 +133,8 @@ const getListeDemandeAValideByAll = (req, res) => {
             contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial){
-            contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
+            const adresse = data.siegeTemps.find(sie => sie.adresse_actuel === adresse);
+            contribuable = data.contribuablesNonValide.filter(con => con.id === adresse.id_contribuable);
             contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
@@ -141,7 +142,8 @@ const getListeDemandeAValideByAll = (req, res) => {
             contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
             contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
             contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.siege = adresse
+            
         }
     } else if(date_debut && !date_fin){
         const date = (new Date(date_debut)).setDate((new Date(date_debut)).getDate() + 7);
