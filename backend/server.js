@@ -41,6 +41,7 @@ app.use('/activite', require('./routes/api/contribuable/activite'));
 app.use('/siege', require('./routes/api/contribuable/siege'));
 app.use('/autre', require('./routes/api/contribuable/autre'));
 app.use('/etablissement', require('./routes/api/contribuable/etablissement'));
+app.use('/coordonnees', require('./routes/api/contribuable/coordonnees'));
 
 //user
 app.use('/user', require('./routes/api/user/user'));

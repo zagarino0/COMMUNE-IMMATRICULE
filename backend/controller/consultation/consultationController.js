@@ -1,8 +1,13 @@
 const data = {
+    //Real
     validations: require('../../model/validation.json'),
     contribuables: require('../../model/contribuable.json'),
     modifications: require('../../model/modificationContribuable.json'),
-    contribuablesNonValide: require('../../model/model_temp/contribuable.json')    
+    contribuablesNonValide: require('../../model/model_temp/contribuable.json'),
+    activites: require('../../model/activite.json'),
+    activiteTemps: require('../../model/model_temp/activite.json'),
+
+    //delete
 }
 
 
@@ -83,9 +88,6 @@ const getListeDemandeAValideByAll = (req, res) => {
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial){
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
         }
-        else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && nom_commercial){
-            contribuable = data.contribuablesNonValide.find(con => con.nom_commercial === nom_commercial)
-        }
     } else if(date_debut && !date_fin){
         const date = (new Date(date_debut)).setDate((new Date(date_debut)).getDate() + 7);
         if(reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial){
@@ -103,9 +105,6 @@ const getListeDemandeAValideByAll = (req, res) => {
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date){
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
         }
-        else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date){
-            contribuable = data.contribuablesNonValide.find(con => con.nom_commercial === nom_commercial)
-        }
     } else if(date_debut && date_fin){
         if(reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial){
             contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
@@ -121,9 +120,6 @@ const getListeDemandeAValideByAll = (req, res) => {
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin){
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
-        }
-        else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin){
-            contribuable = data.contribuablesNonValide.find(con => con.nom_commercial === nom_commercial)
         }
     } else {
         return res.status(400).json({'message': 'aucun contribuable'})
