@@ -52,6 +52,7 @@ const updateCoordonnees = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'coordonnees.json'),
         JSON.stringify(data.coordonnees)
     )  
+    res.json({'success': 'modification effectué'});
 }
 
 module.exports = {
