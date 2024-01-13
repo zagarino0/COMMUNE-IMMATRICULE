@@ -129,6 +129,9 @@ const setContribuable = async (req, res) => {
     data.setValidationTemps([...data.validationTemps, validation]);
     data.setCessations([...data.cessations, cessation]);
 
+
+    console.log(validation);
+    console.log(data.validation);
     res.json(data.contribuables);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
