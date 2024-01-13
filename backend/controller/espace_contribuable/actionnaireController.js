@@ -9,7 +9,6 @@ const fsPromises = require('fs').promises;
 
 const setActionnaire = async (req, res) => {
     const newActionnaire = req.body.actionnaire;
-    console.log(newActionnaire);
     data.setActionnaires([...data.actionnaires, ...newActionnaire]);
     res.json(data.actionnaires);
     await fsPromises.writeFile(

@@ -7,7 +7,7 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setEtablissements = async (req, res) => {
-    const etablissement = res.body.etablissement;
+    const etablissement = req.body.etablissement;
 
     data.setEtablissements([...data.etablissements, ...etablissement]);
 
