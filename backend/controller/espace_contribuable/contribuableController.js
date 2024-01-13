@@ -132,26 +132,29 @@ const setContribuable = async (req, res) => {
     data.setCessations([...data.cessations, cessation]);
 
 
+
+
+
     console.log(validation);
     console.log(data.validation);
     res.json(data.contribuables);
+
+    fs.writeFileSync(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    )
+    fs.writeFileSync(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),
+        JSON.stringify(data.validationTemps)
+    )
+    fs.writeFileSync(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
+        JSON.stringify(data.cessations)
+    )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
     )
-    fs.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
-        JSON.stringify(data.modifications)
-    )
-    fs.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),
-        JSON.stringify(data.validationTemps)
-    )
-    fs.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
-        JSON.stringify(data.cessations)
-    )
-    res.json(data.contribuables);
 }
 
 
