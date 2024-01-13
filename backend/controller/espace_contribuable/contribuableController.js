@@ -98,7 +98,7 @@ const setContribuable = async (req, res) => {
         "actif": false
     }
 
-    const id_validation = data.validation.length === 0 ? 1 : data.validation[data.validation.length - 1].id + 1;
+    const id_validation = data.validationTemps.length === 0 ? 1 : data.validationTemps[data.validationTemps.length - 1].id + 1;
 
     const validation = {
         "id_validation": id_validation,
@@ -124,12 +124,12 @@ const setContribuable = async (req, res) => {
         "cessation": false
     }
 
-
     data.setContribuable([...data.contribuables, newContribuable]);
     data.setModifications([...data.modifications, modification]);
     data.setValidationTemps([...data.validationTemps, validation]);
     data.setCessations([...data.cessations, cessation]);
 
+    res.json(data.contribuables);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
