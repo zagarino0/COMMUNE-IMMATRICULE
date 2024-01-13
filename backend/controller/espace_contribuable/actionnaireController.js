@@ -9,12 +9,13 @@ const fsPromises = require('fs').promises;
 
 const setActionnaire = async (req, res) => {
     const newActionnaire = req.body.actionnaire;
-    data.setActionnaires([...data.actionnaires, ...newActionnaire]);
-    res.json(data.actionnaires);
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'actionnaire.json'),
-        JSON.stringify(data.actionnaires)
-    )
+    console.log(newActionnaire);
+    // data.setActionnaires([...data.actionnaires, ...newActionnaire]);
+    // res.json(data.actionnaires);
+    // await fsPromises.writeFile(
+    //     path.join(__dirname, '..', '..', 'model', 'model_temp', 'actionnaire.json'),
+    //     JSON.stringify(data.actionnaires)
+    // )
 }
 
 const getActionnaireByIdContribuable = (req, res) => {

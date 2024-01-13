@@ -70,9 +70,9 @@ const setContribuable = async (req, res) => {
 
     const id = req.body.id;
     const reference_fiscal = data.contribuables.length === 0 ? 1 : data.contribuables[data.contribuables.length - 1].id + 1;
-    const nombre_zero = (data.contribuables.length < 10) ? '00000000' : ((data.contribuables.length >= 10 && data.contribuables.length < 100) ? '0000000' : ((data.contribuables.length >= 100 && data.contribuables.length < 1000) ? '000000' : ((data.contribuables.length >= 1000 && data.contribuables.length < 10000) ? '00000' : ((data.contribuables.length >= 10000 && data.contribuables.length < 100000) ? '0000' : ((data.contribuables.length >= 100000 && data.contribuables.length < 1000000) ? '000' : ((data.contribuables.length >= 1000000 && data.contribuables.length < 10000000) ? '00' : ((data.contribuables.length >= 10000000 && data.contribuables.length < 100000000) ? '0' : '')))))));
+    const nombre_zero = (data.contribuables.length < 10) ? '00000000000' : ((data.contribuables.length >= 10 && data.contribuables.length < 100) ? '0000000000' : ((data.contribuables.length >= 100 && data.contribuables.length < 1000) ? '000000000' : ((data.contribuables.length >= 1000 && data.contribuables.length < 10000) ? '00000000' : ((data.contribuables.length >= 10000 && data.contribuables.length < 100000) ? '0000000' : ((data.contribuables.length >= 100000 && data.contribuables.length < 1000000) ? '000000' : ((data.contribuables.length >= 1000000 && data.contribuables.length < 10000000) ? '00000' : ((data.contribuables.length >= 10000000 && data.contribuables.length < 100000000) ? '0000' : ((data.contribuables.length >= 100000000 && data.contribuables.length < 1000000000) ? '000' : ((data.contribuables.length >= 1000000000 && data.contribuables.length < 10000000000) ? '00' : ((data.contribuables.length >= 10000000000 && data.contribuables.length < 100000000000) ? '0' : ''))))))))));
 
-    const valeur_reference = reference_fiscal + "" + nombre_zero;
+    const valeur_reference = nombre_zero + "" + reference_fiscal;
 
     const newContribuable = {
         "id": id,
@@ -198,46 +198,53 @@ const validationContribuable = async (req, res) => {
 
     //Actionnaire
     const actionnaire = data.actionnairesTemps.find(act => act.id_contribuable === contribuable.id);
-    const filtederActionnaire = data.actionnairesTemps.filter(act => act.id_contribuable !== contribuable.id)
-    data.setActionnaireTemps(filtederActionnaire);
-    data.setActionnaire([...data.actionnaires, actionnaire]);
-
+    if(actionnaire) {
+        const filtederActionnaire = data.actionnairesTemps.filter(act => act.id_contribuable !== contribuable.id)
+        data.setActionnaireTemps(filtederActionnaire);
+        data.setActionnaire([...data.actionnaires, actionnaire]);   
+    }
     //dirigeant
     const dirigeant = data.dirigeantTemps.find(dir => dir.id_contribuable === contribuable.id);
+    if(dirigeant){
     const filteredDirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable !== contribuable.id);
     data.setDirigeantTemps(filteredDirigeant);
     data.setDirigeant([...data.dirigeant, dirigeant]);
-
+    }
     //activite
     const activite = data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+    if(activite){   
     const filteredActivite = data.activiteTemps.filter(act => act.id_contribuable !== contribuable.id);
     data.setActiviteTemps(filteredActivite);
     data.setActivite([...data.activite, activite]);
-
+    }
     //interlocuteur
     const interlocuteur = data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+    if(interlocuteur){
     const filteredInterlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable !== contribuable.id);
     data.setInterlocuteurTemps(filteredInterlocuteur);
     data.setInterlocuteur([...data.interlocuteur, interlocuteur]);
-
+    }
     //siege
     const siege = data.siegeTemps.find(sie => sie.id_contribuable === contribuable.id);
+    if(siege){  
     const filteredSiege = data.siegeTemps.filter(sie => sie.id_contribuable !== contribuable.id);
     data.setSiegeTemps(filteredSiege);
     data.setSiege([...data.siege, siege]);
-
+    }
     //etablissement
     const etablissement = data.etablissementsTemps.find(eta => eta.id_contribuable === contribuable.id);
+    if(etablissement){ 
     const filteredEtablissement = data.etablissementsTemps.filter(eta => eta.id_contribuable !== contribuable.id);
     data.setEtablissementsTemps(filteredEtablissement);
     data.setEtablissements([...data.etablissements, etablissement]);
-
+    }
     //autre
     const autre = data.autresTemps.find(aut => aut.id_contribuable === contribuable.id);
+    if(autre){  
     const filteredAutres = data.autresTemps.filter(aut => aut.id_contribuable !== contribuable.id);
     data.setAutresTemps(filteredAutres);
     data.setAutres([...data.autres, autre]);
-
+    }
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
