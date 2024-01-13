@@ -1,6 +1,6 @@
 const data = {
     dirigeants: require('../../model/model_temp/dirigeant.json'),
-    setDirigeants: function(data) {this.contribuables = data},
+    setDirigeants: function(data) {this.dirigeants = data},
     diriges: require('../../model/dirigeant.json')
 }
 

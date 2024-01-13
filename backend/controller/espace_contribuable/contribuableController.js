@@ -27,6 +27,8 @@ const data = {
     setAutresTemps: function (data) { this.autresTemps = data },
     etablissementsTemps: require('../../model/model_temp/etablissement.json'),
     setEtablissementsTemps: function (data) { this.etablissementsTemps = data },
+    coordonneeTemps: require('../../model/model_temp/coordonnees.json'),
+    setCoordonneesTemps: function (data) { this.coordonneeTemps = data },
 
     //real model
     actionnaires: require('../../model/actionnaire.json'),
@@ -43,6 +45,8 @@ const data = {
     setAutres: function (data) { this.autres = data },
     etablissements: require('../../model/etablissement.json'),
     setEtablissements: function (data) { this.etablissements = data },
+    coordonnees: require('../../model/coordonees.json'),
+    setCoordonnees: require('../../model/coordonnees.json'),
 
     //Rejet
     rejetContribuable: require('../../model/model_delete/contribuable.json'),
@@ -54,6 +58,8 @@ const data = {
     rejetAutres: require('../../model/model_delete/autre.json'),
     setRejetAutres: function (data) { this.rejetAutres = data },
     rejetEtablissements: require('../../model/model_delete/etablissement.json'),
+    rejetCoordonnees: require('../../model/model_delete/coordonnees.json'),
+    setRejetCoordonnees: function (data) { this.rejetCoordonnees = data },
 
     history: require('../../model/history.json'),
     setHistory: function (data) { this.history = data }
@@ -245,6 +251,13 @@ const validationContribuable = async (req, res) => {
     data.setAutresTemps(filteredAutres);
     data.setAutres([...data.autres, autre]);
     }
+    //coordonnees
+    const coordonnees = data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+    if(coordonnees){  
+        const filteredCoordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable !== contribuable.id);
+        data.setCoordonneesTemps(filteredCoordonnees);
+        data.setCoordonnees([...data.coordonnees, coordonnees]);
+    }
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
@@ -308,6 +321,14 @@ const validationContribuable = async (req, res) => {
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'etablissement.json'),
+        JSON.stringify(data.etablissements)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'coordonnees.json'),
+        JSON.stringify(data.etablissementsTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'coordonnees.json'),
         JSON.stringify(data.etablissements)
     )
 
