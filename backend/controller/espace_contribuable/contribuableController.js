@@ -61,8 +61,6 @@ const data = {
 
 const bcrypt = require('bcrypt');
 
-const random = require('../../utils/random');
-
 const path = require('path');
 const fsPromises = require('fs').promises;
 
@@ -105,7 +103,7 @@ const setContribuable = async (req, res) => {
     const validation = {
         "id_validation": id_validation,
         "id_contribuable": id,
-        "validation": false
+        "validite": false
     }
 
     const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
@@ -240,7 +238,7 @@ const validationContribuable = async (req, res) => {
 
     //validation vers les données réel
     const validation = data.validationTemps.find(val => val.id_contribuable === contribuable.id);
-    validation.validation = true;
+    validation.validite = true;
     const filterdValidation = data.validationTemps.filter(val => val.id_contribuable !== contribuable.id);
     data.setValidationTemps(filterdValidation);
     data.setValidation([...data.validation, validation]);
@@ -394,7 +392,7 @@ const updateContribuable = async (req, res) => {
             modification.date_blockage = new Date();
     };
 
-    validation.validation = false;
+    validation.validite = false;
 
     const filteredModif = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
     const unsortedModif = [...filteredModif, modification];
@@ -458,7 +456,7 @@ const validationMiseAJour = async (req, res) => {
         return res.status(400).json({ 'message': 'mise à jour introuvable' });
 
     const validation = data.validation.find(val => val.id_contribuable === mise_a_jour_contribuable.id);
-    validation.validation = true;
+    validation.validite = true;
 
     const filteredValidation = data.validation.filter(val => val.id_contribuable !== mise_a_jour_contribuable.id);
     const unsortedValidation = [...filteredValidation, validation];
