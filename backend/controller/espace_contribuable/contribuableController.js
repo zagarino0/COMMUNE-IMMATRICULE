@@ -140,11 +140,11 @@ const setContribuable = async (req, res) => {
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),
-        JSON.stringify(data.modifications)
+        JSON.stringify(data.validationTemps)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
-        JSON.stringify(data.modifications)
+        JSON.stringify(data.cessations)
     )
     res.json(data.contribuables);
 }
