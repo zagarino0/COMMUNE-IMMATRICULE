@@ -162,64 +162,13 @@ const authContribuable = (req, res) => {
     if (!contribuable)
         return res.status(404).json({ 'message': 'contribuable introuvable' });
 
-    let actionnaires = [];
-    let activite = [];
-    let dirigeant = [];
-    let etablissement = [];
-    let interlocuteur = [];
-    let siege = [];
-    let autre = [];
-
-    data.contribs.map(con => {
-        data.actionnaires.map(act => {
-            if (con.id === id && act.id_contribuable === con.id)
-                actionnaires.push(act);
-        })
-    });
-    data.contribs.map(con => {
-        data.activite.map(act => {
-            if (con.id === id && act.id_contribuable === con.id)
-                activite.push(act);
-        })
-    });
-    data.contribs.map(con => {
-        data.dirigeant.map(dir => {
-            if (con.id === id && dir.id_contribuable === con.id)
-                dirigeant.push(act);
-        })
-    });
-    data.contribs.map(con => {
-        data.etablissements.map(act => {
-            if (con.id === id && act.id_contribuable === con.id)
-                etablissement.push(act);
-        })
-    });
-    data.contribs.map(con => {
-        data.interlocuteur.map(inter => {
-            if (con.id === id && inter.id_contribuable === con.id)
-                interlocuteur.push(act);
-        })
-    });
-    data.contribs.map(con => {
-        data.siege.map(sie => {
-            if (con.id === id && sie.id_contribuable === con.id)
-                siege.push(act);
-        })
-    });
-    data.contribs.map(con => {
-        data.autres.map(aut => {
-            if (con.id === id && aut.id_contribuable === con.id)
-                autre.push(act);
-        })
-    });
-
-    contribuable.actionnaire = actionnaires;
-    contribuable.activite = activite;
-    contribuable.siege = siege;
-    contribuable.interlocuteur = interlocuteur;
-    contribuable.etablissement = etablissement;
-    contribuable.autre = autre;
-    contribuable.dirigeant = dirigeant;
+    contribuable.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === id);
+    contribuable.activite = data.activite.length === 0 ? [] : data.activite.filter(act => act.id_contribuable === id);
+    contribuable.siege = data.siege.length === 0 ? [] : data.siege.filter(act => act.id_contribuable === id);
+    contribuable.interlocuteur = data.interlocuteur.length === 0 ? [] : data.interlocuteur.filter(act => act.id_contribuable === id);
+    contribuable.etablissement = data.etablissements.length === 0 ? [] : data.etablissements.filter(act => act.id_contribuable === id);
+    contribuable.autre = data.autres.length === 0 ? [] : data.autres.filter(act => act.id_contribuable === id);
+    contribuable.dirigeant = data.dirigeant.length === 0 ? [] : data.dirigeant.filter(act => act.id_contribuable === id);
 
     res.json(contribuable);
 }
