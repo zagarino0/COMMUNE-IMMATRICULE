@@ -1,6 +1,6 @@
 const data = {
     actionnaires: require('../../model/model_temp/actionnaire.json'),
-    setActionnaires: function(data) {this.contribuables = data},
+    setActionnaires: function(data) {this.actionnaires = data},
     actions: require('../../model/actionnaire.json')
 }
 

@@ -1,6 +1,6 @@
 const data = {
     interlocuteurs: require('../../model/model_temp/interlocuteur.json'),
-    setInterlocuteurs: function(data) {this.contribuables = data},
+    setInterlocuteurs: function(data) {this.interlocuteurs = data},
     interlocs: require('../../model/interlocuteur.json')
 }
 
@@ -25,6 +25,8 @@ const setInterlocuteur = async (req, res) => {
         "telephone_interlocuteur": telephone_interlocuteur,
         "email_interlocuteur": email_interlocuteur
     }
+
+    console.log(newInterlocuteur);
 
     data.setInterlocuteurs([...data.interlocuteurs, newInterlocuteur]);
     res.json(data.interlocuteurs);
