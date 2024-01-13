@@ -100,7 +100,7 @@ const setContribuable = async (req, res) => {
         "actif": false
     }
 
-    const id_validation = data.validationTemps.length === 0 ? 1 : data.validationTemps[data.validationTemps.length - 1].id + 1;
+    const id_validation = data.validationTemps.length === 0 ? 1 : data.validationTemps[data.validationTemps.length - 1].id_validation + 1;
 
     const validation = {
         "id_validation": id_validation,
@@ -108,7 +108,7 @@ const setContribuable = async (req, res) => {
         "validite": false
     }
 
-    const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id + 1;
+    const id_modification = data.modifications.length === 0 ? 1 : data.modifications[data.modifications.length - 1].id_modification + 1;
 
     const modification = {
         "id_modification": id_modification,
@@ -118,7 +118,7 @@ const setContribuable = async (req, res) => {
         "date_blockage": ""
     }
 
-    const id_cessation = data.cessations.length === 0 ? 1 : data.cessations[data.cessations.length - 1].id + 1;
+    const id_cessation = data.cessations.length === 0 ? 1 : data.cessations[data.cessations.length - 1].id_cessation + 1;
     const cessation = {
         "id_cessation": id_cessation,
         "id_contribuable": id,
@@ -130,10 +130,6 @@ const setContribuable = async (req, res) => {
     data.setModifications([...data.modifications, modification]);
     data.setValidationTemps([...data.validationTemps, validation]);
     data.setCessations([...data.cessations, cessation]);
-
-
-
-
 
     console.log(validation);
     console.log(data.validation);
