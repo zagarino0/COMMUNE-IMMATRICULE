@@ -127,7 +127,7 @@ const setContribuable = async (req, res) => {
 
     data.setContribuable([...data.contribuables, newContribuable]);
     data.setModifications([...data.modifications, modification]);
-    data.setValidation([...data.validation, validation]);
+    data.setValidationTemps([...data.validationTemps, validation]);
     data.setCessations([...data.cessations, cessation]);
 
     await fsPromises.writeFile(
