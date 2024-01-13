@@ -64,6 +64,8 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const fsPromises = require('fs').promises;
 
+const fs = require('fs');
+
 const setContribuable = async (req, res) => {
 
     const id = req.body.id;
@@ -137,15 +139,15 @@ const setContribuable = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
     )
-    await fsPromises.writeFile(
+    fs.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
         JSON.stringify(data.modifications)
     )
-    await fsPromises.writeFile(
+    fs.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),
         JSON.stringify(data.validationTemps)
     )
-    await fsPromises.writeFile(
+    fs.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
         JSON.stringify(data.cessations)
     )
