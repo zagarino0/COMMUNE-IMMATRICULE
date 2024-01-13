@@ -1,5 +1,5 @@
 const data = {
-    coordonnees: require('../../model/model_temp/coordonees.json'),
+    coordonnees: require('../../model/model_temp/coordonnees.json'),
     setCoordonnees: function (data) { this.coordonnees = data }
 }
 

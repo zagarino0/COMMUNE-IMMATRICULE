@@ -6,7 +6,7 @@ const data = {
     activites: require('../../model/activite.json'),
     dirigeants: require('../../model/dirigeant.json'),
     actionnaires: require('../../model/model_temp/actionnaire.json'),
-    coordonnees: require('../../model/coordonees.json'),
+    coordonnees: require('../../model/coordonnees.json'),
     autres: require('../../model/autre.json'),
     etablissements: require('../../model/etablissement.json'),
     interlocuteurs: require('../../model/interlocuteur.json'),
@@ -19,7 +19,7 @@ const data = {
     interlocuteurTemps: require('../../model/model_temp/interlocuteur.json'),
     etablissementTemps: require('../../model/model_temp/etablissement.json'),
     autreTemps: require('../../model/model_temp/autre.json'),
-    coordonneeTemps: require('../../model/model_temp/coordonees.json'),
+    coordonneeTemps: require('../../model/model_temp/coordonnees.json'),
     dirigeantTemps: require('../../model/model_temp/dirigeant.json'),
     actionnaireTemps: require('../../model/model_temp/actionnaire.json')
 }
