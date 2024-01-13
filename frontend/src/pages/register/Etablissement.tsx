@@ -9,13 +9,21 @@ import { AiOutlineSave } from "react-icons/ai";
 import { MdOutlineZoomInMap, MdZoomOutMap } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { TitleH1, TitleH3 } from "../../components/title";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Etablissement() {
   const location = useLocation(); 
-   
+  let navigate = useNavigate();
+  const registrationData = localStorage.getItem("registrationData"); 
+  const parsedData = JSON.parse(registrationData as string);
+    
+  
+
+  const [entries, setEntries] = useState([]); // New state to hold the list of entries
+
   const [Etablissement , setEtablissment] = useState<{
+    id_contribuable: string ,
 nom_commercial:string,
 activite: string,
 titre:string,
@@ -33,9 +41,11 @@ email:string,
 exportateur:boolean,
 importateur:boolean,
 proprietaire_local: boolean,
-
+id:string
 
   }>({
+    id:"",
+    id_contribuable: parsedData.id,
     nom_commercial:"",
     activite: "",
     titre:"",
@@ -56,11 +66,110 @@ proprietaire_local: boolean,
     
   })
     const [add , setAdd] = useState(false);
-    const headers = ["Type association", "Nom association", "Fonction", "Résident", "N° CIN", "N° Passport", "Autra act.", "RF Pers. moral", "Nom Pers.physique", "Adresse", "Associe", "Action en"];
-    const data = [
-      ["none", "none", "none", "none"],
-     
-    ];
+    
+    const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+    useEffect(() => {
+      // Store Value data in localStorage
+      localStorage.setItem("etablissementData", JSON.stringify(entries));
+      // Reset the dummy state to trigger rerender
+      setIsStorageUpdated(false);
+    }, [isStorageUpdated ,entries]);
+    
+  
+      const handleButtonClick = () => {
+  
+      // Trigger a rerender by updating the dummy state
+      setIsStorageUpdated(true);
+        const routeToNavigate = "/Dirigeant";
+        console.log('Navigating to:', routeToNavigate);
+      
+        // Use navigate to navigate to the determined route
+        navigate(routeToNavigate, { state: { Etablissement } });
+       
+      };
+      // ... (your existing state definitions)
+    
+      const handleButtonClickSave = () => {
+      // Add the current entry to the list of entries
+               // Generate a new ID by incrementing the last entry's ID
+               const newId = entries.length > 0 ? parseInt(entries[entries.length - 1].id) + 1 : 1;
+
+               // Update the Actionnaire state with the new ID
+               setEtablissment((prevEtablissement) => ({
+                 ...prevEtablissement,
+                 id: newId.toString(),
+               }));
+           
+               // Add the current entry to the list of entries
+               setEntries((prevEntries) => [...prevEntries, { ...Etablissement, id: newId.toString() }]);
+           
+    
+        // Reset the Actionnaire state to clear the form
+        setEtablissment({
+          id_contribuable: parsedData.id,
+          nom_commercial:"",
+          activite: "",
+          titre:"",
+          date_ouverture:"",
+          adresse: "",
+          fokontany: "",
+          province: "",
+          region: "",
+          district: "",
+          commune:"",
+          telephone_1:"",
+          autre_telephone:"",
+          fax:"",
+          email:"",
+          exportateur:false,
+          importateur:false,
+          proprietaire_local: false,
+        });
+        setAdd(false); 
+      };
+    
+      const headers = [
+        "nom_commercial",
+        "activite",
+        "titre",
+        "date_ouverture",
+        "adresse",
+        "fokontany",
+        "province",
+        "region",
+        "district",
+        "commune",
+        "telephone_1",
+        "autre_telephone",
+        "fax",
+        "email",
+        "exportateur",
+        "importateur",
+        "proprietaire_local",
+      ];
+    
+      const data = entries.map((entry) => [
+        
+        entry.nom_commercial,
+        entry.activite,
+        entry.titre,
+        entry.date_ouverture,
+        entry.adresse,
+        entry.fokontany,
+        entry.province,
+        entry.region,
+        entry.district,
+        entry.commune,
+        entry.telephone_1,
+        entry.autre_telephone,
+        entry.fax,
+        entry.email,
+        entry.exportateur,
+        entry.importateur,
+        entry.proprietaire_local
+      ]);
+    
     
     const content = (
       
@@ -203,7 +312,7 @@ proprietaire_local: boolean,
     
           
           <div className="flex justify-center mt-6">
-          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+          <button onClick={handleButtonClickSave} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
           <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
           </div>
             </div>
@@ -243,10 +352,10 @@ data={data}
 )} 
  <div className="flex justify-between mt-6">
          <div className="w-40">
-            <Button label="Précédent" onClick={()=>window.location.href = "/Associe"}></Button>
+            <Button label="Précédent" onClick={()=>navigate("/Associe")}></Button>
           </div>
           <div className="w-40">
-            <Button label="Suivant" onClick={()=>window.location.href = "/Dirigeant"}></Button>
+            <Button label="Suivant" onClick={handleButtonClick}></Button>
           </div>
          </div>
 </div>

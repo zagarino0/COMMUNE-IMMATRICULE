@@ -436,7 +436,7 @@ function VoirContribuableDetail() {
   return (
     <MainLayout>
    <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-   <Card contentCard={contentCard} className="w-[1000px] h-[5000px] "></Card> 
+   <Card contentCard={contentCard} className="w-[1000px] h-[8000px] "></Card> 
    </div>
    </MainLayout>
   )

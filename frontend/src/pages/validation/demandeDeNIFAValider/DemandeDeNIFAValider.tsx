@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common"
 import Input from "../../../components/inputs"
@@ -8,9 +8,13 @@ import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
 import "../../../components/font/font.css";
 import axios from "axios";
+import { TitleH3 } from "../../../components/title";
+import { TiDocumentText } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
 
 function DemandeDeNIFAValiderPage() {
-
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [DataSelected , setDataSelected] = useState([]);
   const [Valide , setValide] = useState<{
     domaine_recherche : string ,
     reference : string ,
@@ -71,11 +75,42 @@ function DemandeDeNIFAValiderPage() {
 
 
 
-  const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+    const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
+    const data = Data.map((item)=>[item.id  ,item.raison_social ,  item.nom_commercial , item.forme_juridique])
+    
+    
+    
+ const navigate = useNavigate()// Initialize useHistory
+
+ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+ useEffect(() => {
+   // Store Value data in localStorage
+   localStorage.setItem("selectedMAJRenseignementData", JSON.stringify(DataSelected ));
+   // Reset the dummy state to trigger rerender
+   console.log(DataSelected)
+   setIsStorageUpdated(false);
+ }, [DataSelected, isStorageUpdated]);
+ 
+ const handleButtonClick = () => {
+   // Trigger a rerender by updating the dummy state
+   setIsStorageUpdated(true);
+
+   // Use the selectedOption to determine the route to navigate to
+   const routeToNavigate = "/DemandeValidationNif";
+
+   // Use navigate to navigate to the determined route
+   navigate(routeToNavigate, { state: { DataSelected } });
+ };
+
+const handleTableRowClick = (rowIndex) => {
+ setSelectedRowIndex(rowIndex);
+ // Update input fields or perform other actions based on the selected row data
+ const selectedRowData = Data[rowIndex];
+setDataSelected(selectedRowData)
+
+};
+
     const ContentSearch =(
       <div>     
          <div className="    p-4">
@@ -187,9 +222,13 @@ onChange={(e)=> {setValide({...Valide , date_fin: e.target.value})}}
 <Table
 headers={headers}
 data={data}
-onClick={()=>{window.location.href="/DemandeValidationNif"}}
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
+
 ></Table>
 </div>
+
+<button  className="flex flex-row " onClick={handleButtonClick}><TiDocumentText   className="mr-2 text-xl"/><TitleH3 text="Mise à jour renseignement" className="text-xs"></TitleH3></button>
 </div>
      </div>
      </div>

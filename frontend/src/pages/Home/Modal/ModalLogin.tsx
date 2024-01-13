@@ -34,7 +34,7 @@ export const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose, className , 
 <div className="flex flex-col">
 <div  className=" w-[350px] flex items-center justify-center flex-col p-4 shadow-2xl bg-white  h-[150px] rounded">
 
-<TitleH1 text="DGE/SRE Mahajanga" className="text-[#959824] text-lg"></TitleH1>
+<TitleH1 text="DGE Mahajanga" className="text-[#959824] text-lg"></TitleH1>
 <TitleH3 text="Accéder à l'espace contribuable de la DGE et SRE Mahajanga" className="mt-4 text-gray-400 text-center text-xs"></TitleH3>
 <IoIosAddCircle className="text-[#959824] text-2xl mt-4"/>
 
@@ -46,7 +46,7 @@ export const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose, className , 
 <TitleH3 text="Les contribuables de la DGE et du SRE Analamanga disposent depuis l'année 2009 un espace de télé-déclaration et de télé-paiement. Cet espace est accessible en cliquant sur le bouton suivant." className="mt-4 text-gray-400 text-xs text-center"></TitleH3>
 
 <div className="w-40 mt-4">
-<Button label="DGE/SRE Mahajanga" onClick={()=>window.location.href = "/loginAdmin"} ></Button>
+<Button label="DGE Mahajanga" onClick={()=>window.location.href = "/loginAdmin"} ></Button>
 </div>
 </div>
 

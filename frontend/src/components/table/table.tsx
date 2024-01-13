@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, MutableRefObject, ReactNode } from "react";
 
 interface TableProps {
   headers: string[];
@@ -8,15 +8,18 @@ interface TableProps {
   selectedRowIndex?: number | null; 
   className?: string;
   classTable?: string;
+  ref?:MutableRefObject<null>;
+  id?: string
 }
 
 const Table: FC<TableProps> = ({
   headers,
+  id,
   data,
   classNameTd,
   onClick,
   selectedRowIndex,
-  
+  ref,  
   className,
   classTable,
 }) => {
@@ -38,7 +41,7 @@ const Table: FC<TableProps> = ({
 
   return (
     <div className={`overflow-y-auto h-96 ${classTable}`}>
-      <table className={`bg-white ${className}`}>
+      <table id={id} ref={ref} className={`bg-white ${className}`}>
         <thead>
           <tr>
             {headers.map((header, index) => (

@@ -10,16 +10,23 @@ import { Button } from "../../../components/common";
 import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label";
 import Input from "../../../components/inputs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function ListeActif() {
   const [selectedOption, setSelectedOption] = useState('');
+  
 
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+  const [DataActif ,setDataAtif] = useState([]);
+useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/etat/contribuable/rejete')
+      .then((response) => setDataAtif(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"];
+  const data = DataActif.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
 
   //option select input
   const options = [
@@ -42,7 +49,7 @@ function ListeActif() {
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES CONTRIBUABLES EN CESSATION"></TitleH1></div>
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES CONTRIBUABLES ACTIFS"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 <div className="flex justify-between mt-6">
   <Label text="Domaine de Recherche"></Label>
@@ -53,7 +60,7 @@ function ListeActif() {
 <Input type="text"  className=" w-40"></Input>
 </div>
 <div className="flex justify-between mt-6">
-  <Label text="Date de Cessation , Du"></Label>
+  <Label text="Date  Du"></Label>
 <Input type="date"  className=" w-40"></Input>
 </div>
 <div className="flex justify-between mt-6">
@@ -62,14 +69,6 @@ function ListeActif() {
 
 </div>
 
-<div className="flex justify-between mt-6">
-  <Label text="Région"></Label>
-<Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-</div>
-<div className="flex justify-between mt-6">
-  <Label text="CF Gestionnaire"></Label>
-<Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-</div>
 <Button text="Lister" className="mt-6"></Button>
 </div>
 <div className="mt-10">
@@ -95,7 +94,7 @@ data={data}
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={contentCard} className="w-[800px] h-[800px] "></Card>
+  <Card contentCard={contentCard} className="w-[800px] h-[1000px] "></Card>
   </div>
  </MainLayout>
 )

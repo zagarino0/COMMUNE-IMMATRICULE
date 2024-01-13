@@ -6,6 +6,7 @@ import { Card } from "../../../components/card/card";
 import Input from "../../../components/inputs";
 import { Button } from "../../../components/common";
 import { useState } from "react";
+import axios from "axios";
 
 function GererLesComptesOperateurDeVotreCentrePage() {
   const [ Compte , setCompte] = useState<{
@@ -21,6 +22,23 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     numero_matricule : "" ,
     corps : "" 
   })
+
+  const handleSearch = async () => {
+    try {
+      // Replace 'YOUR_BACKEND_SEARCH_URL' with your actual backend API endpoint for searching
+      const response = await axios.get(``, Compte);
+      
+      // Handle the response from the server as needed
+      console.log("Search results:", response.data);
+
+      // Set the search results to state
+      setCompte(response.data);
+    } catch (error) {
+      // Handle errors from the server
+      console.error("Search failed:", error.message);
+      alert("Search failed. Please try again.");
+    }
+  };
 const contentCard =(
   <div className="flex justify-center items-center">
 <div className="flex flex-col">

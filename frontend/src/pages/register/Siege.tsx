@@ -37,7 +37,7 @@ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
 
   useEffect(() => {
     // Store Value data in localStorage
-    localStorage.setItem("siegeData", JSON.stringify(Siege));
+    localStorage.setItem("siegePersMoraleData", JSON.stringify(Siege));
     // Reset the dummy state to trigger rerender
     setIsStorageUpdated(false);
   }, [Siege, isStorageUpdated]);

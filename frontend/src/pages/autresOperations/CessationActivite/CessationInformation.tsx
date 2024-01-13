@@ -8,7 +8,11 @@ import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 
 function CessationInformation() {
-    const [selectedOption, setSelectedOption] = useState(true);
+    
+    const selectedData = localStorage.getItem("selectedCessationData");
+    const parsedDataSelected = JSON.parse(selectedData as string);
+    
+    
     const content = (
       <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
@@ -19,11 +23,15 @@ function CessationInformation() {
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Référence Fiscal" />
-            <Input type="text" />
+            <Input type="text" 
+            value={ parsedDataSelected ? parsedDataSelected.id : ""}
+            />
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Raison Social" />
-            <Input type="text" />
+            <Input type="text" 
+            value={parsedDataSelected ? parsedDataSelected.raison_social : ""}
+            />
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Type" />
@@ -33,8 +41,8 @@ function CessationInformation() {
         type="radio"
         value="Total"
         className='mr-2'
-        checked={selectedOption === true}
-        onChange={() => setSelectedOption(true)}
+        checked={ parsedDataSelected.type ==="Personne physique" }
+       
       />
       Personne physique
     </label>
@@ -43,57 +51,89 @@ function CessationInformation() {
         type="radio"
         value="ParRF"
         className='mr-2'
-        checked={selectedOption === false}
-        onChange={() => setSelectedOption(false)}
+        checked={parsedDataSelected.type === "Personne morale"}
+        
       />
       Personne morale
     </label>
             </div>
           </div>
-          {selectedOption === true && (
+          {parsedDataSelected.type ==="Personne physique" && (
     <div>
       <div className='flex justify-between mt-6 '>
       <Label text="Situation matrimoniale "></Label>
       <Input
-        type="text"     
+        type="text"
+           value={parsedDataSelected.situation_matrimoiniale}  
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Sexe "></Label>
       <div className="flex justify-between w-[200px]">
-      <Checkbox label="Masculin" onChange={()=>window} checked></Checkbox>
-      <Checkbox label="Feminin" onChange={()=>window} checked></Checkbox>
+      <Checkbox label="Masculin" onChange={()=>window} checked={parsedDataSelected.sexe === "Masculin"}></Checkbox>
+      <Checkbox label="Feminin" onChange={()=>window} checked={parsedDataSelected.sexe === "Feminin"}></Checkbox>
       </div>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Etranger "></Label>
       <div className="flex justify-between w-[200px]">
-      <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-      <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+      <Checkbox label="Oui" onChange={()=>window} checked={parsedDataSelected.etranger === true}></Checkbox>
+      <Checkbox label="Non" onChange={()=>window} checked={parsedDataSelected.etranger === false}></Checkbox>
       </div>
     </div>
-    <div className='flex justify-between mt-6 '>
+  { parsedDataSelected.etranger === true &&(
+<>
+<div className='flex justify-between mt-6 '>
+      <Label text="Numéro passport"></Label>
+      <Input
+        type="text"
+        value={parsedDataSelected? parsedDataSelected.numero_passeport : "" }     
+      ></Input>
+    </div>
+<div className='flex justify-between mt-6 '>
       <Label text="Date de délivrance"></Label>
       <Input
-        type="date"     
+        type="date"  
+          value={parsedDataSelected? parsedDataSelected.date_de_delivrance_passeport : "" }
       ></Input>
     </div>
-    <div className='flex justify-between mt-6 '>
-      <Label text="Lieu de délivrance"></Label>
+  
+</>
+
+  )}
+
+{ parsedDataSelected.etranger === false &&(
+<>
+<div className='flex justify-between mt-6 '>
+      <Label text="CIN"></Label>
       <Input
-        type="text"     
+        type="text"
+        value={parsedDataSelected? parsedDataSelected.cin : "" }     
       ></Input>
     </div>
+<div className='flex justify-between mt-6 '>
+      <Label text="Date de délivrance"></Label>
+      <Input
+        type="date"  
+          value={parsedDataSelected? parsedDataSelected.date_de_delivrance_cin : "" }
+      ></Input>
+    </div>
+  
+</>
+
+  )}
     <div className='flex justify-between mt-6 '>
       <Label text="Date naissance"></Label>
       <Input
-        type="date"     
+        type="date"  
+        value={parsedDataSelected ? parsedDataSelected.date_de_naissance : ""}   
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Lieu naissance "></Label>
       <Input
-        type="text"     
+        type="text"
+         value={parsedDataSelected? parsedDataSelected.lieu_de_naissance : ""  }     
       ></Input>
     </div>
     </div>
@@ -101,11 +141,15 @@ function CessationInformation() {
           
           <div className="flex justify-between mt-6">
             <Label text="Date de Création" />
-            <Input type="date" />
+            <Input type="date"
+            value={parsedDataSelected ? parsedDataSelected.date_creation : ""}
+            />
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Activité" />
-            <Input type="text" />
+            <Input type="text"
+            
+            />
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Province" />

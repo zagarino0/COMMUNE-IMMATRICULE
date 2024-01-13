@@ -10,16 +10,26 @@ import { Button } from "../../../components/common";
 import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label";
 import Input from "../../../components/inputs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function ListeContribuableNouvellementImmatricule() {
   const [selectedOption, setSelectedOption] = useState('');
 
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+  
+  const [DataContribuable ,setDataContribuble] = useState([]);
+useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/etat/contribuable/nouvellementimmatricule')
+      .then((response) => setDataContribuble(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+
+
+  const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
+  const data = DataContribuable.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+
 
   //option select input
   const options = [
@@ -87,7 +97,7 @@ data={data}
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={contentCard} className="w-[800px] h-[800px] "></Card>
+  <Card contentCard={contentCard} className="w-[1000px] h-[1000px] "></Card>
   </div>
  </MainLayout>
 )

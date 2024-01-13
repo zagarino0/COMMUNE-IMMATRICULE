@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 import { Button } from "../components/common";
 import { Navbar } from "../components/navbar/Nabvar";
@@ -23,6 +23,7 @@ export const MainLayout : React.FC<mainLayoutProps> = ( props ) => {
         { title: "Espace membre", link: "/espacemembre" },
       ];
 
+      let navigate = useNavigate()
 
     //Navbar content
     const contentNavbar = (
@@ -41,7 +42,7 @@ export const MainLayout : React.FC<mainLayoutProps> = ( props ) => {
           </li>
         ))}
       </ul>
-      <Button text="Deconnexion" className="mr-4"></Button>
+      <Button onClick={()=>navigate("/")} text="Deconnexion" className="mr-4"></Button>
     </nav>
     )
   return (

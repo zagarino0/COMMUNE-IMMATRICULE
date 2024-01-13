@@ -18,8 +18,13 @@ function Associe() {
     const location = useLocation(); 
     
     let navigate = useNavigate();
+    const registrationData = localStorage.getItem("registrationData"); 
+    const parsedData = JSON.parse(registrationData as string);
+      
+    
 
- 
+    const [entries, setEntries] = useState([]); // New state to hold the list of entries
+
     const [Associe , setAssocie] = useState<{
       personne_physique:boolean,
       personne_morale:boolean,
@@ -45,6 +50,7 @@ function Associe() {
     })
 
     const [Actionnaire , setActionnaire ] = useState<{
+      id:string,
       type : string ,
       nom_actionnaire: string ,
       fonction_actionnaire : string ,
@@ -60,15 +66,15 @@ function Associe() {
       action_ou_actionnaire: string,
 
     }>({
-
+      id:"",
+      id_contribuable: parsedData.id,
       type : "" ,
       nom_actionnaire: "" ,
       fonction_actionnaire : "" ,
       resident_actionnaire : "" , 
       cin_passeport_actionnaire: "",
       adresse_actionnaire : "" ,
-      autre_activite_actionnaire : "",
-      id_contribuable: "",
+      autre_activite_actionnaire : "",      
       nif_actionnaire: "",
       email_actionnaire: "",
       numero_actionnaire: "",
@@ -76,41 +82,15 @@ function Associe() {
       action_ou_actionnaire: "",
     })
     const [add , setAdd] = useState(false);
-    const headers = ["Type association", "Nom association", "Fonction", "Résident", "N° CIN", "N° Passport", "Autra act.", "RF Pers. moral", "Nom Pers.physique", "Adresse", "Associe", "Action en"];
-    const data = [
-      ["none", "none", "none", "none"],
-     
-    ];
-    const HandlePersonePhysique  = (checked:boolean) => {  
-      setAssocie({
-        ...Associe,
-        personne_physique: checked,
-      });
-      setActionnaire({...Actionnaire , type : "Personne physique"})
-    };
-    const HandlePersoneMorale  = (checked:boolean) => {  
-      setAssocie({
-        ...Associe,
-        personne_morale: checked,
-      });
-      setActionnaire({...Actionnaire , type : "Personne morale"})
-    };
-    const HandlePersoneEtrangere = (checked:boolean) => {  
-      setAssocie({
-        ...Associe,
-        personne_etrangere: checked,
-      });
-      setActionnaire({...Actionnaire , type : "Personne étranger"})
-    };
 
     const [isStorageUpdated, setIsStorageUpdated] = useState(false);
 
     useEffect(() => {
       // Store Value data in localStorage
-      localStorage.setItem("actionnaireData", JSON.stringify(Actionnaire));
+      localStorage.setItem("associeData", JSON.stringify(entries));
       // Reset the dummy state to trigger rerender
       setIsStorageUpdated(false);
-    }, [isStorageUpdated]);
+    }, [isStorageUpdated ,entries]);
     
   
       const handleButtonClick = () => {
@@ -124,6 +104,71 @@ function Associe() {
         navigate(routeToNavigate, { state: { Actionnaire } });
        
       };
+      // ... (your existing state definitions)
+    
+      const handleButtonClickSave = () => {
+         // Generate a new ID by incrementing the last entry's ID
+    const newId = entries.length > 0 ? parseInt(entries[entries.length - 1].id) + 1 : 1;
+
+    // Update the Actionnaire state with the new ID
+    setActionnaire((prevActionnaire) => ({
+      ...prevActionnaire,
+      id: newId.toString(),
+    }));
+
+    // Add the current entry to the list of entries
+    setEntries((prevEntries) => [...prevEntries, { ...Actionnaire, id: newId.toString() }]);
+
+        // Reset the Actionnaire state to clear the form
+        setActionnaire({
+          id_contribuable: parsedData.id,
+          type: "",
+          nom_actionnaire: "",
+          fonction_actionnaire: "",
+          resident_actionnaire: "",
+          cin_passeport_actionnaire: "",
+          adresse_actionnaire: "",
+          autre_activite_actionnaire: "",
+          nif_actionnaire: "",
+          email_actionnaire: "",
+          numero_actionnaire: "",
+          associe_unique_actionnaire: "",
+          action_ou_actionnaire: "",
+        });
+        setAdd(false); 
+      };
+    
+      const headers = [
+        "Type association",
+        "Nom association",
+        "Fonction",
+        "Résident",
+        "N° CIN",
+        "N° Passport",
+        "Autra act.",
+        "RF Pers. moral",
+        "Nom Pers.physique",
+        "Adresse",
+        "Associe",
+        "Action en",
+      ];
+    
+      const data = entries.map((entry) => [
+        entry.type,
+        entry.nom_actionnaire,
+        entry.fonction_actionnaire,
+        entry.resident_actionnaire,
+        entry.cin_passeport_actionnaire,
+        entry.adresse_actionnaire,
+        entry.autre_activite_actionnaire,
+        entry.id_contribuable,
+        entry.nif_actionnaire,
+        entry.email_actionnaire,
+        entry.numero_actionnaire,
+        entry.associe_unique_actionnaire,
+        entry.action_ou_actionnaire
+      ]);
+    
     const content = (
       
       <div className="flex justify-center w-full h-full mt-28 p-8">
@@ -138,12 +183,12 @@ function Associe() {
               <div className='flex justify-between mt-6 '>
     <Label text="Type d'associés / Actionnaires"></Label>
     <div className="flex justify-between w-[700px]">
-    <Checkbox label="Personne physique" onChange={HandlePersonePhysique}  checked={Associe.personne_physique  }></Checkbox>
-    <Checkbox label="Personne morale" onChange={HandlePersoneMorale} checked={Associe.personne_morale}></Checkbox>
-    <Checkbox label="Personne morale etrangère/Etat" onChange={HandlePersoneEtrangere} checked={Associe.personne_etrangere }></Checkbox>
+    <Checkbox label="Personne physique" onChange={()=>{setActionnaire({...Actionnaire , type : "Personne physique" })}}  checked={Actionnaire.type === "Personne physique"  }></Checkbox>
+    <Checkbox label="Personne morale" onChange={()=>{setActionnaire({...Actionnaire , type : "Personne morale"})}} checked={Actionnaire.type === "Personne morale"}></Checkbox>
+    <Checkbox label="Personne morale etrangère/Etat" onChange={()=>{setActionnaire({...Actionnaire , type :"Personne morale etrangère/Etat"})}} checked={Actionnaire.type=== "Personne morale etrangère/Etat" }></Checkbox>
     </div>
   </div>
-  {Associe.personne_physique===true && (
+  {Actionnaire.type === "Personne physique" && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom"></Label>
@@ -236,7 +281,7 @@ function Associe() {
     </div>
     </>
   )}
-  { Associe.personne_etrangere === true && (
+  { Actionnaire.type=== "Personne morale etrangère/Etat"  && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom"></Label>
@@ -256,7 +301,7 @@ function Associe() {
   )
 
   }
-   { Associe.personne_morale === true && (
+   {Actionnaire.type === "Personne morale" && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
@@ -288,7 +333,7 @@ function Associe() {
 
           }
           <div className="flex justify-center mt-6">
-          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+          <button onClick={handleButtonClickSave} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
           <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
           </div>
             </div>

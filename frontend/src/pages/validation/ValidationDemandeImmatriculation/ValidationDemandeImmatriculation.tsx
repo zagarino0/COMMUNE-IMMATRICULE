@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
@@ -8,9 +8,13 @@ import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
 import "../../../components/font/font.css"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { TitleH3 } from "../../../components/title";
+import { TiDocumentText } from "react-icons/ti";
 
 function ValidationDemandeImmatriculation() {
-  
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [DataSelected , setDataSelected] = useState([]);
 const [Valide , setValide] = useState<{
 domaine_recherche : string ,
 reference : string ,
@@ -50,13 +54,14 @@ const handleSearchClient = async () => {
   }
   try {
     // Make a POST request to your server endpoint
-    const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
+    const response = await axios.post("http://localhost:3500/consultation/contribuable/avalide", DataSearch);
     setData(response.data);
     // Check the response status or do something with the response
     console.log("Server Response:", Data );
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
+    alert('il y a une erreur')
   }
 };
   const options = [
@@ -69,13 +74,46 @@ const handleSearchClient = async () => {
     ];
 const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
 const data = [
-  ["none", "none", "none", "none"],
- 
-];
+  [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
+]
 
-const dataRectifie =()=>{
-  window.location.href = "/Assujetissement"
- }
+
+
+ const navigate = useNavigate()// Initialize useHistory
+
+  const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+  useEffect(() => {
+    // Store Value data in localStorage
+    localStorage.setItem("selectedValidationData", JSON.stringify(DataSelected ));
+    // Reset the dummy state to trigger rerender
+    console.log(DataSelected)
+    setIsStorageUpdated(false);
+  }, [DataSelected, isStorageUpdated]);
+  
+  const handleButtonClick = () => {
+    // Trigger a rerender by updating the dummy state
+    setIsStorageUpdated(true);
+
+    // Use the selectedOption to determine the route to navigate to
+    const routeToNavigate = "/Assujetissement";
+
+    // Use navigate to navigate to the determined route
+    navigate(routeToNavigate, { state: { DataSelected } });
+  };
+
+ const handleTableRowClick = (rowIndex) => {
+  setSelectedRowIndex(rowIndex);
+  
+  // Extract the property values from the data object
+  const selectedRowData = {
+     Data };
+
+  
+  setDataSelected(selectedRowData);
+  console.log('Selected Row Data:', DataSelected);
+};
+
   const ContentSearch =(
     <div>     
        <div className="  p-4">
@@ -88,12 +126,12 @@ const dataRectifie =()=>{
          </div>
    </div>
     </div>
-   <div className="flex justify-center items-center ">
+   <div className="flex justify-center  ">
 <div className="flex flex-col ">
       
 <div className="flex flex-col py-4">
 
-<div className="mt-6 flex flex-row">
+<div className="mt-6 flex justify-between">
   <Label text="Domaine de recherche :"></Label>
   <Select options={options} value={Valide.domaine_recherche}
    onChange={ (options)=>{setValide({...Valide , domaine_recherche: options})}} 
@@ -101,9 +139,9 @@ const dataRectifie =()=>{
 </div>
 {Valide.domaine_recherche === "Raison sociale" &&(
 
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
 <Label text="Raison Social :"></Label>
-<Input type="text" className="w-96 mx-[65px] "
+<Input type="text" className="w-96  "
 value={Valide.raison_social}
 onChange={(e)=> {setValide({...Valide , raison_social: e.target.value})}}
 ></Input>
@@ -113,9 +151,9 @@ onChange={(e)=> {setValide({...Valide , raison_social: e.target.value})}}
 
 {Valide.domaine_recherche === "référence" &&(
 
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
 <Label text="Réference :"></Label>
-<Input type="text" className="w-96 mx-[65px] "
+<Input type="text" className="w-96  "
 value={Valide.reference}
 onChange={(e)=> {setValide({...Valide , reference: e.target.value})}}
 ></Input>
@@ -124,9 +162,9 @@ onChange={(e)=> {setValide({...Valide , reference: e.target.value})}}
 }
 {Valide.domaine_recherche === "Référence fiscal" &&(
 
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
 <Label text="Référence fiscal :"></Label>
-<Input type="text" className="w-96 mx-[65px] "
+<Input type="text" className="w-96  "
 value={Valide.reference_fiscal}
 onChange={(e)=> {setValide({...Valide , reference_fiscal: e.target.value})}}
 ></Input>
@@ -135,9 +173,9 @@ onChange={(e)=> {setValide({...Valide , reference_fiscal: e.target.value})}}
 }
 {Valide.domaine_recherche === "CIN" &&(
 
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
 <Label text="CIN :"></Label>
-<Input type="text" className="w-96 mx-[65px] "
+<Input type="text" className="w-96  "
 value={Valide.cin}
 onChange={(e)=> {setValide({...Valide , cin: e.target.value})}}
 ></Input>
@@ -146,9 +184,9 @@ onChange={(e)=> {setValide({...Valide , cin: e.target.value})}}
 }
 {Valide.domaine_recherche === "Adresse" &&(
 
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
 <Label text="Adresse :"></Label>
-<Input type="text" className="w-96 mx-[65px] "
+<Input type="text" className="w-96  "
 value={Valide.adresse}
 onChange={(e)=> {setValide({...Valide , adresse: e.target.value})}}
 ></Input>
@@ -157,23 +195,23 @@ onChange={(e)=> {setValide({...Valide , adresse: e.target.value})}}
 }
 {Valide.domaine_recherche === "Nom commercial" &&(
 
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
 <Label text="Nom Commercial :"></Label>
-<Input type="text" className="w-96 mx-[65px] "
+<Input type="text" className="w-96  "
 value={Valide.nom_commercial}
 onChange={(e)=> {setValide({...Valide , nom_commercial: e.target.value})}}
 ></Input>
 </div>
 ) 
 }
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
   <Label text="Date de debut :"></Label>
-<Input type="date" className="w-96 mx-20 "
+<Input type="date" className="w-96  "
 value={Valide.date_debut}
 onChange={(e)=> {setValide({...Valide , date_debut: e.target.value})}}
 ></Input>
 </div>
-<div className="mt-4 flex flex-row">
+<div className="mt-4 flex justify-between">
   <Label text="Date fin :"></Label>
 <Input type="date" className="w-96 mx-[120px] "
 value={Valide.date_fin}
@@ -186,11 +224,16 @@ onChange={(e)=> {setValide({...Valide , date_fin: e.target.value})}}
 <div className="flex justify-center items-center mt-4" >
 
 <Table
-onClick={dataRectifie}
+
 headers={headers}
 data={data}
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
+
 ></Table>
 </div>
+
+<button  className="flex flex-row " onClick={handleButtonClick}><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Ajouter assujetissement" className="text-xs"></TitleH3></button>
 </div>
    </div>
    </div>

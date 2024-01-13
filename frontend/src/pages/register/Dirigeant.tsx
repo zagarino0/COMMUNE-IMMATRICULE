@@ -9,15 +9,23 @@ import { AiOutlineSave } from "react-icons/ai";
 import Checkbox from "../../components/common/checkbox";
 import Input from "../../components/inputs";
 import { TitleH1, TitleH3 } from "../../components/title";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Dirigeant() {
   const location = useLocation(); 
+      
+  let navigate = useNavigate();
+  const registrationData = localStorage.getItem("registrationData"); 
+  const parsedData = JSON.parse(registrationData as string);
+    
+  
+
+  const [entries, setEntries] = useState([]); // New state to hold the list of entries
+
   const [Dirigeant , setDirigeant] = useState<{
-    personne_physique:boolean,
-    personne_morale:boolean,
-    personne_etrangere:boolean,
+    id: string,
+    id_contribuable: string,
     associe_unique:boolean,
     resident:boolean,
     avec_rf: boolean,
@@ -33,9 +41,8 @@ function Dirigeant() {
     telephone:string,
 
   }>({
-    personne_physique:false,
-    personne_morale:false,
-    personne_etrangere:false,
+    id:"",
+    id_contribuable: parsedData.id,   
     associe_unique:false,
     resident: true ,
     avec_rf: false,
@@ -52,29 +59,96 @@ function Dirigeant() {
     
   })
   const [add , setAdd] = useState(false);
-  const headers = ["Type association", "Nom association", "Fonction", "Résident", "N° CIN", "N° Passport", "Autra act.", "RF Pers. moral", "Nom Pers.physique", "Adresse", "Associe", "Action en"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
-  // const HandlePersonePhysique  = (checked:boolean) => {  
-  //   setDirigeant({
-  //     ...Dirigeant,
-  //     personne_physique: checked,
-  //   });
-  // };
-  // const HandlePersoneMorale  = (checked:boolean) => {  
-  //   setDirigeant({
-  //     ...Dirigeant,
-  //     personne_morale: checked,
-  //   });
-  // };
-  // const HandlePersoneEtrangere = (checked:boolean) => {  
-  //   setDirigeant({
-  //     ...Dirigeant,
-  //     personne_etrangere: checked,
-  //   });
-  // };
+
+  
+  const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+  useEffect(() => {
+    // Store Value data in localStorage
+    localStorage.setItem("dirigeantData", JSON.stringify(entries));
+    // Reset the dummy state to trigger rerender
+    setIsStorageUpdated(false);
+  }, [isStorageUpdated ,entries]);
+  
+
+    const handleButtonClick = () => {
+
+    // Trigger a rerender by updating the dummy state
+    setIsStorageUpdated(true);
+      const routeToNavigate = "/Interlocuteur";
+      console.log('Navigating to:', routeToNavigate);
+    
+      // Use navigate to navigate to the determined route
+      navigate(routeToNavigate, { state: { Dirigeant } });
+     
+    };
+    // ... (your existing state definitions)
+  
+    const handleButtonClickSave = () => {
+      // Add the current entry to the list of entries
+               // Generate a new ID by incrementing the last entry's ID
+    const newId = entries.length > 0 ? parseInt(entries[entries.length - 1].id) + 1 : 1;
+
+    // Update the Actionnaire state with the new ID
+    setDirigeant((prevActionnaire) => ({
+      ...prevActionnaire,
+      id: newId.toString(),
+    }));
+
+    // Add the current entry to the list of entries
+    setEntries((prevEntries) => [...prevEntries, { ...Dirigeant, id: newId.toString() }]);
+
+      // Reset the Actionnaire state to clear the form
+      setDirigeant({
+        id_contribuable: parsedData.id,      
+        associe_unique:false,
+        resident: true ,
+        avec_rf: false,
+        salarie: false,
+        aucune : false,
+        nom: "",
+        fonction: "",
+        cin:"",
+        passport:"",
+        adresse:"",
+        rf:"",
+        email:"",
+        telephone:"",
+        
+      });
+      setAdd(false); 
+    };
+  
+    
+
+    const headers = [
+      
+       
+        "nom",
+        "fonction",
+        "cin",
+        "passport",
+        "adresse",
+        "rf",
+        "email",
+        "telephone",
+    ];
+  
+    const data = entries.map((entry) => [
+      
+     
+       
+        entry.nom,
+        entry.fonction,
+        entry.cin,
+        entry.passport,
+        entry.adresse,
+        entry.rf,
+        entry.email,
+        entry.telephone,
+    ]);
+  
+  
   const content = (
     
     <div className="flex justify-center w-full h-full mt-28 p-8">
@@ -138,7 +212,10 @@ onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
     }
   <div className="flex justify-between mt-6">
     <Label text="Adresse  "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+     value={Dirigeant.adresse}
+     onChange={(e)=>{setDirigeant({...Dirigeant ,adresse: e.target.value})}}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
             <Label text="Autre activité " />
@@ -152,7 +229,10 @@ onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
       <> 
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={Dirigeant.rf}
+      onChange={(e)=>{setDirigeant({...Dirigeant , rf: e.target.value})}}
+      ></Input>
     </div>  
       </>
     )
@@ -160,11 +240,17 @@ onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
     }
   <div className="flex justify-between mt-6">
     <Label text="Email "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+     value={Dirigeant.email}
+     onChange={(e)=>{setDirigeant({...Dirigeant , email: e.target.value})}}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
     <Label text="Telephone "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+     value={Dirigeant.telephone}
+     onChange={(e)=>{setDirigeant({...Dirigeant , telephone: e.target.value})}}
+    ></Input>
   </div>
    
   
@@ -173,7 +259,7 @@ onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
   
         
         <div className="flex justify-center mt-6">
-        <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+        <button onClick={handleButtonClickSave} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
         <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
         </div>
           </div>
@@ -213,10 +299,10 @@ data={data}
 )} 
 <div className="flex justify-between mt-6">
        <div className="w-40">
-          <Button label="Précédent" onClick={()=>window.location.href = "/Etablissement"}></Button>
+          <Button label="Précédent" onClick={()=>navigate("/Etablissement")}></Button>
         </div>
         <div className="w-40">
-          <Button label="Suivant" onClick={()=>window.location.href = "/Interlocuteur"}></Button>
+          <Button label="Suivant" onClick={handleButtonClick}></Button>
         </div>
        </div>
 </div>

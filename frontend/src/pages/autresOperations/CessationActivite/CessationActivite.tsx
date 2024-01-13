@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
@@ -8,14 +8,9 @@ import { TitleH1, TitleH3 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function CessationActivite() {
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
 
   
   const [Data , setData] = useState([])
@@ -38,6 +33,43 @@ try {
   console.error("Error:", error);
 }
 };
+const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
+const data = Data.map((item)=>[item.id  ,item.raison_social ,  item.nom_commercial , item.forme_juridique])
+
+
+const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [DataSelected , setDataSelected] = useState([]);
+const navigate = useNavigate()// Initialize useHistory
+
+  const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+  useEffect(() => {
+    // Store Value data in localStorage
+    localStorage.setItem("selectedCessationData", JSON.stringify(DataSelected ));
+    // Reset the dummy state to trigger rerender
+    console.log(DataSelected)
+    setIsStorageUpdated(false);
+  }, [DataSelected, isStorageUpdated]);
+  
+  const handleButtonClick = () => {
+    // Trigger a rerender by updating the dummy state
+    setIsStorageUpdated(true);
+
+    // Use the selectedOption to determine the route to navigate to
+    const routeToNavigate = "/CessationInformation";
+
+    // Use navigate to navigate to the determined route
+    navigate(routeToNavigate, { state: { DataSelected } });
+  };
+
+ const handleTableRowClick = (rowIndex) => {
+  setSelectedRowIndex(rowIndex);
+  // Update input fields or perform other actions based on the selected row data
+  const selectedRowData = Data[rowIndex];
+ setDataSelected(selectedRowData)
+ 
+};
+
   const contentCard=(
       <div >
 
@@ -52,6 +84,7 @@ try {
 <Input type="text"  className=" w-40"
 value={reference_fiscal}
 onChange={(e)=>setReference_fiscal(e.target.value)}
+
 ></Input>
 
 </div>
@@ -59,14 +92,14 @@ onChange={(e)=>setReference_fiscal(e.target.value)}
 </div>
 <div className="mt-10">
 <Table
-
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
 headers={headers}
 data={data}
 ></Table>
 </div>
 <div className="flex justify-start mt-6">
- 
- <Link to="/CessationInformation"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></Link>
+ <button  onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></button>
  </div>
 <div>
 

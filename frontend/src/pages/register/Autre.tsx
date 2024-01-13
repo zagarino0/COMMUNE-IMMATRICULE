@@ -20,6 +20,18 @@ function Autre() {
   const siegeData = localStorage.getItem("siegeData");
   const parsedDataSiege = JSON.parse(siegeData as string);
 
+  const etablissementData = localStorage.getItem("etablissementData");
+  const parsedDataEtablissement = JSON.parse(etablissementData as string);
+
+  const dirigeantData = localStorage.getItem("dirigeantData");
+  const parsedDataDirigeant = JSON.parse(dirigeantData as string);
+  console.log(parsedDataDirigeant);
+  const interlocuteurData = localStorage.getItem("interlocuteurData");
+  const parsedDataInterlocuteur = JSON.parse(interlocuteurData as string);
+
+  const actionnaireData = localStorage.getItem("associeData");
+  const parsedDataActionnaire = JSON.parse(actionnaireData as string);
+
 
   const [Autre , setAutre] = useState<{
     id_contribuable: string,
@@ -45,11 +57,12 @@ try {
 
   // Check the response status or do something with the response
   console.log("Server Response:", response.data);
-
+  alert("contribuable ajouté")
  
 } catch (error) {
   // Handle errors
   console.error("Error:", error);
+  alert("erreur contribuable")
 }
 }
 
@@ -61,10 +74,11 @@ try {
   // Check the response status or do something with the response
   console.log("Server Response:", response.data);
 
- 
+ alert("Activité ajouté")
 } catch (error) {
   // Handle errors
   console.error("Error:", error);
+  alert("Erreur activité")
 }
 
 }
@@ -78,10 +92,11 @@ try {
   // Check the response status or do something with the response
   console.log("Server Response:", response.data);
 
- 
+ alert("Siège ajouté")
 } catch (error) {
   // Handle errors
   console.error("Error:", error);
+  alert("Error Siège")
 }
 }
 
@@ -93,13 +108,95 @@ try {
 
   // Check the response status or do something with the response
   console.log("Server Response:", response.data);
-
+ alert("Autre ajouté")
  
 } catch (error) {
   // Handle errors
   console.error("Error:", error);
+  alert("Erreur autre")
 }
 }
+if(parsedDataDirigeant){
+  
+  const DirigeaantData = { "dirigeant": parsedDataDirigeant}; 
+  try {
+    // Make a POST request to your server endpoint
+    const response = await axios.post("http://localhost:3500/dirigeant", DirigeaantData);
+  
+    // Check the response status or do something with the response
+    console.log("Server Response:", response.data);
+  
+   alert("Dirigeant ajouté")
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+    alert("Erreur dirigeant")
+  }
+
+  }
+
+  if(parsedDataEtablissement){
+
+  const Etablissement = {
+    "etablissement" : parsedDataEtablissement
+  }
+    try {
+      // Make a POST request to your server endpoint
+      const response = await axios.post("http://localhost:3500/etablissement", Etablissement);
+    
+      // Check the response status or do something with the response
+      console.log("Server Response:", response.data);
+    
+     alert("Etablissement ajouté")
+    } catch (error) {
+      // Handle errors
+      console.error("Error:", error);
+      alert("Error Etablissement")
+    }
+    }
+  
+    if(parsedDataInterlocuteur){
+
+      
+
+      try {
+        // Make a POST request to your server endpoint
+        const response = await axios.post("http://localhost:3500/interlocuteur", parsedDataInterlocuteur);
+      
+        // Check the response status or do something with the response
+        console.log("Server Response:", response.data);
+      alert("Interlocuteur ajouté")
+       
+      } catch (error) {
+        // Handle errors
+        console.error("Error:", error);
+        alert("Error interlocuteur")
+      }
+      }
+    
+      if(parsedDataActionnaire){
+
+        const Actionnaire = {
+          "actionnaire" : parsedDataActionnaire
+        }
+
+        try {
+          // Make a POST request to your server endpoint
+          const response = await axios.post("http://localhost:3500/actionnaire", Actionnaire);
+        
+          // Check the response status or do something with the response
+          console.log("Server Response:", response.data);
+        alert("Actionnaire ajouté")
+         
+        } catch (error) {
+          // Handle errors
+          console.error("Error:", error);
+       
+       alert("Error actionnaire  ")
+        }
+        }
+      
+   
 
 }
   const content = (

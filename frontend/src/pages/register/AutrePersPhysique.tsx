@@ -58,11 +58,12 @@ if (parsedDataRegistre){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-  
+    alert("contribuable renseignement ajouté")
    
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
+    alert("il y a une erreur sur  l'ajout contribuable")
   }
 }
 
@@ -70,7 +71,7 @@ if(parsedDataActivite){
   try {
     // Make a POST request to your server endpoint
     const response = await axios.post("http://localhost:3500/activite", parsedDataActivite);
-  
+  alert('activité ajouté')
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   
@@ -78,6 +79,7 @@ if(parsedDataActivite){
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
+    alert("erreur de l 'ajout d'activité")
   }
 
 }
@@ -87,13 +89,14 @@ if(parsedDataSiege){
   try {
     // Make a POST request to your server endpoint
     const response = await axios.post("http://localhost:3500/siege", parsedDataSiege);
-  
+    alert("siège ajouté")
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   
    
   } catch (error) {
     // Handle errors
+    alert("erreur sur l'ajout de siège")
     console.error("Error:", error);
   }
 }
@@ -106,10 +109,11 @@ if(Autre){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-  
+  alert("tout est enregistré ")
    
   } catch (error) {
     // Handle errors
+    alert("il y a  une erreur sur l'ajout")
     console.error("Error:", error);
   }
 }

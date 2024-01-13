@@ -49,7 +49,7 @@ function Activite() {
 
   useEffect(() => {
     // Store Value data in localStorage
-    localStorage.setItem("activiteData", JSON.stringify(Activite));
+    localStorage.setItem("activitePersMoralData", JSON.stringify(Activite));
     // Reset the dummy state to trigger rerender
     setIsStorageUpdated(false);
   }, [Activite, isStorageUpdated]);
@@ -101,8 +101,8 @@ function Activite() {
       <Label text="Numéro statistique "></Label>
       <div className="flex flex-col">
       <div className="flex justify-between w-[300px]">
-      <Checkbox label="Disponible" onChange={()=>setActivite({...Activite , statistique: true})} checked={Activite.numero_statistique=="Disponible"}></Checkbox>
-      <Checkbox label="Pas encore Disponible" onChange={()=>setActivite({...Activite , statistique: false})} checked={Activite.numero_statistique == "Pas encore Disponible"}></Checkbox>
+      <Checkbox label="Disponible" onChange={(checked)=>setActivite({...Activite , statistique: checked})} checked={Activite.statistique === true}></Checkbox>
+      <Checkbox label="Pas encore Disponible" onChange={(checked)=>setActivite({...Activite , statistique: ! checked})} checked={Activite.statistique === false}></Checkbox>
       </div>
       { Activite.statistique === true &&(
         <Input

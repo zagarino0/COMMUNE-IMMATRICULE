@@ -8,12 +8,7 @@ import { MainLayout } from "../../../layouts/main"
 import { useState } from "react"
 
 function RectificationPrincipauxPage() {
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-    const data = [
-      ["none", "none", "none", "none"],
-     
-    ];
-
+  
     const [Data , setData] = useState([])
     const [reference_fiscal , setReference_fiscal] = useState('');
   // Fonction pour faire un  recherche d'un client avec référence fiscal
@@ -37,6 +32,11 @@ const handleSearchClient = async () => {
     const dataRectifie =()=>{
      window.location.href = "/Rectification"
     }
+
+    const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
+  const data = Data.map((item)=>[item.id  ,item.raison_social ,  item.nom_commercial , item.forme_juridique])
+
+
     const contentCard = (
         <div className="m-4">
            

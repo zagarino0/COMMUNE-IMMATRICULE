@@ -4,26 +4,71 @@ import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { MainLayout } from "../../../layouts/main"
+import axios from "axios";
+import Select from "../../../components/inputs/selectInput";
 
 function AjouterUnCompteOperateurPage() {
+  const options = [
+    { value: 'Maire', label: 'Maire' },
+    { value: 'Directeur financier', label: 'Directeur financier' },
+    { value: 'Chef de service recette', label: 'Chef de service recette' },
+    { value: 'Directeur de gestion', label: 'Directeur de gestion' },
+    { value: 'Directeur de contrôle', label: 'Directeur de contrôle' },
+    { value: 'Directeur de Recuvrement', label: 'Directeur de Recouvrement' },
+    { value: 'Chef de division', label: 'Chef de division' },
+    { value: 'Regisseur', label: 'Regisseur' },
+    { value: 'Percepteur', label: 'Percepteur' },
+    
+    // Ajoutez vos options ici
+  ];
    const [Compte , setCompte ] = useState<{
    nom : string ,
    prenom : string,
    numero_matricule: string,
    type_operateur: string,
-   login : string ,
-   password : string ,
+   code : string ,
+   pwd : string ,
    confirm_password : string,
    }>({
     nom : "" ,
     prenom : "",
     numero_matricule: "",
     type_operateur: "",
-    login : "" ,
-    password : "" ,
+    code : "" ,
+    pwd : "" ,
     confirm_password : "",
 
    })
+
+   const handleRegister = async () => {
+    if (Compte.pwd !== Compte.confirm_password) {
+      alert("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    try {
+      // Replace 'YOUR_BACKEND_API_URL' with your actual backend API endpoint for registration
+      const response = await axios.post('http://localhost:3500/user/register', Compte);
+
+      // Handle the response from the server as needed
+      console.log("Registration successful:", response.data);
+   alert("compte ajouté");
+      // Reset the form after successful registration
+      setCompte({
+        nom: "",
+        prenom: "",
+        numero_matricule: "",
+        type_operateur: "",
+        code: "",
+        pwd: "",
+        confirm_password: "",
+      });
+    } catch (error) {
+      // Handle errors from the server
+      console.error("Registration failed:", error.message);
+      alert("Registration failed. Please try again.");
+    }
+  };
     const contentCard =(
       <div className="flex items-center justify-center ">
 <div className="flex flex-col">
@@ -46,19 +91,15 @@ value={Compte.numero_matricule}
 onChange={(e)=>{setCompte({...Compte , numero_matricule : e.target.value })}}
 placeholder="Numéro matricule" className="mt-6"></Input>
 
-<Input type="text"
-value={Compte.type_operateur}
-onChange={(e)=>{setCompte({...Compte , type_operateur : e.target.value })}}
-placeholder="Type opérateur" className="mt-6"></Input>
-
+<Select options={options} value={Compte.type_operateur} onChange={(e)=>{setCompte({...Compte , type_operateur : e })}} className="mt-6"></Select>
 <Input type="text" 
-value={Compte.login}
-onChange={(e)=>{setCompte({...Compte , login : e.target.value })}}
+value={Compte.code}
+onChange={(e)=>{setCompte({...Compte , code : e.target.value })}}
 placeholder="Login" className="mt-6"></Input>
 
 <Input type="password"
-value={Compte.password}
-onChange={(e)=>{setCompte({...Compte , password : e.target.value })}}
+value={Compte.pwd}
+onChange={(e)=>{setCompte({...Compte , pwd : e.target.value })}}
 placeholder="Mot de passe" className="mt-6"></Input>
 
 <Input type="password" 
@@ -66,7 +107,7 @@ value={Compte.confirm_password}
 onChange={(e)=>{setCompte({...Compte , confirm_password : e.target.value })}}
 placeholder="Resaisir le mot de passe" className="mt-6"></Input>
 
-<Button type="submit" text="Enregistrer" className="mt-6 w-96"></Button>
+<Button type="submit" text="Enregistrer" onClick={handleRegister} className="mt-6 w-96"></Button>
 
   </div>
 </div>

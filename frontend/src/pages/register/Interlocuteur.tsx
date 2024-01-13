@@ -1,14 +1,22 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import Input from "../../components/inputs";
 import { Label } from "../../components/label/label";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { Layout } from "./Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Interlocuteur() {
-    const location = useLocation(); 
+    const location = useLocation();
+    let navigate = useNavigate();
+    const registrationData = localStorage.getItem("registrationData"); 
+    const parsedData = JSON.parse(registrationData as string);
+      
+    
+  
+  // New state to hold the list of entries 
     const [Interlocuteur , setInterlocuteur] = useState<{
+      id_contribuable: string,
    nom: string,
    titre:string,
    adresse: string,
@@ -16,6 +24,7 @@ function Interlocuteur() {
    email: string,
 
     }>({ 
+   id_contribuable: parsedData.id,
    nom: "",
    titre:"",
    adresse: "",
@@ -23,6 +32,29 @@ function Interlocuteur() {
    email: "",
    
     })
+    const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+    useEffect(() => {
+      // Store Value data in localStorage
+      localStorage.setItem("interlocuteurData", JSON.stringify(Interlocuteur));
+      // Reset the dummy state to trigger rerender
+      setIsStorageUpdated(false);
+    }, [isStorageUpdated ,Interlocuteur]);
+    
+  
+      const handleButtonClick = () => {
+  
+      // Trigger a rerender by updating the dummy state
+      setIsStorageUpdated(true);
+        const routeToNavigate = "/Autre";
+        console.log('Navigating to:', routeToNavigate);
+      
+        // Use navigate to navigate to the determined route
+        navigate(routeToNavigate, { state: { Interlocuteur } });
+       
+      };
+      // ... 
+
     const content = (
       <div className="flex justify-center w-full h-full mt-28 p-8">
         <div className="flex flex-col w-[1000px]">
@@ -79,10 +111,10 @@ function Interlocuteur() {
           
          <div className="flex justify-between mt-6">
          <div className="w-40">
-            <Button label="Précédent" onClick={()=>window.location.href = "/Dirigeant"}></Button>
+            <Button label="Précédent" onClick={()=>navigate("/Dirigeant")}></Button>
           </div>
           <div className="w-40">
-            <Button label="Suivant" onClick={()=>window.location.href = "/Autre"}></Button>
+            <Button label="Suivant" onClick={handleButtonClick}></Button>
           </div>
          </div>
         </div>
