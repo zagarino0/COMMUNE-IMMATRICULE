@@ -158,7 +158,7 @@ const authContribuable = (req, res) => {
     const mot_de_passe = req.body.mot_de_passe;
     const id = req.body.id;
 
-    const contribuable = data.contribs.map(con => con.id === id && con.mot_de_passe === mot_de_passe);
+    const contribuable = data.contribs.find(con => con.id === id && con.mot_de_passe === mot_de_passe);
     if (!contribuable)
         return res.status(404).json({ 'message': 'contribuable introuvable' });
 

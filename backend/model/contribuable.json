@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "id": "332",
+        "reference_fiscal": "100000000",
+        "type": "req.body.type",
+        "cin": "req.body.cin",
+        "sexe": "req.body.sexe",
+        "etranger": "req.body.etranger",
+        "numero_passeport": "req.body.numero_passeport",
+        "capital": "req.body.capital",
+        "actif": true,
+        "actionnaire": [],
+        "dirigeant": [],
+        "activite": [],
+        "autre": [],
+        "coordonnees": [],
+        "etablissement": [],
+        "interlocuteur": [],
+        "siege": [],
+        "mot_de_passe": "qzdqsdqzd"
+    }
+]

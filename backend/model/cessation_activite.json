@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "id_cessation": 1,
+        "id_contribuable": "332",
+        "date_cessation": "",
+        "cessation": false
+    }
+]
