@@ -72,7 +72,19 @@ const getContribuableNonBloque = (req, res) => {
 }
 
 const getListeDemandeAValide = (req, res) => {
-    res.json(data.contribuablesNonValide);
+    const contribuablesNonValides = [];
+    data.contribuablesNonValide.map(con => {
+        con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
+        con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
+        con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.filter(act => act.id_contribuable === con.id);
+        con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.filter(aut => aut.id_contribuable === con.id);
+        con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.filter(coo => coo.id_contribuable === con.id);
+        con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
+        con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.filter(inter => inter.id_contribuable === con.id);
+        con.siege = data.siege.length === 0 ? null : data.siegeTemps.filter(sie => sie.id_contribuable === con.id);
+        contribuablesNonValides.push({...con});
+    })
+    res.json(contribuablesNonValides);
 }
 
 const getListeDemandeAValideByAll = (req, res) => {
