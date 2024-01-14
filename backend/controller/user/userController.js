@@ -81,6 +81,10 @@ const reactivationUser = async (req, res) => {
     res.json({'success': 'Desactivation effectué'})
 }
 
+const getAllUser = (req, res) => {
+    res.json(data.users);
+}
+
 module.exports = {
     getAllUserActif,
     desactivationUser,
@@ -89,5 +93,6 @@ module.exports = {
     getUserActifById,
     getUserActifByCode,
     getUserInactifById,
-    getUserInactifByCode
+    getUserInactifByCode,
+    getAllUser
 }

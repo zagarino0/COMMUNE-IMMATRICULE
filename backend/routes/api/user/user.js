@@ -26,4 +26,7 @@ router.route('/inactif/code')
 router.route('/inactif/:id_user')
     .get(userController.getUserInactifById)
 
+router.route('/all')
+    .get(userController.getAllUser);
+
 module.exports = router;
