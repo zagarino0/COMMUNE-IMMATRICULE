@@ -1,7 +1,9 @@
 const data = {
     contribuables: require('../../model/contribuable.json'),
     contribuablesRejetes: require('../../model/model_delete/contribuable.json'),
-    cessations: require('../../model/cessation_activite.json')
+    cessations: require('../../model/cessation_activite.json'),
+    history: require('../../model/history.json'),
+    setHistory: function (data) {this.history = data }
 }
 
 const getAllContribuableValide = (req, res) => {
