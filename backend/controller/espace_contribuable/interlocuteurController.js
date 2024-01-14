@@ -14,7 +14,7 @@ const setInterlocuteur = async (req, res) => {
     const titre_interlocuteur = req.body.titre_interlocuteur;
     const adresse_interlocuteur = req.body.adresse_interlocuteur;
     const telephone_interlocuteur = req.body.telephone_interlocuteur;
-    const email_interlocuteur = req.body.interlocuteur;
+    const email_interlocuteur = req.body.email_interlocuteur;
 
     const newInterlocuteur = {
         "id_interlocuteur": id,
