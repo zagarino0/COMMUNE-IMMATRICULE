@@ -1,6 +1,6 @@
 const data = {
     users: require('../../model/user.json'),
-    setUser: function (data) { this.users = data}
+    setUser: function (data) { this.users = data }
 }
 
 const fsPromises = require('fs').promises;
@@ -49,7 +49,7 @@ const getUserInactifByCode = (req, res) => {
 const desactivationUser = async (req, res) => {
     const code = req.body.code;    
     const user = data.users.find(use => use.code === code && use.actif);
-    if(!code)
+    if(!user)
         res.status(401).json({'message': 'utilisateur introuvable'});
     
     user.actif = false;
@@ -68,7 +68,7 @@ const desactivationUser = async (req, res) => {
 const reactivationUser = async (req, res) => {
     const code = req.body.code;    
     const user = data.users.find(use => use.code === code && !use.actif);
-    if(!code)
+    if(!user)
         res.status(401).json({'message': 'utilisateur introuvable'});
     
     user.actif = true;
