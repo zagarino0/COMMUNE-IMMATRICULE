@@ -2,7 +2,7 @@ const data = {
     users: require('../../model/user.json'),
     setUsers: function (data) { this.users = data },
     history: require('../../model/history.json'),
-    setHistory: function (data) { this.history = this.history }
+    setHistory: function (data) { this.history = data }
 }
 
 const bcrypt = require('bcrypt');

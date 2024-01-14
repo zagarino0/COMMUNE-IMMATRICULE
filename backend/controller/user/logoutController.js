@@ -1,6 +1,8 @@
 const data = {
     users: require('../../model/user.json'),
-    setUsers: function (data) { this.users = data }
+    setUsers: function (data) { this.users = data },
+    history: require('../../model/history.json'),
+    setHistory: function (data) { this.history = data }
 }
 
 const fsPromises = require('fs').promises;

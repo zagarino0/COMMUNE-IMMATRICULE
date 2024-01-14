@@ -29,4 +29,10 @@ router.route('/inactif/:id_user')
 router.route('/all')
     .get(userController.getAllUser);
 
+router.route('/delete')
+    .post(userController.deleteUser);
+
+router.route('/code')
+    .post(userController.getUserByCode);
+
 module.exports = router;
