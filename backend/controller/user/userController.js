@@ -62,7 +62,7 @@ const desactivationUser = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'user.json'),
         JSON.stringify(data.users)
     ); 
-    res.json({'success': 'Desactivation effectué'})
+    res.json(data.users)
 }
 
 const reactivationUser = async (req, res) => {
@@ -81,7 +81,7 @@ const reactivationUser = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'user.json'),
         JSON.stringify(data.users)
     ); 
-    res.json({'success': 'Desactivation effectué'})
+    res.json(data.users)
 }
 
 const getAllUser = (req, res) => {

@@ -5,13 +5,25 @@ const data = {
 }
 
 const getAllAction = (req, res) => {
-    res.json(data.history)
+    let history = [];
+    data.users.map(use => {
+        data.history.map(his => {
+            if(use.id === his.id_user && (new Date(his.date_history)) >= (new Date(date_debut)) && (new Date(his.date_history)) <= (new Date())){
+                history.push({...use, ...his})
+            }
+        })
+    })
+    res.json(history);
+    history = [];
 }
 
 const getActionByUserId = (req, res) => {
     const id_user = req.params.id_user;
     const history = data.history.filter(his => his.id_user === id_user);
-    res.json(history);
+    if(!history)
+        return res.status(404).json({'message': 'history not found'});
+    const user = data.users.find(use => use.id === history.id_user);
+    res.json({...history, ...user});
 }
 
 const getActionByAll = (req, res) => {
@@ -35,19 +47,53 @@ const getActionByAll = (req, res) => {
             user = data.users.find(use => use.code === login);
             data.history.map(his => {
                 if(his.id_user === user.id){
-                    history.push({...user, his});
+                    history.push({...user, ...his});
                 }
             })
         }
     }else if(date_debut && !date_fin){
         if(!login){
-            const tel = 1;
+            data.users.map(use => {
+                data.history.map(his => {
+                    if(use.id === his.id_user && (new Date(his.date_history)) >= (new Date(date_debut)) && (new Date(his.date_history)) <= (new Date())){
+                        history.push({...use, ...his})
+                    }
+                })
+            })
+        }else{
+            user = data.users.find(use => use.code === login);
+            data.history.map(his => {
+                if(his.id_user === user.id && (new Date(date_history)) >= (new Date(date_debut)) && (new Date(date_history)) <= (new Date())){
+                    history.push({...user, ...his});
+                }
+            })
+        }
+    }else if (!date_debut && date_fin){
+        history.push('Aucun historique disponible');
+    }else if (date_debut && date_fin){
+        if(!login){
+            data.users.map(use => {
+                data.history.map(his => {
+                    if(use.id === his.id_user && (new Date(his.date_history)) >= (new Date(date_debut)) && (new Date(his.date_history)) <= (new Date(date_fin))){
+                        history.push({...his, ...use});
+                    }
+                })
+            })
+        }else{
+            user = data.users.find(use => use.code === login);
+            data.history.map(his => {
+                if(his.id_user === user.id && (new Date(his.date_history)) >= (new Date(date_debut)) && (new Date(his.date_history)) <= (new Date(date_fin))){
+                    history.push({...user, ...his})
+                }
+            })
         }
     }
-    res.json()
+    res.json(history)
+    history = [];
 }
 
 module.exports = {
     getAllAction,
-    getActionByUserId
+    getActionByUserId,
+    getActionByAll
 }
