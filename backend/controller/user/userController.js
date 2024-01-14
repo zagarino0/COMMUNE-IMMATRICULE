@@ -3,6 +3,9 @@ const data = {
     setUser: function (data) { this.users = data}
 }
 
+const fsPromises = require('fs').promises;
+const path = require('path');
+
 const getAllUserActif = (req, res) => {
     res.json(data.users.filter(use => use.actif));
 }
@@ -85,8 +88,32 @@ const getAllUser = (req, res) => {
     res.json(data.users);
 }
 
+const deleteUser = async (req, res) => {
+    const code = req.body.code;
+    const user = data.users.find(use => use.code === code);
+    if(!user)
+        return res.status(404).json({'message': `user ${code} not found`})
+    const filteredUser = data.users.filter(use => use.code !== code);
+    data.setUser(filteredUser);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user.json'),
+        JSON.stringify(data.users)
+    );
+    res.status(200).json({'success': `user ${user.id} deleted`});
+}
+
+const getUserByCode = (req, res) => {
+    const code = req.body.code;
+    const user = data.users.find(use => use.code === code);
+    if(!user)
+        return res.status(404).json({'message': `user ${code} not found`});
+    res.json(user);
+}
+
 module.exports = {
     getAllUserActif,
+    deleteUser,
+    getUserByCode,
     desactivationUser,
     reactivationUser,
     getAllUserInactif,

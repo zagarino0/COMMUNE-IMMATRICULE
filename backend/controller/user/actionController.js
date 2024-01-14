@@ -14,6 +14,15 @@ const getActionByUserId = (req, res) => {
     res.json(history);
 }
 
+const getActionByAll = (req, res) => {
+    const date_debut = req.body.date_debut;
+    const date_fin = req.body.date_fin;
+    const login = req.body.date_fin;
+
+   
+
+}
+
 module.exports = {
     getAllAction,
     getActionByUserId

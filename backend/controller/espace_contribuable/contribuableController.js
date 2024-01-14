@@ -9,6 +9,8 @@ const data = {
     setValidation: function (data) { this.validation = data },
     cessations: require('../../model/cessation_activite.json'),
     setCessations: function (data) { this.cessations = data },
+    history: require('../../model/history.json'),
+    setHistory: function (data) { this.history = data },
 
     //Temp model
     actionnairesTemps: require('../../model/model_temp/actionnaire.json'),
@@ -204,60 +206,76 @@ const validationContribuable = async (req, res) => {
 
     //Actionnaire
     const actionnaire = data.actionnairesTemps.find(act => act.id_contribuable === contribuable.id);
-    if(actionnaire) {
+    if (actionnaire) {
         const filtederActionnaire = data.actionnairesTemps.filter(act => act.id_contribuable !== contribuable.id)
         data.setActionnaireTemps(filtederActionnaire);
-        data.setActionnaire([...data.actionnaires, actionnaire]);   
+        data.setActionnaire([...data.actionnaires, actionnaire]);
     }
     //dirigeant
     const dirigeant = data.dirigeantTemps.find(dir => dir.id_contribuable === contribuable.id);
-    if(dirigeant){
-    const filteredDirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable !== contribuable.id);
-    data.setDirigeantTemps(filteredDirigeant);
-    data.setDirigeant([...data.dirigeant, dirigeant]);
+    if (dirigeant) {
+        const filteredDirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable !== contribuable.id);
+        data.setDirigeantTemps(filteredDirigeant);
+        data.setDirigeant([...data.dirigeant, dirigeant]);
     }
     //activite
     const activite = data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
-    if(activite){   
-    const filteredActivite = data.activiteTemps.filter(act => act.id_contribuable !== contribuable.id);
-    data.setActiviteTemps(filteredActivite);
-    data.setActivite([...data.activite, activite]);
+    if (activite) {
+        const filteredActivite = data.activiteTemps.filter(act => act.id_contribuable !== contribuable.id);
+        data.setActiviteTemps(filteredActivite);
+        data.setActivite([...data.activite, activite]);
     }
     //interlocuteur
     const interlocuteur = data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
-    if(interlocuteur){
-    const filteredInterlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable !== contribuable.id);
-    data.setInterlocuteurTemps(filteredInterlocuteur);
-    data.setInterlocuteur([...data.interlocuteur, interlocuteur]);
+    if (interlocuteur) {
+        const filteredInterlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable !== contribuable.id);
+        data.setInterlocuteurTemps(filteredInterlocuteur);
+        data.setInterlocuteur([...data.interlocuteur, interlocuteur]);
     }
     //siege
     const siege = data.siegeTemps.find(sie => sie.id_contribuable === contribuable.id);
-    if(siege){  
-    const filteredSiege = data.siegeTemps.filter(sie => sie.id_contribuable !== contribuable.id);
-    data.setSiegeTemps(filteredSiege);
-    data.setSiege([...data.siege, siege]);
+    if (siege) {
+        const filteredSiege = data.siegeTemps.filter(sie => sie.id_contribuable !== contribuable.id);
+        data.setSiegeTemps(filteredSiege);
+        data.setSiege([...data.siege, siege]);
     }
     //etablissement
     const etablissement = data.etablissementsTemps.find(eta => eta.id_contribuable === contribuable.id);
-    if(etablissement){ 
-    const filteredEtablissement = data.etablissementsTemps.filter(eta => eta.id_contribuable !== contribuable.id);
-    data.setEtablissementsTemps(filteredEtablissement);
-    data.setEtablissements([...data.etablissements, etablissement]);
+    if (etablissement) {
+        const filteredEtablissement = data.etablissementsTemps.filter(eta => eta.id_contribuable !== contribuable.id);
+        data.setEtablissementsTemps(filteredEtablissement);
+        data.setEtablissements([...data.etablissements, etablissement]);
     }
     //autre
     const autre = data.autresTemps.find(aut => aut.id_contribuable === contribuable.id);
-    if(autre){  
-    const filteredAutres = data.autresTemps.filter(aut => aut.id_contribuable !== contribuable.id);
-    data.setAutresTemps(filteredAutres);
-    data.setAutres([...data.autres, autre]);
+    if (autre) {
+        const filteredAutres = data.autresTemps.filter(aut => aut.id_contribuable !== contribuable.id);
+        data.setAutresTemps(filteredAutres);
+        data.setAutres([...data.autres, autre]);
     }
     //coordonnees
     const coordonnees = data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
-    if(coordonnees){  
+    if (coordonnees) {
         const filteredCoordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable !== contribuable.id);
         data.setCoordonneesTemps(filteredCoordonnees);
         data.setCoordonnees([...data.coordonnees, coordonnees]);
     }
+
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': req.body.id_user,
+        'motif': 'Validation contribuable',
+        'comment': '',
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
+    )
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
@@ -456,6 +474,22 @@ const validationMiseAJour = async (req, res) => {
     data.setContribuable(filteredContribuable);
     data.setValidation(unsortedValidation.sort((a, b) => a.id_validation > b.id_validation ? 1 : a.id_validation < b.id_validation ? -1 : 0));
 
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': mise_a_jour_contribuable.id,
+        'id_user': req.body.id_user,
+        'motif': 'Validation mise à jour contribuable',
+        'comment': '',
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
+    )
+
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
         JSON.stringify(data.contribs)
@@ -521,6 +555,9 @@ const cessationActivite = async (req, res) => {
 
 const repriseActivite = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
+    const motif = req.body.motif;
+    const comment = req.body.comment;
+    const id_user = req.body.id_user;
     const contribuable = data.contribs.find(con => con.id_contribuable === reference_fiscal);
     if (!contribuable)
         return res.status(404).json({ 'message': 'Contribuable introuvable' });
@@ -537,6 +574,23 @@ const repriseActivite = async (req, res) => {
 
     data.setCessations(unsortedCessation.sort((a, b) => a.id_cessation > b.id_cessation ? 1 : a.id_cessation < b.id_cessation ? -1 : 0));
 
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': id_user,
+        'motif': motif,
+        'comment': comment,
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
+    )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
         JSON.stringify(data.cessations)

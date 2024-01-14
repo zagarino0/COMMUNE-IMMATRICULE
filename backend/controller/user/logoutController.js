@@ -1,6 +1,8 @@
 const data = {
     users: require('../../model/user.json'),
-    setUsers: function (data) { this.users = data }
+    setUsers: function (data) { this.users = data },
+    history: require('../../model/history.json'),
+    setHistory: function (data) { this.history = data }
 }
 
 const fsPromises = require('fs').promises;
@@ -28,7 +30,7 @@ const handleLogout = async (req, res) => {
     const history = {
         'id_history': id_history,
         'id_contribuable': '',
-        'id_user': req.body.id_user,
+        'id_user': currentUser.id,
         'motif': 'deconnexion',
         'comment': '',
         'date_history': new Date()
