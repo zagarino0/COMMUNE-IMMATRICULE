@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
+import axios from "axios";
+import Checkbox from "../../../components/common/checkbox";
 
 function ConsulterActionUtilisateur() {
   const [Action , setACtion] = useState<{
@@ -18,11 +20,20 @@ login: "",
    date_fin: "",
    
   })
-  const headers = ["NIF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+ 
+  const [DataUser ,setDataUser] = useState([]);
+  useEffect(() => {
+      // Récupérer les données depuis le backend
+      axios.get('http://localhost:3500/action')
+        .then((response) => setDataUser(response.data))
+        .catch((error) => console.error(error));
+    }, []);
+  
+    console.log(DataUser)
+    const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" ]
+    const data = DataUser.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , <Checkbox checked={item.actif}/>, item.numero_matricule ])
+      
+
   const contentCard=(
       <div >
 
@@ -74,7 +85,7 @@ data={data}
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
+  <Card contentCard={contentCard} className="w-[800px] h-[800px] "></Card>
   </div>
  </MainLayout>
 )

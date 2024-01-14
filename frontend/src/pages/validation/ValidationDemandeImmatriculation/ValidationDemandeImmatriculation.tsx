@@ -15,7 +15,10 @@ import { TiDocumentText } from "react-icons/ti";
 function ValidationDemandeImmatriculation() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [DataSelected , setDataSelected] = useState([]);
-const [Valide , setValide] = useState<{
+
+
+
+  const [Valide , setValide] = useState<{
 domaine_recherche : string ,
 reference : string ,
 cin:string,
@@ -72,10 +75,20 @@ const handleSearchClient = async () => {
       { value: 'Adresse', label: 'Adresse' },
       { value: 'Nom commercial', label: 'Nom commercial' },
     ];
+
+ 
+    useEffect(() => {
+        // Récupérer les données depuis le backend
+        axios.get('http://localhost:3500/consultation/contribuable/avalide')
+          .then((response) => setData(response.data))
+          .catch((error) => console.error(error));
+      }, []);
+    
+     
 const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
-const data = [
-  [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
-]
+const data = Data.map((item)=>[item.id , item.raison_social , item.nom_commercial , item.forme_juridique])
+  // [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
+
 
 
 
@@ -106,8 +119,7 @@ const data = [
   setSelectedRowIndex(rowIndex);
   
   // Extract the property values from the data object
-  const selectedRowData = {
-     Data };
+  const selectedRowData = Data[rowIndex]
 
   
   setDataSelected(selectedRowData);

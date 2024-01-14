@@ -63,7 +63,7 @@ function DemandeDeNIFAValiderPage() {
       }
       try {
         // Make a POST request to your server endpoint
-        const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
+        const response = await axios.post("http://localhost:3500/consultation/contribuable/miseajouravalide", DataSearch);
         setData(response.data);
         // Check the response status or do something with the response
         console.log("Server Response:", Data );
@@ -76,7 +76,9 @@ function DemandeDeNIFAValiderPage() {
 
 
     const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
-    const data = Data.map((item)=>[item.id  ,item.raison_social ,  item.nom_commercial , item.forme_juridique])
+    const data = [
+      [Data.id  ,Data.raison_social ,  Data.nom_commercial , Data.forme_juridique]
+    ]
     
     
     

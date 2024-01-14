@@ -23,18 +23,20 @@ interface LinkHrefProps{
     text?: string ,
     href?: string, 
     onClick?: ()=> void,
-    
+    key?: string    
 }
 
 export const Button: React.FC<ButtonProps> = ({
   type , 
   className ,
   text,
-  onClick
+  onClick,
+  key
   }) => {
     return (
       
     <button
+    key={key}
     type={type}  
     className={` 
     py-3

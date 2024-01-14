@@ -60,8 +60,8 @@ data={data}
     )
   return (
     <MainLayout>
-    <div  className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-    <Card contentCard={contentCard} className="w-[900px] h-[500px]"></Card>
+    <div  className="overflow-y-auto h-[500px] flex justify-center mt-14 mb-8 ">
+    <Card contentCard={contentCard} className="w-[900px] h-[800px]"></Card>
     </div>
         </MainLayout>
   )

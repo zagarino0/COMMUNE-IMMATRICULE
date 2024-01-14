@@ -6,12 +6,16 @@ import Input from "../../../components/inputs";
 import { MainLayout } from "../../../layouts/main";
 import axios from "axios";
 
-function ModifierMotDePassePage() {  
- const [ Mot_de_pass , setMot_de_pass] = useState<{
+interface Mdp {
+  code : string ,
  ancien_mot_de_pass : string,
  nouveau_mot_de_pass : string,
  confirm_mot_de_pass : string   
- }>({
+ }
+
+function ModifierMotDePassePage() {  
+ const [ Mot_de_pass , setMot_de_pass] = useState<Mdp>({
+  code : "",
   ancien_mot_de_pass : "",
   nouveau_mot_de_pass : "",
   confirm_mot_de_pass : ""  
@@ -24,17 +28,25 @@ function ModifierMotDePassePage() {
   }
 
   try {
+
+    const Motdepass = {
+      "code" : Mot_de_pass.code ,
+      "password" : Mot_de_pass.ancien_mot_de_pass,
+      "newPassword": Mot_de_pass.nouveau_mot_de_pass
+    }
+    console.log(Motdepass)
     // Replace 'YOUR_BACKEND_CHANGE_PASSWORD_URL' with your actual backend API endpoint for changing the password
     const response = await axios.post(
-      "http://localhost:3500",
-      Mot_de_pass
+      "http://localhost:3500/user/password/update",
+      Motdepass
     );
 
     // Handle the response from the server as needed
     console.log("Password change successful:", response.data);
-
+    alert(`Mot de passe changer  pour l'utilisateur ${Mot_de_pass.code}`)
     // Reset the form after successful password change
     setMot_de_pass({
+      code : "",
       ancien_mot_de_pass: "",
       nouveau_mot_de_pass: "",
       confirm_mot_de_pass: "",
@@ -43,7 +55,7 @@ function ModifierMotDePassePage() {
     // Handle errors from the server
     console.error("Password change failed:", error.message);
     alert(
-      "Password change failed. Please check your credentials and try again."
+      "La modification du mot de passe a échoué. Veuillez vérifier vos informations d'identification et réessayer."
     );
   }
 };
@@ -55,17 +67,22 @@ function ModifierMotDePassePage() {
   </div>
 <div className="flex flex-col p-2  border-[#959824] mt-14">
 <Input type="text"
+value={Mot_de_pass.code}
+onChange={(e)=>{ setMot_de_pass({...Mot_de_pass , code : e.target.value })}}
+placeholder="Code" className="mt-6"></Input>
+
+<Input type="password"
 value={Mot_de_pass.ancien_mot_de_pass}
 onChange={(e)=>{ setMot_de_pass({...Mot_de_pass , ancien_mot_de_pass : e.target.value })}}
 placeholder="Ancien mot de passe" className="mt-6"></Input>
 
-<Input type="text"
+<Input type="password"
 
 value={Mot_de_pass.nouveau_mot_de_pass}
 onChange={(e)=>{ setMot_de_pass({...Mot_de_pass , nouveau_mot_de_pass: e.target.value })}}
 placeholder="Nouveau mot de passe" className="mt-6"></Input>
 
-<Input type="text" placeholder="Resaisir le nouveau mot de passe "className="mt-4"
+<Input type="password" placeholder="Resaisir le nouveau mot de passe "className="mt-4"
 
 value={Mot_de_pass.confirm_mot_de_pass}
 onChange={(e)=>{ setMot_de_pass({...Mot_de_pass , confirm_mot_de_pass : e.target.value })}}

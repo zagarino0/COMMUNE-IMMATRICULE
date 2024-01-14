@@ -130,7 +130,7 @@ Antananarivo, 101, Madagascar</p>
  
         </div>
         <div className="bg-black w-full h-16 p-3 flex justify-center">
-             <p className="text-justify  text-white ">© 2022-2023, Direction Générale des Impôts, SSIF</p>
+             <p className="text-justify  text-white ">© 2023-2024, Commune Urbaine Mahajanga , CUM</p>
         </div>
         <ModalLogin isOpen={isModal} onClose={()=>setIsModal(false)} quitter={()=>setIsModal(false)}></ModalLogin>
     </div>

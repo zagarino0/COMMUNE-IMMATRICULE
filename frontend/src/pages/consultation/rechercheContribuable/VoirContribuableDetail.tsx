@@ -6,8 +6,9 @@ import { TitleH3 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 
 function VoirContribuableDetail() {
-
-
+    const selectedData = localStorage.getItem("selectedRechercheConsulationData");
+    const DataSelected = JSON.parse(selectedData as string);
+    console.log(DataSelected)
     const HeaderVehicule = [ "Numéro vehicule" , "Genre" , "Marque" , "Type" , "Nbre Place" , "DMC" , "Poids"]
     
     const DataVehicule = [
@@ -21,54 +22,54 @@ function VoirContribuableDetail() {
     ]
     const contentCard = (
         <div className="m-4">
-            <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation du contribuable ayant comme RF : référence fiscal</div>
+            <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation du contribuable ayant comme RF : {DataSelected.reference_fiscal}</div>
            <div className="flex flex-col bg-gray-20 m-4">
 <div className="mt-6">
     <TitleH3 text="Contribuable actif"></TitleH3>
 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Raison social"></Label>
-                    <Label text="Raison social"></Label>
+                    <Label text={DataSelected.raison_social}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Nom commercial"></Label>
-                    <Label text="Nom commercial"></Label>
+                    <Label text={DataSelected.nom_commercial}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Type"></Label>
-                    <Label text="Type"></Label>
+                    <Label text={DataSelected.type}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Situation matrimoniale"></Label>
-                    <Label text="Situation matrimoniale"></Label>
+                    <Label text={DataSelected.situationmatrimoinial}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Sexe"></Label>
-                    <Label text="Sexe"></Label>
+                    <Label text={DataSelected.sexe}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="CIN"></Label>
-                    <Label text="CIN"></Label>
+                    <Label text={DataSelected.cin}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Délivrée le"></Label>
-                    <Label text="délivrée le"></Label>
+                    <Label text={DataSelected.delivre_le}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="A"></Label>
-                    <Label text="A"></Label>
+                    <Label text={DataSelected.lieudelivrancecin}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Né(e) le"></Label>
-                    <Label text="Né(e) "></Label>
+                    <Label text={DataSelected.datenaissance}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="A"></Label>
-                    <Label text="A"></Label>
+                    <Label text={DataSelected.lieunaissance}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Passport"></Label>
-                    <Label text="Passport"></Label>
+                    <Label text={DataSelected.passport}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Associé majoritaire"></Label>

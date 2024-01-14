@@ -3,6 +3,7 @@ import { TitleH1, TitleH2, TitleH3 } from "../../../components/title";
 import { IoIosAddCircle } from "react-icons/io";
 import "./Modal.css"
 import Button from "../../../components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 interface ModalProps {
     isOpen?: boolean |  void ;
@@ -16,7 +17,7 @@ interface ModalProps {
 
 export const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose, className , quitter}) => {
 
- 
+ let navigate = useNavigate()
   return (
     <div>
         <Modal isOpen={isOpen} onClose={onClose} className={`  ${className}`}>
@@ -34,19 +35,19 @@ export const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose, className , 
 <div className="flex flex-col">
 <div  className=" w-[350px] flex items-center justify-center flex-col p-4 shadow-2xl bg-white  h-[150px] rounded">
 
-<TitleH1 text="DGE Mahajanga" className="text-[#959824] text-lg"></TitleH1>
-<TitleH3 text="Accéder à l'espace contribuable de la DGE et SRE Mahajanga" className="mt-4 text-gray-400 text-center text-xs"></TitleH3>
+<TitleH1 text="Commune Mahajanga" className="text-[#959824] text-lg"></TitleH1>
+<TitleH3 text="Accéder à l'espace contribuable " className="mt-4 text-gray-400 text-center text-xs"></TitleH3>
 <IoIosAddCircle className="text-[#959824] text-2xl mt-4"/>
 
 </div>
 <div className="flex flex-col">
 <div  className=" w-[350px] flex mt-4 items-center justify-center flex-col p-4 shadow-2xl bg-white  h-[220px] rounded">
 
-<TitleH1 text="Télé-déclaration DGE/SRE  Mahajanga" className="text-[#959824] text-lg"></TitleH1>
-<TitleH3 text="Les contribuables de la DGE et du SRE Analamanga disposent depuis l'année 2009 un espace de télé-déclaration et de télé-paiement. Cet espace est accessible en cliquant sur le bouton suivant." className="mt-4 text-gray-400 text-xs text-center"></TitleH3>
+<TitleH1 text="Télé-déclaration D'administration  Mahajanga" className="text-[#959824] text-lg"></TitleH1>
+<TitleH3 text="Les contribuables de  Mahajanga disposent depuis l'année 2024 un espace de télé-déclaration et de télé-paiement. Cet espace est accessible en cliquant sur le bouton suivant." className="mt-4 text-gray-400 text-xs text-center"></TitleH3>
 
 <div className="w-40 mt-4">
-<Button label="DGE Mahajanga" onClick={()=>window.location.href = "/loginAdmin"} ></Button>
+<Button label="Administration" onClick={()=>navigate("/loginAdmin")} ></Button>
 </div>
 </div>
 
@@ -56,18 +57,18 @@ export const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose, className , 
   
 <div  className="hoverFlipLeft w-[350px]  flex items-center justify-center flex-col p-4 shadow-2xl bg-white  h-[150px] rounded">
 
-<TitleH1 text="Centre Fiscal" className="text-[#959824] text-lg "></TitleH1>
-<TitleH3 text="Un nouvel outil accessible des contribuables des Centres Fiscaux" className="mt-4 text-xs text-gray-400 text-center"></TitleH3>
+<TitleH1 text="Espace Contribuable" className="text-[#959824] text-lg "></TitleH1>
+<TitleH3 text="Un nouvel outil accessible des contribuables " className="mt-4 text-xs text-gray-400 text-center"></TitleH3>
 
 <IoIosAddCircle className="text-[#959824] text-2xl mt-4"/>
 </div>
 
 <div  className="hoverFlipLeft w-[350px] mt-4 flex items-center justify-center flex-col p-4 shadow-2xl bg-white  h-[220px] rounded">
 
-<TitleH1 text="Télé-déclaration Centre Fiscal" className="text-[#959824] text-lg "></TitleH1>
-<TitleH3 text="Le mois de Juillet 2018 a été consacré pour offrir aux contribuables les meilleurs services. A cet effet, la DGI met à la disposition des contribuables des Centres Fiscaux un nouvel outil de télé-déclaration et de télé-paiement." className="mt-4 text-xs text-gray-400 text-center"></TitleH3>
+<TitleH1 text="Télé-déclaration Contribuables" className="text-[#959824] text-lg "></TitleH1>
+<TitleH3 text="L'année 2024 a été consacré pour offrir aux contribuables les meilleurs services. A cet effet, le Commune met à la disposition des contribuables des Contribuables un nouvel outil de télé-déclaration et de télé-paiement." className="mt-4 text-xs text-gray-400 text-center"></TitleH3>
 <div className="w-40 mt-4">
-<Button label="Centre Fiscal" onClick={()=>window.location.href = "/LoginClient"} ></Button>
+<Button label="Espace Contribuable" onClick={()=>navigate("/LoginClient")} ></Button>
 </div>
 </div>
 </div>

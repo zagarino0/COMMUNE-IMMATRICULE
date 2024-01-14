@@ -14,17 +14,13 @@ function MiseJourCaracteristiqueVehicule() {
 
 
    const [Data , setData] = useState([])
-   const [numero_vehicule , setNumero_vehicule] = useState('');
+   const [immatriculation , setImmatriculation] = useState('');
  // Fonction pour faire un  recherche d'un client avec référence fiscal
 const handleSearchVehicule = async () => {
- const DataSearch ={
  
- "reference_fiscal": numero_vehicule,
- 
- }
  try {
    // Make a POST request to your server endpoint
-   const response = await axios.post(`http://localhost:3500/vehicle/${DataSearch}`);
+   const response = await axios.get(`http://localhost:3500/vehicle/${immatriculation}`);
    setData(response.data);
    // Check the response status or do something with the response
    console.log("Server Response:", Data );
@@ -47,8 +43,8 @@ const headers = ["Numero", "Marque", "Type", "Genre"];
 <div className="mt-6 flex  justify-between ">
 <Label text="Numéro véhicules" className="mt-2" ></Label>
 <Input type="text" className="w-96 ml-4 "
-value={numero_vehicule}
-onChange={(e)=> setNumero_vehicule(e.target.value)}
+value={immatriculation}
+onChange={(e)=> setImmatriculation(e.target.value)}
 ></Input>
 <Button onClick={handleSearchVehicule} text="Rechercher" className="ml-4"></Button>
 </div>

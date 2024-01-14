@@ -5,7 +5,7 @@ import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function RectificationVehiculePage() {
    
@@ -19,6 +19,7 @@ function RectificationVehiculePage() {
  const handleSearchClient = async () => {
   
    try {
+    console.log(numimmatriculation_v);
      // Make a POST request to your server endpoint
      const response = await axios.post(`http://localhost:3500/vehicle/${numimmatriculation_v}`);
      setData(response.data);
@@ -27,8 +28,18 @@ function RectificationVehiculePage() {
    } catch (error) {
      // Handle errors
      console.error("Error:", error);
+     alert('Vehicule non trouvé')
    }
  };
+
+ 
+ useEffect(() => {
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/vehicle')
+    .then((response) => setData(response.data))
+    .catch((error) => console.error(error));
+}, []);
+
  const headers = ["Numéro immatriculattion", "Marque", "Puissance", "Poids à vide "];
  const data = Data.map((item)=>[item.numimmatriculation_v  ,item.marque_v ,  item.puissance_v , item.poidsavide_v])
  const contentCard=(

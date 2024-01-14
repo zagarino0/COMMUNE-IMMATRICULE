@@ -28,8 +28,8 @@ function Assujetissement() {
   
     const [selectedOption, setSelectedOption] = useState('');
     const selectedData = localStorage.getItem("selectedValidationData");
-    const DataSelected = JSON.parse(selectedData as string);
-    const parsedDataSelected = DataSelected.Data
+    const parsedDataSelected  = JSON.parse(selectedData as string);
+     
     console.log(parsedDataSelected)
     const [Assujetissement , setAssujetissement] = useState<{
       id_contribuable: string,
@@ -274,6 +274,27 @@ function Assujetissement() {
     }, []);
 
 
+    const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+  
+    useEffect(() => {
+      // Store Value data in localStorage
+      localStorage.setItem("ContribuableSelectedValidationAssujetissementData", JSON.stringify(parsedDataSelected ));
+      // Reset the dummy state to trigger rerender
+      console.log(parsedDataSelected)
+      setIsStorageUpdated(false);
+    }, [parsedDataSelected, isStorageUpdated]);
+    
+
+    const handleButtonClick = () => {
+      // Trigger a rerender by updating the dummy state
+      setIsStorageUpdated(true);
+  
+      // Use the selectedOption to determine the route to navigate to
+      const routeToNavigate = "/saisirmotifrejet";
+  
+      // Use navigate to navigate to the determined route
+      navigate(routeToNavigate, { state: { parsedDataSelected } });
+    };
   
     const contentCard = (
         <div className="m-4 mb-4">
@@ -504,8 +525,9 @@ onChange={(e)=> setCoordonnees({...Coordonnees , laltitude : e.target.value })}
 <div className="flex justify-between mt-4">
 <Button text="Valider" onClick={HandleClick}></Button>
   
-  <Button text="Rejeter " onClick={ () => navigate("/saisirmotifrejet")}></Button>
+  <Button text="Rejeter " onClick={handleButtonClick}></Button>
 </div>
+{/* /saisirmotifrejet */}
 </div>
   
     </div>

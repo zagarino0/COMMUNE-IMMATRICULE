@@ -56,7 +56,7 @@ const handleLogin = async (req, res) => {
             JSON.stringify(data.history)
         )
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', sercure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({ 'success': `User ${foundUser.code} is logged in` });
+        res.json(foundUser);
     } else {
         res.sendStatus(401);
     }

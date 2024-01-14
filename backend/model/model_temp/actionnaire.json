@@ -1,1 +1,50 @@
-[]
+[
+    {
+        "id": "1",
+        "id_contribuable": "lrLjID7G",
+        "type": "Personne physique",
+        "nom_actionnaire": "Randria",
+        "fonction_actionnaire": "Gendarme",
+        "resident_actionnaire": "",
+        "cin_passeport_actionnaire": "23575659887",
+        "adresse_actionnaire": "lot 234",
+        "autre_activite_actionnaire": "",
+        "nif_actionnaire": "",
+        "email_actionnaire": "Randria@gmail.com",
+        "numero_actionnaire": "+261326494594",
+        "associe_unique_actionnaire": "",
+        "action_ou_actionnaire": ""
+    },
+    {
+        "id_contribuable": "lrLjID7G",
+        "type": "Personne morale",
+        "nom_actionnaire": "",
+        "fonction_actionnaire": "",
+        "resident_actionnaire": "",
+        "cin_passeport_actionnaire": "",
+        "adresse_actionnaire": "",
+        "autre_activite_actionnaire": "",
+        "nif_actionnaire": "987654321",
+        "email_actionnaire": "",
+        "numero_actionnaire": "",
+        "associe_unique_actionnaire": "",
+        "action_ou_actionnaire": "",
+        "id": "2"
+    },
+    {
+        "id_contribuable": "lrLjID7G",
+        "type": "Personne morale etrangère/Etat",
+        "nom_actionnaire": "Jean Paul",
+        "fonction_actionnaire": "",
+        "resident_actionnaire": "",
+        "cin_passeport_actionnaire": "",
+        "adresse_actionnaire": "lot 265",
+        "autre_activite_actionnaire": "",
+        "nif_actionnaire": "",
+        "email_actionnaire": "",
+        "numero_actionnaire": "",
+        "associe_unique_actionnaire": "",
+        "action_ou_actionnaire": "",
+        "id": "3"
+    }
+]

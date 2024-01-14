@@ -1,1 +1,84 @@
-[{"reference_fiscal":"100000000","cin":"","actif":false},{"reference_fiscal":"NaN00000000","cin":"","actif":false},{"reference_fiscal":"NaN00000000","cin":"","actif":false},{"id":"qTBgtnhJs","raison_social":"Maysoft","reference_fiscal":"NaN00000000","type":"Personne morale","situation_matrimoiniale":"","cin":"","sexe":"","etranger":false,"numero_passeport":"","date_de_delivrance_passeport":"","date_de_delivrance_cin":"","lieu_de_delivrance_cin":"","date_de_naissance":"","lieu_de_naissance":"","forme_juridique":"spdpsdpsd","regime_fiscal":"sdsd","date_agrement":"","reference_agrement":"","periode_grace":"","date_creation":"2024-01-29","capital":"sdsd","RIB":"Disponible","actif":false},{"id":"EkkIXOVlt","raison_social":"nsdlsldns:","reference_fiscal":"00000000000qTBgtnhJs1","type":"Personne morale","situation_matrimoiniale":"","cin":"","sexe":"","etranger":false,"numero_passeport":"","date_de_delivrance_passeport":"","date_de_delivrance_cin":"","lieu_de_delivrance_cin":"","date_de_naissance":"","lieu_de_naissance":"","forme_juridique":"lsdpmsd,","regime_fiscal":"sm,dmsd","date_agrement":"","reference_agrement":"","periode_grace":"","date_creation":"2024-01-09","capital":"mndmsm","RIB":"Disponible","actif":false},{"reference_fiscal":"00000000000EkkIXOVlt1","actif":false}]
+[
+    {
+        "reference_fiscal": "100000000",
+        "cin": "",
+        "actif": false
+    },
+    {
+        "id": "EkkIXOVlt",
+        "raison_social": "nsdlsldns:",
+        "reference_fiscal": "00000000000qTBgtnhJs1",
+        "type": "Personne morale",
+        "situation_matrimoiniale": "",
+        "cin": "",
+        "sexe": "",
+        "etranger": false,
+        "numero_passeport": "",
+        "date_de_delivrance_passeport": "",
+        "date_de_delivrance_cin": "",
+        "lieu_de_delivrance_cin": "",
+        "date_de_naissance": "",
+        "lieu_de_naissance": "",
+        "forme_juridique": "lsdpmsd,",
+        "regime_fiscal": "sm,dmsd",
+        "date_agrement": "",
+        "reference_agrement": "",
+        "periode_grace": "",
+        "date_creation": "2024-01-09",
+        "capital": "mndmsm",
+        "RIB": "Disponible",
+        "actif": false
+    },
+    {
+        "reference_fiscal": "00000000000EkkIXOVlt1",
+        "actif": false
+    },
+    {
+        "reference_fiscal": "00000000000NaN",
+        "cin": "",
+        "actif": false
+    },
+    {
+        "reference_fiscal": "00000000000NaN",
+        "actif": false
+    },
+    {
+        "reference_fiscal": "00000000000NaN",
+        "actif": false
+    },
+    {
+        "reference_fiscal": "00000000000NaN",
+        "cin": "",
+        "actif": false
+    },
+    {
+        "reference_fiscal": "0000000000NaN",
+        "cin": "",
+        "actif": false
+    },
+    {
+        "id": "lrLjID7G",
+        "raison_social": "Entreprise ",
+        "reference_fiscal": "00000000000NaN",
+        "type": "Personne morale",
+        "situation_matrimoiniale": "",
+        "cin": "",
+        "sexe": "",
+        "etranger": false,
+        "numero_passeport": "",
+        "date_de_delivrance_passeport": "",
+        "date_de_delivrance_cin": "",
+        "lieu_de_delivrance_cin": "",
+        "date_de_naissance": "",
+        "lieu_de_naissance": "",
+        "forme_juridique": "forme ",
+        "regime_fiscal": "Regime",
+        "date_agrement": "",
+        "reference_agrement": "",
+        "periode_grace": "",
+        "date_creation": "2024-01-30",
+        "capital": "2345678",
+        "RIB": "Disponible",
+        "actif": false
+    }
+]

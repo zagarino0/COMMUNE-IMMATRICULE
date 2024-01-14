@@ -187,7 +187,7 @@ if(parsedDataDirigeant){
           // Check the response status or do something with the response
           console.log("Server Response:", response.data);
         alert("Actionnaire ajouté")
-         
+         alert(`Votre code de connexion est ${parsedDataRegistre.id}`)
         } catch (error) {
           // Handle errors
           console.error("Error:", error);

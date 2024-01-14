@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card } from "../../../components/card/card"
 import Checkbox from "../../../components/common/checkbox";
 import Input from "../../../components/inputs";
@@ -6,41 +6,21 @@ import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { TitleH3 } from "../../../components/title";
 import { ImFilePdf } from "react-icons/im";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
 import { Button } from "../../../components/common";
+import * as XLSX from 'xlsx';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 function RechercheContribuablePage() {
-    const [isChecked, setIsChecked] = useState(false);
-    const [isChecked2nd, setIsChecked2nd] = useState(false);
-    const [isChecked3, setIsChecked3] = useState(false);
-    const [isChecked4, setIsChecked4] = useState(false);
-    const [isChecked5, setIsChecked5] = useState(false);
-    const [isChecked6, setIsChecked6] = useState(false);
 
-    const handleCheckboxChange = (checked: boolean) => {
-        setIsChecked(checked);
-      };
-      const handleCheckboxChangeSecond = (checked: boolean) => {
-          setIsChecked2nd(checked);
-        };
-        const handleCheckboxChange3 = (checked: boolean) => {
-            setIsChecked3(checked);
-          };
-          const handleCheckboxChange4 = (checked: boolean) => {
-            setIsChecked4(checked);
-          };
-          const handleCheckboxChange5 = (checked: boolean) => {
-            setIsChecked5(checked);
-          };
-          const handleCheckboxChange6 = (checked: boolean) => {
-            setIsChecked6(checked);
-          };
-   
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [DataSelected , setDataSelected] = useState([]);
 
     const [Contribuable , setContribuable ]  =  useState<{
       domaine_recherche : string ,
@@ -84,13 +64,18 @@ useEffect(() => {
 
   const handleSearchClient = async () => {
     const DataSearch ={
-    
-  "reference_fiscal": Contribuable.reference_fiscal,
-    
+      "reference":Contribuable.reference,
+      "raison_social":Contribuable.raison_social,
+      "reference_fiscal": Contribuable.reference_fiscal,
+      "cin":Contribuable.cin,
+      "adresse": Contribuable.adresse,
+      "nom_commercial": Contribuable.nom_commercial,
+      "date_debut":Contribuable.date_debut,
+      "date_fin": Contribuable.date_fin  
     }
     try {
       // Make a POST request to your server endpoint
-      const response = await axios.post("http://localhost:3500/etat/contribuable/valide", DataSearch);
+      const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
       setDataContribuble(response.data);
       // Check the response status or do something with the response
       console.log("Server Response:", DataContribuable );
@@ -113,6 +98,85 @@ useEffect(() => {
         { value: 'Nom commercial', label: 'Nom commercial' },
       ];
     
+
+      const exportToExcelAllData = () => {
+        const allData = DataContribuable.map((item) => ({
+          "Référence ": item.id,
+          "Raison social" : item.raison_social ,
+          "Référence Fiscale" : item.reference_fiscal,
+          "Type" : item.type ,
+          "CIN" : item.cin ,
+          "Passport": item.numero_passeport ,
+          "sexe" : item.sexe
+          // ... add other properties you want to export
+        }));
+      
+        const ws = XLSX.utils.json_to_sheet(allData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'AllData');
+        XLSX.writeFile(wb, 'all_data.xlsx');
+      };
+
+
+
+      const tableRef = useRef(null);
+
+      const downloadPDF = () => {
+        // Use querySelector to get the table element
+        const table = document.querySelector("#yourTableId"); // Replace with the actual ID or class of your table
+    
+        if (!table) {
+          console.error("Table not found");
+          return;
+        }
+    
+        // Convert the table to a canvas
+        html2canvas(table).then((canvas) => {
+          // Convert the canvas to a PDF using jsPDF
+          const pdf = new jsPDF();
+          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+    
+          // Download the PDF
+          pdf.save('table.pdf');
+        });
+      };
+
+    
+      
+      
+ const navigate = useNavigate()// Initialize useHistory
+
+ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+ useEffect(() => {
+   // Store Value data in localStorage
+   localStorage.setItem("selectedRechercheConsulationData", JSON.stringify(DataSelected ));
+   // Reset the dummy state to trigger rerender
+   console.log(DataSelected)
+   setIsStorageUpdated(false);
+ }, [DataSelected, isStorageUpdated]);
+ 
+ const handleButtonClick = () => {
+   // Trigger a rerender by updating the dummy state
+   setIsStorageUpdated(true);
+
+   // Use the selectedOption to determine the route to navigate to
+   const routeToNavigate = "/VoirContribuableDetail";
+
+   // Use navigate to navigate to the determined route
+   navigate(routeToNavigate, { state: { DataSelected } });
+ };
+
+const handleTableRowClick = (rowIndex) => {
+ setSelectedRowIndex(rowIndex);
+ 
+ // Extract the property values from the data object
+ const selectedRowData = DataContribuable[rowIndex];
+
+ setDataSelected(selectedRowData);
+ console.log('Selected Row Data:', DataSelected);
+};
+
     const contentCard = (
         <div className="m-4">
             <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation des Référence Fiscal</div>
@@ -226,16 +290,20 @@ onChange={(e)=> {setContribuable({...Contribuable , nom_commercial: e.target.val
 </div>
 <div className="mt-10">
 <Table
-
+id="yourTableId" ref={tableRef}
 headers={headers}
 data={data}
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
+
+
 ></Table>
 </div>
 <div className="flex justify-between mt-12">
-<button className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
-<button  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
-<Link to="/VoirContribuableDetail"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
-
+<button onClick={exportToExcelAllData} className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
+<button  onClick={downloadPDF}  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
+< button onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></button>
+{/* to="/VoirContribuableDetail"  */}
 </div>
         </div>
     )
