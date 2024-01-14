@@ -50,6 +50,7 @@ const data = {
     coordonnees: require('../../model/coordonnees.json'),
     setCoordonnees: require('../../model/coordonnees.json'),
 
+
     //Rejet
     rejetContribuable: require('../../model/model_delete/contribuable.json'),
     setRejetContribuable: function (data) { this.rejetContribuable = data },
@@ -62,7 +63,6 @@ const data = {
     rejetEtablissements: require('../../model/model_delete/etablissement.json'),
     rejetCoordonnees: require('../../model/model_delete/coordonnees.json'),
     setRejetCoordonnees: function (data) { this.rejetCoordonnees = data },
-
     history: require('../../model/history.json'),
     setHistory: function (data) { this.history = data }
 }
@@ -165,7 +165,6 @@ const setContribuable = async (req, res) => {
 const authContribuable = (req, res) => {
     const mot_de_passe = req.body.mot_de_passe;
     const id = req.body.id;
-
     const contribuable = data.contribs.find(con => con.id === id && con.mot_de_passe === mot_de_passe);
     if (!contribuable)
         return res.status(404).json({ 'message': 'contribuable introuvable' });
@@ -177,7 +176,6 @@ const authContribuable = (req, res) => {
     contribuable.etablissement = data.etablissements.length === 0 ? [] : data.etablissements.filter(act => act.id_contribuable === id);
     contribuable.autre = data.autres.length === 0 ? [] : data.autres.filter(act => act.id_contribuable === id);
     contribuable.dirigeant = data.dirigeant.length === 0 ? [] : data.dirigeant.filter(act => act.id_contribuable === id);
-
     res.json(contribuable);
 }
 
