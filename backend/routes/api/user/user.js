@@ -35,4 +35,7 @@ router.route('/delete')
 router.route('/code')
     .post(userController.getUserByCode);
 
+router.route('/password/update')
+    .put(userController.handleUpdatePassword);
+
 module.exports = router;
