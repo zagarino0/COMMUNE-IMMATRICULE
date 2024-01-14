@@ -3,6 +3,9 @@ const data = {
     setUser: function (data) { this.users = data}
 }
 
+const fsPromises = require('fs').promises;
+const path = require('path');
+
 const getAllUserActif = (req, res) => {
     res.json(data.users.filter(use => use.actif));
 }

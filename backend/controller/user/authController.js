@@ -44,7 +44,7 @@ const handleLogin = async (req, res) => {
         const history = {
             'id_history': id_history,
             'id_contribuable': '',
-            'id_user': req.body.id_user,
+            'id_user': currentUser.id,
             'motif': 'connexion',
             'comment': '',
             'date_history': new Date()
