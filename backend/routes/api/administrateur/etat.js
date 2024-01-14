@@ -26,5 +26,22 @@ router.route('/contribuable/eveille')
     .get(etatController.getContribuableEveille)
     .post(etatController.getContribuableEveilleByReferenceFiscal);
 
+router.route('/contribuable/domri')
+    .post(etatController.getCessationContribuable);
+
+router.route('/contribuable/cesse')
+    .get(etatController.getCessationContribuable)
+    .post(etatController.getCessationContribuableByAll);
+
+router.route('/contribuable/cesse/:id_contribuable')
+    .get(etatController.getCessationContribuableById),
+
+router.route('/contribuable/radie')
+    .get(etatController.getContribuableRadies)
+    .post(etatController.getContribuableRadieByAll);
+
+router.route('/contribuable/radie/:id')
+    .get(etatController.getContribuableRadieById);
+
 
 module.exports = router;

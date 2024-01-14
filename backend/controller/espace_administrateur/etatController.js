@@ -1,6 +1,7 @@
 const data = {
     contribuables: require('../../model/contribuable.json'),
-    contribuablesRejetes: require('../../model/model_delete/contribuable.json')
+    contribuablesRejetes: require('../../model/model_delete/contribuable.json'),
+    cessations: require('../../model/cessation_activite.json')
 }
 
 const getAllContribuableValide = (req, res) => {
@@ -89,6 +90,80 @@ const getContribuableEveilleByReferenceFiscal = (req, res) => {
     res.json(contribuables);
 }
 
+const getCessationContribuable = (req, res) => {
+    let contribuable = [];
+    data.contribuables.map(con => {
+        data.cessations.map(ces => {
+            if(con.id === ces.id_contribuable && ces.cessation)
+                contribuable.push({...con, ...ces});
+        })
+    })
+    if(contribuable.length === 0)
+        return res.status(404).json({'message': 'contribuable introuvable'});
+    res.json(contribuable);
+}
+
+const getCessationContribuableByAll = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return req.status(400).json({'message': 'Contribuable introuvable'})
+    contribuable.cessation = data.cessations.find(ces => ces.reference_fiscal === reference_fiscal);
+    if(contribuable.cessation.cessation)
+        return res.status(404).json({'message': 'Contribuable introuvable'})
+    res.json(contribuable);
+}
+
+const getCessationContribuableById = (req, res) => {
+    const id_contribuable = req.params.id_contribuable;
+    const contribuable = data.contribuables.find(con => con.id_contribuable === id_contribuable);
+    contribuable.cessation = data.cessations.find(ces => ces.id_contribuable === id_contribuable && ces.cessation);
+    if(contribuable.cessation.cessation)
+        return res.status(404).json({'message': 'Contribuable introuvable'});
+    res.json(contribuable);
+}
+
+const getContribuableRadies = (req, res) => {
+    let contribuable = [];
+    data.contribuablesRejetes.map(con => {
+        data.cessations.map(ces => {
+            if(con.id === ces.id_contribuable)
+                contribuable.push({...id, ...contribuable});
+        })
+    })
+    if(contribuable.length === 0)
+        return res.status(404).json({'message': 'Contribuable introuvable'});
+    res.json(contribuable);
+}
+
+const getContribuableRadieByAll = (req, res) => {
+    const reference_fiscal = data.contribuablesRejetes.find(con => con.reference_fiscal === advened);
+    data.contribuablesRejetes.map(con => {
+        data.cessations.map(ces => {
+            if(con.id === ces.id_contribuable && con.reference_fiscal === reference_fiscal)
+                contribuable.push({...con, ...contribuable});
+        })
+    })
+    if(contribuable.length === 0)
+        return res.status(404).json({'message': 'Contribuable introuvable'});
+
+    res.json(contribuable);
+}
+
+const getContribuableRadieById = (req, res) => {
+    const id = req.body.id;
+    data.contribuablesRejetes.map(con => {
+        data.cessations.map(ces => {
+            if(con.id === ces.id_contribuable && con.id === id)
+                contribuable.push({...con, ...contribuable});
+        })
+    })
+    if(contribuable.length === 0)
+        return res.status(404).json({'message': 'Contribuable introuvable'});
+
+    res.json(contribuable);
+}
+
 module.exports = {
     getAllContribuableValide,
     getContribuableValideByReferenceFiscal,
@@ -101,6 +176,15 @@ module.exports = {
     getContribuableVeilleuse,
     getContribuableVeilleuseByReferenceFiscal,
     getContribuableEveille,
-    getContribuableEveilleByReferenceFiscal
+    getContribuableEveilleByReferenceFiscal,
+    
+    getCessationContribuable,
+    getCessationContribuableByAll,
+    getCessationContribuableById,
+    getAllContribuableValide,
+
+    getContribuableRadieById,
+    getContribuableRadies,
+    getContribuableRadieByAll
 
 }
