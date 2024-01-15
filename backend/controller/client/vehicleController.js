@@ -49,9 +49,9 @@ const addNewVehicle = async (req, res) => {
     const history = {
         'id_history': id_history,
         'id_contribuable': newVehicle.id_vehicule,
-        'id_user': id_user,
-        'motif': motif,
-        'comment': comment,
+        'id_user': req.body.id_user,
+        'motif': "Creation de vehicule",
+        'comment': "",
         'date_history': new Date()
     }
 
@@ -106,9 +106,9 @@ const updateVehicle = async (req, res) => {
     const history = {
         'id_history': id_history,
         'id_contribuable': vehicle.id_vehicule,
-        'id_user': id_user,
-        'motif': motif,
-        'comment': comment,
+        'id_user': req.body.id_user,
+        'motif': req.body.motif,
+        'comment': req.body.comment,
         'date_history': new Date()
     }
 
