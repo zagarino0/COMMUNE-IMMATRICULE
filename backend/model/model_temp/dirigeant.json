@@ -1,1 +1,53 @@
-[{"id":"1","id_contribuable":"1hTCkfLov","associe_unique":false,"resident":false,"avec_rf":false,"salarie":true,"aucune":false,"nom":"Rakoto nirina ","fonction":"Directeur général","cin":"2134567890897","passport":"","adresse":"Mangarivotra","rf":"","email":"Vendeur","telephone":"+261340098767"},{"id":"1","id_contribuable":"K0BQuRH3","associe_unique":false,"resident":true,"avec_rf":false,"salarie":true,"aucune":false,"nom":"Rakoto","fonction":"fonction","cin":"","passport":"07654789765","adresse":"adresse","rf":"","email":"email","telephone":"tel"},{"id":"1","id_contribuable":"fQ1v0iW0","associe_unique":false,"resident":true,"avec_rf":true,"salarie":false,"aucune":false,"nom":"Naivo Nirina","fonction":"Direction général de GCI","cin":"","passport":"043456789","adresse":"avenue 2015","rf":"9876543456789","email":"naivo@gmail.com","telephone":"+2345865437"}]
+[
+    {
+        "id": "1",
+        "id_contribuable": "1hTCkfLov",
+        "associe_unique": false,
+        "resident": false,
+        "avec_rf": false,
+        "salarie": true,
+        "aucune": false,
+        "nom": "Rakoto nirina ",
+        "fonction": "Directeur général",
+        "cin": "2134567890897",
+        "passport": "",
+        "adresse": "Mangarivotra",
+        "rf": "",
+        "email": "Vendeur",
+        "telephone": "+261340098767"
+    },
+    {
+        "id": "1",
+        "id_contribuable": "K0BQuRH3",
+        "associe_unique": false,
+        "resident": true,
+        "avec_rf": false,
+        "salarie": true,
+        "aucune": false,
+        "nom": "Rakoto",
+        "fonction": "fonction",
+        "cin": "",
+        "passport": "07654789765",
+        "adresse": "adresse",
+        "rf": "",
+        "email": "email",
+        "telephone": "tel"
+    },
+    {
+        "id": "1",
+        "id_contribuable": "fQ1v0iW0",
+        "associe_unique": false,
+        "resident": true,
+        "avec_rf": true,
+        "salarie": false,
+        "aucune": false,
+        "nom": "Naivo Nirina",
+        "fonction": "Direction général de GCI",
+        "cin": "",
+        "passport": "043456789",
+        "adresse": "avenue 2015",
+        "rf": "9876543456789",
+        "email": "naivo@gmail.com",
+        "telephone": "+2345865437"
+    }
+]

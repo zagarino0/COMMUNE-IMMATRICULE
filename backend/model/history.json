@@ -1,1 +1,43 @@
-[{"id_history":1,"motif":"Validation contribuable","comment":"","date_history":"2024-01-14T11:23:00.048Z"},{"id_history":2,"id_contribuable":"","motif":"connexion","comment":"","date_history":"2024-01-14T14:18:45.838Z"},{"id_history":3,"id_contribuable":"","motif":"connexion","comment":"","date_history":"2024-01-14T16:45:12.605Z"},{"id_history":4,"id_contribuable":"","motif":"connexion","comment":"","date_history":"2024-01-14T16:47:40.812Z"},{"id_history":5,"id_contribuable":"","motif":"connexion","comment":"","date_history":"2024-01-14T17:28:50.977Z"},{"id_history":6,"id_contribuable":"","motif":"connexion","comment":"","date_history":"2024-01-14T17:53:21.952Z"}]
+[
+    {
+        "id_history": 1,
+        "motif": "Validation contribuable",
+        "comment": "",
+        "date_history": "2024-01-14T11:23:00.048Z"
+    },
+    {
+        "id_history": 2,
+        "id_contribuable": "",
+        "motif": "connexion",
+        "comment": "",
+        "date_history": "2024-01-14T14:18:45.838Z"
+    },
+    {
+        "id_history": 3,
+        "id_contribuable": "",
+        "motif": "connexion",
+        "comment": "",
+        "date_history": "2024-01-14T16:45:12.605Z"
+    },
+    {
+        "id_history": 4,
+        "id_contribuable": "",
+        "motif": "connexion",
+        "comment": "",
+        "date_history": "2024-01-14T16:47:40.812Z"
+    },
+    {
+        "id_history": 5,
+        "id_contribuable": "",
+        "motif": "connexion",
+        "comment": "",
+        "date_history": "2024-01-14T17:28:50.977Z"
+    },
+    {
+        "id_history": 6,
+        "id_contribuable": "",
+        "motif": "connexion",
+        "comment": "",
+        "date_history": "2024-01-14T17:53:21.952Z"
+    }
+]

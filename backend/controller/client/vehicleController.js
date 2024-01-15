@@ -56,10 +56,6 @@ const addNewVehicle = async (req, res) => {
     }
 
     data.setHistory([...data.history, history]);
-
-    if(!newVehicle.numero_immatriculation || !newVehicle.marque){
-        return res.status(400).json({'message': 'immatriculation and marq are required'})
-    }
     data.setVehicles([...data.vehicles, newVehicle]);
     
     await fsPromises.writeFile(
@@ -119,7 +115,7 @@ const updateVehicle = async (req, res) => {
     const filteredArray = data.vehicles.filter(veh => veh.immatriculation !== req.body.immatriculation);
     const unsortedArray = [...filteredArray, vehicle];
     data.setVehicles(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-    
+    data.setHistory([...data.history, history]);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
         JSON.stringify(data.vehicles)

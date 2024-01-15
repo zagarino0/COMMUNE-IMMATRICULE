@@ -12,6 +12,7 @@ const data = {
     history: require('../../model/history.json'),
     setHistory: function (data) { this.history = data },
 
+
     //Temp model
     actionnairesTemps: require('../../model/model_temp/actionnaire.json'),
     setActionnaireTemps: function (data) { this.actionnairesTemps = data },
@@ -31,6 +32,8 @@ const data = {
     setEtablissementsTemps: function (data) { this.etablissementsTemps = data },
     coordonneeTemps: require('../../model/model_temp/coordonnees.json'),
     setCoordonneesTemps: function (data) { this.coordonneeTemps = data },
+    cessationTemps: require('../../model/model_temp/cessation_activite.json'),
+    setCessationsTemps: function (data) { this.cessationTemps = data },
 
     //real model
     actionnaires: require('../../model/actionnaire.json'),
@@ -50,6 +53,7 @@ const data = {
     coordonnees: require('../../model/coordonnees.json'),
     setCoordonnees: require('../../model/coordonnees.json'),
 
+
     //Rejet
     rejetContribuable: require('../../model/model_delete/contribuable.json'),
     setRejetContribuable: function (data) { this.rejetContribuable = data },
@@ -62,7 +66,6 @@ const data = {
     rejetEtablissements: require('../../model/model_delete/etablissement.json'),
     rejetCoordonnees: require('../../model/model_delete/coordonnees.json'),
     setRejetCoordonnees: function (data) { this.rejetCoordonnees = data },
-
     history: require('../../model/history.json'),
     setHistory: function (data) { this.history = data }
 }
@@ -77,7 +80,7 @@ const fs = require('fs');
 const setContribuable = async (req, res) => {
 
     const id = req.body.id;
-    const reference_fiscal = data.contribuables.length === 0 ? 1 : data.contribuables[data.contribuables.length - 1].id + 1;
+    const reference_fiscal = data.contribuables.length === 0 ? 1 : data.contribuables.length + 1;
     const nombre_zero = (data.contribuables.length < 10) ? '00000000000' : ((data.contribuables.length >= 10 && data.contribuables.length < 100) ? '0000000000' : ((data.contribuables.length >= 100 && data.contribuables.length < 1000) ? '000000000' : ((data.contribuables.length >= 1000 && data.contribuables.length < 10000) ? '00000000' : ((data.contribuables.length >= 10000 && data.contribuables.length < 100000) ? '0000000' : ((data.contribuables.length >= 100000 && data.contribuables.length < 1000000) ? '000000' : ((data.contribuables.length >= 1000000 && data.contribuables.length < 10000000) ? '00000' : ((data.contribuables.length >= 10000000 && data.contribuables.length < 100000000) ? '0000' : ((data.contribuables.length >= 100000000 && data.contribuables.length < 1000000000) ? '000' : ((data.contribuables.length >= 1000000000 && data.contribuables.length < 10000000000) ? '00' : ((data.contribuables.length >= 10000000000 && data.contribuables.length < 100000000000) ? '0' : ''))))))))));
 
     const valeur_reference = nombre_zero + "" + reference_fiscal;
@@ -126,7 +129,7 @@ const setContribuable = async (req, res) => {
         "date_blockage": ""
     }
 
-    const id_cessation = data.cessations.length === 0 ? 1 : data.cessations[data.cessations.length - 1].id_cessation + 1;
+    const id_cessation = data.cessationTemps.length === 0 ? 1 : data.cessationTemps[data.cessationTemps.length - 1].id_cessation + 1;
     const cessation = {
         "id_cessation": id_cessation,
         "id_contribuable": id,
@@ -137,7 +140,7 @@ const setContribuable = async (req, res) => {
     data.setContribuable([...data.contribuables, newContribuable]);
     data.setModifications([...data.modifications, modification]);
     data.setValidationTemps([...data.validationTemps, validation]);
-    data.setCessations([...data.cessations, cessation]);
+    data.setCessationsTemps([...data.cessationTemps, cessation]);
 
     console.log(validation);
     console.log(data.validation);
@@ -153,7 +156,7 @@ const setContribuable = async (req, res) => {
     )
     fs.writeFileSync(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
-        JSON.stringify(data.cessations)
+        JSON.stringify(data.cessationTemps)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
@@ -165,7 +168,6 @@ const setContribuable = async (req, res) => {
 const authContribuable = (req, res) => {
     const mot_de_passe = req.body.mot_de_passe;
     const id = req.body.id;
-
     const contribuable = data.contribs.find(con => con.id === id && con.mot_de_passe === mot_de_passe);
     if (!contribuable)
         return res.status(404).json({ 'message': 'contribuable introuvable' });
@@ -177,7 +179,6 @@ const authContribuable = (req, res) => {
     contribuable.etablissement = data.etablissements.length === 0 ? [] : data.etablissements.filter(act => act.id_contribuable === id);
     contribuable.autre = data.autres.length === 0 ? [] : data.autres.filter(act => act.id_contribuable === id);
     contribuable.dirigeant = data.dirigeant.length === 0 ? [] : data.dirigeant.filter(act => act.id_contribuable === id);
-
     res.json(contribuable);
 }
 
@@ -259,6 +260,12 @@ const validationContribuable = async (req, res) => {
         const filteredCoordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable !== contribuable.id);
         data.setCoordonneesTemps(filteredCoordonnees);
         data.setCoordonnees([...data.coordonnees, coordonnees]);
+    }
+    const cessation = data.cessationTemps.find(coo => coo.id_contribuable === contribuable.id);
+    if (cessation) {
+        const filteredCessation = data.cessationTemps.filter(coo => coo.id_contribuable !== contribuable.id);
+        data.setCessationsTemps(filteredCessation);
+        data.setCessations([...data.cessations, cessation]);
     }
 
     const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
@@ -343,11 +350,19 @@ const validationContribuable = async (req, res) => {
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'coordonnees.json'),
-        JSON.stringify(data.etablissementsTemps)
+        JSON.stringify(data.coordonneeTemps)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'coordonnees.json'),
-        JSON.stringify(data.etablissements)
+        JSON.stringify(data.coordonnees)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
+        JSON.stringify(data.cessationTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
+        JSON.stringify(data.cessations)
     )
 
     res.json({ "message": `Le contribuable dont l'id ${contribuable.id} est validé` });

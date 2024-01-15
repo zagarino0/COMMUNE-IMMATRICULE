@@ -1,1 +1,34 @@
-[{"id_siege":1,"id_contribuable":"NOewonMZFL","adresse_actuel":"lot 213 J 200","district":"Mahajanga","region":"Boeny","province":"Mahajanga"},{"id_siege":2,"id_contribuable":"NOewonMZFL","adresse_actuel":"lot 213 J 200","district":"Mahajanga","region":"Boeny","province":"Mahajanga"},{"id_siege":3,"id_contribuable":"NOewonMZFL","adresse_actuel":"lot 213 J 200","district":"Mahajanga","region":"Boeny","province":"Mahajanga"},{"id_siege":4,"id_contribuable":"fQ1v0iW0","adresse_actuel":"lot 234 J 25","district":"Mahajanga","region":"Boeny","province":"Majunga"}]
+[
+    {
+        "id_siege": 1,
+        "id_contribuable": "NOewonMZFL",
+        "adresse_actuel": "lot 213 J 200",
+        "district": "Mahajanga",
+        "region": "Boeny",
+        "province": "Mahajanga"
+    },
+    {
+        "id_siege": 2,
+        "id_contribuable": "NOewonMZFL",
+        "adresse_actuel": "lot 213 J 200",
+        "district": "Mahajanga",
+        "region": "Boeny",
+        "province": "Mahajanga"
+    },
+    {
+        "id_siege": 3,
+        "id_contribuable": "NOewonMZFL",
+        "adresse_actuel": "lot 213 J 200",
+        "district": "Mahajanga",
+        "region": "Boeny",
+        "province": "Mahajanga"
+    },
+    {
+        "id_siege": 4,
+        "id_contribuable": "fQ1v0iW0",
+        "adresse_actuel": "lot 234 J 25",
+        "district": "Mahajanga",
+        "region": "Boeny",
+        "province": "Majunga"
+    }
+]
