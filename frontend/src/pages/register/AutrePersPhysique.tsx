@@ -27,10 +27,10 @@ const AutrePersPhysique: React.FC<LayoutProps>  = ({  currentPath })=> {
     const registrationData = localStorage.getItem("registrationData");
     const parsedDataRegistre = JSON.parse(registrationData as string);
 
-    const activiteData = localStorage.getItem("activiteData");
+    const activiteData = localStorage.getItem("activitePersonPhysiqueData");
     const parsedDataActivite = JSON.parse(activiteData as string);
 
-    const siegeData = localStorage.getItem("siegeData");
+    const siegeData = localStorage.getItem("siegePersonPhysiqueData");
     const parsedDataSiege = JSON.parse(siegeData as string);
 
   
@@ -110,7 +110,17 @@ if(Autre){
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   alert("tout est enregistré ")
-   
+  alert("Générateur de code en cours !")
+  alert(`Votre code est de ${parsedDataRegistre.id}`)
+        localStorage.removeItem("registrationData");
+        localStorage.removeItem("activiteData");
+        localStorage.removeItem("siegeData");
+        localStorage.removeItem("etablissementData");
+        localStorage.removeItem("dirigeantData");
+        localStorage.removeItem("interlocuteurData");
+        localStorage.removeItem("associeData");
+        
+  navigate("/register") 
   } catch (error) {
     // Handle errors
     alert("il y a  une erreur sur l'ajout")

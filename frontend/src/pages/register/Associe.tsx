@@ -140,17 +140,18 @@ function Associe() {
     
       const headers = [
         "Type association",
-        "Nom association",
+        "Nom actionnaire",
         "Fonction",
         "Résident",
-        "N° CIN",
-        "N° Passport",
-        "Autra act.",
-        "RF Pers. moral",
-        "Nom Pers.physique",
-        "Adresse",
-        "Associe",
-        "Action en",
+        "N° CIN ou N° passport",
+        "Adresse Actionnaire",
+        "Autra activité actionnaire",
+        "Référence contribuable",
+        "RF actionnaire",
+        "Adresse Email",
+        "Numéro Tél",
+        "Associe unique actionnaire",
+        "Action ou actionnaire",
       ];
     
       const data = entries.map((entry) => [

@@ -44,6 +44,7 @@ function Assujetissement() {
       etat: string,
       date_exe: string,
       date_assujetissement: string,
+      id: string
     }>({
 
       id_contribuable: parsedDataSelected.id,
@@ -58,7 +59,7 @@ function Assujetissement() {
       etat: "",
       date_exe: "",
       date_assujetissement: "",
-
+      id : ""
     })
     let navigate = useNavigate();
     const handleCheckboxChange  = () => {
@@ -71,8 +72,18 @@ function Assujetissement() {
 
 
     const handleButtonClickSave = () => {
+
+      const newId = entries.length > 0 ? parseInt(entries[entries.length - 1].id) + 1 : 1;
+      
+
+          // Update the Actionnaire state with the new ID
+    setAssujetissement((prevActionnaire) => ({
+      ...prevActionnaire,
+      id: newId.toString(),
+    }));
+
       // Add the current entry to the list of entries
-      setEntries((prevEntries) => [...prevEntries, Assujetissement]);
+      setEntries((prevEntries) => [...prevEntries, {...Assujetissement , id: newId.toString()}]);
   
       // Reset the Actionnaire state to clear the form
       setAssujetissement({
@@ -152,6 +163,8 @@ function Assujetissement() {
    longitude : "",
    laltitude : ""
   })
+
+
 
 
   const HandleClick = async  () =>{
@@ -265,6 +278,7 @@ function Assujetissement() {
 
     
     }
+
  const [DataCode , setDataCode] = useState([])
     useEffect(() => {
       // Récupérer les données depuis le backend
@@ -274,7 +288,7 @@ function Assujetissement() {
     }, []);
 
 
-    const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+  const [isStorageUpdated, setIsStorageUpdated] = useState(false);
   
     useEffect(() => {
       // Store Value data in localStorage
@@ -294,7 +308,7 @@ function Assujetissement() {
   
       // Use navigate to navigate to the determined route
       navigate(routeToNavigate, { state: { parsedDataSelected } });
-    };
+  };
   
     const contentCard = (
         <div className="m-4 mb-4">

@@ -38,7 +38,7 @@ const handleLogin = () => {
       // Check if the user is authenticated and has immatriculation_prise_charge set to true
       if (userData) {
          // Store userData in localStorage
-         localStorage.setItem('userData', JSON.stringify(userData));
+         localStorage.setItem('userContribuableData', JSON.stringify(userData));
         // Redirect to the desired page if the condition is met
         navigate('/majRenseignement');
       } else {

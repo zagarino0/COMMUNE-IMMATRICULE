@@ -14,10 +14,10 @@ function Autre() {
   const registrationData = localStorage.getItem("registrationData");
   const parsedDataRegistre = JSON.parse(registrationData as string);
 
-  const activiteData = localStorage.getItem("activiteData");
+  const activiteData = localStorage.getItem("activitePersMoralData");
   const parsedDataActivite = JSON.parse(activiteData as string);
 
-  const siegeData = localStorage.getItem("siegeData");
+  const siegeData = localStorage.getItem("siegePersMoraleData");
   const parsedDataSiege = JSON.parse(siegeData as string);
 
   const etablissementData = localStorage.getItem("etablissementData");
@@ -25,7 +25,7 @@ function Autre() {
 
   const dirigeantData = localStorage.getItem("dirigeantData");
   const parsedDataDirigeant = JSON.parse(dirigeantData as string);
-  console.log(parsedDataDirigeant);
+  
   const interlocuteurData = localStorage.getItem("interlocuteurData");
   const parsedDataInterlocuteur = JSON.parse(interlocuteurData as string);
 
@@ -67,9 +67,23 @@ try {
 }
 
 if(parsedDataActivite){
+
+  const Activite = {    
+    "id_contribuable": parsedDataActivite.id_contribuable ,
+    "activite": parsedDataActivite.activite ,
+    "precision_activite": parsedDataActivite.precision_activite,
+    "numero_statistique": parsedDataActivite.numero_statistique,
+    "date_delivrance_statistique": parsedDataActivite.date_delivrance_statistique,
+    "registre_commerce": parsedDataActivite.registre_commerce,
+    "date_registre_commerce": parsedDataActivite.date_registre_commerce,
+    "debut_exercice": parsedDataActivite.debut_exercice,
+    "cloture_exercice": parsedDataActivite.cloture_exercice,
+    "nif": parsedDataActivite.nif,
+
+  }
 try {
   // Make a POST request to your server endpoint
-  const response = await axios.post("http://localhost:3500/activite", parsedDataActivite);
+  const response = await axios.post("http://localhost:3500/activite", Activite);
 
   // Check the response status or do something with the response
   console.log("Server Response:", response.data);
@@ -157,11 +171,19 @@ if(parsedDataDirigeant){
   
     if(parsedDataInterlocuteur){
 
-      
+      const Interlocuteur = {
+        "id_contribuable":parsedDataInterlocuteur.id_contribuable,
+        "nom_interlocuteur":parsedDataInterlocuteur.nom_interlocuteur,
+        "titre_interlocuteur": parsedDataInterlocuteur.titre_interlocuteur,
+        "adresse_interlocuteur": parsedDataInterlocuteur.adresse_interlocuteur,
+        "telephone_interlocuteur": parsedDataInterlocuteur.telephone_interlocuteur,
+        "email_interlocuteur": parsedDataInterlocuteur.email_interlocuteur,
+    
+      }
 
       try {
         // Make a POST request to your server endpoint
-        const response = await axios.post("http://localhost:3500/interlocuteur", parsedDataInterlocuteur);
+        const response = await axios.post("http://localhost:3500/interlocuteur", Interlocuteur);
       
         // Check the response status or do something with the response
         console.log("Server Response:", response.data);
@@ -187,7 +209,16 @@ if(parsedDataDirigeant){
           // Check the response status or do something with the response
           console.log("Server Response:", response.data);
         alert("Actionnaire ajouté")
-         alert(`Votre code de connexion est ${parsedDataRegistre.id}`)
+        alert(`Votre code de connexion est ${parsedDataRegistre.id}`)
+        localStorage.removeItem("registrationData");
+        localStorage.removeItem("activitePersMoralData");
+        localStorage.removeItem("siegePersMoraleData");
+        localStorage.removeItem("etablissementData");
+        localStorage.removeItem("dirigeantData");
+        localStorage.removeItem("interlocuteurData");
+        localStorage.removeItem("associeData");
+        
+         navigate("/register");
         } catch (error) {
           // Handle errors
           console.error("Error:", error);

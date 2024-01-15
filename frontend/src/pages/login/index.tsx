@@ -30,18 +30,22 @@ function LoginPage() {
     // Ajoutez vos options ici
   ];
   const handleLogin = async () => {
+    const Administration = {
+      type_operateur,
+      code ,
+      pwd,
+      
+    } 
     try {
       // Replace 'YOUR_BACKEND_LOGIN_URL' with your actual backend API endpoint for login
-      const response = await axios.post('http://localhost:3500/user/auth', {
-        type_operateur,
-        code ,
-        pwd,
-        
-      });
+      const response = await axios.post('http://localhost:3500/user/auth', Administration);
 
       // Handle the response from the server as needed
       console.log("Login successful:", response.data);
 
+      
+      localStorage.setItem('userAdministrationData', JSON.stringify(response.data));
+      // Redirect to the desired page if the condition is met
       // Reset the form after successful login
       setUsername("");
       setPassword("");
