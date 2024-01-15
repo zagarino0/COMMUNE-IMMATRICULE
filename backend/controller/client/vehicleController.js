@@ -158,7 +158,6 @@ const getVehicle = (req, res) => {
     res.json(vehicle);
 }
 
-
 //-----------------Exporting all functin----------------------
 module.exports = {
     getAllVehicles,
