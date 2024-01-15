@@ -8,7 +8,7 @@ const fsPromises = require('fs').promises;
 
 const setAssujetissement = async (req, res) => {
     const new_imposition = req.body.assujetissements;
-    data.setAssujetissement([...data.assujetissements, new_imposition]);
+    data.setAssujetissement([...data.assujetissements, ...new_imposition]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'assujetissement.json'),
