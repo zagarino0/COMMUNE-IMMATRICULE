@@ -20,7 +20,6 @@ const setAssujetissement = async (req, res) => {
 const getAssujetissementById = (req, res) => {
     const id_assujetissement = req.params.id_assujetissement;
     const assujetissements = data.assujetissements.find(ass => ass.id_assujetissement === id_assujetissement);
-
     res.json(assujetissements);
 }
 
