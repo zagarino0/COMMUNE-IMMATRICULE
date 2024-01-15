@@ -5,7 +5,6 @@ import {FaUniversity} from "react-icons/fa"
 import {BiBody} from "react-icons/bi"
 import {MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap} from "react-icons/md"
 import {IoIosPerson} from "react-icons/io"
-
 import Layout from "./Layout"
 import { useLocation } from "react-router-dom"
 import { AiFillCar, AiOutlineSave } from "react-icons/ai"
@@ -94,7 +93,7 @@ const handleCheckboxChangeSecond = (checked: boolean) => {
   const options = [
     { value: 'référence', label: 'Choisissez dans la liste' },
     { value: 'Raison sociale', label: 'Raison sociale' },
-    { value: 'NIF', label: 'NIF' },
+    { value: 'Référence fiscal', label: 'Référence fiscal' },
     { value: 'CIN', label: 'CIN' },
     { value: 'Adresse', label: 'Adresse' },
     { value: 'Nom commercial', label: 'Nom commercial' },
@@ -148,8 +147,14 @@ const HandlePersoneEtrangere = (checked:boolean) => {
     personne_etrangere: checked,
   });
 };
+
+const userContribuableData = localStorage.getItem("userContribuableData");
+const ContribuableData  = JSON.parse(userContribuableData as string);
+const Activite  = ContribuableData.activite
+
+
 const ContentCardInformation =(
-<div className="flex items-center justify-center">
+<div className="flex items-center justify-center p-2">
   <div className="flex flex-col">
 
   <div className="flex flex-col overflow-y-auto h-[500px] w-[700px] ">
@@ -168,7 +173,9 @@ const ContentCardInformation =(
 <div className=" flex flex-col ">
         <div className="flex justify-between mt-6">
           <Label text="Nom et Prénoms ou Raison Social" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.raison_social : ""}
+          />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Type" />
@@ -176,9 +183,9 @@ const ContentCardInformation =(
           <label className="">
     <input
       type="radio"
-      value="Total"
+      value="Personne physique"
       className='mr-2'
-      checked={selectedOption === true}
+      checked={  ContribuableData.type === "Personne physique"}
       onChange={() => setSelectedOption(true)}
     />
     Personne physique
@@ -186,78 +193,125 @@ const ContentCardInformation =(
   <label className=' ml-4'>
     <input
       type="radio"
-      value="ParRF"
+      value="Personne morale"
       className='mr-2'
-      checked={selectedOption === false}
+      checked={ContribuableData.type === "Personne morale"}
       onChange={() => setSelectedOption(false)}
     />
     Personne morale
   </label>
           </div>
         </div>
-        {selectedOption === true && (
+        { ContribuableData.type === "Personne physique" && (
   <div>
     <div className='flex justify-between mt-6 '>
     <Label text="Situation matrimoniale "></Label>
     <Input
-      type="text"     
+      type="text"
+      value={ContribuableData ? ContribuableData.situationmatrimoinial : ""}     
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Sexe "></Label>
     <div className="flex justify-between w-[200px]">
-    <Checkbox label="Masculin" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Feminin" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Masculin" checked={ContribuableData.sexe === "Masculin"} onChange={()=>window} ></Checkbox>
+    <Checkbox label="Feminin" checked={ContribuableData.sexe === "Feminin"} onChange={()=>window} ></Checkbox>
     </div>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Etranger "></Label>
     <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Oui" checked={ContribuableData.etranger === true} onChange={()=>window} ></Checkbox>
+    <Checkbox label="Non" onChange={()=> window } checked={ContribuableData.etranger === false}></Checkbox>
     </div>
   </div>
-  <div className='flex justify-between mt-6 '>
+  { ContribuableData.etranger === false && (
+    <>
+      <div className='flex justify-between mt-6 '>
+    <Label text="CIN"></Label>
+    <Input
+      type="text" 
+      value={ContribuableData?ContribuableData.cin : ""}
+    ></Input>
+  </div>
+    <div className='flex justify-between mt-6 '>
     <Label text="Date de délivrance"></Label>
     <Input
-      type="date"     
+      type="date" 
+      value={ContribuableData?ContribuableData.datedelivrancecin : ""}
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Lieu de délivrance"></Label>
     <Input
-      type="text"     
+      type="text"
+       value={ContribuableData?ContribuableData.lieudelivrancecin : ""}     
     ></Input>
   </div>
+    </>
+  )
+
+  }
+    { ContribuableData.etranger === true && (
+    <>
+      <div className='flex justify-between mt-6 '>
+    <Label text="Numéro passport"></Label>
+    <Input
+      type="date" 
+      value={ContribuableData?ContribuableData.numero_passport : ""}
+    ></Input>
+  </div>
+    <div className='flex justify-between mt-6 '>
+    <Label text="Date de délivrance"></Label>
+    <Input
+      type="date" 
+      value={ContribuableData?ContribuableData.datedelivrancepasseport: ""}
+    ></Input>
+  </div>
+ 
+    </>
+  )
+
+  }
   <div className='flex justify-between mt-6 '>
     <Label text="Date naissance"></Label>
     <Input
-      type="date"     
+      type="date" 
+       value={ContribuableData?ContribuableData.datenaissance : ""}    
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Lieu naissance "></Label>
     <Input
-      type="text"     
+      type="text" 
+      value={ContribuableData? ContribuableData.lieunaissance : ""}    
     ></Input>
   </div>
   </div>
 )}
         <div className="flex justify-between mt-6">
           <Label text="Forme juridique" />
-          <Input type="text" />
+          <Input type="text" 
+          value={ContribuableData?ContribuableData.forme_juridique : ""}
+          />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Régime Fiscale" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.regimefiscal : ""}
+          />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Date de Création" />
-          <Input type="date" />
+          <Input type="date"
+          value={ContribuableData? ContribuableData.date_creation : ""}
+          />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Capital en Ar" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.capital : ""}
+          />
         </div>
         <div className='flex justify-between mt-6 '>
     <Label text="RIB "></Label>
@@ -269,7 +323,9 @@ const ContentCardInformation =(
   </div>
   <div className="flex justify-between mt-6">
           <Label text="Numéro compte bancaire" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.numero_compte_bancaire : ""}
+          />
         </div>
         <button onClick={()=> setBool({...bool , Principaux_renseignement: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
     </div>
@@ -286,7 +342,10 @@ const ContentCardInformation =(
       <div className="flex flex-col">
       <div className="flex justify-between mt-6">
             <Label text="Activités " />
-            <Input type="text" />
+            <Input type="text" 
+            value={Activite ? Activite[0].activite : ""}
+
+            />
           </div>
           
    
@@ -294,7 +353,8 @@ const ContentCardInformation =(
       <div className='flex justify-between mt-6 '>
       <Label text="Précision sur les activités "></Label>
       <Input
-        type="text"     
+        type="text" 
+        value={Activite?Activite[0].precision_activite : ""}    
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
@@ -306,6 +366,7 @@ const ContentCardInformation =(
       </div>
       <Input
         type="text"
+        value={Activite?Activite[0].numero_statistique : ""}
         className="mt-2"     
       ></Input>
       </div>
@@ -314,32 +375,38 @@ const ContentCardInformation =(
     <div className='flex justify-between mt-6 '>
       <Label text="Date de délivrance statistique "></Label>
       <Input
-        type="date"     
+        type="date"
+        value={Activite?Activite[0].date_delivrance_statistique : ""}     
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Registre de commerce"></Label>
       <Input
-        type="text"     
+        type="text"
+         value={Activite?Activite[0].registre_commerce : ""}     
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Date de registre de commerce"></Label>
       <Input
-        type="date"     
+        type="date"  
+        value={Activite?Activite[0].date_registre_commerce : ""}   
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Début de l'exercice comptable  "></Label>
       <Input
-        type="date"     
+        type="date"
+        value={Activite?Activite[0].date_debut : ""}
       ></Input>
     </div>
     </div>
   
           <div className="flex justify-between mt-6">
             <Label text="Clôture de l'exercice comptable" />
-            <Input type="date" />
+            <Input type="date" 
+            value={Activite ? Activite[0].date : ""}
+            />
           </div>
                   <div className='flex justify-between mt-6 '>
       <Label text="Importateur "></Label>
@@ -357,9 +424,11 @@ const ContentCardInformation =(
       </div>
       
     </div>
-    <div className="flex justify-between mt-6">
+          <div className="flex justify-between mt-6">
             <Label text="Nombre salarié" />
-            <Input type="text" />
+            <Input type="text"
+            value={Activite?Activite[0].nombre_salarie : ""}
+             />
           </div>
           <button onClick={()=> setBool({...bool , activite: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
    
@@ -1098,9 +1167,9 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datev
   return (
     <div
     className="
-    bg-neutral-800/70
-    w-screen 
+     w-screen 
     h-screen
+    bg-gray-200
     flex
     items-center
     justify-center

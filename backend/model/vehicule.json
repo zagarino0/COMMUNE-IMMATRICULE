@@ -1,1 +1,26 @@
-[]
+[
+    {
+        "id_vehicule": 1,
+        "numero_immatriculation": "234TBA",
+        "marque": "Mercedes",
+        "type": "type",
+        "genre": "genre",
+        "puissance": "20 cheveaux",
+        "nombre_place_carte_grise": "5",
+        "nombre_place_licence": "5",
+        "charge_utile": "chrage",
+        "date_mise_circulation": "2024-01-05",
+        "poids_a_vide": "2tonnes",
+        "hikaramana": "",
+        "date_debut": "2024-01-18",
+        "nif_proprietaire": "876545678",
+        "centre_gestionnaire": "",
+        "anc_nif_proprietaire": "2345678765",
+        "exploitation": "Sub-urbaine",
+        "date_validite_licence": "2024-01-02",
+        "categorie": "",
+        "sous_categorie": "",
+        "zone": "",
+        "age": ""
+    }
+]

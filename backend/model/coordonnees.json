@@ -1,1 +1,7 @@
-[]
+[
+    {
+        "id_coordonnee": 1,
+        "id_contribuable": "Qs3fSuXAYB",
+        "longitude": "+12345"
+    }
+]

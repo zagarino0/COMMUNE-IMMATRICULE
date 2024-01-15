@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "id_siege": 5,
+        "id_contribuable": "Qs3fSuXAYB",
+        "adresse_actuel": "avenue de France  ",
+        "district": "Mahajanga",
+        "region": "Boeny",
+        "province": "Mahajnaga"
+    }
+]

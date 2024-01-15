@@ -14,6 +14,24 @@ import { AiOutlineSave } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
+interface Assujetissement {
+  id_contribuable: string,
+  imposition:string,
+  date_debut:string,
+  periodicite: string,
+  annee: string,
+  actif: boolean,
+  exonere: boolean,
+  period_1: string;
+  period_2: string,
+  etat: string,
+  date_exe: string,
+  date_assujetissement: string,
+  id: string,
+  date_fin : string
+}
+
 function Assujetissement() {
 
   function generatePassword() {
@@ -26,26 +44,17 @@ function Assujetissement() {
     return randomString;
   }
   
-    const [selectedOption, setSelectedOption] = useState('');
+
+
+    
     const selectedData = localStorage.getItem("selectedValidationData");
     const parsedDataSelected  = JSON.parse(selectedData as string);
-     
-    console.log(parsedDataSelected)
-    const [Assujetissement , setAssujetissement] = useState<{
-      id_contribuable: string,
-      imposition:string,
-      date_debut:string,
-      periodicite: string,
-      annee: string,
-      actif: boolean,
-      exonere: boolean,
-      period_1: string;
-      period_2: string,
-      etat: string,
-      date_exe: string,
-      date_assujetissement: string,
-      id: string
-    }>({
+    const userAdminData = localStorage.getItem("userAdministrationData");
+    const userData  = JSON.parse(userAdminData as string);
+    console.log(userData)
+    const Activite = parsedDataSelected.activite ;
+    const Etablissement = parsedDataSelected.etablissement
+    const [Assujetissement , setAssujetissement] = useState<Assujetissement>({
 
       id_contribuable: parsedDataSelected.id,
       imposition:"",
@@ -59,7 +68,8 @@ function Assujetissement() {
       etat: "",
       date_exe: "",
       date_assujetissement: "",
-      id : ""
+      id : "",
+      date_fin : ""
     })
     let navigate = useNavigate();
     const handleCheckboxChange  = () => {
@@ -86,7 +96,7 @@ function Assujetissement() {
       setEntries((prevEntries) => [...prevEntries, {...Assujetissement , id: newId.toString()}]);
   
       // Reset the Actionnaire state to clear the form
-      setAssujetissement({
+      setAssujetissement<Assujetissement>({
         id_contribuable: parsedDataSelected.id,
         imposition:"",
         date_debut:"",
@@ -98,8 +108,8 @@ function Assujetissement() {
         period_2: "",
         etat: "",
         date_exe: "",
+        date_fin: "",
         date_assujetissement: "",
-  
   
       });
        
@@ -117,6 +127,7 @@ function Assujetissement() {
       "etat",
       "date_exe",
       "date_assujetissement",
+      "date fin"
 
     ];
   
@@ -125,43 +136,44 @@ function Assujetissement() {
         entry.date_debut,
         entry.periodicite,
         entry.annee,
-        entry.actif,
-        entry.exonere,
+      <Checkbox checked={entry.actif}></Checkbox> ,
+      <Checkbox checked={entry.exonere}></Checkbox>,
         entry.period_1,
         entry.period_2,
         entry.etat,
         entry.date_exe,
         entry.date_assujetissement,
+        entry.date_fin
   
     ]);
   
   // New state to hold the list of entries 
   const [Interlocuteur , setInterlocuteur] = useState<{
     id_contribuable: string,
- nom: string,
- titre:string,
- adresse: string,
- telephone: string,
- email: string,
+ nom_interlocuteur: string,
+ titre_interlocuteur:string,
+ adresse_interlocuteur: string,
+ telephone_interlocuteur: string,
+ email_interlocuteur: string,
 
   }>({ 
  id_contribuable: parsedDataSelected.id,
- nom: "",
- titre:"",
- adresse: "",
- telephone: "",
- email: "",
+ nom_interlocuteur: "",
+ titre_interlocuteur:"",
+ adresse_interlocuteur: "",
+ telephone_interlocuteur: "",
+ email_interlocuteur: "",
  
   })
 
   const [Coordonnees , setCoordonnees ] = useState<{
     id_contribuable: string,
     longitude: string,
-    laltitude : string
+    latitude : string
   }>({
    id_contribuable: parsedDataSelected.id,
    longitude : "",
-   laltitude : ""
+   latitude : ""
   })
 
 
@@ -179,7 +191,9 @@ function Assujetissement() {
       // Check the response status or do something with the response
       console.log("Server Response:", response.data);
       alert("Assujetissement ajouté")
-      setAssujetissement({
+      localStorage.removeItem("selectedValidationData");
+        
+      setAssujetissement<Assujetissement>({
         id_contribuable: parsedDataSelected.id,
         imposition:"",
         date_debut:"",
@@ -195,6 +209,7 @@ function Assujetissement() {
   
   
       });
+      navigate("/ValidationDemandeImmatriculation")
     } catch (error) {
       // Handle errors
       console.error("Error:", error);
@@ -213,11 +228,11 @@ function Assujetissement() {
      alert("Interlocuteur ajouté");
      setInterlocuteur({ 
       id_contribuable: parsedDataSelected.id,
-      nom: "",
-      titre:"",
-      adresse: "",
-      telephone: "",
-      email: "",
+      nom_interlocuteur: "",
+      titre_interlocuteur:"",
+      adresse_interlocuteur: "",
+      telephone_interlocuteur: "",
+      email_interlocuteur: "",
       
        })
     } catch (error) {
@@ -241,7 +256,7 @@ function Assujetissement() {
        setCoordonnees({ 
         id_contribuable: parsedDataSelected.id,
         longitude:"",
-        laltitude : ""
+        latitude : ""
          })
       } catch (error) {
         // Handle errors
@@ -254,8 +269,9 @@ function Assujetissement() {
       if(parsedDataSelected){
         const mdp = generatePassword() ;
         const reference_fiscal  = {
-          "reference_fiscal" : parsedDataSelected.reference_fiscal,
-           "mot_de_passe" : mdp ,
+            "id_user": userData.id_user ,
+            "reference_fiscal" : parsedDataSelected.reference_fiscal,
+            "mot_de_passe" : mdp ,
         }
         try {
           // Make a POST request to your server endpoint
@@ -324,7 +340,7 @@ value={ parsedDataSelected ? parsedDataSelected.raison_social :""}
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Nom commercial" className="mt-4"></Label>
 <Input type="text" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.nom_commercial :""}
+value={ Etablissement ? Etablissement[0].nom_commercial :""}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
@@ -375,13 +391,13 @@ value={ parsedDataSelected ? parsedDataSelected.capital :""}
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Activités" className="mt-4"></Label>
 <Input type="textarea" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.activite :""}
+value={ Activite ? Activite[0].activite :""}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Précision sur les Activités" className="mt-4"></Label>
 <Input type="textarea" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.precision_activite :""}
+value={ Activite ? Activite[0].precision_activite :""}
 ></Input>
 </div>
 <div className="flex flex-col bg-gray-200 mt-4 rounded h-[1200px] p-4">
@@ -410,8 +426,8 @@ onChange={(e)=>{setAssujetissement({...Assujetissement , date_debut : e.target.v
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Date fin" className="mt-4"></Label>
 <Input type="date" className="w-96  "
-value={Assujetissement.date_exe}
-onChange={(e)=>{setAssujetissement({...Assujetissement , date_exe : e.target.value})}}
+value={Assujetissement.date_fin}
+onChange={(e)=>{setAssujetissement({...Assujetissement , date_fin : e.target.value})}}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
@@ -490,29 +506,36 @@ data={data}
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Nom" className="mt-4"></Label>
 <Input type="text" className="w-96  "
-value={Interlocuteur.nom}
-onChange={(e)=>setInterlocuteur({...Interlocuteur , nom : e.target.value})}
+value={Interlocuteur.nom_interlocuteur}
+onChange={(e)=>setInterlocuteur({...Interlocuteur , nom_interlocuteur : e.target.value})}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
-<Label text="Titre" className="mt-4"></Label>
+<Label text="Titrer" className="mt-4"></Label>
 <Input type="text" className="w-96  "
-value={Interlocuteur.titre}
-onChange={(e)=>setInterlocuteur({...Interlocuteur , titre : e.target.value})}
+value={Interlocuteur.titre_interlocuteur}
+onChange={(e)=>setInterlocuteur({...Interlocuteur , titre_interlocuteur : e.target.value})}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Adresse" className="mt-4"></Label>
 <Input type="text" className="w-96  "
-value={Interlocuteur.adresse}
-onChange={(e)=>setInterlocuteur({...Interlocuteur ,adresse : e.target.value})}
+value={Interlocuteur.adresse_interlocuteur}
+onChange={(e)=>setInterlocuteur({...Interlocuteur ,adresse_interlocuteur : e.target.value})}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
-<Label text="Tel" className="mt-4"></Label>
-<Input type="E-mail" className="w-96  "
-value={Interlocuteur.email}
-onChange={(e)=>setInterlocuteur({...Interlocuteur , email : e.target.value})}
+<Label text="Tél" className="mt-4"></Label>
+<Input type="text" className="w-96  "
+value={Interlocuteur.telephone_interlocuteur}
+onChange={(e)=>setInterlocuteur({...Interlocuteur ,telephone_interlocuteur : e.target.value})}
+></Input>
+</div>
+<div className="mt-6 flex flex-row justify-between ">
+<Label text="Email" className="mt-4"></Label>
+<Input type="text" className="w-96  "
+value={Interlocuteur.email_interlocuteur}
+onChange={(e)=>setInterlocuteur({...Interlocuteur , email_interlocuteur : e.target.value})}
 ></Input>
 </div>
 </div>
@@ -529,8 +552,8 @@ onChange={(e)=> setCoordonnees({...Coordonnees , longitude : e.target.value })}
 <Label text="Laltitude" className="mt-4"></Label>
 <Input type="text" className="w-96  "
 
-value={Coordonnees.laltitude}
-onChange={(e)=> setCoordonnees({...Coordonnees , laltitude : e.target.value })}
+value={Coordonnees.latitude}
+onChange={(e)=> setCoordonnees({...Coordonnees , latitude : e.target.value })}
 ></Input>
 </div>
 

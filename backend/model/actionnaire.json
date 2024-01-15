@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "id": "1",
+        "id_contribuable": "Qs3fSuXAYB",
+        "type": "Personne morale",
+        "nom_actionnaire": "",
+        "fonction_actionnaire": "",
+        "resident_actionnaire": "",
+        "cin_passeport_actionnaire": "",
+        "adresse_actionnaire": "",
+        "autre_activite_actionnaire": "",
+        "nif_actionnaire": "09876543456",
+        "email_actionnaire": "",
+        "numero_actionnaire": "",
+        "associe_unique_actionnaire": "",
+        "action_ou_actionnaire": ""
+    }
+]

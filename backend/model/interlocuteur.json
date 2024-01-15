@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "id_interlocuteur": 4,
+        "id_contribuable": "Qs3fSuXAYB",
+        "nom_interlocuteur": "François Deval",
+        "titre_interlocuteur": "Entrepreneur",
+        "telephone_interlocuteur": "+261324567789",
+        "email_interlocuteur": "françois@gmail.com"
+    }
+]

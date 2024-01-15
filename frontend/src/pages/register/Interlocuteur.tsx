@@ -60,7 +60,7 @@ function Interlocuteur() {
         <div className="flex flex-col w-[1000px]">
           <div className="flex flex-row">
             <TitleH3 text="Etape 7:" className="mt-2"></TitleH3>
-          <TitleH1 text="Interlocuteur de la DGI au sein de l'entreprise" className="ml-2"></TitleH1>
+          <TitleH1 text="Interlocuteur  au sein de l'entreprise" className="ml-2"></TitleH1>
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Nom " />

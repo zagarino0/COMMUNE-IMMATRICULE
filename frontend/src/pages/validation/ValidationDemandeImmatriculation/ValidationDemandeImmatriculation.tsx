@@ -85,8 +85,8 @@ const handleSearchClient = async () => {
       }, []);
     
      
-const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
-const data = Data.map((item)=>[item.id , item.raison_social , item.nom_commercial , item.forme_juridique])
+const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" , "Référence Fiscal" ];
+const data = Data.map((item)=>[item.id , item.raison_social , item.capital , item.forme_juridique , item.reference_fiscal])
   // [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
 
 
@@ -133,7 +133,7 @@ const data = Data.map((item)=>[item.id , item.raison_social , item.nom_commercia
    <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">
        DEMANDES RF A VALIDER
      </div>
-         <div className="text-lg font-semibold p-4 ">
+         {/* <div className="text-lg font-semibold p-4 ">
            Recherche des contribuables :
          </div>
    </div>
@@ -232,8 +232,8 @@ onChange={(e)=> {setValide({...Valide , date_fin: e.target.value})}}
 </div>
 
 <Button type="submit" text="Rechercher" onClick={handleSearchClient} className="w-96 ml-[180px] mt-4"></Button>
-      </div>
-<div className="flex justify-center items-center mt-4" >
+      </div> */}
+<div className=" overflow-y-auto w-[850px] flex  justify-center items-center mt-4" >
 
 <Table
 

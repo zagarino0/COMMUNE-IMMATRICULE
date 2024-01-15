@@ -1,1 +1,19 @@
-[]
+[
+    {
+        "id": "1",
+        "id_contribuable": "Qs3fSuXAYB",
+        "associe_unique": false,
+        "resident": true,
+        "avec_rf": false,
+        "salarie": true,
+        "aucune": false,
+        "nom": "Mohamed Gaétan",
+        "fonction": "Accieul",
+        "cin": "",
+        "passport": "0654456789765",
+        "adresse": "lot 467",
+        "rf": "",
+        "email": "gaetan@gmail.com",
+        "telephone": "+261334567678"
+    }
+]

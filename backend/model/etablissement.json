@@ -1,1 +1,23 @@
-[]
+[
+    {
+        "id": "1",
+        "id_contribuable": "Qs3fSuXAYB",
+        "nom_commercial": "Nom commercial",
+        "activite": "Activité",
+        "titre": "Dirigeant",
+        "date_ouverture": "2024-01-11",
+        "adresse": "lot 202",
+        "fokontany": "Majunga be",
+        "province": "Mahajanga",
+        "region": "BOENY",
+        "district": "Mahajanga",
+        "commune": "Mahajanga",
+        "telephone_1": "+261323456789",
+        "autre_telephone": "+26134234568",
+        "fax": "fax",
+        "email": "nomcommercial@gmail.com",
+        "exportateur": false,
+        "importateur": false,
+        "proprietaire_local": false
+    }
+]

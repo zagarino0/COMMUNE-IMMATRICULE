@@ -42,16 +42,13 @@ function LoginPage() {
 
       // Handle the response from the server as needed
       console.log("Login successful:", response.data);
-
-      
       localStorage.setItem('userAdministrationData', JSON.stringify(response.data));
-      // Redirect to the desired page if the condition is met
-      // Reset the form after successful login
+        // Reset the form after successful login
       setUsername("");
       setPassword("");
       setType_operateur("");
       navigate("/validation")
-    } catch (error) {
+    } catch (error ) {
       // Handle errors from the server
       console.error("Login failed:", error.message);
       alert("Authentific ation échoué.Veillez-ressayer encore .");
