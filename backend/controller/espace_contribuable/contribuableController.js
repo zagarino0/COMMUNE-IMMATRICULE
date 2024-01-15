@@ -51,7 +51,7 @@ const data = {
     etablissements: require('../../model/etablissement.json'),
     setEtablissements: function (data) { this.etablissements = data },
     coordonnees: require('../../model/coordonnees.json'),
-    setCoordonnees: require('../../model/coordonnees.json'),
+    setCoordonnees: function (data) {this.coordonnees = data},
 
 
     //Rejet
