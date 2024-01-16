@@ -1,15 +1,1 @@
-[
-    {
-        "id_activite": 5,
-        "id_contribuable": "Qs3fSuXAYB",
-        "activite": "Restauration et Hôtelerie",
-        "precision_activite": "service clientel",
-        "numero_statistique": "984345678",
-        "date_delivrance_statistique": "2024-01-05",
-        "registre_commerce": "registre commerce",
-        "date_registre_commerce": "2024-01-01",
-        "debut_exercice": "2024-01-02",
-        "cloture_exercice": "2024-01-05",
-        "nif": "0987654323456"
-    }
-]
+[{"id_activite":5,"id_contribuable":"Qs3fSuXAYB","activite":"Restauration et Hôtelerie","precision_activite":"service clientel","numero_statistique":"984345678","date_delivrance_statistique":"2024-01-05","registre_commerce":"registre commerce","date_registre_commerce":"2024-01-01","debut_exercice":"2024-01-02","cloture_exercice":"2024-01-05","nif":"0987654323456"},{"id_activite":4,"id_contribuable":"fQ1v0iW0","activite":"Entrepreneur","precision_activite":"Commerce","numero_statistique":"","date_delivrance_statistique":"2024-01-11","registre_commerce":"987545678","date_registre_commerce":"2024-01-03","debut_exercice":"2024-01-17","cloture_exercice":"2024-01-01","nif":"9876543456789"}]

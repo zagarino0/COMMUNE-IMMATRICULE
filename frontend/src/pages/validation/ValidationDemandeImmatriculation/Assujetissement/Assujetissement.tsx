@@ -52,7 +52,7 @@ function Assujetissement() {
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
     console.log(userData)
-    const Activite = parsedDataSelected.activite ;
+    // const Activite = Array.isArray(parsedDataSelected?.activite) ? parsedDataSelected.activite : [];
     const Etablissement = parsedDataSelected.etablissement
     const [Assujetissement , setAssujetissement] = useState<Assujetissement>({
 
@@ -125,7 +125,7 @@ function Assujetissement() {
       "period_1",
       "period_2",
       "etat",
-      "date_exe",
+       "date_exe",
       "date_assujetissement",
       "date fin"
 
@@ -149,7 +149,7 @@ function Assujetissement() {
   
   // New state to hold the list of entries 
   const [Interlocuteur , setInterlocuteur] = useState<{
-    id_contribuable: string,
+ id_contribuable: string,
  nom_interlocuteur: string,
  titre_interlocuteur:string,
  adresse_interlocuteur: string,
@@ -183,16 +183,19 @@ function Assujetissement() {
 
 
     if (entries){
+      
+      const Assujetissement_contribuable = {
+        "assujetissement" : entries
+      }
     
     try {
       // Make a POST request to your server endpoint
-      const response = await axios.post("http://localhost:3500/assujetissement", entries);
+      const response = await axios.post("http://localhost:3500/assujetissement", Assujetissement_contribuable);
     
       // Check the response status or do something with the response
       console.log("Server Response:", response.data);
       alert("Assujetissement ajouté")
-      localStorage.removeItem("selectedValidationData");
-        
+     
       setAssujetissement<Assujetissement>({
         id_contribuable: parsedDataSelected.id,
         imposition:"",
@@ -209,7 +212,7 @@ function Assujetissement() {
   
   
       });
-      navigate("/ValidationDemandeImmatriculation")
+     
     } catch (error) {
       // Handle errors
       console.error("Error:", error);
@@ -270,7 +273,7 @@ function Assujetissement() {
         const mdp = generatePassword() ;
         const reference_fiscal  = {
             "id_user": userData.id_user ,
-            "reference_fiscal" : parsedDataSelected.reference_fiscal,
+             "reference_fiscal" : parsedDataSelected.reference_fiscal,
             "mot_de_passe" : mdp ,
         }
         try {
@@ -278,29 +281,30 @@ function Assujetissement() {
           const response = await axios.post("http://localhost:3500/contribuable/validation/contribuable", reference_fiscal);
         
           // Check the response status or do something with the response
-          console.log("Server Response:", response.data);
+           console.log("Server Response:", response.data);
         
          alert("Générationde mot de passe en cours");
          alert(`le mot de passe est ${mdp}`)
-         
+         localStorage.removeItem("selectedValidationData");
+         navigate("/ValidationDemandeImmatriculation") 
         } catch (error) {
           // Handle errors
-          console.error("Error:", error);
-          alert("Erreur Code de validation")
+           console.error("Error:", error);
+           alert("Erreur Code de validation")
         }
         
-        }
+        } 
       
-
+   
     
-    }
+     }
 
  const [DataCode , setDataCode] = useState([])
     useEffect(() => {
       // Récupérer les données depuis le backend
       axios.get('http://localhost:3500/impot')
         .then((response) => setDataCode(response.data))
-        .catch((error) => console.error(error));
+         .catch((error) => console.error(error));
     }, []);
 
 
@@ -311,12 +315,13 @@ function Assujetissement() {
       localStorage.setItem("ContribuableSelectedValidationAssujetissementData", JSON.stringify(parsedDataSelected ));
       // Reset the dummy state to trigger rerender
       console.log(parsedDataSelected)
-      setIsStorageUpdated(false);
+       setIsStorageUpdated(false);
     }, [parsedDataSelected, isStorageUpdated]);
     
 
-    const handleButtonClick = () => {
-      // Trigger a rerender by updating the dummy state
+    const handleButtonClick = () => {            
+      //Trigger a rerender by updating the dummy state
+       
       setIsStorageUpdated(true);
   
       // Use the selectedOption to determine the route to navigate to
@@ -340,7 +345,7 @@ value={ parsedDataSelected ? parsedDataSelected.raison_social :""}
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Nom commercial" className="mt-4"></Label>
 <Input type="text" className="w-96  "
-value={ Etablissement ? Etablissement[0].nom_commercial :""}
+
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
@@ -391,13 +396,12 @@ value={ parsedDataSelected ? parsedDataSelected.capital :""}
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Activités" className="mt-4"></Label>
 <Input type="textarea" className="w-96  "
-value={ Activite ? Activite[0].activite :""}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Précision sur les Activités" className="mt-4"></Label>
 <Input type="textarea" className="w-96  "
-value={ Activite ? Activite[0].precision_activite :""}
+
 ></Input>
 </div>
 <div className="flex flex-col bg-gray-200 mt-4 rounded h-[1200px] p-4">

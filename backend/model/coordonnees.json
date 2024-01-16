@@ -1,7 +1,1 @@
-[
-    {
-        "id_coordonnee": 1,
-        "id_contribuable": "Qs3fSuXAYB",
-        "longitude": "+12345"
-    }
-]
+[{"id_coordonnee":1,"id_contribuable":"Qs3fSuXAYB","longitude":"+12345"},{"id_coordonnee":1,"id_contribuable":"fQ1v0iW0","longitude":"+765","latitude":"456"}]

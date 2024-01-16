@@ -1,10 +1,1 @@
-[
-    {
-        "id_siege": 5,
-        "id_contribuable": "Qs3fSuXAYB",
-        "adresse_actuel": "avenue de France  ",
-        "district": "Mahajanga",
-        "region": "Boeny",
-        "province": "Mahajnaga"
-    }
-]
+[{"id_siege":5,"id_contribuable":"Qs3fSuXAYB","adresse_actuel":"avenue de France  ","district":"Mahajanga","region":"Boeny","province":"Mahajnaga"},{"id_siege":4,"id_contribuable":"fQ1v0iW0","adresse_actuel":"lot 234 J 25","district":"Mahajanga","region":"Boeny","province":"Majunga"}]
