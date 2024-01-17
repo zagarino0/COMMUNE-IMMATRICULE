@@ -206,18 +206,18 @@ const validationContribuable = async (req, res) => {
     data.setValidation([...data.validation, validation]);
 
     //Actionnaire
-    const actionnaire = data.actionnairesTemps.find(act => act.id_contribuable === contribuable.id);
-    if (actionnaire) {
+    const actionnaire = data.actionnairesTemps.filter(act => act.id_contribuable === contribuable.id);
+    if (actionnaire.length !== 0) {
         const filtederActionnaire = data.actionnairesTemps.filter(act => act.id_contribuable !== contribuable.id)
         data.setActionnaireTemps(filtederActionnaire);
-        data.setActionnaire([...data.actionnaires, actionnaire]);
+        data.setActionnaire([...data.actionnaires, ...actionnaire]);
     }
     //dirigeant
-    const dirigeant = data.dirigeantTemps.find(dir => dir.id_contribuable === contribuable.id);
-    if (dirigeant) {
+    const dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+    if (dirigeant.length !== 0) {
         const filteredDirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable !== contribuable.id);
         data.setDirigeantTemps(filteredDirigeant);
-        data.setDirigeant([...data.dirigeant, dirigeant]);
+        data.setDirigeant([...data.dirigeant, ...dirigeant]);
     }
     //activite
     const activite = data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
@@ -241,11 +241,11 @@ const validationContribuable = async (req, res) => {
         data.setSiege([...data.siege, siege]);
     }
     //etablissement
-    const etablissement = data.etablissementsTemps.find(eta => eta.id_contribuable === contribuable.id);
-    if (etablissement) {
+    const etablissement = data.etablissementsTemps.filter(eta => eta.id_contribuable === contribuable.id);
+    if (etablissement.length !== 0) {
         const filteredEtablissement = data.etablissementsTemps.filter(eta => eta.id_contribuable !== contribuable.id);
         data.setEtablissementsTemps(filteredEtablissement);
-        data.setEtablissements([...data.etablissements, etablissement]);
+        data.setEtablissements([...data.etablissements, ...etablissement]);
     }
     //autre
     const autre = data.autresTemps.find(aut => aut.id_contribuable === contribuable.id);

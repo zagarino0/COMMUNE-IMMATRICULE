@@ -12,4 +12,3 @@ router.route('/categories')
     .post(radiationController.consultationradiation);
 
 module.exports = router;
-
