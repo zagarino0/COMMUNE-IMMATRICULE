@@ -236,11 +236,6 @@ const setRadiation = async (req, res) => {
     res.json(contribuable)
 }
 
-const removeRadiation = (req, res) => {
-
-    res.json(contribuable)
-}
-
 const consultationradiation = (req, res) => {
     const reference = req.body.reference;
     const raison_social = req.body.raison_social;
@@ -471,15 +466,9 @@ const getRadiationById = (req, res) => {
     res.json(contribuable) 
 }
 
-const getRadiationByAll = (req, res) => {
-
-    res.json(contribuable)
-}
 
 module.exports = {
     setRadiation,
-    removeRadiation,
     consultationradiation,
-    getRadiationByAll,
     getRadiationById
 }
