@@ -52,8 +52,7 @@ function Assujetissement() {
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
     console.log(userData)
-    // const Activite = Array.isArray(parsedDataSelected?.activite) ? parsedDataSelected.activite : [];
-    const Etablissement = parsedDataSelected.etablissement
+    console.log(parsedDataSelected);
     const [Assujetissement , setAssujetissement] = useState<Assujetissement>({
 
       id_contribuable: parsedDataSelected.id,
@@ -336,16 +335,19 @@ function Assujetissement() {
        
         <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 "> Assujetissement des contribuables ayant le RF : {parsedDataSelected?parsedDataSelected.id:""}</div>
 <div className="flex flex-col">
-<div className="mt-6 flex flex-row justify-between ">
+{parsedDataSelected.activite.map((activite , index) => (
+  <div  key={index}>
+  <div className="mt-6 flex flex-row justify-between ">
 <Label text="Raison social" className="mt-4"></Label>
 <Input type="text" className="w-96  "
 value={ parsedDataSelected ? parsedDataSelected.raison_social :""}
 ></Input>
 </div>
+
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Nom commercial" className="mt-4"></Label>
 <Input type="text" className="w-96  "
-
+value={activite.nom_commercial}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
@@ -393,17 +395,23 @@ value={ parsedDataSelected ? parsedDataSelected.date_creation :""}
 value={ parsedDataSelected ? parsedDataSelected.capital :""}
 ></Input>
 </div>
+
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Activités" className="mt-4"></Label>
-<Input type="textarea" className="w-96  "
+<Input type="text" className="w-96  "
+value={activite.activite}
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Précision sur les Activités" className="mt-4"></Label>
-<Input type="textarea" className="w-96  "
-
+<Input type="text" className="w-96  "
+value={activite.precision_activite}
 ></Input>
 </div>
+  </div>
+))
+
+}
 <div className="flex flex-col bg-gray-200 mt-4 rounded h-[1200px] p-4">
 <div className="flex flex-row">
 

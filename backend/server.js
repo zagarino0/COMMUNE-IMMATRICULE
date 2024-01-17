@@ -52,6 +52,7 @@ app.use('/assujetissement', require('./routes/api/client/assujetissement'));
 app.use('/vehicle', require('./routes/api/client/vehicle'));
 app.use('/impot', require('./routes/api/impot/impot'));
 app.use('/etat', require('./routes/api/administrateur/etat'));
+app.use('/radiation', require('./routes/api/administrateur/radiation'));
 
 //consultation
 app.use('/consultation', require('./routes/api/consultation/consultation'));
