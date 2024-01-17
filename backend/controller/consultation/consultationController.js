@@ -12,6 +12,7 @@ const data = {
     interlocuteurs: require('../../model/interlocuteur.json'),
     siege: require('../../model/siege.json'),
     cessations: require('../../model/cessation_activite.json'),
+    assujetissement: require('../../model/assujetissement.json'),
 
     //Temp
     contribuablesNonValide: require('../../model/model_temp/contribuable.json'),
@@ -22,7 +23,8 @@ const data = {
     autreTemps: require('../../model/model_temp/autre.json'),
     coordonneeTemps: require('../../model/model_temp/coordonnees.json'),
     dirigeantTemps: require('../../model/model_temp/dirigeant.json'),
-    actionnaireTemps: require('../../model/model_temp/actionnaire.json')
+    actionnaireTemps: require('../../model/model_temp/actionnaire.json'),
+    assujetissementTemps: require('../../model/model_temp/assujetissement.json')
 }
 
 
@@ -37,6 +39,15 @@ const getContribuables = (req, res) => {
     if (!validation)
         return res.json({ 'message': 'Le contribuable n\'est pas encore validé' });
 
+    contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+    contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+    contribuable.activite = data.activites.length === 0 ? null : data.activites.filter(act => act.id_contribuable === contribuable.id);
+    contribuable.autre = data.autres.length === 0 ? null : data.autres.filter(aut => aut.id_contribuable === contribuable.id);
+    contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.filter(coo => coo.id_contribuable === contribuable.id);
+    contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+    contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.filter(inter => inter.id_contribuable === contribuable.id);
+    contribuable.siege = data.siege.length === 0 ? null : data.siege.filter(sie => sie.id_contribuable === contribuable.id);
+    contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
     res.json(contribuable);
 }
 
@@ -573,12 +584,12 @@ const getListeDemandeAValide = (req, res) => {
     data.contribuablesNonValide.map(con => {
         con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
         con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
-        con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.filter(act => act.id_contribuable === con.id);
-        con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.filter(aut => aut.id_contribuable === con.id);
-        con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.filter(coo => coo.id_contribuable === con.id);
+        con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === con.id);
+        con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === con.id);
+        con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === con.id);
         con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
-        con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.filter(inter => inter.id_contribuable === con.id);
-        con.siege = data.siege.length === 0 ? null : data.siegeTemps.filter(sie => sie.id_contribuable === con.id);
+        con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
+        con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.find(sie => sie.id_contribuable === con.id);
         contribuablesNonValides.push({ ...con });
     })
     res.json(contribuablesNonValides);
