@@ -1,1 +1,15 @@
-[{"id_activite":1,"id_contribuable":"4356","activite":"mamositra alika","precision_activite":"alika mitety lalana raisina ary vosirana","numero_statistique":"7463529834765","date_delivrance_statistique":"2023-06-06","registre_commerce":"","date_registre_commerce":"","debut_exercice":"2023-01-01","cloture_exercice":"2024-12-31","nif":"43456546564564"}]
+[
+    {
+        "id_activite": 1,
+        "id_contribuable": "4356",
+        "activite": "mamositra alika",
+        "precision_activite": "alika mitety lalana raisina ary vosirana",
+        "numero_statistique": "7463529834765",
+        "date_delivrance_statistique": "2023-06-06",
+        "registre_commerce": "",
+        "date_registre_commerce": "",
+        "debut_exercice": "2023-01-01",
+        "cloture_exercice": "2024-12-31",
+        "nif": "43456546564564"
+    }
+]
