@@ -41,13 +41,14 @@ const getContribuables = (req, res) => {
 
     contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
     contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
-    contribuable.activite = data.activites.length === 0 ? null : data.activites.filter(act => act.id_contribuable === contribuable.id);
-    contribuable.autre = data.autres.length === 0 ? null : data.autres.filter(aut => aut.id_contribuable === contribuable.id);
-    contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.filter(coo => coo.id_contribuable === contribuable.id);
+    contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+    contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+    contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
     contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
     contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.filter(inter => inter.id_contribuable === contribuable.id);
-    contribuable.siege = data.siege.length === 0 ? null : data.siege.filter(sie => sie.id_contribuable === contribuable.id);
+    contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
     contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
+
     res.json(contribuable);
 }
 
@@ -68,65 +69,69 @@ const getContribuablebloque = (req, res) => {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
             contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
             contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siege.length === 0 ? null : data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
             const adresse = data.siegeTemps.find(sie => sie.adresse_actuel === adresse);
@@ -149,162 +154,172 @@ const getContribuablebloque = (req, res) => {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
     } else if (date_debut && date_fin) {
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => ces.cessation)
-            if (cessation)
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
+            if (modification)
                 return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
     } else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && !date_debut && !date_fin) {
         return res.status(404).json({ 'message': 'aucun contribuable' })
@@ -329,68 +344,72 @@ const getContribuableNonBloque = (req, res) => {
 
     if (!date_debut) {
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.id === reference);
+            contribuable = data.contribuables.find(con => con.id === reference);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siege.length === 0 ? null : data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
             const adresse = data.siegeTemps.find(sie => sie.adresse_actuel === adresse);
@@ -413,162 +432,172 @@ const getContribuableNonBloque = (req, res) => {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
     } else if (date_debut && date_fin) {
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const cessation = data.cessations.find(ces => !ces.cessation)
-            if (cessation)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification !== 5 && !mod.blockage)
+            if (modification)
+                return res.status(400).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(sie => sie.id_contribuable === contribuable.id);
         }
     } else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && !date_debut && !date_fin) {
         return res.status(404).json({ 'message': 'aucun contribuable' })
@@ -612,53 +641,69 @@ const getListeDemandeAValideByAll = (req, res) => {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
             contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
             contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siege.length === 0 ? null : data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
             const adresse = data.siegeTemps.find(sie => sie.adresse_actuel === adresse);
@@ -681,132 +726,172 @@ const getListeDemandeAValideByAll = (req, res) => {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
     } else if (date_debut && date_fin) {
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin) {
             contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.cin === cin && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
             contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 0 && !mod.blockage)
+            if (modification)
+                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+            contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+            contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
+            contribuable.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === contribuable.id);
+            contribuable.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
+            contribuable.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+            contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
+            contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
+            contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
     } else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && !date_debut && !date_fin) {
         return res.status(404).json({ 'message': 'aucun contribuable' })
