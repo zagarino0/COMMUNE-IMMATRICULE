@@ -36,7 +36,8 @@ const getActionnaireById = (req, res) => {
  
 const updateActionnaire = async (req, res) => {
     const id_actionnaire = req.params.id_actionnaire;
-    const actionnaire = data.actions.find(act => act.id_actionnaire === id_actionnaire);
+    const id_contribuable = req.body.id_contribuable;
+    const actionnaire = data.actions.find(act => act.id_actionnaire === id_actionnaire && act.id_contribuable === id_contribuable);
 
     if(req.body.personne_physique) actionnaire.personne_physique = req.body.personne_physique;
     if(req.body.personne_morale) actionnaire.personne_morale = req.body.personne_morale;

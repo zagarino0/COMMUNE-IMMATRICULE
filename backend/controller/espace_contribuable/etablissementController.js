@@ -33,7 +33,8 @@ const getEtablissementByIdContribuable = (req, res) => {
 
 const updateEtablissement = async (req, res) => {
     const id_etablissement = req.params.id_etablissement;
-    const etablissement = data.etablissements.find(eta => eta.id_etablissement === id_etablissement);
+    const id_contribuable = req.body.id_contribuable;
+    const etablissement = data.etablissements.find(eta => eta.id_etablissement === id_etablissement && eta.id_contribuable === id_contribuable);
 
     if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
     if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
@@ -54,9 +55,7 @@ const updateEtablissement = async (req, res) => {
     if(req.body.etablissement_type_proprietaire) etablissement.etablissement_type_proprietaire = req.body.etablissement_type_proprietaire;
     if(req.body.etablissement_nif_proprietaire) etablissement.etablissement_nif_proprietaire = req.body.etablissement_nif_proprietaire;
 
-    etablissement.etablissement_importateur = req.body.etablissement_importateur;
-    etablissement.etablissement_exportateur = req.body.etablissement_exportateur;
-    
+ 
 
     const filteredEtablissement = data.etablissements.filter(eta => eta.id_etablissement !== id_etablissement);
     const unsortedEtablissement = [...filteredEtablissement, etablissement];
