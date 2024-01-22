@@ -1,1 +1,10 @@
-[{"id_history":1,"id_contribuable":"4356","motif":"Validation contribuable","comment":"","date_history":"2024-01-15T07:53:15.118Z"}]
+[
+    {
+        "id_history": 1,
+        "id_contribuable": "1657",
+        "id_user": 2,
+        "motif": "Validation contribuable",
+        "comment": "",
+        "date_history": "2024-01-22T22:37:53.874Z"
+    }
+]
