@@ -85,8 +85,8 @@ const handleSearchClient = async () => {
       }, []);
     
      
-const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" , "Référence Fiscal" ];
-const data = Data.map((item)=>[item.id , item.raison_social , item.capital , item.forme_juridique , item.reference_fiscal])
+const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" , "Référence Fiscal" , "type" ];
+const data = Data.map((item)=>[item.id , item.raison_social , item.capital , item.forme_juridique , item.reference_fiscal , item.type])
   // [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
 
 
@@ -129,8 +129,8 @@ const data = Data.map((item)=>[item.id , item.raison_social , item.capital , ite
   const ContentSearch =(
     <div>     
        <div className="  p-4">
-   <div className="p-4">
-   <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">
+   <div className="">
+   <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
        DEMANDES RF A VALIDER
      </div>
          {/* <div className="text-lg font-semibold p-4 ">
@@ -233,7 +233,7 @@ onChange={(e)=> {setValide({...Valide , date_fin: e.target.value})}}
 
 <Button type="submit" text="Rechercher" onClick={handleSearchClient} className="w-96 ml-[180px] mt-4"></Button>
       </div> */}
-<div className=" overflow-y-auto w-[850px] flex  justify-center items-center mt-4" >
+<div className=" flex  justify-center items-center mt-4" >
 
 <Table
 
@@ -245,15 +245,15 @@ selectedRowIndex={selectedRowIndex}
 ></Table>
 </div>
 
-<button  className="flex flex-row " onClick={handleButtonClick}><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Ajouter assujetissement" className="text-xs"></TitleH3></button>
+<button  className="flex flex-row " onClick={handleButtonClick}><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
 </div>
    </div>
    </div>
   )
 return (
   <MainLayout>
-  <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={ContentSearch} className="w-[1000px] h-[1200px]"></Card>
+  <div className=" mt-16 mb-8">
+  <Card contentCard={ContentSearch} className="w-[1000px] h-[550px]"></Card>
   </div>
       </MainLayout>
 )

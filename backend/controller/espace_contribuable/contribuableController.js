@@ -108,6 +108,7 @@ const setContribuable = async (req, res) => {
         "date_creation": req.body.datecreation,
         "capital": req.body.capital,
         "RIB": req.body.rib,
+        "numero_compte_bancaire": req.body.numero_compte_bancaire,
         "actif": false
     }
 

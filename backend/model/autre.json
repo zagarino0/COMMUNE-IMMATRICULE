@@ -1,1 +1,23 @@
-[{"id_autre":4,"id_contribuable":"Qs3fSuXAYB","information_mail":true,"depassement_12_mois":false,"certification":true},{"id_autre":3,"id_contribuable":"fQ1v0iW0","information_mail":true,"depassement_12_mois":false,"certification":true}]
+[
+    {
+        "id_autre": 4,
+        "id_contribuable": "Qs3fSuXAYB",
+        "information_mail": true,
+        "depassement_12_mois": false,
+        "certification": true
+    },
+    {
+        "id_autre": 3,
+        "id_contribuable": "fQ1v0iW0",
+        "information_mail": true,
+        "depassement_12_mois": false,
+        "certification": true
+    },
+    {
+        "id_autre": 0,
+        "id_contribuable": "NOewonMZFL",
+        "information_mail": true,
+        "depassement_12_mois": false,
+        "certification": true
+    }
+]

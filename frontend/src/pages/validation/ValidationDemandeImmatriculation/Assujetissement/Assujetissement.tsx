@@ -10,9 +10,17 @@ import { MainLayout } from "../../../../layouts/main";
 
 import { useEffect, useState } from "react";
 import Table from "../../../../components/table/table";
-import { AiOutlineSave } from "react-icons/ai";
+import { AiFillCar, AiOutlineSave } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { IoIosPerson } from "react-icons/io";
+import { HiOutlineInformationCircle } from "react-icons/hi";
+import { ImStatsDots } from "react-icons/im";
+import { RiArrowGoBackFill, RiSubtractFill } from "react-icons/ri";
+import { FaUniversity } from "react-icons/fa";
+import { BiBody } from "react-icons/bi";
+import { MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
+import { IoAdd, IoSettingsOutline } from "react-icons/io5";
 
 
 interface Assujetissement {
@@ -44,18 +52,110 @@ function Assujetissement() {
     return randomString;
   }
   
+  const [bool , setBool] = useState<{
+    Principaux_renseignement : boolean,
+    activite : boolean,
+    siege: boolean,
+    associe: boolean,
+    etablissement:boolean,
+    dirigeant:boolean,
+    vehicule:boolean,
+    interlocuteur:boolean
+  }>({
+    Principaux_renseignement : false,
+    activite: false,
+    siege: false,
+    associe: false,
+    etablissement: false,
+    dirigeant:false,
+    vehicule:false,
+    interlocuteur:false
+  })
+  
 
+  const [add , setAdd] = useState(false);
+const [value , setValue] = useState<{
+  personne_physique:boolean,
+  personne_morale:boolean,
+  personne_etrangere:boolean,
+  associe_unique:boolean,
+  resident:boolean,
+  avec_rf: boolean,
+  salarie : boolean,
+  aucune : boolean,
+  numimmatriculation_v:string,
+       marque_v:string,
+       type_v:string,
+       genre_v:string,
+       puissance_v:string,
+       nbplacecartegrise_v:string,
+       nbplacelicence_v:string,
+       chargeutile_v:string,
+       datemisecirculation_v:string,
+       poidsavide_v:string,
+       hikaramana_v:string,
+       datedebut_v:string,
+       nifproprietaire_v:string,
+       centregestion_v:string,
+       ancnifproprietaire_v:string,
+       exploitation_v:string,
+       datevalidlic_v:string,
+       categ_v:string,
+       souscateg_v: string,
+       zone_v:string,
+       age_v:string,
+}>({
+  personne_physique:false,
+  personne_morale:false,
+  personne_etrangere:false,
+  associe_unique:false,
+  resident: true ,
+  avec_rf: false,
+  salarie: false,
+  aucune : false,
+  numimmatriculation_v:"",
+       marque_v:"",
+       type_v:"",
+       genre_v:"",
+       puissance_v:"",
+       nbplacecartegrise_v:"",
+       nbplacelicence_v:"",
+       chargeutile_v:"",
+       datemisecirculation_v:"",
+       poidsavide_v:"",
+       hikaramana_v:"",
+       datedebut_v:"",
+       nifproprietaire_v:"",
+       centregestion_v:"",
+       ancnifproprietaire_v:"",
+       exploitation_v:"",
+       datevalidlic_v:"",
+       categ_v:"",
+       souscateg_v: "",
+       zone_v:"",
+       age_v:"",
+})
 
     
     const selectedData = localStorage.getItem("selectedValidationData");
-    const parsedDataSelected  = JSON.parse(selectedData as string);
+ 
+   const [ContribuableData, setContribuableData] = useState(
+  JSON.parse(selectedData  as string)
+);
+
+console.log(ContribuableData);
+    const Activite = ContribuableData.activite;
+    const Siege = ContribuableData.siege;
+    const Associe = ContribuableData.actionnaire;
+    const Etablissement = ContribuableData.etablissement;  
+    const Dirigeant = ContribuableData.dirigeant ;
+    const Autre = ContribuableData.autre ;
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
-    console.log(userData)
-    console.log(parsedDataSelected);
+
     const [Assujetissement , setAssujetissement] = useState<Assujetissement>({
 
-      id_contribuable: parsedDataSelected.id,
+      id_contribuable: ContribuableData.id,
       imposition:"",
       date_debut:"",
       periodicite: "",
@@ -71,10 +171,7 @@ function Assujetissement() {
       date_fin : ""
     })
     let navigate = useNavigate();
-    const handleCheckboxChange  = () => {
-          
-    };
-    
+  
 
     const [entries, setEntries] = useState([]); // New state to hold the list of entries
 
@@ -92,11 +189,11 @@ function Assujetissement() {
     }));
 
       // Add the current entry to the list of entries
-      setEntries((prevEntries) => [...prevEntries, {...Assujetissement , id: newId.toString()}]);
+      setEntries((prevEntries ) => [...prevEntries, {...Assujetissement , id: newId.toString()}]);
   
       // Reset the Actionnaire state to clear the form
       setAssujetissement<Assujetissement>({
-        id_contribuable: parsedDataSelected.id,
+        id_contribuable: ContribuableData.id,
         imposition:"",
         date_debut:"",
         periodicite: "",
@@ -115,11 +212,11 @@ function Assujetissement() {
     };
   
     const headers = [
+      "numero",
       "imposition",
       "date_debut",
       "periodicite",
       "annee",
-      "actif",
       "exonere",
       "period_1",
       "period_2",
@@ -131,11 +228,11 @@ function Assujetissement() {
     ];
   
     const data = entries.map((entry) => [
+        entry.id,
         entry.imposition,
         entry.date_debut,
         entry.periodicite,
         entry.annee,
-      <Checkbox checked={entry.actif}></Checkbox> ,
       <Checkbox checked={entry.exonere}></Checkbox>,
         entry.period_1,
         entry.period_2,
@@ -156,7 +253,7 @@ function Assujetissement() {
  email_interlocuteur: string,
 
   }>({ 
- id_contribuable: parsedDataSelected.id,
+ id_contribuable: ContribuableData.id,
  nom_interlocuteur: "",
  titre_interlocuteur:"",
  adresse_interlocuteur: "",
@@ -170,7 +267,7 @@ function Assujetissement() {
     longitude: string,
     latitude : string
   }>({
-   id_contribuable: parsedDataSelected.id,
+   id_contribuable: ContribuableData.id,
    longitude : "",
    latitude : ""
   })
@@ -184,7 +281,7 @@ function Assujetissement() {
     if (entries){
       
       const Assujetissement_contribuable = {
-        "assujetissement" : entries
+        "assujetissements" : entries
       }
     
     try {
@@ -196,7 +293,7 @@ function Assujetissement() {
       alert("Assujetissement ajouté")
      
       setAssujetissement<Assujetissement>({
-        id_contribuable: parsedDataSelected.id,
+        id_contribuable: ContribuableData.id,
         imposition:"",
         date_debut:"",
         periodicite: "",
@@ -229,7 +326,7 @@ function Assujetissement() {
     
      alert("Interlocuteur ajouté");
      setInterlocuteur({ 
-      id_contribuable: parsedDataSelected.id,
+      id_contribuable: ContribuableData.id,
       nom_interlocuteur: "",
       titre_interlocuteur:"",
       adresse_interlocuteur: "",
@@ -256,7 +353,7 @@ function Assujetissement() {
       
        alert("Ajout coordonnées");
        setCoordonnees({ 
-        id_contribuable: parsedDataSelected.id,
+        id_contribuable: ContribuableData.id,
         longitude:"",
         latitude : ""
          })
@@ -268,11 +365,11 @@ function Assujetissement() {
       
       }
          
-      if(parsedDataSelected){
+      if(ContribuableData){
         const mdp = generatePassword() ;
         const reference_fiscal  = {
             "id_user": userData.id_user ,
-             "reference_fiscal" : parsedDataSelected.reference_fiscal,
+             "reference_fiscal" : ContribuableData.reference_fiscal,
             "mot_de_passe" : mdp ,
         }
         try {
@@ -311,11 +408,11 @@ function Assujetissement() {
   
     useEffect(() => {
       // Store Value data in localStorage
-      localStorage.setItem("ContribuableSelectedValidationAssujetissementData", JSON.stringify(parsedDataSelected ));
+      localStorage.setItem("ContribuableSelectedValidationAssujetissementData", JSON.stringify(ContribuableData ));
       // Reset the dummy state to trigger rerender
-      console.log(parsedDataSelected)
+      console.log(ContribuableData)
        setIsStorageUpdated(false);
-    }, [parsedDataSelected, isStorageUpdated]);
+    }, [ContribuableData , isStorageUpdated]);
     
 
     const handleButtonClick = () => {            
@@ -327,91 +424,1073 @@ function Assujetissement() {
       const routeToNavigate = "/saisirmotifrejet";
   
       // Use navigate to navigate to the determined route
-      navigate(routeToNavigate, { state: { parsedDataSelected } });
+      navigate(routeToNavigate, { state: { ContribuableData } });
   };
+
+
+  // Partie sur le contribualble à modifier et à valider sur l'interface
   
     const contentCard = (
         <div className="m-4 mb-4">
        
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 "> Assujetissement des contribuables ayant le RF : {parsedDataSelected?parsedDataSelected.id:""}</div>
+        <div className="text-white bg-[#959824] py-3 px-4 rounded  text-3xl  font-semibold  "> Validation des demandes du contribuable  : {ContribuableData?ContribuableData.id:""}</div>
 <div className="flex flex-col">
-{parsedDataSelected.activite.map((activite , index) => (
-  <div  key={index}>
-  <div className="mt-6 flex flex-row justify-between ">
-<Label text="Raison social" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.raison_social :""}
-></Input>
-</div>
+<div className="flex items-center justify-center p-2">
+  <div className="flex flex-col">
 
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Nom commercial" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={activite.nom_commercial}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Type" className="mt-4"></Label>
-<div className="flex justify-between">
-<Checkbox label="Personne physique" checked={parsedDataSelected.type === "Personne physique"} onChange={handleCheckboxChange}></Checkbox>
-<Checkbox label="Personne morale"  checked={parsedDataSelected.type === "Personne morale"} onChange={handleCheckboxChange} className="ml-4"></Checkbox>
-</div>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Forme juridique" className="mt-4"></Label>
-<Input type="text" value={parsedDataSelected? parsedDataSelected.forme_juridique : ""}></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Régime Fiscal" className="mt-4"></Label>
-<Input type="text" value={parsedDataSelected? parsedDataSelected.regimefiscal : ""}></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Date d'agrément" className="mt-4"></Label>
-<Input type="date" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.date_agrement :""}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Réf. agrément" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.reference_agrement :""}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Période de grace" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.periode_grace :""}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Date de création" className="mt-4"></Label>
-<Input type="date" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.date_creation :""}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Capital en Ar" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={ parsedDataSelected ? parsedDataSelected.capital :""}
-></Input>
-</div>
-
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Activités" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={activite.activite}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Précision sur les Activités" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={activite.precision_activite}
-></Input>
-</div>
+  <div className="flex flex-col  ">
+<div className="p-2 mx-4">
+<h1 className=" text-2xl font-semibold">Modifications des renseignements permanents</h1>
+<div className="py-1">1. CLiquer sur l'entête de chaque groupe</div>
+<div className="py-1">2. Effectuer les modifications possibles</div>
+<div className="py-1">3. Validation du Contribuable "</div>
   </div>
-))
+  <div onClick={()=>setBool({...bool , Principaux_renseignement:true})} className=" w-full bg-white  py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer ">
+  <HiOutlineInformationCircle className="text-xl mx-2 font-semibold"></HiOutlineInformationCircle>
+  Principaux renseignements
+  </div>
+  { bool.Principaux_renseignement === true && (
+<div className="flex justify-enter  bg-gray-200 w-full p-4">
+<div className=" flex flex-col ">
+        <div className="flex justify-between mt-6">
+          <Label text=" Raison Social" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.raison_social : ""}
+         onChange={(e)=>setContribuableData({...ContribuableData , raison_social : e.target.value})}
+         />
+        </div>
+        <div className="flex justify-between mt-6">
+          <Label text="Type" />
+          <div className="flex justify-between">
+          <label className="">
+    <input
+      type="radio"
+      value="Personne physique"
+      className='mr-2'
+      checked={  ContribuableData.type === "Personne physique"}
+      onChange={() => setContribuableData({ ...ContribuableData, type: "Personne physique" })}
+    />
+    Personne physique
+  </label>
+  <label className=' ml-4'>
+    <input
+      type="radio"
+      value="Personne morale"
+      className='mr-2'
+      checked={ContribuableData.type === "Personne morale"}
+      onChange={() => setContribuableData({ ...ContribuableData, type: "Personne morale" })}
+    />
+    Personne morale
+  </label>
+          </div>
+        </div>
+        { ContribuableData.type === "Personne physique" && (
+  <div>
+    <div className='flex justify-between mt-6 '>
+    <Label text="Situation matrimoniale "></Label>
+    <Input
+      type="text"
+      value={ContribuableData ? ContribuableData.situation_matrimoiniale : ""}
+      onChange={(e)=> setContribuableData({...ContribuableData , situation_matrimoniale : e.target.value})}     
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Sexe "></Label>
+    <div className="flex justify-between w-[200px]">
+    <Checkbox label="Masculin" checked={ContribuableData.sexe === "Masculin"} onChange={()=>setContribuableData({...ContribuableData , sexe : "Masculin" })} ></Checkbox>
+    <Checkbox label="Feminin" checked={ContribuableData.sexe === "Feminin"} onChange={()=>setContribuableData({...ContribuableData , sexe : "Feminin" })}></Checkbox>
+    </div>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Etranger "></Label>
+    <div className="flex justify-between w-[200px]">
+    <Checkbox label="Oui" checked={ContribuableData.etranger === true} onChange={()=>setContribuableData({...ContribuableData , etranger : true })} ></Checkbox>
+    <Checkbox label="Non" onChange={()=>setContribuableData({...ContribuableData , etranger : false })} checked={ContribuableData.etranger === false}></Checkbox>
+    </div>
+  </div>
+  { ContribuableData.etranger === false && (
+    <>
+      <div className='flex justify-between mt-6 '>
+    <Label text="CIN"></Label>
+    <Input
+      type="text" 
+      value={ContribuableData?ContribuableData.cin : ""}
+      onChange={(e)=>setContribuableData({...ContribuableData , cin : e.target.value})}
+    ></Input>
+  </div>
+    <div className='flex justify-between mt-6 '>
+    <Label text="Date de délivrance"></Label>
+    <Input
+      type="date" 
+      value={ContribuableData?ContribuableData.date_de_delivrance_cin : ""}
+      onChange={(e)=> setContribuableData({...ContribuableData , date_de_delivrance_cin : e.target.value})}
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Lieu de délivrance"></Label>
+    <Input
+      type="text"
+       value={ContribuableData?ContribuableData.lieu_de_delivrance_cin : ""} 
+       onChange={(e)=>setContribuableData({...ContribuableData , lieu_de_delivrance_cin : e.target.value})}    
+    ></Input>
+  </div>
+    </>
+  )
 
+  }
+    { ContribuableData.etranger === true && (
+    <>
+      <div className='flex justify-between mt-6 '>
+    <Label text="Numéro passport"></Label>
+    <Input
+      type="text" 
+      value={ContribuableData?ContribuableData.numero_passport : ""}
+      onChange={(e)=> setContribuableData({...ContribuableData , numero_passport : e.target.value})}
+    ></Input>
+  </div>
+    <div className='flex justify-between mt-6 '>
+    <Label text="Date de délivrance"></Label>
+    <Input
+      type="date" 
+      value={ContribuableData?ContribuableData.date_de_delivrance_passeport: ""}
+      onChange={(e)=> setContribuableData({...ContribuableData , date_de_delivrance_passeport : e.target.value})}
+    ></Input>
+  </div>
+ 
+    </>
+  )
+
+  }
+  <div className='flex justify-between mt-6 '>
+    <Label text="Date naissance"></Label>
+    <Input
+      type="date" 
+       value={ContribuableData?ContribuableData.date_de_naissance : ""} 
+       onChange={(e)=> setContribuableData({...ContribuableData , date_de_naissance  : e.target.value})}   
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Lieu naissance "></Label>
+    <Input
+      type="text" 
+      value={ContribuableData? ContribuableData.lieu_de_naissance : ""} 
+      onChange={(e)=> setContribuableData({...ContribuableData , lieu_de_naissance : e.target.value })}   
+    ></Input>
+  </div>
+  </div>
+)}
+        <div className="flex justify-between mt-6">
+          <Label text="Forme juridique" />
+          <Input type="text" 
+          value={ContribuableData?ContribuableData.forme_juridique : ""}
+          onChange={(e)=> setContribuableData({...ContribuableData , forme_juridique : e.target.value})}
+          />
+        </div>
+        <div className="flex justify-between mt-6">
+          <Label text="Régime Fiscale" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.regime_fiscal : ""}
+          onChange={(e)=>setContribuableData({...ContribuableData , regime_fiscal : e.target.value})}
+          />
+        </div>
+        <div className="flex justify-between mt-6">
+          <Label text="Date de Création" />
+          <Input type="date"
+          value={ContribuableData? ContribuableData.date_creation : ""}
+          onChange={(e)=> setContribuableData({...ContribuableData , date_creation : e.target.value})}
+          />
+        </div>
+        <div className="flex justify-between mt-6">
+          <Label text="Capital en Ar" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.capital : ""}
+          onChange={(e)=>setContribuableData({...ContribuableData , capital : e.target.value})}
+          />
+        </div>
+        <div className='flex justify-between mt-6 '>
+    <Label text="RIB "></Label>
+    <div className="flex justify-between w-[300px]">
+    <Checkbox label="Disponible" onChange={()=>setContribuableData({...ContribuableData , RIB : "Disponible"})} checked={ContribuableData.RIB === "Disponible"}></Checkbox>
+    <Checkbox label="Pas encore" onChange={()=>setContribuableData({...ContribuableData , RIB : "Pas encore"})} checked={ContribuableData.RIB === "Pas encore"}></Checkbox>
+    </div>
+    
+  </div>
+  <div className="flex justify-between mt-6">
+          <Label text="Compte bancaire" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.numero_compte_bancaire : ""}
+          onChange={(e)=>setContribuableData({...ContribuableData , numero_compte_banquaire : e.target.value})}
+          />
+        </div>
+        <button onClick={()=> setBool({...bool , Principaux_renseignement: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+    </div>
+</div>
+  )
+
+  }
+  <div  onClick={()=>setBool({...bool , activite:true })} className="w-full bg-white  py-3 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer ">
+  <ImStatsDots className="text-xl mx-2"></ImStatsDots>
+  Activités
+  </div>
+  { bool.activite === true && (
+    <div className="flex justify-center">
+      <div className="flex flex-col bg-gray-200 p-4">
+      <div className="flex justify-between mt-6">
+            <Label text="Activités " />
+            <Input type="text" 
+          value={Activite? Activite.activite  : ""}
+          onChange={(e)=> setContribuableData({...Activite , activite : e.target.value })}
+            />
+          </div>
+          
+   
+    <div>
+      <div className='flex justify-between mt-6 '>
+      <Label text="Précision sur les activités "></Label>
+      <Input
+        type="text" 
+           value={Activite ? Activite.precision_activite : ""}
+           onChange={(e)=>setContribuableData({...Activite , activite: e.target.value})}
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Numéro d'identification Fiscal"></Label>
+      <Input
+        type="text" 
+           value={Activite ? Activite.nif : ""}
+           onChange={(e)=>setContribuableData({...Activite , nif: e.target.value})}
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Numéro statistique "></Label>
+      <div className="flex flex-col">
+      <div className="flex justify-between w-[300px]">
+      <Checkbox label="Disponible" onChange={()=>setContribuableData({...Activite , statistique : true})} checked={Activite.statistique === true} ></Checkbox>
+      <Checkbox label="Pas encore Disponible" onChange={()=>setContribuableData({...Activite , statistique : true})} checked={Activite.statistique === false} ></Checkbox>
+      </div>
+      { Activite.statistique === true && (
+        <Input
+        type="text"
+        value={Activite? Activite.numero_statistique : ""}
+        onChange={(e)=> setContribuableData({...Activite , numero_statistique : e.target.value})}
+        className="mt-2"     
+      ></Input>
+      )
+      }
+      </div>
+    </div>
+  
+    <div className='flex justify-between mt-6 '>
+      <Label text="Date de délivrance statistique "></Label>
+      <Input
+        type="date"
+        value={Activite ?Activite.date_delivrance_statistique : ""}
+        onChange={(e)=> setContribuableData({...Activite , date_delivrance_statistique : e.target.value})}     
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Registre de commerce"></Label>
+      <Input
+        type="text"
+         value={Activite?Activite.registre_commerce : ""}
+         onChange={(e)=> setContribuableData({...Activite , registre_commerce : e.target.value})}     
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Date de registre de commerce"></Label>
+      <Input
+        type="date"  
+         value={Activite?Activite.date_registre_commerce : ""}
+         onChange={(e)=>setContribuableData({...Activite , date_registre_commerce : e.target.value})}   
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Début de l'exercice comptable  "></Label>
+      <Input
+        type="date"
+         value={Activite?Activite.debut_exercice : ""}
+         onChange={(e)=> setContribuableData({...Activite , debut_exercice : e.target.value})}
+      ></Input>
+    </div>
+    </div>
+  
+          <div className="flex justify-between mt-6">
+            <Label text="Clôture de l'exercice comptable" />
+            <Input type="date" 
+             value={Activite ? Activite.cloture_exercice : ""}
+             onChange={(e)=>setContribuableData({...Activite , cloture_exercice : e.target.value})}
+            />
+          </div>
+     
+          <div className="flex justify-between mt-6">
+            <Label text="Nombre salarié" />
+            <Input type="text"
+            value={Activite?Activite.nombre_salarie : ""}
+            onChange={(e)=> setContribuableData({...Activite , nombre_salarie : e.target.value})}
+             />
+          </div>
+          <button onClick={()=> setBool({...bool , activite: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+   
+      </div>
+          </div>
+  )
+
+  }
+  <div onClick={()=> setBool({...bool , siege: true})} className=" bg-white w-full py-3 px-4  flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer  ">
+  <FaUniversity className="text-xl  mx-2"></FaUniversity>
+  Siège
+  </div>
+  { bool.siege === true && (
+    <div className=" flex justify-center ">
+    <div className="flex flex-col bg-gray-200 p-4  ">
+    <div className="flex justify-between  mt-6">
+            <Label text="Adresse actuelle (siège) " />
+            <Input type="text" 
+            value={Siege?Siege.adresse_actuel : ""}
+            onChange={(e)=>setContribuableData({...Siege , adresse_actuel : e.target.value})}
+
+            />
+          </div>
+          
+   
+    <div>
+      <div className='flex justify-between mt-6 '>
+      <Label text="Fokontany"></Label>
+      <Input
+        type="text"    
+        value={ Siege ? Siege.fokontany : ""}
+        onChange={(e)=>setContribuableData({...Siege , fokontany : e.target.value})}
+      ></Input>
+    </div>
+   
+    <div className='flex justify-between mt-6 '>
+      <Label text="Commune "></Label>
+      <Input
+        type="text"
+        value={Siege ? Siege.commune : ""}
+        onChange={(e)=>setContribuableData({...Siege , commune : e.target.value})}     
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="District "></Label>
+      <Input
+        type="text"     
+        value={Siege? Siege.district : ""}
+        onChange={(e)=>setContribuableData({...Siege , district : e.target.value})}
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Région"></Label>
+      <Input
+        type="text"     
+        value={Siege ? Siege.region : ""}
+        onChange={(e)=> setContribuableData({...Siege , region : e.target.value})}
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Province "></Label>
+      <Input
+        type="text" 
+        value={Siege ? Siege.province : ""}
+        onChange={(e)=>setContribuableData({...Siege , province : e.target.value})}    
+      ></Input>
+    </div>
+    <button onClick={()=> setBool({...bool , siege: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+    </div>
+    </div>
+
+    </div>
+  )
+  }
+
+{ Associe.length>0 ? (
+  <>
+ <div onClick={()=>setBool({...bool , associe:true })} className=" bg-white  py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <BiBody className="text-xl mx-2"></BiBody>
+  Associé
+  </div>
+  { bool.associe === true && (
+    <div className="flex justify-center w-[570px]  bg-gray-200  p-4">
+      <div className="flex flex-col " >
+      { add === true && ( 
+            <div className=" flex justify-center">
+ <div className="flex flex-col">
+ <div className='flex justify-between mt-6 '>
+    <Label text="Type d'associés / Actionnaires"></Label>
+    <div className="flex justify-between ">
+    <Checkbox label="Personne physique" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Personne morale" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Personne morale etrangère/Etat" onChange={()=>window} checked></Checkbox>
+    </div>
+  </div>
+  {ContribuableData.type === "Personne physique" && (
+    <>
+    <div className="flex justify-between mt-6">
+      <Label text="Nom"></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Fonction"></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+            <Label text="Resident  " />
+      <div className="flex justify-between w-[200px]">
+    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    </div>
+    </div>
+    { ContribuableData.resident == true && (
+      <>
+      <div className="flex justify-between mt-6">
+<Label text="Numero CIN"></Label>
+<Input type="text"></Input>
+      </div>
+      </>
+    )
+
+    }
+    { ContribuableData.resident == false && (
+      <>
+      <div className="flex justify-between mt-6">
+<Label text="Numéro Passeport ou Carte Résident"></Label>
+<Input type="text"></Input>
+      </div>
+      </>
+    )
+
+    }
+    <div className="flex justify-between mt-6">
+      <Label text="Adresse"></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+            <Label text="Autre activité " />
+      <div className="flex justify-between w-[300px]">
+    <Checkbox label="Avec RF" onChange={()=> window} checked></Checkbox>
+    <Checkbox label="Salarié" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Aucune " onChange={()=>window} checked></Checkbox>
+    </div>
+    </div>
+    { value.avec_rf === true && (
+      <> 
+    <div className="flex justify-between mt-6">
+      <Label text="RF"></Label>
+      <Input type="text"></Input>
+    </div>  
+      </>
+    )
+
+    }
+    <div className="flex justify-between mt-6">
+      <Label text="E-mail"></Label>
+      <Input type="email"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Telephone"></Label>
+      <Input type="number"></Input>
+    </div>
+    </>
+  )}
+  { value.personne_etrangere === true && (
+    <>
+    <div className="flex justify-between mt-6">
+      <Label text="Nom"></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Adresse"></Label>
+      <Input type="text"></Input>
+    </div>
+    </>
+  )
+
+  }
+   { value.personne_morale === true && (
+    <>
+    <div className="flex justify-between mt-6">
+      <Label text="RF"></Label>
+      <Input type="text"></Input>
+    </div>
+    
+    </>
+  )
+
+  }
+              <div className="flex justify-between mt-6">
+            <Label text="Associé unique" />
+      <div className="flex justify-between w-[200px]">
+    <Checkbox label="Oui" onChange={()=>{setValue({...value , associe_unique : true })}} checked={value.associe_unique == true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>{setValue({...value , associe_unique : false })}} checked={value.associe_unique == false}></Checkbox>
+    </div>
+          </div>
+          { value.associe_unique === true && (
+            <>
+            <div className="flex justify-between mt-6">
+            <Label text="% Action ou" />
+              <Input type="text" ></Input>
+            </div>
+            </>
+          )
+
+          }
+          <div className="flex justify-center mt-6">
+          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+          <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
+          </div>
+ </div>
+            </div>
+           )}
+          
+{ add === false  && (
+  
+  <div className="flex justify-center " >
+   <div className="flex flex-col">
+   
+    <div className=" overflow-y-auto w-[500px] mt-6 overflow-y-auto h-96">
+  <Table
+
+headers={headers}
+data={data}
+></Table>
+</div>
+<div className="flex justify-center mt-6 mb-6">
+<div >
+            <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+</div>
+<div  className="ml-4">
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
+</div>
+<div className="ml-4">
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
+</div>
+<div className="ml-4">
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
+</div>
+</div>
+<button onClick={()=> setBool({...bool , associe: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+   </div>
+
+</div>
+)} 
+      </div>
+     
+    </div>
+  )
+
+  }
+  </>
+):(
+<>
+</>
+)
 }
+
+
+
+ 
+  <div onClick={()=> setBool({...bool , etablissement: true})} className=" bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <FaUniversity className="text-xl mx-2"></FaUniversity>
+  Etablissement
+  </div>
+  { bool.etablissement === true && (
+    <div className="flex justify-center p-4">
+     <div className="flex flex-col">
+     { add === true && ( 
+            <div className="p-4">
+  
+  
+    <>
+    <div className="flex justify-between mt-6">
+      <Label text="Nom commercial"></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Activité"></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Titre "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Date Ouverture "></Label>
+      <Input type="date"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Adresse  / Lot "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Fokontany "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Province "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Région  "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="District  "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Commune "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Téléphone 1  "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Autre Téléphone "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Fax "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="E-mail "></Label>
+      <Input type="text"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+            <Label text="Exportateur " />
+      <div className="flex justify-between w-[200px]">
+    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    </div>
+    </div>
+   <div className="flex justify-between mt-6">
+            <Label text="Importateur " />
+      <div className="flex justify-between w-[200px]">
+    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    </div>
+    </div>
+    <div className="flex justify-between mt-6">
+            <Label text="Propriétaire du local" />
+      <div className="flex justify-between w-[200px]">
+    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    </div>
+    </div>
+    
+   
+    
+    </>
+ 
+    
+          
+          <div className="flex justify-center mt-6">
+          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+          <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
+          </div>
+            </div>
+           )}
+          
+{ add === false  && (
+  
+  <div className="flex justify-center p-4 ml-96" >
+   
+   <div className="flex flex-col">
+   <div className=" mt-6 overflow-y-auto h-60">
+  <Table
+
+headers={headers}
+data={data}
+></Table>
+</div>
+<div className="flex justify-center mt-6">
+<div >
+            <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+</div>
+<div  className="ml-4">
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
+</div>
+<div className="ml-4">
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
+</div>
+<div className="ml-4">
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
+</div>
+</div>
+<button onClick={()=> setBool({...bool , etablissement: false})}  className="border-[2px] ml-40 mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+   </div>
+</div>
+)} 
+     </div>
+    </div>
+  )
+  }
+  <div onClick={()=> setBool({...bool , dirigeant: true})} className="bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <MdPermIdentity className="text-xl mx-2"></MdPermIdentity>
+  Dirigant
+  </div>
+  { bool.dirigeant=== true && (
+    <div>
+    { add === true && ( 
+          <div>
+
+
+  <>
+  <div className="flex justify-between mt-6">
+    <Label text="Nom "></Label>
+    <Input type="text"></Input>
+  </div>
+  <div className="flex justify-between mt-6">
+    <Label text="Fonction"></Label>
+    <Input type="text"></Input>
+  </div>
+  <div className="flex justify-between mt-6">
+            <Label text="Etranger " />
+      <div className="flex justify-between w-[200px]">
+    <Checkbox label="Oui" onChange={()=>setValue({ ...value , resident: true})} checked={value.resident == true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>setValue({...value , resident: false})} checked={value.resident == false}></Checkbox>
+    </div>
+    </div>
+    { value.resident == false && (
+      <>
+      <div className="flex justify-between mt-6">
+<Label text="Numero CIN"></Label>
+<Input type="text"></Input>
+      </div>
+      </>
+    )
+
+    }
+    { value.resident == true && (
+      <>
+      <div className="flex justify-between mt-6">
+<Label text="Numéro Passeport ou Carte Résident"></Label>
+<Input type="text"></Input>
+      </div>
+      </>
+    )
+
+    }
+  <div className="flex justify-between mt-6">
+    <Label text="Adresse  "></Label>
+    <Input type="text"></Input>
+  </div>
+  <div className="flex justify-between mt-6">
+            <Label text="Autre activité " />
+      <div className="flex justify-between w-[300px]">
+    <Checkbox label="Avec RF" onChange={(checked:boolean)=> setValue({...value , avec_rf : checked})} checked={value.avec_rf} ></Checkbox>
+    <Checkbox label="Salarié" onChange={(checked:boolean)=>setValue({...value , salarie: checked})} checked={value.salarie}></Checkbox>
+    <Checkbox label="Aucune " onChange={(checked: boolean)=> setValue({...value , aucune: checked})} checked={value.aucune}></Checkbox>
+    </div>
+    </div>
+    { value.avec_rf === true && (
+      <> 
+    <div className="flex justify-between mt-6">
+      <Label text="RF"></Label>
+      <Input type="text"></Input>
+    </div>  
+      </>
+    )
+
+    }
+  <div className="flex justify-between mt-6">
+    <Label text="Email "></Label>
+    <Input type="text"></Input>
+  </div>
+  <div className="flex justify-between mt-6">
+    <Label text="Telephone "></Label>
+    <Input type="text"></Input>
+  </div>
+   
+  
+  </>
+
+  
+        
+        <div className="flex justify-center mt-6">
+        <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+        <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
+        </div>
+          </div>
+         )}
+        
+{ add === false  && (
+
+<div >
+   
+  <div className="w-[1000px] p-4 mt-6 overflow-y-auto h-96">
+<Table
+
+headers={headers}
+data={data}
+></Table>
+</div>
+<div className="flex justify-center mt-6">
+<div >
+          <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+</div>
+<div  className="ml-4">
+          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
+</div>
+<div className="ml-4">
+          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
+</div>
+<div className="ml-4">
+          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
+</div>
+</div>
+<button onClick={()=> setBool({...bool , dirigeant: false})}  className="border-[2px]  mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+</div>
+)} 
+    </div>
+  )
+
+  }
+  <div onClick={()=> setBool({...bool , vehicule: true})} className="bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <AiFillCar className="text-xl mx-2"></AiFillCar>
+  Vehicule
+  </div>
+  { bool.vehicule === true && (
+<div>
+  {
+    add === true && (
+      <div className="flex justify-center p-4">
+      <div className="flex  flex-col">
+      <div className="flex justify-center items-center">
+          
+  <div className="flex flex-col ">
+  
+    <div className="flex flex-col  ">
+ <div className="flex flex-row mt-6 justify-between">
+ <Label text="Numéro d'immatriculation " className="mt-4"></Label>
+ <Input type="text"  placeholder="Numéro d'immatriculation" className="w-96 "
+ value={value.numimmatriculation_v}
+ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, numimmatriculation_v: e.target.value })}
+ ></Input>
+ </div>
+<div className="flex flex-row mt-6 justify-between">
+<Label text="Marque " className="mt-4"></Label>
+<Input type="text" placeholder="Marque" className="w-96  "
+value={value.marque_v}
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, marque_v: e.target.value })}
+></Input>
+</div>
+  <div className="flex flex-row mt-6 justify-between">
+  <Label text="Type " className="mt-4 "></Label>
+  <Input type="text" placeholder="Type " className="w-96 "
+  value={value.type_v}
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, type_v: e.target.value })}
+  ></Input>
+  </div>
+  <div className="flex flex-row mt-6 justify-between">
+  <Label text="Genre " className="mt-4"></Label>
+  <Input type="text" placeholder="Genre" className="w-96 "
+  value={value.genre_v}
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, genre_v: e.target.value })}
+  ></Input>
+  </div>
+ <div className="flex flex-row mt-6 justify-between">
+ <Label text="Puissance :" className="mt-4"></Label>
+ <Input type="text" placeholder="Puissance" className="w-96 "
+ value={value.puissance_v}
+ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, puissance_v: e.target.value })}
+ ></Input>
+ </div>
+<div className="flex flex-row mt-6 justify-between">
+<Label text="Nombre de place sur carte grise :" className="mt-4"></Label>
+<Input type="text" placeholder="Nombre de place sur carte grise" className="w-96 !"
+value={value.nbplacecartegrise_v}
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nbplacecartegrise_v: e.target.value })}
+></Input>
+</div>
+  <div className="flex flex-row mt-6 justify-between">
+  <Label text="Nombre de place licence :" className="mt-4"></Label>
+  <Input type="text" placeholder="Nombre de place licence" className="w-96 "
+  value={value.nbplacelicence_v}
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nbplacelicence_v: e.target.value })}
+  ></Input>
+  </div>
+  <div className="flex flex-row mt-6 justify-between">
+  <Label text="Charge Utile :" className="mt-4"></Label>
+  <Input type="text" placeholder="Charge Utile" className="w-96"
+  value={value.chargeutile_v}
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, chargeutile_v: e.target.value })}
+  ></Input>
+  </div>
+  <div className="flex flex-row mt-6 justify-between">
+  <Label text="Date de mise en Circulation :" className="mt-4"></Label>
+  <Input type="date" placeholder="Date de mise en Circulation" className="w-96 "
+  value={value.datemisecirculation_v}
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datemisecirculation_v: e.target.value })}
+  ></Input>
+  </div>
+  <div className="flex flex-row mt-6 justify-between">
+  <Label text="Poids à vide :" className="mt-4"></Label>
+  <Input type="text" placeholder="Poids à vide" className="w-96 "
+  value={value.poidsavide_v}
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, poidsavide_v: e.target.value })}
+  ></Input>
+  </div>
+<div className="flex flex-row mt-6 justify-between">
+  <Label text="Hikaràma" className="mt-4"></Label>
+  <div >
+<Checkbox label="Oui" checked onChange={()=> window}></Checkbox>
+<Checkbox label="Non" checked onChange={()=> window}></Checkbox>
+  </div>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+<Label text="Date de début :" className="mt-4"></Label>
+<Input type="date" placeholder="Date de début" className="w-96 "
+value={value.datedebut_v}
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datedebut_v: e.target.value })}
+></Input>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+<Label text="RF propriétaire" className="mt-4"></Label>
+<Input type="text" placeholder="RF propriétaire" className="w-96 "
+value={value.nifproprietaire_v}
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nifproprietaire_v: e.target.value })}
+></Input>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+<Label text="Centre Gestionnaire :" className="mt-4"></Label>
+<Input type="text" placeholder="Centre Gestionnaire" className="w-96 "
+value={value.centregestion_v}
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, centregestion_v: e.target.value })}
+></Input>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+<Label text="Anc RF Propriétaire :" className="mt-4"></Label>
+<Input type="text" placeholder="Anc RF Propriétaire" className="w-96 "
+value={value.ancnifproprietaire_v}
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, ancnifproprietaire_v: e.target.value })}
+></Input>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+<Label text="Exploitation :" className="mt-4"></Label>
+<Select options={ContribuableData} value="" onChange={()=>window} value=""  className="w-96 "/>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+<Label text="Date de validité licence :" className="mt-4"></Label>
+<Input type="date" className="w-96 " 
+value={value.datevalidlic_v}
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datevalidlic_v: e.target.value })}
+></Input>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+    <Label text="Catégorie :" className="mt-4"></Label>
+    <Select options={ContribuableData} value="" onChange={()=>window} className="w-96  "/>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+    <Label text="Sous catégorie :" className="mt-4"></Label>
+    <Select  className="w-96 " options={ContribuableData} value="" onChange={()=>window}/>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+    <Label text="Zone :" className="mt-4"></Label>
+    <Select  className="w-96 " options={ContribuableData} value="" onChange={()=>window}/>
+</div>
+<div className="mt-6 flex flex-row justify-between">
+    <Label text="Age :" className="mt-4"></Label>
+    <Select  className="w-96 " options={ContribuableData} value="" onChange={()=>window}/>
+</div>
+<button onClick={()=> setAdd(false)}  className="border-[2px] mt-6 w-40 ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
+    </div>
+  </div>
+ 
+  </div>
+      </div>
+    </div>
+    )
+  }
+  { add === false && (
+    
+<div >
+   
+   <div className="w-[1000px] p-4 mt-6 overflow-y-auto h-96">
+ <Table
+ 
+ headers={headers}
+ data={data}
+ ></Table>
+ </div>
+ <div className="flex justify-center mt-6">
+ <div >
+           <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+ </div>
+ <div  className="ml-4">
+           <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
+ </div>
+ <div className="ml-4">
+           <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
+ </div>
+ <div className="ml-4">
+           <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
+ </div>
+ </div>
+ <button onClick={()=> setBool({...bool , vehicule: false})}  className="border-[2px]  mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+ </div>
+  )}
+</div>
+   
+  ) 
+  }
+  <div onClick={()=> setBool({...bool , interlocuteur: true})} className="bg-white  py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <IoIosPerson className="text-xl mx-2"></IoIosPerson>
+  Interlocuteur
+  </div>
+  { bool.interlocuteur === true && (
+    <div className="flex justify-center p-4">
+      <div className="flex flex-col">
+      <div className="flex justify-between mt-6">
+            <Label text="Nom " />
+            <Input type="text" />
+          </div>
+          
+   
+    <div>
+      <div className='flex justify-between mt-6 '>
+      <Label text="Titre"></Label>
+      <Input
+        type="text"     
+      ></Input>
+    </div>
+   
+    <div className='flex justify-between mt-6 '>
+      <Label text="Adresse  "></Label>
+      <Input
+        type="text"     
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="Téléphone "></Label>
+      <Input
+        type="text"     
+      ></Input>
+    </div>
+    <div className='flex justify-between mt-6 '>
+      <Label text="E-mail"></Label>
+      <Input
+        type="text"     
+      ></Input>
+    </div>
+    <div className="flex justify-center mt-6">
+        <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Modifier</button>
+        <button onClick={()=> setBool({...bool , interlocuteur : false})}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/>Fermer</button>
+        </div>
+    </div>
+      </div>
+   
+    </div>
+  )
+
+  }
+  
+</div>
+<button className="border-[2px] w-80 mt-6 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><IoSettingsOutline className="text-2xl mr-2"></IoSettingsOutline>Obtenir le code de validation</button>
+  </div>
+</div>
+
 <div className="flex flex-col bg-gray-200 mt-4 rounded h-[1200px] p-4">
 <div className="flex flex-row">
 
@@ -456,13 +1535,7 @@ value={Assujetissement.annee}
 onChange={(e)=>{setAssujetissement({...Assujetissement , annee : e.target.value})}}
 ></Input>
 </div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Actif" className="mt-4"></Label>
-<div className="flex justify-between">
-<Checkbox label="Oui" checked={Assujetissement.actif === true} onChange={(checked)=>{setAssujetissement({...Assujetissement , actif : checked })}}></Checkbox>
-<Checkbox label="Non" checked={Assujetissement.actif === false} onChange={(checked)=>{setAssujetissement({...Assujetissement , actif : !checked })}} className="ml-4"></Checkbox>
-</div>
-</div>
+
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Exonoré" className="mt-4"></Label>
 <div className="flex justify-between">

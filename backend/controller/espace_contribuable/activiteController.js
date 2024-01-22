@@ -12,6 +12,7 @@ const setActivite = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const activite = req.body.activite;
     const precision_activite = req.body.precision_activite;
+    const statistique = req.body.statistique;
     const numero_statistique = req.body.numero_statistique;
     const date_delivrance_statistique = req.body.date_delivrance_statistique;
     const registre_commerce = req.body.registre_commerce;
@@ -25,6 +26,7 @@ const setActivite = async (req, res) => {
         "id_contribuable": id_contribuable,
         "activite": activite,
         "precision_activite": precision_activite,
+        "statistique": statistique,
         "numero_statistique": numero_statistique,
         "date_delivrance_statistique": date_delivrance_statistique,
         "registre_commerce": registre_commerce,
@@ -68,6 +70,7 @@ const updateActivite = async (req, res) => {
     if(req.body.activite) activites.activite = req.body.activite;
     if(req.body.precision_activite) activites.precision_activite = req.body.precision_activite;
     if(req.body.numero_statistique) activites.numero_statistique = req.body.numero_statistique;
+    if(req.body.numero_statistique) activites.statistique = true;
     if(req.body.date_delivrance_statistique) activites.date_delivrance_statistique = req.body.date_delivrance_statistique;
     if(req.body.registre_commerce) activites.registre_commerce = req.body.registre_commerce;
     if(req.body.date_registre_commerce) activites.date_registre_commerce = req.body.date_registre_commerce;

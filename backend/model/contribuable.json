@@ -50,5 +50,112 @@
         "RIB": "Pas encore",
         "actif": true,
         "mot_de_passe": "8QmCmB>TNK"
+    },
+    {
+        "id": "NOewonMZFL",
+        "raison_social": "Randriamantena Lalatina",
+        "reference_fiscal": "000000000001",
+        "type": "Personne physique",
+        "situation_matrimoiniale": "Célibataire",
+        "cin": "213098765412",
+        "sexe": "Feminin",
+        "etranger": false,
+        "numero_passeport": "",
+        "date_de_delivrance_passeport": "",
+        "date_de_delivrance_cin": "2024-01-11",
+        "lieu_de_delivrance_cin": "Mandritsara",
+        "date_de_naissance": "1996-01-14",
+        "lieu_de_naissance": "Antsohihy",
+        "forme_juridique": "Forme juridique",
+        "regime_fiscal": "Regime fiscal",
+        "date_agrement": "",
+        "reference_agrement": "",
+        "periode_grace": "periode",
+        "date_creation": "2024-01-10",
+        "capital": "Capital",
+        "RIB": "Disponible",
+        "actif": true,
+        "actionnaire": [],
+        "dirigeant": [],
+        "activite": [
+            {
+                "id_activite": 1,
+                "id_contribuable": "NOewonMZFL",
+                "activite": "Vendeur ",
+                "precision_activite": "Balle fripperie",
+                "numero_statistique": "",
+                "date_delivrance_statistique": "2024-01-18",
+                "registre_commerce": "Registre",
+                "date_registre_commerce": "2024-01-05",
+                "debut_exercice": "2024-01-02",
+                "cloture_exercice": "2024-01-05",
+                "nif": "0987456390"
+            },
+            {
+                "id_activite": 2,
+                "id_contribuable": "NOewonMZFL",
+                "activite": "Vendeur ",
+                "precision_activite": "Balle fripperie",
+                "numero_statistique": "",
+                "date_delivrance_statistique": "2024-01-18",
+                "registre_commerce": "Registre",
+                "date_registre_commerce": "2024-01-05",
+                "debut_exercice": "2024-01-02",
+                "cloture_exercice": "2024-01-05",
+                "nif": "0987456390"
+            },
+            {
+                "id_activite": 3,
+                "id_contribuable": "NOewonMZFL",
+                "activite": "Vendeur ",
+                "precision_activite": "Balle fripperie",
+                "numero_statistique": "",
+                "date_delivrance_statistique": "2024-01-18",
+                "registre_commerce": "Registre",
+                "date_registre_commerce": "2024-01-05",
+                "debut_exercice": "2024-01-02",
+                "cloture_exercice": "2024-01-05",
+                "nif": "0987456390"
+            }
+        ],
+        "autre": [
+            {
+                "id_autre": 0,
+                "id_contribuable": "NOewonMZFL",
+                "information_mail": true,
+                "depassement_12_mois": false,
+                "certification": true
+            }
+        ],
+        "coordonnees": null,
+        "etablissement": [],
+        "interlocuteur": [],
+        "siege": [
+            {
+                "id_siege": 1,
+                "id_contribuable": "NOewonMZFL",
+                "adresse_actuel": "lot 213 J 200",
+                "district": "Mahajanga",
+                "region": "Boeny",
+                "province": "Mahajanga"
+            },
+            {
+                "id_siege": 2,
+                "id_contribuable": "NOewonMZFL",
+                "adresse_actuel": "lot 213 J 200",
+                "district": "Mahajanga",
+                "region": "Boeny",
+                "province": "Mahajanga"
+            },
+            {
+                "id_siege": 3,
+                "id_contribuable": "NOewonMZFL",
+                "adresse_actuel": "lot 213 J 200",
+                "district": "Mahajanga",
+                "region": "Boeny",
+                "province": "Mahajanga"
+            }
+        ],
+        "mot_de_passe": "$2lWZgvC_"
     }
 ]

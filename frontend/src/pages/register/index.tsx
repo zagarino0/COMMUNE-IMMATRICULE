@@ -411,6 +411,23 @@ const links = [
           
           />
         </div>
+        <div className="flex justify-between mt-6">
+          <Label text="Date agrement" />
+          <Input type="date"
+          value={Value.dateagrement}
+          onChange={(e)=>{setValue({...Value , dateagrement : e.target.value})}}
+          
+          />
+
+        </div>
+
+        <div className="flex justify-between mt-6">
+          <Label text="Référence agrement" />
+          <Input type="text"
+          value={Value.referenceagrement}
+          onChange={(e)=>{setValue({...Value , referenceagrement : e.target.value})}}
+          />
+        </div>
         <div className="w-40">
           <Button label="Suivant" onClick={handleButtonClick}></Button>
         </div>

@@ -14,6 +14,24 @@ import { useEffect, useState } from "react";
 import { AiOutlineSave } from "react-icons/ai";
 import Checkbox from "../../components/common/checkbox";
 import { RiArrowGoBackFill } from "react-icons/ri";
+
+ interface Actionnaire {
+  id:string,
+  type : string ,
+  nom_actionnaire: string ,
+  fonction_actionnaire : string ,
+  resident_actionnaire : string , 
+  cin_passeport_actionnaire: string,
+  adresse_actionnaire : string,
+  autre_activite_actionnaire : string,
+  id_contribuable: string,
+  nif_actionnaire: string,
+  email_actionnaire: string,
+  numero_actionnaire: string,
+  associe_unique_actionnaire: string,
+  action_ou_actionnaire: string,
+
+}
 function Associe() {
     const location = useLocation(); 
     
@@ -49,23 +67,7 @@ function Associe() {
 
     })
 
-    const [Actionnaire , setActionnaire ] = useState<{
-      id:string,
-      type : string ,
-      nom_actionnaire: string ,
-      fonction_actionnaire : string ,
-      resident_actionnaire : string , 
-      cin_passeport_actionnaire: string,
-      adresse_actionnaire : string,
-      autre_activite_actionnaire : string,
-      id_contribuable: string,
-      nif_actionnaire: string,
-      email_actionnaire: string,
-      numero_actionnaire: string,
-      associe_unique_actionnaire: string,
-      action_ou_actionnaire: string,
-
-    }>({
+    const [Actionnaire , setActionnaire ] = useState<Actionnaire>({
       id:"",
       id_contribuable: parsedData.id,
       type : "" ,
@@ -120,7 +122,7 @@ function Associe() {
     setEntries((prevEntries) => [...prevEntries, { ...Actionnaire, id: newId.toString() }]);
 
         // Reset the Actionnaire state to clear the form
-        setActionnaire({
+        setActionnaire<Actionnaire>({
           id_contribuable: parsedData.id,
           type: "",
           nom_actionnaire: "",
@@ -327,7 +329,9 @@ function Associe() {
             <>
             <div className="flex justify-between mt-6">
             <Label text="% Action ou" />
-              <Input type="text" ></Input>
+              <Input type="text" value={Actionnaire.action_ou_actionnaire}
+              onChange={(e)=>setActionnaire({...Actionnaire , action_ou_actionnaire: e.target.value})}
+              ></Input>
             </div>
             </>
           )

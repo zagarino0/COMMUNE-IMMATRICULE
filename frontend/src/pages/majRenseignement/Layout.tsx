@@ -3,6 +3,7 @@ import { BsCalendarDate } from "react-icons/bs";
 import {  AiOutlineStar } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import Button from "../../components/common/Button";
+import { useNavigate } from "react-router-dom";
 interface LayoutProps {
   children: React.ReactElement;
   currentPath: string;
@@ -22,7 +23,9 @@ const formatDate = (date: Date): string => {
 const currentDate = new Date();
 const formattedDate = formatDate(currentDate);
 
-
+let navigate = useNavigate();
+const userContribuableData = localStorage.getItem("userContribuableData");
+const ContribuableData  = JSON.parse(userContribuableData as string);
   
 
   const ContentCardProfil = (
@@ -63,7 +66,7 @@ const formattedDate = formatDate(currentDate);
     "
     >
     </AiOutlineStar>
-    Référence Fiscal: number
+    Référence Fiscal: {ContribuableData  ? ContribuableData.reference_fiscal : ""}
     </div>
     
     <div
@@ -82,8 +85,7 @@ const formattedDate = formatDate(currentDate);
     "
     >
     </RxAvatar>
-    Raison social: name
-    </div>
+    Raison social: {ContribuableData ? ContribuableData.raison_social : ""}    </div>
    
     <div
     className="
@@ -91,7 +93,7 @@ const formattedDate = formatDate(currentDate);
     "
     >
     <Button
-    onClick={()=> window}
+    onClick={()=> {navigate('/') ; localStorage.removeItem("userContribuableData"); }}
     label="Deconnexion"
     ></Button>
     
