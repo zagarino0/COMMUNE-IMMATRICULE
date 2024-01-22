@@ -13,6 +13,7 @@ const setSiege = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const adresse_actuelle = req.body.adresse_actuelle;
     const fokontany = req.body.fonkotany;
+    const commune = req.body.commune;
     const district = req.body.district;
     const region = req.body.region;
     const province = req.body.province;
@@ -24,6 +25,7 @@ const setSiege = async (req, res) => {
         "fokontany": fokontany, 
         "district": district,
         "region": region,
+        "commune": commune,
         "province": province
     }
 
