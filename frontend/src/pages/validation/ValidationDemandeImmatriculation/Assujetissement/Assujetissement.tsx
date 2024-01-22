@@ -10,7 +10,7 @@ import { MainLayout } from "../../../../layouts/main";
 
 import { useEffect, useState } from "react";
 import Table from "../../../../components/table/table";
-import { AiFillCar, AiOutlineSave } from "react-icons/ai";
+import {  AiOutlineSave } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { IoIosPerson } from "react-icons/io";
@@ -60,7 +60,8 @@ function Assujetissement() {
     etablissement:boolean,
     dirigeant:boolean,
     vehicule:boolean,
-    interlocuteur:boolean
+    interlocuteur:boolean,
+    autre : boolean
   }>({
     Principaux_renseignement : false,
     activite: false,
@@ -69,7 +70,8 @@ function Assujetissement() {
     etablissement: false,
     dirigeant:false,
     vehicule:false,
-    interlocuteur:false
+    interlocuteur:false,
+    autre: false
   })
   
 
@@ -150,11 +152,11 @@ console.log(ContribuableData);
     const Etablissement = ContribuableData.etablissement;  
     const Dirigeant = ContribuableData.dirigeant ;
     const Autre = ContribuableData.autre ;
+    const Interlocuteur = ContribuableData.interlocuteur;
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
 
     const [Assujetissement , setAssujetissement] = useState<Assujetissement>({
-
       id_contribuable: ContribuableData.id,
       imposition:"",
       date_debut:"",
@@ -243,24 +245,6 @@ console.log(ContribuableData);
   
     ]);
   
-  // New state to hold the list of entries 
-  const [Interlocuteur , setInterlocuteur] = useState<{
- id_contribuable: string,
- nom_interlocuteur: string,
- titre_interlocuteur:string,
- adresse_interlocuteur: string,
- telephone_interlocuteur: string,
- email_interlocuteur: string,
-
-  }>({ 
- id_contribuable: ContribuableData.id,
- nom_interlocuteur: "",
- titre_interlocuteur:"",
- adresse_interlocuteur: "",
- telephone_interlocuteur: "",
- email_interlocuteur: "",
- 
-  })
 
   const [Coordonnees , setCoordonnees ] = useState<{
     id_contribuable: string,
@@ -314,32 +298,6 @@ console.log(ContribuableData);
       console.error("Error:", error);
       alert("erreur Assujetissment")
     }
-    }
-    
-    if(Interlocuteur){
-    try {
-      // Make a POST request to your server endpoint
-      const response = await axios.post("http://localhost:3500/interlocuteur", Interlocuteur);
-    
-      // Check the response status or do something with the response
-      console.log("Server Response:", response.data);
-    
-     alert("Interlocuteur ajouté");
-     setInterlocuteur({ 
-      id_contribuable: ContribuableData.id,
-      nom_interlocuteur: "",
-      titre_interlocuteur:"",
-      adresse_interlocuteur: "",
-      telephone_interlocuteur: "",
-      email_interlocuteur: "",
-      
-       })
-    } catch (error) {
-      // Handle errors
-      console.error("Error:", error);
-      alert("Erreur interlocuteur")
-    }
-    
     }
     
          
@@ -803,7 +761,7 @@ console.log(ContribuableData);
   )
   }
 
-{ Associe.length>0 ? (
+{ Associe.length > 0 ? (
   <>
  <div onClick={()=>setBool({...bool , associe:true })} className=" bg-white  py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <BiBody className="text-xl mx-2"></BiBody>
@@ -986,9 +944,8 @@ data={data}
 )
 }
 
-
-
- 
+{ Etablissement.length > 0 ? (
+  <>
   <div onClick={()=> setBool({...bool , etablissement: true})} className=" bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <FaUniversity className="text-xl mx-2"></FaUniversity>
   Etablissement
@@ -1126,6 +1083,18 @@ data={data}
     </div>
   )
   }
+  </>
+) : (
+  <>
+  
+  </>
+)
+
+}
+
+ 
+{ Dirigeant.length > 0 ?(
+  <>
   <div onClick={()=> setBool({...bool , dirigeant: true})} className="bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <MdPermIdentity className="text-xl mx-2"></MdPermIdentity>
   Dirigant
@@ -1247,195 +1216,22 @@ data={data}
   )
 
   }
-  <div onClick={()=> setBool({...bool , vehicule: true})} className="bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
-  <AiFillCar className="text-xl mx-2"></AiFillCar>
-  Vehicule
-  </div>
-  { bool.vehicule === true && (
-<div>
-  {
-    add === true && (
-      <div className="flex justify-center p-4">
-      <div className="flex  flex-col">
-      <div className="flex justify-center items-center">
-          
-  <div className="flex flex-col ">
-  
-    <div className="flex flex-col  ">
- <div className="flex flex-row mt-6 justify-between">
- <Label text="Numéro d'immatriculation " className="mt-4"></Label>
- <Input type="text"  placeholder="Numéro d'immatriculation" className="w-96 "
- value={value.numimmatriculation_v}
- onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, numimmatriculation_v: e.target.value })}
- ></Input>
- </div>
-<div className="flex flex-row mt-6 justify-between">
-<Label text="Marque " className="mt-4"></Label>
-<Input type="text" placeholder="Marque" className="w-96  "
-value={value.marque_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, marque_v: e.target.value })}
-></Input>
-</div>
-  <div className="flex flex-row mt-6 justify-between">
-  <Label text="Type " className="mt-4 "></Label>
-  <Input type="text" placeholder="Type " className="w-96 "
-  value={value.type_v}
-  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, type_v: e.target.value })}
-  ></Input>
-  </div>
-  <div className="flex flex-row mt-6 justify-between">
-  <Label text="Genre " className="mt-4"></Label>
-  <Input type="text" placeholder="Genre" className="w-96 "
-  value={value.genre_v}
-  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, genre_v: e.target.value })}
-  ></Input>
-  </div>
- <div className="flex flex-row mt-6 justify-between">
- <Label text="Puissance :" className="mt-4"></Label>
- <Input type="text" placeholder="Puissance" className="w-96 "
- value={value.puissance_v}
- onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, puissance_v: e.target.value })}
- ></Input>
- </div>
-<div className="flex flex-row mt-6 justify-between">
-<Label text="Nombre de place sur carte grise :" className="mt-4"></Label>
-<Input type="text" placeholder="Nombre de place sur carte grise" className="w-96 !"
-value={value.nbplacecartegrise_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nbplacecartegrise_v: e.target.value })}
-></Input>
-</div>
-  <div className="flex flex-row mt-6 justify-between">
-  <Label text="Nombre de place licence :" className="mt-4"></Label>
-  <Input type="text" placeholder="Nombre de place licence" className="w-96 "
-  value={value.nbplacelicence_v}
-  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nbplacelicence_v: e.target.value })}
-  ></Input>
-  </div>
-  <div className="flex flex-row mt-6 justify-between">
-  <Label text="Charge Utile :" className="mt-4"></Label>
-  <Input type="text" placeholder="Charge Utile" className="w-96"
-  value={value.chargeutile_v}
-  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, chargeutile_v: e.target.value })}
-  ></Input>
-  </div>
-  <div className="flex flex-row mt-6 justify-between">
-  <Label text="Date de mise en Circulation :" className="mt-4"></Label>
-  <Input type="date" placeholder="Date de mise en Circulation" className="w-96 "
-  value={value.datemisecirculation_v}
-  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datemisecirculation_v: e.target.value })}
-  ></Input>
-  </div>
-  <div className="flex flex-row mt-6 justify-between">
-  <Label text="Poids à vide :" className="mt-4"></Label>
-  <Input type="text" placeholder="Poids à vide" className="w-96 "
-  value={value.poidsavide_v}
-  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, poidsavide_v: e.target.value })}
-  ></Input>
-  </div>
-<div className="flex flex-row mt-6 justify-between">
-  <Label text="Hikaràma" className="mt-4"></Label>
-  <div >
-<Checkbox label="Oui" checked onChange={()=> window}></Checkbox>
-<Checkbox label="Non" checked onChange={()=> window}></Checkbox>
-  </div>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-<Label text="Date de début :" className="mt-4"></Label>
-<Input type="date" placeholder="Date de début" className="w-96 "
-value={value.datedebut_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datedebut_v: e.target.value })}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-<Label text="RF propriétaire" className="mt-4"></Label>
-<Input type="text" placeholder="RF propriétaire" className="w-96 "
-value={value.nifproprietaire_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nifproprietaire_v: e.target.value })}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-<Label text="Centre Gestionnaire :" className="mt-4"></Label>
-<Input type="text" placeholder="Centre Gestionnaire" className="w-96 "
-value={value.centregestion_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, centregestion_v: e.target.value })}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-<Label text="Anc RF Propriétaire :" className="mt-4"></Label>
-<Input type="text" placeholder="Anc RF Propriétaire" className="w-96 "
-value={value.ancnifproprietaire_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, ancnifproprietaire_v: e.target.value })}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-<Label text="Exploitation :" className="mt-4"></Label>
-<Select options={ContribuableData} value="" onChange={()=>window} value=""  className="w-96 "/>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-<Label text="Date de validité licence :" className="mt-4"></Label>
-<Input type="date" className="w-96 " 
-value={value.datevalidlic_v}
-onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datevalidlic_v: e.target.value })}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-    <Label text="Catégorie :" className="mt-4"></Label>
-    <Select options={ContribuableData} value="" onChange={()=>window} className="w-96  "/>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-    <Label text="Sous catégorie :" className="mt-4"></Label>
-    <Select  className="w-96 " options={ContribuableData} value="" onChange={()=>window}/>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-    <Label text="Zone :" className="mt-4"></Label>
-    <Select  className="w-96 " options={ContribuableData} value="" onChange={()=>window}/>
-</div>
-<div className="mt-6 flex flex-row justify-between">
-    <Label text="Age :" className="mt-4"></Label>
-    <Select  className="w-96 " options={ContribuableData} value="" onChange={()=>window}/>
-</div>
-<button onClick={()=> setAdd(false)}  className="border-[2px] mt-6 w-40 ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
-    </div>
-  </div>
+  </>
+)
+: 
+(
+  <>
+
+  </>
+)
+
+}
  
-  </div>
-      </div>
-    </div>
-    )
-  }
-  { add === false && (
-    
-<div >
-   
-   <div className="w-[1000px] p-4 mt-6 overflow-y-auto h-96">
- <Table
- 
- headers={headers}
- data={data}
- ></Table>
- </div>
- <div className="flex justify-center mt-6">
- <div >
-           <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
- </div>
- <div  className="ml-4">
-           <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
- </div>
- <div className="ml-4">
-           <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
- </div>
- <div className="ml-4">
-           <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
- </div>
- </div>
- <button onClick={()=> setBool({...bool , vehicule: false})}  className="border-[2px]  mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
- </div>
-  )}
-</div>
-   
-  ) 
-  }
-  <div onClick={()=> setBool({...bool , interlocuteur: true})} className="bg-white  py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+
+ { Interlocuteur.length > 0  ?
+ (
+ <>
+ <div onClick={()=> setBool({...bool , interlocuteur: true})} className="bg-white  py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <IoIosPerson className="text-xl mx-2"></IoIosPerson>
   Interlocuteur
   </div>
@@ -1485,9 +1281,17 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datev
   )
 
   }
-  
+
+ </>
+ ) :
+ (
+  <>
+  </>
+ )
+
+ }
+
 </div>
-<button className="border-[2px] w-80 mt-6 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><IoSettingsOutline className="text-2xl mr-2"></IoSettingsOutline>Obtenir le code de validation</button>
   </div>
 </div>
 
@@ -1586,44 +1390,7 @@ data={data}
 ></Table>
 </div>
 </div>
-<div className="flex flex-col bg-gray-200 mt-4 rounded h-[400px] p-4">
-<Label text={`Interlocuteur :`} className="ml-4"></Label>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Nom" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={Interlocuteur.nom_interlocuteur}
-onChange={(e)=>setInterlocuteur({...Interlocuteur , nom_interlocuteur : e.target.value})}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Titrer" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={Interlocuteur.titre_interlocuteur}
-onChange={(e)=>setInterlocuteur({...Interlocuteur , titre_interlocuteur : e.target.value})}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Adresse" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={Interlocuteur.adresse_interlocuteur}
-onChange={(e)=>setInterlocuteur({...Interlocuteur ,adresse_interlocuteur : e.target.value})}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Tél" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={Interlocuteur.telephone_interlocuteur}
-onChange={(e)=>setInterlocuteur({...Interlocuteur ,telephone_interlocuteur : e.target.value})}
-></Input>
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Email" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={Interlocuteur.email_interlocuteur}
-onChange={(e)=>setInterlocuteur({...Interlocuteur , email_interlocuteur : e.target.value})}
-></Input>
-</div>
-</div>
+
 <div className="flex flex-col bg-gray-200 mt-4 rounded h-[220px] p-4">
 <Label text={`Coordonnées géographique :`} className="ml-4"></Label>
 <div className="mt-6 flex flex-row justify-between ">

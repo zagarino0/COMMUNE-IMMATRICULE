@@ -117,6 +117,7 @@ const setContribuable = async (req, res) => {
     const validation = {
         "id_validation": id_validation,
         "id_contribuable": id,
+        "date_validation": "",
         "validite": false
     }
 
@@ -147,15 +148,15 @@ const setContribuable = async (req, res) => {
     console.log(data.validation);
     res.json(data.contribuables);
 
-    fs.writeFileSync(
+    await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
         JSON.stringify(data.modifications)
     )
-    fs.writeFileSync(
+    await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),
         JSON.stringify(data.validationTemps)
     )
-    fs.writeFileSync(
+    await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'cessation_activite.json'),
         JSON.stringify(data.cessationTemps)
     )
@@ -202,6 +203,7 @@ const validationContribuable = async (req, res) => {
     //validation vers les données réel
     const validation = data.validationTemps.find(val => val.id_contribuable === contribuable.id);
     validation.validite = true;
+    validation.date_validation = new Date();
     const filterdValidation = data.validationTemps.filter(val => val.id_contribuable !== contribuable.id);
     data.setValidationTemps(filterdValidation);
     data.setValidation([...data.validation, validation]);
@@ -365,7 +367,14 @@ const validationContribuable = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
         JSON.stringify(data.cessations)
     )
-
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),
+        JSON.stringify(data.validationTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'validation.json'),
+        JSON.stringify(data.validation)
+    )
     res.json({ "message": `Le contribuable dont l'id ${contribuable.id} est validé` });
 }
 

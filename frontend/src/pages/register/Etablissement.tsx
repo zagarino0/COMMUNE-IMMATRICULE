@@ -283,20 +283,8 @@ id:string
        onChange={(e)=>{setEtablissment({...Etablissement , email: e.target.value})}}
       ></Input>
     </div>
-    <div className="flex justify-between mt-6">
-            <Label text="Exportateur " />
-      <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={(checked)=>{setEtablissment({...Etablissement , exportateur: checked})}} checked={Etablissement.exportateur == true}></Checkbox>
-    <Checkbox label="Non" onChange={(checked)=>{setEtablissment({...Etablissement , exportateur: !checked})}} checked={Etablissement.exportateur == false}></Checkbox>
-    </div>
-    </div>
-   <div className="flex justify-between mt-6">
-            <Label text="Importateur " />
-      <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={(checked)=>{setEtablissment({...Etablissement , importateur: checked})}} checked={Etablissement.importateur == true}></Checkbox>
-    <Checkbox label="Non" onChange={(checked)=>{setEtablissment({...Etablissement , importateur: !checked})}} checked={Etablissement.importateur == false}></Checkbox>
-    </div>
-    </div>
+   
+   
     <div className="flex justify-between mt-6">
             <Label text="Propriétaire du local" />
       <div className="flex justify-between w-[200px]">
