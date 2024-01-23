@@ -617,7 +617,7 @@ const getListeDemandeAValide = (req, res) => {
         con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === con.id);
         con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === con.id);
         con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
-        con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
+        con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.filter(inter => inter.id_contribuable === con.id);
         con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.find(sie => sie.id_contribuable === con.id);
         contribuablesNonValides.push({ ...con });
     })
