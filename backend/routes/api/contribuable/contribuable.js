@@ -43,6 +43,7 @@ router.route('/reveille')
     .post(contribuableController.reveilleContribuable);
 
 router.route('/:id')
-    .get(contribuableController.getContribuableById);
+    .get(contribuableController.getContribuableById)
+    .delete(contribuableController.deleteContribuable);
 
 module.exports = router;
