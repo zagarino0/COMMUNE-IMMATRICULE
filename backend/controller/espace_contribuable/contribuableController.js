@@ -834,6 +834,20 @@ const reveilleContribuable = async (req, res) => {
     res.json({ 'success': 'Mise en veille du contribuable effectué' });
 }
 
+const deleteContribuable = async (req, res) => {
+    const id = req.params.id;
+    const contribuable = data.contribs.id;
+    const filterdContribuable = data.contribs.filter(con => con.id !== id);
+    data.setContribs(filterdContribuable);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.contribs)
+    )
+    res.json(contribuable);
+}
+
+
+
 const getContribuableById = (req, res) => {
     const id = data.params.id;
     const contribuable = data.contribs.map(con => con.id === id);
@@ -917,5 +931,6 @@ module.exports = {
     rejetMiseAJourContribuable,
     miseEnVeilleuseContribuable,
     reveilleContribuable,
+    deleteContribuable,
     getContribuableById
 }
