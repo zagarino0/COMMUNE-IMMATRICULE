@@ -1,1 +1,53 @@
-[{"id":"1","id_contribuable":"Qs3fSuXAYB","associe_unique":false,"resident":true,"avec_rf":false,"salarie":true,"aucune":false,"nom":"Mohamed Gaétan","fonction":"Accieul","cin":"","passport":"0654456789765","adresse":"lot 467","rf":"","email":"gaetan@gmail.com","telephone":"+261334567678"},{"id":"1","id_contribuable":"fQ1v0iW0","associe_unique":false,"resident":true,"avec_rf":true,"salarie":false,"aucune":false,"nom":"Naivo Nirina","fonction":"Direction général de GCI","cin":"","passport":"043456789","adresse":"avenue 2015","rf":"9876543456789","email":"naivo@gmail.com","telephone":"+2345865437"}]
+[
+    {
+        "id": "1",
+        "id_contribuable": "Qs3fSuXAYB",
+        "associe_unique": false,
+        "resident": true,
+        "avec_rf": false,
+        "salarie": true,
+        "aucune": false,
+        "nom": "Mohamed Gaétan",
+        "fonction": "Accieul",
+        "cin": "",
+        "passport": "0654456789765",
+        "adresse": "lot 467",
+        "rf": "",
+        "email": "gaetan@gmail.com",
+        "telephone": "+261334567678"
+    },
+    {
+        "id": "1",
+        "id_contribuable": "fQ1v0iW0",
+        "associe_unique": false,
+        "resident": true,
+        "avec_rf": true,
+        "salarie": false,
+        "aucune": false,
+        "nom": "Naivo Nirina",
+        "fonction": "Direction général de GCI",
+        "cin": "",
+        "passport": "043456789",
+        "adresse": "avenue 2015",
+        "rf": "9876543456789",
+        "email": "naivo@gmail.com",
+        "telephone": "+2345865437"
+    },
+    {
+        "id": "1",
+        "id_contribuable": "rZYkBl3nTL",
+        "associe_unique": false,
+        "resident": false,
+        "avec_rf": false,
+        "salarie": false,
+        "aucune": false,
+        "nom": "lytyuiop^poiuy",
+        "fonction": "poiuyt",
+        "cin": "oiuytuiop",
+        "passport": "oiuyt",
+        "adresse": "poi",
+        "rf": "",
+        "email": "pùoiuy",
+        "telephone": "poiuy"
+    }
+]

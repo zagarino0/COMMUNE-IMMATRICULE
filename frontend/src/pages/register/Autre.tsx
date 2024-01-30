@@ -72,6 +72,7 @@ if(parsedDataActivite){
     "id_contribuable": parsedDataActivite.id_contribuable ,
     "activite": parsedDataActivite.activite ,
     "precision_activite": parsedDataActivite.precision_activite,
+    "statistique" : parsedDataActivite.statistique,
     "numero_statistique": parsedDataActivite.numero_statistique,
     "date_delivrance_statistique": parsedDataActivite.date_delivrance_statistique,
     "registre_commerce": parsedDataActivite.registre_commerce,
@@ -79,6 +80,7 @@ if(parsedDataActivite){
     "debut_exercice": parsedDataActivite.debut_exercice,
     "cloture_exercice": parsedDataActivite.cloture_exercice,
     "nif": parsedDataActivite.nif,
+    "nombre_salarie": parsedDataActivite.nombre_salarie
 
   }
 try {

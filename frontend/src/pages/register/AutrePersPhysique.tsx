@@ -68,9 +68,23 @@ if (parsedDataRegistre){
 }
 
 if(parsedDataActivite){
+  const Activite = {    
+    "id_contribuable": parsedDataActivite.id_contribuable ,
+    "activite": parsedDataActivite.activite ,
+    "precision_activite": parsedDataActivite.precision_activite,
+    "statistique" : parsedDataActivite.statistique,
+    "numero_statistique": parsedDataActivite.numero_statistique,
+    "date_delivrance_statistique": parsedDataActivite.date_delivrance_statistique,
+    "registre_commerce": parsedDataActivite.registre_commerce,
+    "date_registre_commerce": parsedDataActivite.date_registre_commerce,
+    "debut_exercice": parsedDataActivite.debut_exercice,
+    "cloture_exercice": parsedDataActivite.cloture_exercice,
+    "nif": parsedDataActivite.nif,
+    "nombre_salarie": parsedDataActivite.nombre_salarie
+  }
   try {
     // Make a POST request to your server endpoint
-    const response = await axios.post("http://localhost:3500/activite", parsedDataActivite);
+    const response = await axios.post("http://localhost:3500/activite", Activite);
   alert('activité ajouté')
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);

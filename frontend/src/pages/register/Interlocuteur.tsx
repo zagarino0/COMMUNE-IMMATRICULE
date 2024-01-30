@@ -19,7 +19,7 @@ function Interlocuteur() {
       id_contribuable: string,
    nom_interlocuteur: string,
    titre_interlocuteur:string,
-   adresse_interlocutaur: string,
+   adresse_interlocuteur: string,
    telephone_interlocuteur: string,
    email_interlocuteur: string,
 
@@ -27,7 +27,7 @@ function Interlocuteur() {
    id_contribuable: parsedData.id,
    nom_interlocuteur: "",
    titre_interlocuteur:"",
-   adresse_interlocutaur: "",
+   adresse_interlocuteur: "",
    telephone_interlocuteur: "",
    email_interlocuteur: "",
    
@@ -85,8 +85,8 @@ function Interlocuteur() {
       <Label text="Adresse  "></Label>
       <Input
         type="text"     
-        value={Interlocuteur.adresse_interlocutaur}
-            onChange={(e)=>{setInterlocuteur({...Interlocuteur , adresse_interlocutaur : e.target.value})}}
+        value={Interlocuteur.adresse_interlocuteur}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , adresse_interlocuteur : e.target.value})}}
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>

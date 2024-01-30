@@ -19,8 +19,8 @@ import { ImStatsDots } from "react-icons/im";
 import { RiArrowGoBackFill, RiSubtractFill } from "react-icons/ri";
 import { FaUniversity } from "react-icons/fa";
 import { BiBody } from "react-icons/bi";
-import { MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
-import { IoAdd, IoSettingsOutline } from "react-icons/io5";
+import { MdOutlineCached, MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
+import { IoAdd } from "react-icons/io5";
 
 
 interface Assujetissement {
@@ -146,13 +146,13 @@ const [value , setValue] = useState<{
 );
 
 console.log(ContribuableData);
-    const Activite = ContribuableData.activite;
-    const Siege = ContribuableData.siege;
-    const Associe = ContribuableData.actionnaire;
-    const Etablissement = ContribuableData.etablissement;  
-    const Dirigeant = ContribuableData.dirigeant ;
-    const Autre = ContribuableData.autre ;
-    const Interlocuteur = ContribuableData.interlocuteur;
+    const {activite} = ContribuableData ;
+    const {siege} = ContribuableData;
+    const {actionnaire} = ContribuableData;
+    const {etablissement} = ContribuableData;  
+    const {dirigeant} = ContribuableData ;
+    const {autre} =ContribuableData ;
+    const {interlocuteur} = ContribuableData ;
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
 
@@ -257,8 +257,20 @@ console.log(ContribuableData);
   })
 
 
+  // associe Table 
+  const HeadersAssocie = ["Type association" , "Nom actionnaire" , "Fonction" , " Résident" , "N° CIN ou Passport" , " Adresse Actionnaire" , "Autre activité " , " Référence contribuable " , "Référence fiscal actionnaire" , "Action ou actionnaire" , "associe unique" , "Email actionnaire" , "numéro actionnaire" ]
+  const DataAssocie = actionnaire ? actionnaire.map((item)=>[item.type , item.nom_actionnaire , item.fonction_actionnaire , item.resident_actionnaire , item.cin_passport_actionnaire , item.adresse_actionnaire , item.autre_activite_actionnaire , item.id_contribuable , item.nif_actionnaire , item.action_ou_actionnaire , item.associe_unique_actionnaire, item.email_actionnaire , item.numero_actionnaire ]) : [];
+
+ // Etablissement table 
+ const Headersetablissement  = ["activité" ,"adresse" , "commune" ,"fokontany" , "district", "province" , "date ouverture", "email" , "fax", "identifiant contribuable" , "nom commercial" ,"proprietaire local" , "region" , "téléphone" , "titre"]
+ const DataEtablissment = etablissement ? etablissement.map((item)=>[item.activite , item.adresse , item.commune , item.fokontany , item.district , item.province ,item.date_ouverture , item.email , item.fax , item.id_contribuable , item.nom_commercial , <Checkbox checked={item.proprietaire_local}></Checkbox> , item.region , item.telephone_1 , item.titre]) : [];
+
+ // Table dirigeant
+ const HeaderDirigent = ["Nom" , "fonction" , "cin" , "passport" , "RF" , "email" , "telephone"]
+ const datadirigeant = dirigeant ? dirigeant.map((item)=>[item.nom ,item.fonction , item.cin , item.passport , item.rf , item.email , item.telephone]): [];
 
 
+ // valider contribuable 
   const HandleClick = async  () =>{
 
 
@@ -353,6 +365,11 @@ console.log(ContribuableData);
     
      }
 
+// Delete contribuable 
+const handlesupression = () =>{
+
+}
+
  const [DataCode , setDataCode] = useState([])
     useEffect(() => {
       // Récupérer les données depuis le backend
@@ -386,6 +403,29 @@ console.log(ContribuableData);
   };
 
 
+// data selected associe table 
+const [selectedRowIndexAssocie, setSelectedRowIndexAssocie] = useState(null);
+const [DataSelectedAssocie , setDataSelectedAssocie] = useState([]);
+
+
+const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
+
+  useEffect(() => {
+     console.log(DataSelectedAssocie)
+     setIsStorageUpdatedAssocie(false);
+  }, [DataSelectedAssocie, isStorageUpdatedAssocie]);
+  
+  const handleSelectedDataTableAssocie = (rowIndex : key) =>{
+    setSelectedRowIndexAssocie(rowIndex);
+    const selectedRowDataAssocie= actionnaire[rowIndex] ;
+    setDataSelectedAssocie(selectedRowDataAssocie);
+    console.log("selected :",DataSelectedAssocie);
+    setAdd(true);
+    }
+    
+
+
+
   // Partie sur le contribualble à modifier et à valider sur l'interface
   
     const contentCard = (
@@ -401,7 +441,7 @@ console.log(ContribuableData);
 <h1 className=" text-2xl font-semibold">Modifications des renseignements permanents</h1>
 <div className="py-1">1. CLiquer sur l'entête de chaque groupe</div>
 <div className="py-1">2. Effectuer les modifications possibles</div>
-<div className="py-1">3. Validation du Contribuable "</div>
+<div className="py-1">3. Validation du Contribuable </div>
   </div>
   <div onClick={()=>setBool({...bool , Principaux_renseignement:true})} className=" w-full bg-white  py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer ">
   <HiOutlineInformationCircle className="text-xl mx-2 font-semibold"></HiOutlineInformationCircle>
@@ -596,9 +636,16 @@ console.log(ContribuableData);
       <div className="flex justify-between mt-6">
             <Label text="Activités " />
             <Input type="text" 
-          value={Activite? Activite.activite  : ""}
-          onChange={(e)=> setContribuableData({...Activite , activite : e.target.value })}
-            />
+          value={activite.activite}
+          onChange={e => 
+            setContribuableData({
+              ...ContribuableData,
+              activite: {
+                ...ContribuableData.activite,  
+                activite: e.target.value  
+              }
+            })
+          }     />
           </div>
           
    
@@ -607,30 +654,54 @@ console.log(ContribuableData);
       <Label text="Précision sur les activités "></Label>
       <Input
         type="text" 
-           value={Activite ? Activite.precision_activite : ""}
-           onChange={(e)=>setContribuableData({...Activite , activite: e.target.value})}
+           value={activite.precision_activite}
+           onChange={e => 
+            setContribuableData({
+              ...ContribuableData,
+              activite: {
+                ...ContribuableData.activite,  
+                precision_activite: e.target.value  
+              }
+            })
+          }
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Numéro d'identification Fiscal"></Label>
       <Input
         type="text" 
-           value={Activite ? Activite.nif : ""}
-           onChange={(e)=>setContribuableData({...Activite , nif: e.target.value})}
+           value={activite.nif }
+           onChange={e => 
+            setContribuableData({
+              ...ContribuableData,
+              activite: {
+                ...ContribuableData.activite,  
+                nif: e.target.value  
+              }
+            })
+          }
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Numéro statistique "></Label>
       <div className="flex flex-col">
       <div className="flex justify-between w-[300px]">
-      <Checkbox label="Disponible" onChange={()=>setContribuableData({...Activite , statistique : true})} checked={Activite.statistique === true} ></Checkbox>
-      <Checkbox label="Pas encore Disponible" onChange={()=>setContribuableData({...Activite , statistique : true})} checked={Activite.statistique === false} ></Checkbox>
+      <Checkbox label="Disponible" onChange={()=>setContribuableData({...ContribuableData , activite : {...ContribuableData.activite , statistique : true}})} checked={activite.statistique === true} ></Checkbox>
+      <Checkbox label="Pas encore Disponible" onChange={()=>setContribuableData({...ContribuableData , activite : {...ContribuableData.activite , statistique : false }})} checked={activite.statistique === false} ></Checkbox>
       </div>
-      { Activite.statistique === true && (
+      { activite.statistique === true && (
         <Input
         type="text"
-        value={Activite? Activite.numero_statistique : ""}
-        onChange={(e)=> setContribuableData({...Activite , numero_statistique : e.target.value})}
+        value={activite.numero_statistique}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            activite: {
+              ...ContribuableData.activite,  
+             numero_statique: e.target.value  
+            }
+          })
+        }
         className="mt-2"     
       ></Input>
       )
@@ -642,32 +713,64 @@ console.log(ContribuableData);
       <Label text="Date de délivrance statistique "></Label>
       <Input
         type="date"
-        value={Activite ?Activite.date_delivrance_statistique : ""}
-        onChange={(e)=> setContribuableData({...Activite , date_delivrance_statistique : e.target.value})}     
+        value={activite.date_delivrance_statistique }
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            activite: {
+              ...ContribuableData.activite,  
+              date_delivrance_statistique : e.target.value  
+            }
+          })
+        } 
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Registre de commerce"></Label>
       <Input
         type="text"
-         value={Activite?Activite.registre_commerce : ""}
-         onChange={(e)=> setContribuableData({...Activite , registre_commerce : e.target.value})}     
+         value={activite.registre_commerce}
+         onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            activite: {
+              ...ContribuableData.activite,  
+              registre_commerce: e.target.value  
+            }
+          })
+        } 
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Date de registre de commerce"></Label>
       <Input
         type="date"  
-         value={Activite?Activite.date_registre_commerce : ""}
-         onChange={(e)=>setContribuableData({...Activite , date_registre_commerce : e.target.value})}   
+         value={activite.date_registre_commerce}
+         onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            activite: {
+              ...ContribuableData.activite,  
+              date_registre_commerce: e.target.value  
+            }
+          })
+        }  
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Début de l'exercice comptable  "></Label>
       <Input
         type="date"
-         value={Activite?Activite.debut_exercice : ""}
-         onChange={(e)=> setContribuableData({...Activite , debut_exercice : e.target.value})}
+         value={activite.debut_exercice}
+         onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            activite: {
+              ...ContribuableData.activite,  
+              debut_exercice: e.target.value  
+            }
+          })
+        }
       ></Input>
     </div>
     </div>
@@ -675,16 +778,32 @@ console.log(ContribuableData);
           <div className="flex justify-between mt-6">
             <Label text="Clôture de l'exercice comptable" />
             <Input type="date" 
-             value={Activite ? Activite.cloture_exercice : ""}
-             onChange={(e)=>setContribuableData({...Activite , cloture_exercice : e.target.value})}
+             value={activite.cloture_exercice }
+             onChange={e => 
+              setContribuableData({
+                ...ContribuableData,
+                activite: {
+                  ...ContribuableData.activite,  
+                  cloture_exercice: e.target.value  
+                }
+              })
+            }
             />
           </div>
      
           <div className="flex justify-between mt-6">
             <Label text="Nombre salarié" />
             <Input type="text"
-            value={Activite?Activite.nombre_salarie : ""}
-            onChange={(e)=> setContribuableData({...Activite , nombre_salarie : e.target.value})}
+            value={activite?activite.nombre_salarie : ""}
+            onChange={e => 
+              setContribuableData({
+                ...ContribuableData,
+                activite: {
+                  ...ContribuableData.activite,  
+                  nombre_salaire: e.target.value  
+                }
+              })
+            }
              />
           </div>
           <button onClick={()=> setBool({...bool , activite: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
@@ -700,13 +819,20 @@ console.log(ContribuableData);
   </div>
   { bool.siege === true && (
     <div className=" flex justify-center ">
-    <div className="flex flex-col bg-gray-200 p-4  ">
+    <div className="flex flex-col bg-gray-200 p-4  w-[620px] ">
     <div className="flex justify-between  mt-6">
             <Label text="Adresse actuelle (siège) " />
             <Input type="text" 
-            value={Siege?Siege.adresse_actuel : ""}
-            onChange={(e)=>setContribuableData({...Siege , adresse_actuel : e.target.value})}
-
+            value={siege?siege.adresse_actuel : ""}
+            onChange={e => 
+              setContribuableData({
+                ...ContribuableData,
+                siege: {
+                  ...ContribuableData.siege,  
+                  adresse_actuel: e.target.value  
+                }
+              })
+            }
             />
           </div>
           
@@ -716,8 +842,16 @@ console.log(ContribuableData);
       <Label text="Fokontany"></Label>
       <Input
         type="text"    
-        value={ Siege ? Siege.fokontany : ""}
-        onChange={(e)=>setContribuableData({...Siege , fokontany : e.target.value})}
+        value={ siege ? siege.fokontany : ""}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            siege: {
+              ...ContribuableData.siege,  
+              fokontany: e.target.value  
+            }
+          })
+        }
       ></Input>
     </div>
    
@@ -725,32 +859,64 @@ console.log(ContribuableData);
       <Label text="Commune "></Label>
       <Input
         type="text"
-        value={Siege ? Siege.commune : ""}
-        onChange={(e)=>setContribuableData({...Siege , commune : e.target.value})}     
+        value={siege ? siege.commune : ""}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            siege: {
+              ...ContribuableData.siege,  
+              commune: e.target.value  
+            }
+          })
+        } 
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="District "></Label>
       <Input
         type="text"     
-        value={Siege? Siege.district : ""}
-        onChange={(e)=>setContribuableData({...Siege , district : e.target.value})}
+        value={siege? siege.district : ""}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            siege: {
+              ...ContribuableData.siege,  
+              district: e.target.value  
+            }
+          })
+        }
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Région"></Label>
       <Input
         type="text"     
-        value={Siege ? Siege.region : ""}
-        onChange={(e)=> setContribuableData({...Siege , region : e.target.value})}
+        value={siege ? siege.region : ""}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+           siege: {
+              ...ContribuableData.siege,  
+              region: e.target.value  
+            }
+          })
+        }
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Province "></Label>
       <Input
         type="text" 
-        value={Siege ? Siege.province : ""}
-        onChange={(e)=>setContribuableData({...Siege , province : e.target.value})}    
+        value={siege ? siege.province : ""}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            siege: {
+              ...ContribuableData.siege,  
+              province: e.target.value  
+            }
+          })
+        } 
       ></Input>
     </div>
     <button onClick={()=> setBool({...bool , siege: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
@@ -761,14 +927,14 @@ console.log(ContribuableData);
   )
   }
 
-{ Associe.length > 0 ? (
+{ ContribuableData.type === "Personne morale" ? (
   <>
  <div onClick={()=>setBool({...bool , associe:true })} className=" bg-white  py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <BiBody className="text-xl mx-2"></BiBody>
   Associé
   </div>
   { bool.associe === true && (
-    <div className="flex justify-center w-[570px]  bg-gray-200  p-4">
+    <div className="flex justify-center w-[620px]  bg-gray-200  p-4">
       <div className="flex flex-col " >
       { add === true && ( 
             <div className=" flex justify-center">
@@ -776,29 +942,35 @@ console.log(ContribuableData);
  <div className='flex justify-between mt-6 '>
     <Label text="Type d'associés / Actionnaires"></Label>
     <div className="flex justify-between ">
-    <Checkbox label="Personne physique" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Personne morale" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Personne morale etrangère/Etat" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Personne physique" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , type : "Personne physique"})} checked={DataSelectedAssocie.type === "Personne physique"}></Checkbox>
+    <Checkbox label="Personne morale" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , type : "Personne morale"})} checked={DataSelectedAssocie.type ==="Personne morale"}></Checkbox>
+    <Checkbox label="Personne morale etrangère/Etat" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , type : "Personne morale etrangère/Etat"})} checked={DataSelectedAssocie.type === "Personne morale etrangère/Etat"}></Checkbox>
     </div>
   </div>
-  {ContribuableData.type === "Personne physique" && (
+  {DataSelectedAssocie.type === "Personne physique" && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom"></Label>
-      <Input type="text"></Input>
+      <Input type="text" value={DataSelectedAssocie?DataSelectedAssocie.nom_actionnaire : ""}
+      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , nom_actionnaire : e.target.value})}
+      ></Input>
+
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Fonction"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedAssocie?DataSelectedAssocie.fonction_actionnaire : ""}
+      onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , fonction_actionnaire : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Resident  " />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Oui" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , resident_actionnaire : true})} checked={DataSelectedAssocie.resident_actionnaire === true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , resident_actionnaire : false})} checked={DataSelectedAssocie.resident_actionnaire === false }></Checkbox>
     </div>
     </div>
-    { ContribuableData.resident == true && (
+    { DataSelectedAssocie.resident_actionnaire === true && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numero CIN"></Label>
@@ -820,14 +992,16 @@ console.log(ContribuableData);
     }
     <div className="flex justify-between mt-6">
       <Label text="Adresse"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedAssocie? DataSelectedAssocie.adresse_actionnaire : ""}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Autre activité " />
       <div className="flex justify-between w-[300px]">
-    <Checkbox label="Avec RF" onChange={()=> window} checked></Checkbox>
-    <Checkbox label="Salarié" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Aucune " onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Avec RF" onChange={()=> setDataSelectedAssocie({...DataSelectedAssocie , autre_activite_actionnaire : "Avec RF" })} checked={ DataSelectedAssocie.autre_activite_actionnaire ==="Avec RF"}></Checkbox>
+    <Checkbox label="Salarié" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , autre_activite_actionnaire : "Salarié"})} checked={ DataSelectedAssocie.autre_activite_actionnaire ==="Salarié"}></Checkbox>
+    <Checkbox label="Aucune" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , autre_activite_actionnaire : "Aucune"})} checked={DataSelectedAssocie.autre_activite_actionnaire === "Aucune"}></Checkbox>
     </div>
     </div>
     { value.avec_rf === true && (
@@ -850,7 +1024,7 @@ console.log(ContribuableData);
     </div>
     </>
   )}
-  { value.personne_etrangere === true && (
+  { DataSelectedAssocie.type === "Personne morale etrangère/Etat" && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom"></Label>
@@ -864,7 +1038,7 @@ console.log(ContribuableData);
   )
 
   }
-   { value.personne_morale === true && (
+   { DataSelectedAssocie.type === "Personne morale" && (
     <>
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
@@ -905,11 +1079,13 @@ console.log(ContribuableData);
   <div className="flex justify-center " >
    <div className="flex flex-col">
    
-    <div className=" overflow-y-auto w-[500px] mt-6 overflow-y-auto h-96">
+    <div className=" overflow-y-auto w-[500px] mt-6 overflow-y-auto">
   <Table
 
-headers={headers}
-data={data}
+headers={HeadersAssocie}
+data={DataAssocie}
+onClick={handleSelectedDataTableAssocie}
+selectedRowIndex={selectedRowIndexAssocie}
 ></Table>
 </div>
 <div className="flex justify-center mt-6 mb-6">
@@ -944,14 +1120,14 @@ data={data}
 )
 }
 
-{ Etablissement.length > 0 ? (
+{ ContribuableData.type === "Personne morale" ? (
   <>
-  <div onClick={()=> setBool({...bool , etablissement: true})} className=" bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <div onClick={()=> setBool({...bool , etablissement: true})} className=" bg-white py-3 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <FaUniversity className="text-xl mx-2"></FaUniversity>
   Etablissement
   </div>
   { bool.etablissement === true && (
-    <div className="flex justify-center p-4">
+    <div className="flex justify-center bg-gray-200 p-4">
      <div className="flex flex-col">
      { add === true && ( 
             <div className="p-4">
@@ -1051,14 +1227,14 @@ data={data}
           
 { add === false  && (
   
-  <div className="flex justify-center p-4 ml-96" >
+  <div className="flex justify-center p-4 " >
    
    <div className="flex flex-col">
-   <div className=" mt-6 overflow-y-auto h-60">
+   <div className=" mt-6 overflow-y-auto w-[500px] ">
   <Table
 
-headers={headers}
-data={data}
+headers={Headersetablissement}
+data={DataEtablissment}
 ></Table>
 </div>
 <div className="flex justify-center mt-6">
@@ -1093,14 +1269,14 @@ data={data}
 }
 
  
-{ Dirigeant.length > 0 ?(
+{ ContribuableData.type === "Personne morale" ?(
   <>
-  <div onClick={()=> setBool({...bool , dirigeant: true})} className="bg-white py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <div onClick={()=> setBool({...bool , dirigeant: true})} className="bg-white py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <MdPermIdentity className="text-xl mx-2"></MdPermIdentity>
   Dirigant
   </div>
   { bool.dirigeant=== true && (
-    <div>
+    <div className=" bg-gray-200">
     { add === true && ( 
           <div>
 
@@ -1186,13 +1362,13 @@ data={data}
         
 { add === false  && (
 
-<div >
+<div  className="">
    
-  <div className="w-[1000px] p-4 mt-6 overflow-y-auto h-96">
+  <div className="w-[550px] p-4 mt-6 overflow-y-auto flex justify-center">
 <Table
 
-headers={headers}
-data={data}
+headers={HeaderDirigent}
+data={datadirigeant}
 ></Table>
 </div>
 <div className="flex justify-center mt-6">
@@ -1228,19 +1404,32 @@ data={data}
 }
  
 
- { Interlocuteur.length > 0  ?
+ {
+   
+  ContribuableData.type === "Personne morale"  ?
  (
  <>
- <div onClick={()=> setBool({...bool , interlocuteur: true})} className="bg-white  py-3 mx-4 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+ <div onClick={()=> setBool({...bool , interlocuteur: true})} className="bg-white  py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
   <IoIosPerson className="text-xl mx-2"></IoIosPerson>
   Interlocuteur
   </div>
   { bool.interlocuteur === true && (
-    <div className="flex justify-center p-4">
-      <div className="flex flex-col">
+    <div className="flex justify-center bg-gray-200 p-4">
+     
+      <div  className="flex flex-col ">
       <div className="flex justify-between mt-6">
             <Label text="Nom " />
-            <Input type="text" />
+            <Input type="text"
+             value={interlocuteur.nom_interlocuteur}
+             onChange={e => 
+               setContribuableData({
+                 ...ContribuableData,
+                 interlocuteur: {
+                   ...ContribuableData.interlocuteur,  
+                   nom_interlocuteur: e.target.value  
+                 }
+               })
+             } />
           </div>
           
    
@@ -1248,26 +1437,63 @@ data={data}
       <div className='flex justify-between mt-6 '>
       <Label text="Titre"></Label>
       <Input
-        type="text"     
-      ></Input>
+        type="text"
+        value={interlocuteur.titre_interlocuteur}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            interlocuteur: {
+              ...ContribuableData.interlocuteur,  
+              titre_interlocuteur: e.target.value  
+            }
+          })
+        }   ></Input>
     </div>
    
     <div className='flex justify-between mt-6 '>
       <Label text="Adresse  "></Label>
       <Input
-        type="text"     
+        type="text" 
+        value={interlocuteur.adresse_interlocuteur}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            interlocuteur: {
+              ...ContribuableData.interlocuteur,  
+              adresse_interlocuteur: e.target.value  
+            }
+          })
+        }       
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Téléphone "></Label>
       <Input
-        type="text"     
-      ></Input>
+        type="text" 
+        value={interlocuteur.telephone_interlocuteur}onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            interlocuteur: {
+              ...ContribuableData.interlocuteur,  
+              telephone_interlocuteur: e.target.value  
+            }
+          })
+        }   ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="E-mail"></Label>
       <Input
-        type="text"     
+        type="text"
+        value={ interlocuteur.email_interlocuteur}
+        onChange={e => 
+          setContribuableData({
+            ...ContribuableData,
+            interlocuteur: {
+              ...ContribuableData.interlocuteur,  
+              email_interlocuteur: e.target.value  
+            }
+          })
+        } 
       ></Input>
     </div>
     <div className="flex justify-center mt-6">
@@ -1283,13 +1509,64 @@ data={data}
   }
 
  </>
+
  ) :
  (
   <>
   </>
+ 
  )
-
+ 
  }
+
+<>
+ <div onClick={()=> setBool({...bool , autre: true})} className="bg-white  py-3  px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer w-full">
+  <MdOutlineCached  className="text-xl mx-2"></MdOutlineCached >
+  Autre
+  </div>
+  { bool.autre === true && (
+   <div className="bg-gray-200  p-4">
+
+<div className="flex justify-center w-full h-full ">
+      <div className="flex flex-col w-[500px]">
+                <div className="flex justify-between mt-6">
+            <Label text="M'envoyer par e-mail les informations saisies " />
+      <div className="flex justify-between w-[300px]">
+    <Checkbox label="Oui" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre:{...ContribuableData.autre , information_mail : checked}})} checked={autre.information_mail == true }></Checkbox>
+    <Checkbox label="Non" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre:{...ContribuableData.autre , information_mail : !checked}})} checked={autre.information_mail == false}></Checkbox>
+    </div>
+    </div>
+    <div className="flex justify-between mt-6">
+            <Label text="Votre exerice dépasse t-il 12 mois ? " />
+      <div className="flex justify-between w-[300px]">
+    <Checkbox label="Oui(18 mois)" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre: {...ContribuableData.autre , depassement_12_mois : checked}})} checked={autre.depassement_12_mois == true}></Checkbox>
+    <Checkbox label="Non(12 mois)" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre: {...ContribuableData.autre , depassement_12_mois : !checked}})} checked={autre.depassement_12_mois == false}></Checkbox>
+    </div>
+    </div>
+    <div className="flex justify-between mt-6">
+            <Label text="Je certifie que ces renseignements sont complets et exacts " />
+      <div className="flex justify-between w-[300px]">
+    
+    <Checkbox onChange={(checked)=>setContribuableData({ ...ContribuableData , autre: {...ContribuableData.autre , certification : checked}})} checked={autre ? autre.certification : "" }></Checkbox>
+    </div>
+    </div>
+
+        
+       
+      </div>
+      </div>
+    <div className="flex justify-center mt-6">
+        <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Modifier</button>
+        <button onClick={()=> setBool({...bool , autre : false})}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/>Fermer</button>
+        </div>
+    
+    </div>
+  )
+
+  }
+
+ </>
+
 
 </div>
   </div>
@@ -1413,8 +1690,8 @@ onChange={(e)=> setCoordonnees({...Coordonnees , latitude : e.target.value })}
 
 <div className="flex justify-between mt-4">
 <Button text="Valider" onClick={HandleClick}></Button>
-  
-  <Button text="Rejeter " onClick={handleButtonClick}></Button>
+<Button text="Supprimer"></Button>
+<Button text="Rejeter " onClick={handleButtonClick}></Button>
 </div>
 {/* /saisirmotifrejet */}
 </div>
@@ -1426,7 +1703,7 @@ onChange={(e)=> setCoordonnees({...Coordonnees , latitude : e.target.value })}
   return (
   <MainLayout>
   <div className="  overflow-y-auto h-[500px] mt-14 mb-8 ">
-  <Card contentCard={contentCard} className="w-[800px] h-[4000px]"></Card>
+  <Card contentCard={contentCard} className="w-[800px] h-[7000px]"></Card>
   </div>
       </MainLayout>
   )

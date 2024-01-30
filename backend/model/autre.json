@@ -19,5 +19,12 @@
         "information_mail": true,
         "depassement_12_mois": false,
         "certification": true
+    },
+    {
+        "id_autre": 6,
+        "id_contribuable": "rZYkBl3nTL",
+        "information_mail": true,
+        "depassement_12_mois": false,
+        "certification": true
     }
 ]

@@ -37,5 +37,18 @@
         "debut_exercice": "2024-01-02",
         "cloture_exercice": "2024-01-05",
         "nif": "0987456390"
+    },
+    {
+        "id_activite": 3,
+        "id_contribuable": "rZYkBl3nTL",
+        "activite": "Activite",
+        "precision_activite": "precision",
+        "numero_statistique": "098765434567",
+        "date_delivrance_statistique": "2024-01-24",
+        "registre_commerce": "Regitre",
+        "date_registre_commerce": "2024-01-19",
+        "debut_exercice": "2024-01-10",
+        "cloture_exercice": "2024-01-05",
+        "nif": "0987654345678"
     }
 ]

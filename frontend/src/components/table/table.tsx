@@ -30,7 +30,7 @@ const Table: FC<TableProps> = ({
 
   const DataCell: FC<DataCellProps> = ({ content, rowIndex }) => (
     <td
-      className={`px-6 py-4  whitespace-no-wrap border-b border-gray-200 cursor-pointer ${
+      className={`px-6 py-4  whitespace-no-wrap border-b border-gray-200 cursor-pointer  ${
         selectedRowIndex === rowIndex ? "bg-gray-300" : ""
       }`}
       onClick={() => onClick && onClick(rowIndex)} 
