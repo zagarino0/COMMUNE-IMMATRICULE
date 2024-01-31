@@ -24,7 +24,19 @@ const data = {
     coordonneeTemps: require('../../model/model_temp/coordonnees.json'),
     dirigeantTemps: require('../../model/model_temp/dirigeant.json'),
     actionnaireTemps: require('../../model/model_temp/actionnaire.json'),
-    assujetissementTemps: require('../../model/model_temp/assujetissement.json')
+    assujetissementTemps: require('../../model/model_temp/assujetissement.json'),
+
+    //Rejet
+    contribuableRejet: require('../../model/model_delete/contribuable.json'),
+    activiteRejet: require('../../model/model_delete/activite.json'),
+    siegeRejet: require('../../model/model_delete/siege.json'),
+    interlocuteurRejet: require('../../model/model_delete/interlocuteur.json'),
+    etablissementRejet: require('../../model/model_delete/etablissement.json'),
+    autreRejet: require('../../model/model_delete/autre.json'),
+    coordonneeRejet: require('../../model/model_delete/coordonnees.json'),
+    dirigeantRejet: require('../../model/model_delete/dirigeant.json'),
+    actionnaireRejet: require('../../model/model_delete/actionnaire.json'),
+    assujetissementRejet: require('../../model/model_delete/assujetissement.json'),
 }
 
 
