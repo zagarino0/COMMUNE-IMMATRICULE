@@ -144,8 +144,6 @@ id:string
         "autre_telephone",
         "fax",
         "email",
-        "exportateur",
-        "importateur",
         "proprietaire_local",
       ];
     
@@ -164,10 +162,8 @@ id:string
         entry.telephone_1,
         entry.autre_telephone,
         entry.fax,
-        entry.email,
-        entry.exportateur,
-        entry.importateur,
-        entry.proprietaire_local
+        entry.email,        
+        <Checkbox checked={entry.proprietaire_local}></Checkbox>
       ]);
     
     

@@ -423,6 +423,27 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
     setAdd(true);
     }
     
+// data selected Etablissement  table 
+const [selectedRowIndexEtablissement, setSelectedRowIndexEtablissement] = useState(null);
+const [DataSelectedEtablisement, setDataSelectedEtablissment] = useState([]);
+
+
+const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useState(false);
+
+  useEffect(() => {
+     console.log(DataSelectedEtablisement)
+     setIsStorageUpdatedEtablissement(false);
+  }, [DataSelectedEtablisement, isStorageUpdatedEtablissement]);
+  
+  const handleSelectedDataTableEtablissment= (rowIndex : key) =>{
+    setSelectedRowIndexEtablissement(rowIndex);
+    const selectedRowDataEtablissment= etablissement[rowIndex] ;
+    setDataSelectedEtablissment(selectedRowDataEtablissment);
+    console.log("selected :",DataSelectedEtablisement);
+    setAdd(true);
+    }
+    
+
 
 
 
@@ -974,17 +995,24 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numero CIN"></Label>
-<Input type="text"></Input>
+<Input type="text"
+value={DataSelectedAssocie? DataSelectedAssocie.cin_passeport_actionnaire : ""}
+onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_actionnaire : e.target.value})}
+></Input>
       </div>
       </>
     )
 
     }
-    { ContribuableData.resident == false && (
+    { DataSelectedAssocie.resident_actionnaire ===  false && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numéro Passeport ou Carte Résident"></Label>
-<Input type="text"></Input>
+<Input type="text"
+
+value={DataSelectedAssocie? DataSelectedAssocie.cin_passeport_actionnaire : ""}
+onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_actionnaire : e.target.value})}
+></Input>
       </div>
       </>
     )
@@ -994,6 +1022,7 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
       <Label text="Adresse"></Label>
       <Input type="text"
       value={DataSelectedAssocie? DataSelectedAssocie.adresse_actionnaire : ""}
+      onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , adresse_actionnaire : e.target.value})}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
@@ -1004,11 +1033,14 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
     <Checkbox label="Aucune" onChange={()=>setDataSelectedAssocie({...DataSelectedAssocie , autre_activite_actionnaire : "Aucune"})} checked={DataSelectedAssocie.autre_activite_actionnaire === "Aucune"}></Checkbox>
     </div>
     </div>
-    { value.avec_rf === true && (
+    { DataSelectedAssocie.autre_activite_actionnaire ==="Avec RF" && (
       <> 
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedAssocie ? DataSelectedAssocie.nif_actionnaire : ""}
+      onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , nif_actionnaire : e.target.value })}
+      ></Input>
     </div>  
       </>
     )
@@ -1016,11 +1048,17 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
     }
     <div className="flex justify-between mt-6">
       <Label text="E-mail"></Label>
-      <Input type="email"></Input>
+      <Input type="email"
+      value={DataSelectedAssocie? DataSelectedAssocie.email_actionnaire : ""}
+      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , email_actionnaire : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Telephone"></Label>
-      <Input type="number"></Input>
+      <Input type="number"
+      value={DataSelectedAssocie? DataSelectedAssocie.numero_actionnaire: ""}
+      onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , numero_actionnaire : e.target.value})}
+      ></Input>
     </div>
     </>
   )}
@@ -1028,11 +1066,17 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedAssocie?DataSelectedAssocie.nom_actionnaire :""}
+      onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , nom_actionnaire : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Adresse"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedAssocie? DataSelectedAssocie.adresse_actionnaire : ""}
+      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , adresse_actionnaire : e.targte.value})}
+      ></Input>
     </div>
     </>
   )
@@ -1042,7 +1086,10 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
     <>
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedAssocie?DataSelectedAssocie.nif_actionnaire : ""}
+      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , nif_actionnaire : e.target.value})}
+      ></Input>
     </div>
     
     </>
@@ -1052,15 +1099,18 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
               <div className="flex justify-between mt-6">
             <Label text="Associé unique" />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>{setValue({...value , associe_unique : true })}} checked={value.associe_unique == true}></Checkbox>
-    <Checkbox label="Non" onChange={()=>{setValue({...value , associe_unique : false })}} checked={value.associe_unique == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=>{setDataSelectedAssocie({...DataSelectedAssocie, associe_unique_actionnaire : true })}} checked={DataSelectedAssocie.associe_unique_actionnaire === true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>{setDataSelectedAssocie({...DataSelectedAssocie , associe_unique_actionnaire : false })}} checked={DataSelectedAssocie.associe_unique_actionnaire === false}></Checkbox>
     </div>
           </div>
-          { value.associe_unique === true && (
+          { DataSelectedAssocie.associe_unique_actionnaire === true && (
             <>
             <div className="flex justify-between mt-6">
             <Label text="% Action ou" />
-              <Input type="text" ></Input>
+              <Input type="text"
+              value={DataSelectedAssocie? DataSelectedAssocie.action_ou_actionnaire : ""}
+              onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , action_ou_actionniare : e.target.value})}
+              ></Input>
             </div>
             </>
           )
@@ -1136,79 +1186,109 @@ selectedRowIndex={selectedRowIndexAssocie}
     <>
     <div className="flex justify-between mt-6">
       <Label text="Nom commercial"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement? DataSelectedEtablisement.nom_commercial : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , nom_commercial : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Activité"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement?DataSelectedEtablisement.activite : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , activite : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Titre "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement? DataSelectedEtablisement.titre : ""}
+      onChange={(e)=>setDataSelectedEtablissment({...DataSelectedEtablisement , titre : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Date Ouverture "></Label>
-      <Input type="date"></Input>
+      <Input type="date"
+      value={DataSelectedEtablisement?DataSelectedEtablisement.date_ouverture : ""}
+      onChange={(e)=>setDataSelectedEtablissment({...DataSelectedEtablisement , date_ouverture : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Adresse  / Lot "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement?DataSelectedEtablisement.adresse : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , adresse : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Fokontany "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement?DataSelectedEtablisement.fokontany : ""}
+      onChange={(e)=>setDataSelectedEtablissment({...DataSelectedEtablisement , fokonatny : e.target.value })}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Province "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement?DataSelectedEtablisement.province : ""}
+      onChange={(e)=>setDataSelectedEtablissment({...DataSelectedEtablisement , province : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Région  "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement ? DataSelectedEtablisement.region : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , region : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="District  "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement?DataSelectedEtablisement.district : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , district : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Commune "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement? DataSelectedEtablisement.commune : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , commune : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Téléphone 1  "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement? DataSelectedEtablisement.telephone_1 : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , telephone_1 : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Autre Téléphone "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement? DataSelectedEtablisement.autre_telephone : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , autre_telephone : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Fax "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement? DataSelectedEtablisement.fax : ""}
+      onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , fax : e.target.value})}
+      ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="E-mail "></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedEtablisement? DataSelectedEtablisement.email : ""}
+       onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , email : e.target.value})}
+      ></Input>
     </div>
-    <div className="flex justify-between mt-6">
-            <Label text="Exportateur " />
-      <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
-    </div>
-    </div>
-   <div className="flex justify-between mt-6">
-            <Label text="Importateur " />
-      <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
-    </div>
-    </div>
+    
+   
     <div className="flex justify-between mt-6">
             <Label text="Propriétaire du local" />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Oui" onChange={()=>setDataSelectedEtablissment({...DataSelectedEtablisement , proprietaire_local : true })} checked={DataSelectedEtablisement.proprietaire_local === true }></Checkbox>
+    <Checkbox label="Non" onChange={()=>setDataSelectedEtablissment({...DataSelectedEtablisement , proprietaire_local : false })} checked={DataSelectedEtablisement.proprietaire_local === false}></Checkbox>
     </div>
     </div>
     
@@ -1232,9 +1312,10 @@ selectedRowIndex={selectedRowIndexAssocie}
    <div className="flex flex-col">
    <div className=" mt-6 overflow-y-auto w-[500px] ">
   <Table
-
 headers={Headersetablissement}
 data={DataEtablissment}
+onClick={handleSelectedDataTableEtablissment}
+selectedRowIndex={selectedRowIndexEtablissement}
 ></Table>
 </div>
 <div className="flex justify-center mt-6">
