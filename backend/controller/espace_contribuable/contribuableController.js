@@ -379,11 +379,12 @@ const validationContribuable = async (req, res) => {
 }
 
 const updateContribuable = async (req, res) => {
-    const reference_fiscal = req.body.reference_fiscal;
+    const reference_fiscal = req.params.reference_fiscal;
     const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
     if (contribuable) {
         return res.status(400).json({ 'message': 'contribuable not found' });
     }
+
     const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
     const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
     if (req.body.raisonsocial) contribuable.raison_social = req.body.raisonsocial;
@@ -412,6 +413,7 @@ const updateContribuable = async (req, res) => {
     if (modification.nombre_modification === 5) {
         modification.blockage = true,
             modification.date_blockage = new Date();
+            return res.json({'message': `Le contribuable ${contribuable.id} est bloquée`});
     };
 
     validation.validite = false;
