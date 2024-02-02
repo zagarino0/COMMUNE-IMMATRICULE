@@ -20,7 +20,7 @@ const setActivite = async (req, res) => {
     const debut_exercice = req.body.debut_exercice;
     const cloture_exercice = req.body.cloture_exercice;
     const nif = req.body.nif;
-
+    const nombre_salarie = req.body.nombre_salarie
     const newActivite = {
         "id_activite": id,
         "id_contribuable": id_contribuable,
@@ -33,7 +33,8 @@ const setActivite = async (req, res) => {
         "date_registre_commerce": date_registre_commerce,
         "debut_exercice": debut_exercice,
         "cloture_exercice": cloture_exercice,
-        "nif": nif
+        "nif": nif,
+        "nombre_salarie": nombre_salarie
     }
 
     data.setActivites([...data.activites, newActivite]);

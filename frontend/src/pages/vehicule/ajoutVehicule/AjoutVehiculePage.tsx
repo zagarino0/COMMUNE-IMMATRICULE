@@ -12,7 +12,11 @@ function AjoutVehiculePage() {
    
     const [isModalSuccess, setIsModalSuccess] = useState(false);
     const [isModalError, setIsModalError] = useState(false);
+    const userAdminData = localStorage.getItem("userAdministrationData");
+    const parsedDataUserAdmin = JSON.parse(userAdminData as string);
+
     const [value , setValue] = useState<{
+      id_user: string,
       numimmatriculation_v:string,
        marque_v:string,
        type_v:string,
@@ -35,6 +39,7 @@ function AjoutVehiculePage() {
        zone_v:string,
        age_v:string,
     }>({
+       id_user: parsedDataUserAdmin.id_user,
        numimmatriculation_v:"",
        marque_v:"",
        type_v:"",
@@ -58,6 +63,8 @@ function AjoutVehiculePage() {
        age_v:"",
     })     
    
+
+  
        
         const handleSubmit = async (e: React.FormEvent) => {
           e.preventDefault();
@@ -71,6 +78,7 @@ function AjoutVehiculePage() {
             // Réinitialiser le formulaire ou effectuer d'autres actions nécessaires
             // Réinitialiser le formulaire ou effectuer d'autres actions nécessaires
             setValue({
+              id_user: parsedDataUserAdmin.id_user,
               numimmatriculation_v:"",
               marque_v:"",
               type_v:"",

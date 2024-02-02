@@ -5,49 +5,35 @@ import Input from "../../components/inputs"
 import "../../components/font/font.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import Select from "../../components/inputs/selectInput"
+
 import axios from "axios"
 function LoginPage() {
-  const [type_operateur, setType_operateur] = useState('');
+  
   const [code, setUsername] = useState("");
   const [pwd, setPassword] = useState("");
   let navigate = useNavigate()
 
-  const handleOptionChange = (value: string) => {
-    setType_operateur(value);
-  };
-  const options = [
-    { value: 'Maire', label: 'Maire' },
-    { value: 'Directeur financier', label: 'Directeur financier' },
-    { value: 'Chef de service recette', label: 'Chef de service recette' },
-    { value: 'Directeur de gestion', label: 'Directeur de gestion' },
-    { value: 'Directeur de contrôle', label: 'Directeur de contrôle' },
-    { value: 'Directeur de Recuvrement', label: 'Directeur de Recouvrement' },
-    { value: 'Chef de division', label: 'Chef de division' },
-    { value: 'Regisseur', label: 'Regisseur' },
-    { value: 'Percepteur', label: 'Percepteur' },
-    
-    // Ajoutez vos options ici
-  ];
+ 
   const handleLogin = async () => {
+    const Administration = {
+     
+      code ,
+      pwd,
+      
+    } 
     try {
       // Replace 'YOUR_BACKEND_LOGIN_URL' with your actual backend API endpoint for login
-      const response = await axios.post('http://localhost:3500/user/auth', {
-        type_operateur,
-        code ,
-        pwd,
-        
-      });
+      const response = await axios.post('http://localhost:3500/user/auth', Administration);
 
       // Handle the response from the server as needed
       console.log("Login successful:", response.data);
-
-      // Reset the form after successful login
+      localStorage.setItem('userAdministrationData', JSON.stringify(response.data));
+        // Reset the form after successful login
       setUsername("");
       setPassword("");
-      setType_operateur("");
+      
       navigate("/validation")
-    } catch (error) {
+    } catch (error ) {
       // Handle errors from the server
       console.error("Login failed:", error.message);
       alert("Authentific ation échoué.Veillez-ressayer encore .");
@@ -63,7 +49,7 @@ const ImageContent = (
     
     <div 
     className="flex flex-col ">
-       <Select options={options} value={type_operateur} onChange={handleOptionChange} className="w-96 "/>
+      
   <Input
   type="text"
   placeholder="Votre identifiant"

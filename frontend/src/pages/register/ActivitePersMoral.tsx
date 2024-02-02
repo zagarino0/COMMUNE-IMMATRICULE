@@ -70,7 +70,7 @@ const ActivitePersPysique: React.FC<LayoutProps>  = ({  currentPath })=> {
 
   useEffect(() => {
     // Store Value data in localStorage
-    localStorage.setItem("activiteData", JSON.stringify(Activite));
+    localStorage.setItem("activitePersonPhysiqueData", JSON.stringify(Activite));
     // Reset the dummy state to trigger rerender
     setIsStorageUpdated(false);
   }, [Activite, isStorageUpdated]);

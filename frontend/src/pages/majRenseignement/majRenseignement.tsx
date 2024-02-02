@@ -5,7 +5,6 @@ import {FaUniversity} from "react-icons/fa"
 import {BiBody} from "react-icons/bi"
 import {MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap} from "react-icons/md"
 import {IoIosPerson} from "react-icons/io"
-
 import Layout from "./Layout"
 import { useLocation } from "react-router-dom"
 import { AiFillCar, AiOutlineSave } from "react-icons/ai"
@@ -17,6 +16,8 @@ import { RiArrowGoBackFill, RiSubtractFill } from "react-icons/ri"
 import Table from "../../components/table/table"
 import { IoAdd, IoSettingsOutline } from "react-icons/io5"
 import Select from "../../components/inputs/selectInput"
+
+
 
 function MAJRenseignementPage() {
 const location = useLocation();
@@ -94,7 +95,7 @@ const handleCheckboxChangeSecond = (checked: boolean) => {
   const options = [
     { value: 'référence', label: 'Choisissez dans la liste' },
     { value: 'Raison sociale', label: 'Raison sociale' },
-    { value: 'NIF', label: 'NIF' },
+    { value: 'Référence fiscal', label: 'Référence fiscal' },
     { value: 'CIN', label: 'CIN' },
     { value: 'Adresse', label: 'Adresse' },
     { value: 'Nom commercial', label: 'Nom commercial' },
@@ -109,7 +110,7 @@ const data = [
   ["none", "none", "none", "none"],
  
 ];
-const [selectedOption, setSelectedOption] = useState(true);
+
 const [bool , setBool] = useState<{
   Principaux_renseignement : boolean,
   activite : boolean,
@@ -148,8 +149,52 @@ const HandlePersoneEtrangere = (checked:boolean) => {
     personne_etrangere: checked,
   });
 };
+
+const userContribuableData = localStorage.getItem("userContribuableData");
+const [ContribuableData, setContribuableData] = useState(
+  JSON.parse(userContribuableData as string)
+);
+
+console.log(ContribuableData)
+const handleSituationMatrimonialeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const newSituationMatrimoniale = e.target.value;
+
+  // Update the local state
+  setContribuableData((prevContribuableData : object) => ({
+    ...prevContribuableData,
+    situationmatrimoniale: newSituationMatrimoniale,
+  }));
+
+  // Update local storage with the new value
+  localStorage.setItem(
+    "userContribuableData",
+    JSON.stringify({
+      ...ContribuableData,
+      situationmatrimoniale: newSituationMatrimoniale,
+    })
+  );
+};
+
+
+const handleRaisonSocialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const newSituationMatrimoniale = e.target.value;
+
+  // Update the local state
+  setContribuableData((prevContribuableData : object) => ({
+    ...prevContribuableData,
+    raison_social: newSituationMatrimoniale,
+  }));
+
+ 
+};
+
+const Activite  = ContribuableData.activite
+
+
+
+
 const ContentCardInformation =(
-<div className="flex items-center justify-center">
+<div className="flex items-center justify-center p-2">
   <div className="flex flex-col">
 
   <div className="flex flex-col overflow-y-auto h-[500px] w-[700px] ">
@@ -168,7 +213,10 @@ const ContentCardInformation =(
 <div className=" flex flex-col ">
         <div className="flex justify-between mt-6">
           <Label text="Nom et Prénoms ou Raison Social" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.raison_social : ""}
+         onChange={handleRaisonSocialChange}
+         />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Type" />
@@ -176,100 +224,162 @@ const ContentCardInformation =(
           <label className="">
     <input
       type="radio"
-      value="Total"
+      value="Personne physique"
       className='mr-2'
-      checked={selectedOption === true}
-      onChange={() => setSelectedOption(true)}
+      checked={  ContribuableData.type === "Personne physique"}
+      onChange={() => setContribuableData({ ...ContribuableData, type: "Personne physique" })}
     />
     Personne physique
   </label>
   <label className=' ml-4'>
     <input
       type="radio"
-      value="ParRF"
+      value="Personne morale"
       className='mr-2'
-      checked={selectedOption === false}
-      onChange={() => setSelectedOption(false)}
+      checked={ContribuableData.type === "Personne morale"}
+      onChange={() => setContribuableData({ ...ContribuableData, type: "Personne morale" })}
     />
     Personne morale
   </label>
           </div>
         </div>
-        {selectedOption === true && (
+        { ContribuableData.type === "Personne physique" && (
   <div>
     <div className='flex justify-between mt-6 '>
     <Label text="Situation matrimoniale "></Label>
     <Input
-      type="text"     
+      type="text"
+      value={ContribuableData ? ContribuableData.situationmatrimoinial : ""}
+      onChange={handleSituationMatrimonialeChange}     
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Sexe "></Label>
     <div className="flex justify-between w-[200px]">
-    <Checkbox label="Masculin" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Feminin" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Masculin" checked={ContribuableData.sexe === "Masculin"} onChange={()=>setContribuableData({...ContribuableData , sexe : "Masculin" })} ></Checkbox>
+    <Checkbox label="Feminin" checked={ContribuableData.sexe === "Feminin"} onChange={()=>setContribuableData({...ContribuableData , sexe : "Feminin" })}></Checkbox>
     </div>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Etranger "></Label>
     <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Non" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Oui" checked={ContribuableData.etranger === true} onChange={()=>setContribuableData({...ContribuableData , etranger : true })} ></Checkbox>
+    <Checkbox label="Non" onChange={()=>setContribuableData({...ContribuableData , etranger : false })} checked={ContribuableData.etranger === false}></Checkbox>
     </div>
   </div>
-  <div className='flex justify-between mt-6 '>
+  { ContribuableData.etranger === false && (
+    <>
+      <div className='flex justify-between mt-6 '>
+    <Label text="CIN"></Label>
+    <Input
+      type="text" 
+      value={ContribuableData?ContribuableData.cin : ""}
+      onChange={(e)=>setContribuableData({...ContribuableData , cin : e.target.value})}
+    ></Input>
+  </div>
+    <div className='flex justify-between mt-6 '>
     <Label text="Date de délivrance"></Label>
     <Input
-      type="date"     
+      type="date" 
+      value={ContribuableData?ContribuableData.datedelivrancecin : ""}
+      onChange={(e)=> setContribuableData({...ContribuableData , datedelivrancecin : e.target.value})}
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Lieu de délivrance"></Label>
     <Input
-      type="text"     
+      type="text"
+       value={ContribuableData?ContribuableData.lieudelivrancecin : ""} 
+       onChange={(e)=>setContribuableData({...ContribuableData , lieudelivrancecin : e.target.value})}    
     ></Input>
   </div>
+    </>
+  )
+
+  }
+    { ContribuableData.etranger === true && (
+    <>
+      <div className='flex justify-between mt-6 '>
+    <Label text="Numéro passport"></Label>
+    <Input
+      type="date" 
+      value={ContribuableData?ContribuableData.numero_passport : ""}
+      onChange={(e)=> setContribuableData({...ContribuableData , numero_passport : e.target.value})}
+    ></Input>
+  </div>
+    <div className='flex justify-between mt-6 '>
+    <Label text="Date de délivrance"></Label>
+    <Input
+      type="date" 
+      value={ContribuableData?ContribuableData.datedelivrancepasseport: ""}
+      onChange={(e)=> setContribuableData({...ContribuableData , datedelivrancepasseport : e.target.value})}
+    ></Input>
+  </div>
+ 
+    </>
+  )
+
+  }
   <div className='flex justify-between mt-6 '>
     <Label text="Date naissance"></Label>
     <Input
-      type="date"     
+      type="date" 
+       value={ContribuableData?ContribuableData.datenaissance : ""} 
+       onChange={(e)=> setContribuableData({...ContribuableData , datenaissance  : e.target.value})}   
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
     <Label text="Lieu naissance "></Label>
     <Input
-      type="text"     
+      type="text" 
+      value={ContribuableData? ContribuableData.lieunaissance : ""} 
+      onChange={(e)=> setContribuableData({...ContribuableData , lieunaissance : e.target.value })}   
     ></Input>
   </div>
   </div>
 )}
         <div className="flex justify-between mt-6">
           <Label text="Forme juridique" />
-          <Input type="text" />
+          <Input type="text" 
+          value={ContribuableData?ContribuableData.forme_juridique : ""}
+          onChange={(e)=> setContribuableData({...ContribuableData , forme_juridique : e.target.value})}
+          />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Régime Fiscale" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.regimefiscal : ""}
+          onChange={(e)=>setContribuableData({...ContribuableData , regimefiscal : e.target.value})}
+          />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Date de Création" />
-          <Input type="date" />
+          <Input type="date"
+          value={ContribuableData? ContribuableData.date_creation : ""}
+          onChange={(e)=> setContribuableData({...ContribuableData , date_creation : e.target.value})}
+          />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Capital en Ar" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.capital : ""}
+          onChange={(e)=>setContribuableData({...ContribuableData , capital : e.target.value})}
+          />
         </div>
         <div className='flex justify-between mt-6 '>
     <Label text="RIB "></Label>
     <div className="flex justify-between w-[300px]">
-    <Checkbox label="Disponible" onChange={()=>window} checked></Checkbox>
-    <Checkbox label="Pas encore" onChange={()=>window} checked></Checkbox>
+    <Checkbox label="Disponible" onChange={()=>setContribuableData({...ContribuableData , rib : "Disponible"})} checked={ContribuableData.rib === "Disponible"}></Checkbox>
+    <Checkbox label="Pas encore" onChange={()=>setContribuableData({...ContribuableData , rib : "Pas encore"})} checked={ContribuableData.rib === "Pas encore"}></Checkbox>
     </div>
     
   </div>
   <div className="flex justify-between mt-6">
           <Label text="Numéro compte bancaire" />
-          <Input type="text" />
+          <Input type="text"
+          value={ContribuableData? ContribuableData.numero_compte_bancaire : ""}
+          onChange={(e)=>setContribuableData({...ContribuableData , numero_compte_banquaire : e.target.value})}
+          />
         </div>
         <button onClick={()=> setBool({...bool , Principaux_renseignement: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
     </div>
@@ -286,7 +396,10 @@ const ContentCardInformation =(
       <div className="flex flex-col">
       <div className="flex justify-between mt-6">
             <Label text="Activités " />
-            <Input type="text" />
+            <Input type="text" 
+            value={Activite ? Activite[0].activite : ""}
+            onChange={(e)=>setContribuableData({...Activite , activite : e.target.value})}
+            />
           </div>
           
    
@@ -294,18 +407,22 @@ const ContentCardInformation =(
       <div className='flex justify-between mt-6 '>
       <Label text="Précision sur les activités "></Label>
       <Input
-        type="text"     
+        type="text" 
+        value={Activite? Activite[0].precision_activite : ""}
+        onChange={(e)=>setContribuableData({...Activite , precision_activite : e.target.value})}    
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Numéro statistique "></Label>
       <div className="flex flex-col">
       <div className="flex justify-between w-[300px]">
-      <Checkbox label="Disponible" onChange={()=>window} checked></Checkbox>
-      <Checkbox label="Pas encore Disponible" onChange={()=>window} checked></Checkbox>
+      <Checkbox label="Disponible" onChange={(checked)=>setContribuableData({...Activite , statistique : checked })} checked={ Activite[0].statistique === true  }></Checkbox>
+      <Checkbox label="Pas encore Disponible" onChange={(checked)=>setContribuableData({...Activite , statistique : !checked})} checked={ Activite[0].statistique === false }></Checkbox>
       </div>
       <Input
         type="text"
+        value={ContribuableData? ContribuableData.activite[0].numero_statistique : ""}
+        onChange={(e)=> setContribuableData({...Activite , numero_statistique : e.target.value})}
         className="mt-2"     
       ></Input>
       </div>
@@ -314,32 +431,40 @@ const ContentCardInformation =(
     <div className='flex justify-between mt-6 '>
       <Label text="Date de délivrance statistique "></Label>
       <Input
-        type="date"     
+        type="date"
+        value={Activite?Activite[0].date_delivrance_statistique : ""}
+        onChange={(e)=> setContribuableData({...Activite , date_delivrance_statistique : e.target.value})}     
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Registre de commerce"></Label>
       <Input
-        type="text"     
+        type="text"
+         value={Activite?Activite[0].registre_commerce : ""}
+         onChange={(e)=> setContribuableData({...Activite , registre_commerce : e.target.value})}     
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Date de registre de commerce"></Label>
       <Input
-        type="date"     
+        type="date"  
+        value={Activite?Activite[0].date_registre_commerce : ""}   
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Début de l'exercice comptable  "></Label>
       <Input
-        type="date"     
+        type="date"
+        value={Activite?Activite[0].date_debut : ""}
       ></Input>
     </div>
     </div>
   
           <div className="flex justify-between mt-6">
             <Label text="Clôture de l'exercice comptable" />
-            <Input type="date" />
+            <Input type="date" 
+            value={Activite ? Activite[0].date : ""}
+            />
           </div>
                   <div className='flex justify-between mt-6 '>
       <Label text="Importateur "></Label>
@@ -357,9 +482,11 @@ const ContentCardInformation =(
       </div>
       
     </div>
-    <div className="flex justify-between mt-6">
+          <div className="flex justify-between mt-6">
             <Label text="Nombre salarié" />
-            <Input type="text" />
+            <Input type="text"
+            value={Activite?Activite[0].nombre_salarie : ""}
+             />
           </div>
           <button onClick={()=> setBool({...bool , activite: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
    
@@ -1098,9 +1225,9 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datev
   return (
     <div
     className="
-    bg-neutral-800/70
-    w-screen 
+     w-screen 
     h-screen
+    bg-gray-200
     flex
     items-center
     justify-center

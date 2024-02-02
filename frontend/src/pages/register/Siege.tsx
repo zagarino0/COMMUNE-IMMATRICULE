@@ -15,7 +15,7 @@ const parsedData = JSON.parse(registrationData as string);
 const [Siege, setSiege] = useState<{
 id_contribuable: string,
 adresse_actuelle : string,
-fokontany: string,
+fonkotany: string,
 commune : string,
 district: string,
 region: string ,
@@ -24,7 +24,7 @@ province : string,
 }>({
   id_contribuable: parsedData.id,
   adresse_actuelle : "",
-  fokontany: "",
+  fonkotany: "",
   commune : "",
   district: "",
   region: "" ,
@@ -72,8 +72,8 @@ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
     <Label text="Fokontany"></Label>
     <Input
       type="text" 
-      value={Siege.fokontany}
-      onChange={(e)=> {setSiege({...Siege , fokontany: e.target.value})}}    
+      value={Siege.fonkotany}
+      onChange={(e)=> {setSiege({...Siege , fonkotany: e.target.value})}}    
     ></Input>
   </div>
  

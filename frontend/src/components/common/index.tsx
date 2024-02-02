@@ -13,7 +13,7 @@ interface ButtonProps{
     className?: string , 
     text?: string ,
     onClick?: () => void    
-  
+    key?: string
     
 }
 

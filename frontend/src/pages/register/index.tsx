@@ -107,7 +107,7 @@ const links = [
      <Link to="/"><div className="font-semibold flex flex-row "><p className="text-3xl text-[#959824]  ">E</p><p className="text-3xl">-mmatriculation</p></div></Link>
      <div className="flex justify-between py-3 w-[350px]">
      <Link to="/Immatriculation" className="font-[Tara]  hover:border-b-2 hover:border-[#959824]">Immatriculation</Link>
-     <Link to="https://www.impots.mg" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2 ">Site DGI</Link>
+     <Link to="https://mairie-mahajanga.mg/" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2 ">Site CUM</Link>
      <Link to="#" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2">Contact</Link>
      </div>
      <div className="w-[180px]">
@@ -409,6 +409,23 @@ const links = [
           value={Value.numero_compte_bancaire}
           onChange={(e)=>{setValue({...Value , numero_compte_bancaire : e.target.value})}}
           
+          />
+        </div>
+        <div className="flex justify-between mt-6">
+          <Label text="Date agrement" />
+          <Input type="date"
+          value={Value.dateagrement}
+          onChange={(e)=>{setValue({...Value , dateagrement : e.target.value})}}
+          
+          />
+
+        </div>
+
+        <div className="flex justify-between mt-6">
+          <Label text="Référence agrement" />
+          <Input type="text"
+          value={Value.referenceagrement}
+          onChange={(e)=>{setValue({...Value , referenceagrement : e.target.value})}}
           />
         </div>
         <div className="w-40">

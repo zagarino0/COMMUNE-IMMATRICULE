@@ -38,9 +38,6 @@ import Associe from "./pages/register/Associe";
 import Dirigeant from "./pages/register/Dirigeant";
 import Autre from "./pages/register/Autre";
 import LoginClient from "./pages/login/LoginClient";
-import Declaration from "./pages/majRenseignement/Declaration";
-import Annexe from "./pages/majRenseignement/Annexe";
-import Paiment from "./pages/majRenseignement/Paiment";
 import ConsulterActionUtilisateur from "./pages/espaceMembre/ConsulterActionUtilisateur/ConsulterActionUtilisateur";
 import RelanceDeffaillant from "./pages/autresOperations/RelanceDeffaillants/RelanceDeffaillant";
 import ValidationDemandeImmatriculation from "./pages/validation/ValidationDemandeImmatriculation/ValidationDemandeImmatriculation";
@@ -92,10 +89,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
-        <Route path="/Declaration" element={<Declaration/>}></Route>
-        <Route path="/Annexe" element={<Annexe/>}></Route>
-        <Route path="/Paiment" element={<Paiment/>}></Route>
-        <Route path="/Activite" element={<Activite/>}></Route>
         <Route path="/Activite" element={<Activite/>}></Route>        
         <Route path="/Siege" element={<Siege/>}></Route>
         <Route path="/Interlocuteur" element={<Interlocuteur/>}></Route>

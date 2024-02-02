@@ -17,19 +17,19 @@ function Interlocuteur() {
   // New state to hold the list of entries 
     const [Interlocuteur , setInterlocuteur] = useState<{
       id_contribuable: string,
-   nom: string,
-   titre:string,
-   adresse: string,
-   telephone: string,
-   email: string,
+   nom_interlocuteur: string,
+   titre_interlocuteur:string,
+   adresse_interlocuteur: string,
+   telephone_interlocuteur: string,
+   email_interlocuteur: string,
 
     }>({ 
    id_contribuable: parsedData.id,
-   nom: "",
-   titre:"",
-   adresse: "",
-   telephone: "",
-   email: "",
+   nom_interlocuteur: "",
+   titre_interlocuteur:"",
+   adresse_interlocuteur: "",
+   telephone_interlocuteur: "",
+   email_interlocuteur: "",
    
     })
     const [isStorageUpdated, setIsStorageUpdated] = useState(false);
@@ -60,13 +60,13 @@ function Interlocuteur() {
         <div className="flex flex-col w-[1000px]">
           <div className="flex flex-row">
             <TitleH3 text="Etape 7:" className="mt-2"></TitleH3>
-          <TitleH1 text="Interlocuteur de la DGI au sein de l'entreprise" className="ml-2"></TitleH1>
+          <TitleH1 text="Interlocuteur  au sein de l'entreprise" className="ml-2"></TitleH1>
           </div>
           <div className="flex justify-between mt-6">
             <Label text="Nom " />
             <Input type="text" 
-            value={Interlocuteur.nom}
-            onChange={(e)=>{setInterlocuteur({...Interlocuteur , nom : e.target.value})}}
+            value={Interlocuteur.nom_interlocuteur}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , nom_interlocuteur : e.target.value})}}
             />
           </div>
           
@@ -76,8 +76,8 @@ function Interlocuteur() {
       <Label text="Titre"></Label>
       <Input
         type="text"
-        value={Interlocuteur.titre}
-            onChange={(e)=>{setInterlocuteur({...Interlocuteur , titre: e.target.value})}}     
+        value={Interlocuteur.titre_interlocuteur}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , titre_interlocuteur: e.target.value})}}     
       ></Input>
     </div>
    
@@ -85,24 +85,24 @@ function Interlocuteur() {
       <Label text="Adresse  "></Label>
       <Input
         type="text"     
-        value={Interlocuteur.adresse}
-            onChange={(e)=>{setInterlocuteur({...Interlocuteur , adresse : e.target.value})}}
+        value={Interlocuteur.adresse_interlocuteur}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , adresse_interlocuteur : e.target.value})}}
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Téléphone "></Label>
       <Input
         type="text"    
-        value={Interlocuteur.telephone}
-            onChange={(e)=>{setInterlocuteur({...Interlocuteur , telephone : e.target.value})}} 
+        value={Interlocuteur.telephone_interlocuteur}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , telephone_interlocuteur : e.target.value})}} 
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="E-mail"></Label>
       <Input
         type="text"  
-        value={Interlocuteur.email}
-            onChange={(e)=>{setInterlocuteur({...Interlocuteur , email : e.target.value})}}   
+        value={Interlocuteur.email_interlocuteur}
+            onChange={(e)=>{setInterlocuteur({...Interlocuteur , email_interlocuteur : e.target.value})}}   
       ></Input>
     </div>
     

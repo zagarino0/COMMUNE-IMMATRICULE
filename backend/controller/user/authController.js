@@ -16,9 +16,8 @@ const path = require('path');
 const handleLogin = async (req, res) => {
     const code = req.body.code;
     const pwd = req.body.pwd;
-    const type_operateur = req.body.type_operateur;
     if (!code || !pwd) return res.status(400).json({ 'message': 'code and Password are required' });
-    const foundUser = data.users.find(person => person.code === code && person.type_operateur === type_operateur && person.actif);
+    const foundUser = data.users.find(person => person.code === code && person.actif);
     if (!foundUser) return res.sendStatus(401); //Unauthorized
     // evaluate password
     const match = await bcrypt.compare(pwd, foundUser.password);

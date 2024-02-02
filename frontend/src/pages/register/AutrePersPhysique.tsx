@@ -27,10 +27,10 @@ const AutrePersPhysique: React.FC<LayoutProps>  = ({  currentPath })=> {
     const registrationData = localStorage.getItem("registrationData");
     const parsedDataRegistre = JSON.parse(registrationData as string);
 
-    const activiteData = localStorage.getItem("activiteData");
+    const activiteData = localStorage.getItem("activitePersonPhysiqueData");
     const parsedDataActivite = JSON.parse(activiteData as string);
 
-    const siegeData = localStorage.getItem("siegeData");
+    const siegeData = localStorage.getItem("siegePersonPhysiqueData");
     const parsedDataSiege = JSON.parse(siegeData as string);
 
   
@@ -68,9 +68,23 @@ if (parsedDataRegistre){
 }
 
 if(parsedDataActivite){
+  const Activite = {    
+    "id_contribuable": parsedDataActivite.id_contribuable ,
+    "activite": parsedDataActivite.activite ,
+    "precision_activite": parsedDataActivite.precision_activite,
+    "statistique" : parsedDataActivite.statistique,
+    "numero_statistique": parsedDataActivite.numero_statistique,
+    "date_delivrance_statistique": parsedDataActivite.date_delivrance_statistique,
+    "registre_commerce": parsedDataActivite.registre_commerce,
+    "date_registre_commerce": parsedDataActivite.date_registre_commerce,
+    "debut_exercice": parsedDataActivite.debut_exercice,
+    "cloture_exercice": parsedDataActivite.cloture_exercice,
+    "nif": parsedDataActivite.nif,
+    "nombre_salarie": parsedDataActivite.nombre_salarie
+  }
   try {
     // Make a POST request to your server endpoint
-    const response = await axios.post("http://localhost:3500/activite", parsedDataActivite);
+    const response = await axios.post("http://localhost:3500/activite", Activite);
   alert('activité ajouté')
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
@@ -110,7 +124,17 @@ if(Autre){
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   alert("tout est enregistré ")
-   
+  alert("Générateur de code en cours !")
+  alert(`Votre code est de ${parsedDataRegistre.id}`)
+        localStorage.removeItem("registrationData");
+        localStorage.removeItem("activiteData");
+        localStorage.removeItem("siegeData");
+        localStorage.removeItem("etablissementData");
+        localStorage.removeItem("dirigeantData");
+        localStorage.removeItem("interlocuteurData");
+        localStorage.removeItem("associeData");
+        
+  navigate("/register") 
   } catch (error) {
     // Handle errors
     alert("il y a  une erreur sur l'ajout")

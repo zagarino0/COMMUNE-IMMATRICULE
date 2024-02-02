@@ -6,10 +6,19 @@ import { MainLayout } from "../../../../layouts/main"
 import { Card } from "../../../../components/card/card"
 import { useState } from "react"
 import axios from "axios"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Label } from "../../../../components/label/label"
 function SaisirMotifRejetPage() {
-
+  const selectedData = localStorage.getItem("ContribuableSelectedValidationAssujetissementData");
+  const [ContribuableData] = useState(
+    JSON.parse(selectedData  as string)
+  );
+  const User = localStorage.getItem("userAdministrationData");
+  const [AdministrationUser] = useState(
+    JSON.parse(User  as string)
+  );
+  console.log(AdministrationUser)
+  console.log(ContribuableData);
   const [Motif , setMotif] = useState<{
     reference_fiscal : string,
     Motif_rejet : string ,
@@ -24,20 +33,21 @@ function SaisirMotifRejetPage() {
   
 })
 
-
+let navigate = useNavigate();
   const handleMotif = async () => {
     const MotifRejet ={
-     "reference_fiscal" : Motif.reference_fiscal,
+     "reference_fiscal" : ContribuableData.reference_fiscal,
      "motif": Motif.Motif_rejet,
      "commentaire":Motif.commentaire,
-     "id_user": Motif.id_user    
+     "id_user": AdministrationUser.id_user    
     }
     try {
       // Make a POST request to your server endpoint
       const response = await axios.post("http://localhost:3500/contribuable/rejetcontribuable", MotifRejet);
       // Check the response status or do something with the response
       console.log("Server Response:", response );
-      alert('Motif envoyé ')
+      alert('Contribuable réjeter');
+      navigate("/ValidationDemandeImmatriculation");
     } catch (error) {
       // Handle errors
       console.error("Error:", error);

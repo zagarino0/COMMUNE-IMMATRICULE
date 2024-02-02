@@ -25,10 +25,10 @@ function Immatriculation() {
           Immatriculation
         </span>
         <a
-          href="https://www.impots.mg"
+          href="https://mairie-mahajanga.mg/"
           className="font-[Tara] hover:border-b-2 hover:border-[#959824] ml-2"
         >
-          Site DGI
+          Site CUM
         </a>
         <a
           href="#"

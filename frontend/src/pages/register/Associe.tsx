@@ -14,6 +14,24 @@ import { useEffect, useState } from "react";
 import { AiOutlineSave } from "react-icons/ai";
 import Checkbox from "../../components/common/checkbox";
 import { RiArrowGoBackFill } from "react-icons/ri";
+
+ interface Actionnaire {
+  id:string,
+  type : string ,
+  nom_actionnaire: string ,
+  fonction_actionnaire : string ,
+  resident_actionnaire : boolean , 
+  cin_passeport_actionnaire: string,
+  adresse_actionnaire : string,
+  autre_activite_actionnaire : string,
+  id_contribuable: string,
+  nif_actionnaire: string,
+  email_actionnaire: string,
+  numero_actionnaire: string,
+  associe_unique_actionnaire: boolean,
+  action_ou_actionnaire: string,
+  
+}
 function Associe() {
     const location = useLocation(); 
     
@@ -25,60 +43,21 @@ function Associe() {
 
     const [entries, setEntries] = useState([]); // New state to hold the list of entries
 
-    const [Associe , setAssocie] = useState<{
-      personne_physique:boolean,
-      personne_morale:boolean,
-      personne_etrangere:boolean,
-      associe_unique:boolean,
-      resident:boolean,
-      avec_rf: boolean,
-      salarie : boolean,
-      aucune : boolean,      
-   
 
-    }>({
-      personne_physique:false,
-      personne_morale:false,
-      personne_etrangere:false,
-      associe_unique:false,
-      resident: true ,
-      avec_rf: false,
-      salarie: false,
-      aucune : false,
-      
-
-    })
-
-    const [Actionnaire , setActionnaire ] = useState<{
-      id:string,
-      type : string ,
-      nom_actionnaire: string ,
-      fonction_actionnaire : string ,
-      resident_actionnaire : string , 
-      cin_passeport_actionnaire: string,
-      adresse_actionnaire : string,
-      autre_activite_actionnaire : string,
-      id_contribuable: string,
-      nif_actionnaire: string,
-      email_actionnaire: string,
-      numero_actionnaire: string,
-      associe_unique_actionnaire: string,
-      action_ou_actionnaire: string,
-
-    }>({
+    const [Actionnaire , setActionnaire ] = useState<Actionnaire>({
       id:"",
       id_contribuable: parsedData.id,
       type : "" ,
       nom_actionnaire: "" ,
       fonction_actionnaire : "" ,
-      resident_actionnaire : "" , 
+      resident_actionnaire : true, 
       cin_passeport_actionnaire: "",
       adresse_actionnaire : "" ,
       autre_activite_actionnaire : "",      
       nif_actionnaire: "",
       email_actionnaire: "",
       numero_actionnaire: "",
-      associe_unique_actionnaire: "",
+      associe_unique_actionnaire: false,
       action_ou_actionnaire: "",
     })
     const [add , setAdd] = useState(false);
@@ -120,7 +99,7 @@ function Associe() {
     setEntries((prevEntries) => [...prevEntries, { ...Actionnaire, id: newId.toString() }]);
 
         // Reset the Actionnaire state to clear the form
-        setActionnaire({
+        setActionnaire<Actionnaire>({
           id_contribuable: parsedData.id,
           type: "",
           nom_actionnaire: "",
@@ -140,17 +119,18 @@ function Associe() {
     
       const headers = [
         "Type association",
-        "Nom association",
+        "Nom actionnaire",
         "Fonction",
         "Résident",
-        "N° CIN",
-        "N° Passport",
-        "Autra act.",
-        "RF Pers. moral",
-        "Nom Pers.physique",
-        "Adresse",
-        "Associe",
-        "Action en",
+        "N° CIN ou N° passport",
+        "Adresse Actionnaire",
+        "Autra activité actionnaire",
+        "Référence contribuable",
+        "RF actionnaire",
+        "Adresse Email",
+        "Numéro Tél",
+        "Associe unique actionnaire",
+        "Action ou actionnaire",
       ];
     
       const data = entries.map((entry) => [
@@ -207,11 +187,11 @@ function Associe() {
     <div className="flex justify-between mt-6">
             <Label text="Resident  " />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>setAssocie({ ...Associe , resident: true})} checked={Associe.resident == true}></Checkbox>
-    <Checkbox label="Non" onChange={()=>setAssocie({...Associe , resident: false})} checked={Associe.resident == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=>setActionnaire({ ...Actionnaire , resident_actionnaire: true})} checked={Actionnaire.resident_actionnaire === true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>setActionnaire({...Actionnaire , resident_actionnaire: false})} checked={Actionnaire.resident_actionnaire === false}></Checkbox>
     </div>
     </div>
-    { Associe.resident == true && (
+    { Actionnaire.resident_actionnaire === true && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numero CIN"></Label>
@@ -224,7 +204,7 @@ function Associe() {
     )
 
     }
-    { Associe.resident == false && (
+    { Actionnaire.resident_actionnaire === false && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numéro Passeport ou Carte Résident"></Label>
@@ -247,12 +227,12 @@ function Associe() {
     <div className="flex justify-between mt-6">
             <Label text="Autre activité " />
       <div className="flex justify-between w-[300px]">
-    <Checkbox label="Avec RF" onChange={(checked:boolean)=> setAssocie({...Associe , avec_rf : checked})} checked={Associe.avec_rf} ></Checkbox>
-    <Checkbox label="Salarié" onChange={(checked:boolean)=>setAssocie({...Associe , salarie: checked})} checked={Associe.salarie}></Checkbox>
-    <Checkbox label="Aucune " onChange={(checked: boolean)=> setAssocie({...Associe , aucune: checked})} checked={Associe.aucune}></Checkbox>
+    <Checkbox label="Avec RF" onChange={()=> setActionnaire({...Actionnaire, autre_activite_actionnaire: "Avec RF" })} checked={Actionnaire.autre_activite_actionnaire ==="Avec RF" } ></Checkbox>
+    <Checkbox label="Salarié" onChange={()=>setActionnaire({...Actionnaire , autre_activite_actionnaire: "Salarié"})} checked={Actionnaire.autre_activite_actionnaire === "Salarié"}></Checkbox>
+    <Checkbox label="Aucune" onChange={()=> setActionnaire({...Actionnaire , autre_activite_actionnaire: "Aucune"})} checked={Actionnaire.autre_activite_actionnaire ==="Aucune"}></Checkbox>
     </div>
     </div>
-    { Associe.avec_rf === true && (
+    { Actionnaire.autre_activite_actionnaire === "Avec RF" && (
       <> 
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
@@ -318,15 +298,17 @@ function Associe() {
               <div className="flex justify-between mt-6">
             <Label text="Associé unique" />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>{setAssocie({...Associe , associe_unique : true })}} checked={Associe.associe_unique == true}></Checkbox>
-    <Checkbox label="Non" onChange={()=>{setAssocie({...Associe , associe_unique : false })}} checked={Associe.associe_unique == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=>{setActionnaire({...Actionnaire , associe_unique_actionnaire : true })}} checked={Actionnaire.associe_unique_actionnaire === true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>{setActionnaire({...Actionnaire, associe_unique_actionnaire : false })}} checked={Actionnaire.associe_unique_actionnaire === false}></Checkbox>
     </div>
           </div>
-          { Associe.associe_unique === true && (
+          { Actionnaire.associe_unique_actionnaire === true && (
             <>
             <div className="flex justify-between mt-6">
             <Label text="% Action ou" />
-              <Input type="text" ></Input>
+              <Input type="text" value={Actionnaire.action_ou_actionnaire}
+              onChange={(e)=>setActionnaire({...Actionnaire , action_ou_actionnaire: e.target.value})}
+              ></Input>
             </div>
             </>
           )
