@@ -3,7 +3,6 @@ const router = express.Router();
 const contribuableController = require('../../../controller/espace_contribuable/contribuableController');
 
 router.route('/')
-    .put(contribuableController.updateContribuable)
     .post(contribuableController.setContribuable);
 
 router.route('/login')
@@ -44,6 +43,7 @@ router.route('/reveille')
 
 router.route('/:id')
     .get(contribuableController.getContribuableById)
+    .put(contribuableController.updateContribuable)
     .delete(contribuableController.deleteContribuable);
 
 module.exports = router;

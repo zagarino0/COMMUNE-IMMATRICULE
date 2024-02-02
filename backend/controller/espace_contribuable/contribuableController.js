@@ -379,68 +379,68 @@ const validationContribuable = async (req, res) => {
 }
 
 const updateContribuable = async (req, res) => {
-    const reference_fiscal = req.params.reference_fiscal;
-    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
-    if (contribuable) {
+    const id_contribuable = req.params.id;
+    const contribuable = data.contribs.find(con => con.id == id_contribuable);
+    if (!contribuable) {
         return res.status(400).json({ 'message': 'contribuable not found' });
     }
-
     const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
-    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
-    if (req.body.raisonsocial) contribuable.raison_social = req.body.raisonsocial;
-    if (req.body.situationmatrimoinial) contribuable.situation_matrimoiniale = req.body.situationmatrimoinial;
-    if (req.body.sexe) contribuable.sexe = req.body.sexe;
-    if (req.body.cin) contribuable.cin = req.body.cin;
-    if (req.body.etranger) contribuable.etranger = req.body.etranger;
-    if (req.body.numeropasseport) contribuable.numero_passeport = req.body.numeropasseport;
-    if (req.body.carteresidence) contribuable.carte_residence = req.body.carteresidence;
-    if (req.body.datedelivrancepasseport) contribuable.date_de_delivrance_passeport = req.body.datedelivrancepasseport;
-    if (req.body.datedelivrancecin) contribuable.date_de_delivrance_cin = req.body.datedelivrancecin;
-    if (req.body.lieudelivrancecin) contribuable.lieu_de_delivrance_cin = req.body.lieudelivrancecin;
-    if (req.body.datenaissance) contribuable.date_de_naissance = req.body.datenaissance;
-    if (req.body.lieunaissance) contribuable.lieu_de_naissance = req.body.lieunaissance;
-    if (req.body.formejuridique) contribuable.forme_juridique = req.body.formejuridique;
-    if (req.body.regimefiscal) contribuable.regime_fiscal = req.body.regimefiscal;
-    if (req.body.dateagrement) contribuable.date_agrement = req.body.dateagrement;
-    if (req.body.referenceagrement) contribuable.reference_agrement = req.body.referenceagrement;
-    if (req.body.periodegrace) contribuable.periode_grace = req.body.periodegrace;
-    if (req.body.datecreation) contribuable.date_creation = req.body.datecreation;
-    if (req.body.capital) contribuable.capital = req.body.capital;
-    if (req.body.rib) contribuable.rib = req.body.rib;
-    contribuable.actif = true;
+    console.log(validation);
+    //const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+    // if (req.body.raisonsocial) contribuable.raison_social = req.body.raisonsocial;
+    // if (req.body.situationmatrimoinial) contribuable.situation_matrimoiniale = req.body.situationmatrimoinial;
+    // if (req.body.sexe) contribuable.sexe = req.body.sexe;
+    // if (req.body.cin) contribuable.cin = req.body.cin;
+    // if (req.body.etranger) contribuable.etranger = req.body.etranger;
+    // if (req.body.numeropasseport) contribuable.numero_passeport = req.body.numeropasseport;
+    // if (req.body.carteresidence) contribuable.carte_residence = req.body.carteresidence;
+    // if (req.body.datedelivrancepasseport) contribuable.date_de_delivrance_passeport = req.body.datedelivrancepasseport;
+    // if (req.body.datedelivrancecin) contribuable.date_de_delivrance_cin = req.body.datedelivrancecin;
+    // if (req.body.lieudelivrancecin) contribuable.lieu_de_delivrance_cin = req.body.lieudelivrancecin;
+    // if (req.body.datenaissance) contribuable.date_de_naissance = req.body.datenaissance;
+    // if (req.body.lieunaissance) contribuable.lieu_de_naissance = req.body.lieunaissance;
+    // if (req.body.formejuridique) contribuable.forme_juridique = req.body.formejuridique;
+    // if (req.body.regimefiscal) contribuable.regime_fiscal = req.body.regimefiscal;
+    // if (req.body.dateagrement) contribuable.date_agrement = req.body.dateagrement;
+    // if (req.body.referenceagrement) contribuable.reference_agrement = req.body.referenceagrement;
+    // if (req.body.periodegrace) contribuable.periode_grace = req.body.periodegrace;
+    // if (req.body.datecreation) contribuable.date_creation = req.body.datecreation;
+    // if (req.body.capital) contribuable.capital = req.body.capital;
+    // if (req.body.rib) contribuable.rib = req.body.rib;
+    // contribuable.actif = true;
 
-    modification.nombre_modification = + 1;
-    if (modification.nombre_modification === 5) {
-        modification.blockage = true,
-            modification.date_blockage = new Date();
-            return res.json({'message': `Le contribuable ${contribuable.id} est bloquée`});
-    };
+    // modification.nombre_modification = + 1;
+    // if (modification.nombre_modification === 5) {
+    //     modification.blockage = true,
+    //         modification.date_blockage = new Date();
+    //         return res.json({'message': `Le contribuable ${contribuable.id} est bloquée`});
+    // };
 
-    validation.validite = false;
+    // validation.validite = false;
 
-    const filteredModif = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
-    const unsortedModif = [...filteredModif, modification];
+    // const filteredModif = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
+    // const unsortedModif = [...filteredModif, modification];
 
-    const filteredValidation = data.validation.filter(val => val.id_contribuable !== contribuable.id);
-    const unsortedValidation = [...filteredValidation, validation];
+    // const filteredValidation = data.validation.filter(val => val.id_contribuable !== contribuable.id);
+    // const unsortedValidation = [...filteredValidation, validation];
 
-    data.setValidation(unsortedValidation.sort((a, b) => a.id_validation > b.id_validation ? 1 : a.id_validation < b.id_validation ? -1 : 0));
-    data.setModifications(unsortedModif.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
-    data.setContribuable([...data.contribuables, contribuable]);
+    // data.setValidation(unsortedValidation.sort((a, b) => a.id_validation > b.id_validation ? 1 : a.id_validation < b.id_validation ? -1 : 0));
+    // data.setModifications(unsortedModif.sort((a, b) => a.id_modification > b.id_modification ? 1 : a.id_modification < b.id_modification ? -1 : 0));
+    // data.setContribuable([...data.contribuables, contribuable]);
 
 
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
-        JSON.stringify(data.contribs)
-    )
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
-        JSON.stringify(data.contribs)
-    )
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'validation.json'),
-        JSON.stringify(data.contribs)
-    )
+    // await fsPromises.writeFile(
+    //     path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+    //     JSON.stringify(data.contribs)
+    // )
+    // await fsPromises.writeFile(
+    //     path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+    //     JSON.stringify(data.contribs)
+    // )
+    // await fsPromises.writeFile(
+    //     path.join(__dirname, '..', '..', 'model', 'validation.json'),
+    //     JSON.stringify(data.contribs)
+    // )
     res.json(data.contribs);
 }
 
