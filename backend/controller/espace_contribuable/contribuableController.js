@@ -381,13 +381,11 @@ const validationContribuable = async (req, res) => {
 const updateContribuable = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
     const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
-    const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
-    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
-
     if (contribuable) {
         return res.status(400).json({ 'message': 'contribuable not found' });
     }
-
+    const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
     if (req.body.raisonsocial) contribuable.raison_social = req.body.raisonsocial;
     if (req.body.situationmatrimoinial) contribuable.situation_matrimoiniale = req.body.situationmatrimoinial;
     if (req.body.sexe) contribuable.sexe = req.body.sexe;
