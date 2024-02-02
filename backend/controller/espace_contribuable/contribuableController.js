@@ -385,7 +385,13 @@ const updateContribuable = async (req, res) => {
         return res.status(400).json({ 'message': 'contribuable not found' });
     }
     const validation = data.validation.find(val => val.id_contribuable === contribuable.id);
+    if (!validation) {
+        return res.status(400).json({ 'message': 'Verifieo fa mety tsisy identifiant contribuable am validation.json ao anaty model' });
+    }
     const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
+    if (!modification) {
+        return res.status(400).json({ 'message': 'Verifieo fa mety tsisy identifiant contribuable am modificationContribuable.json ao anaty model' });
+    }
     if (req.body.raison_social) contribuable.raison_social = req.body.raison_social;
     if (req.body.situation_matrimoiniale) contribuable.situation_matrimoiniale = req.body.situation_matrimoiniale;
     if (req.body.sexe) contribuable.sexe = req.body.sexe;
