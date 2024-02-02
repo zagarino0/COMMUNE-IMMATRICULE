@@ -245,7 +245,7 @@ selectedRowIndex={selectedRowIndex}
 ></Table>
 </div>
 
-<button  className="flex flex-row " onClick={handleButtonClick}><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
+<button  className="flex flex-row mt-4 " onClick={handleButtonClick}><TiDocumentText  className="mr-2  text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
 </div>
    </div>
    </div>

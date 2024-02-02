@@ -443,8 +443,176 @@ const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useSta
     setAdd(true);
     }
     
+// data selected Dirigeant  table 
+const [selectedRowIndexDirigeant, setSelectedRowIndexDirigeant] = useState(null);
+const [DataSelectedDirigeant, setDataSelectedDirigeant] = useState([]);
 
 
+const [isStorageUpdatedDirigeant, setIsStorageUpdatedDirigeant] = useState(false);
+
+  useEffect(() => {
+     console.log(DataSelectedDirigeant)
+     setIsStorageUpdatedDirigeant(false);
+  }, [DataSelectedDirigeant, isStorageUpdatedDirigeant]);
+  
+  const handleSelectedDataTableDirigeant= (rowIndex : key) =>{
+    setSelectedRowIndexDirigeant(rowIndex);
+    const selectedRowDataDirigeant= dirigeant[rowIndex] ;
+    setDataSelectedDirigeant(selectedRowDataDirigeant);
+    console.log("selected :",DataSelectedDirigeant);
+    setAdd(true);
+    }
+    
+
+  // Modification Contribuable
+  
+  //Modification Renseignement Général
+  const HandleRenseignementGeneralModifie = async () =>{
+   
+if (ContribuableData){
+
+  const RenseignementGeneral = {
+   "id": ContribuableData.id,
+   "raison_social": ContribuableData.raison_social ,
+   "type" : ContribuableData.type,
+   "situation_matrimoniale": ContribuableData.situation_matrimoiale,
+   "sexe": ContribuableData.sexe ,
+   "etranger": ContribuableData.etranger,
+   "cin" : ContribuableData.cin,
+   "date_de_delivrance_cin" : ContribuableData.date_de_delivrance_cin,
+   "lieu_de_delivrance_cin": ContribuableData.lieu_de_delivrance_cin,
+   "numero_passport": ContribuableData.numero_passport ,
+   "date_de_delivrance_passeport": ContribuableData.date_de_delivrance_passport,
+   "date_de_naissance": ContribuableData.date_de_naissance , 
+   "lieu_de_naissance": ContribuableData.lieu_de_naissance ,
+   "forme_juridique" : ContribuableData.forme_juridique ,
+   "regime_fiscal": ContribuableData.regime_fiscal,
+   "date_creation": ContribuableData.date_creation,
+   "capital" : ContribuableData.capital,
+   "RIB": ContribuableData.RIB,
+   "numero_compte_banquaire": ContribuableData.numero_compte_banquaire,
+   "reference_fiscal" : ContribuableData.reference_fiscal
+  }
+
+  try {
+    // Make a POST request to your server endpoint
+    const response = await axios.put(`http://localhost:3500/contribuable`, RenseignementGeneral);
+  
+    // Check the response status or do something with the response
+    console.log("Server Response:", response.data);
+    alert("contribuable Modifié")
+   
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+    alert("erreur contribuable")
+  }
+  }
+
+  }
+  const HandleModificationContribuable = async () => {
+  
+ 
+//Modofication activité 
+ 
+if(activite){
+
+  const Activite = {    
+    "id_contribuable": ContribuableData.id ,
+    "activite": activite.activite ,
+    "precision_activite": activite.precision_activite,
+    "statistique" : activite.statistique,
+    "numero_statistique": activite.numero_statistique,
+    "date_delivrance_statistique": activite.date_delivrance_statistique,
+    "registre_commerce": activite.registre_commerce,
+    "date_registre_commerce": activite.date_registre_commerce,
+    "debut_exercice": activite.debut_exercice,
+    "cloture_exercice": activite.cloture_exercice,
+    "nif": activite.nif,
+    "nombre_salarie": activite.nombre_salarie
+
+  }
+try {
+  // Make a POST request to your server endpoint
+  const response = await axios.put("http://localhost:3500/activite", Activite);
+
+  // Check the response status or do something with the response
+  console.log("Server Response:", response.data);
+
+ alert("Activité Modifié")
+} catch (error) {
+  // Handle errors
+  console.error("Error:", error);
+  alert("Erreur activité")
+}
+
+}
+
+// Modification siege 
+if(siege){
+  const DataSiege = {
+    "id_contribuable": ContribuableData.id ,
+    "adresse_actuel" : siege.adresse_actuel,
+    "fokontany": siege.fokontany ,
+    "commune": siege.commune,
+    "district": siege.district,
+    "region": siege.region ,
+    "province": siege.province,
+    
+  }
+  try {
+    // Make a POST request to your server endpoint
+    const response = await axios.put("http://localhost:3500/siege", DataSiege);
+  
+    // Check the response status or do something with the response
+    console.log("Server Response:", response.data);
+  
+   alert("Siège Modifié")
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+    alert("Error Siège")
+  }
+  }
+  
+// Modification Actionnaire 
+if(actionnaire){
+
+  const DataActionnaire = {
+    "id_contribuable": ContribuableData.id ,
+    "action_ou_actionnaire" : actionnaire.action_ou_actionnaire,
+    "adresse_actionnaire": actionnaire.adresse_actionnaire,
+    "associe_unique_actionnaire": actionnaire.associe_unique_actionnaire,
+    "cin_passeport_actionnaire": actionnaire.cin_passeport_actionnaire,
+    "email_actionnaire": actionnaire.email_actionnaire ,
+    "fonction_actionaire": actionnaire.fonction_actionnaire,
+    "id": actionnaire.id,
+    "nif_actionnaire": actionnaire.nif_actionnaire,
+    "nom_actionnaire": actionnaire.nom_actionnaire,
+    "numero_actionnaire": actionnaire.numero_actionnaire ,
+    "resident_actionnaire": actionnaire.resident_actionnaire,
+    "type": actionnaire.type 
+    
+  }
+  try {
+
+    // Make a POST request to your server endpoint
+    const response = await axios.put(`http://localhost:3500/actionnaire/${actionnaire.id}`, DataActionnaire);
+  
+    // Check the response status or do something with the response
+    console.log("Server Response:", response.data);
+  
+   alert("Associé Modifié")
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+    alert("Error Siège")
+  }
+  }
+  
+
+
+} 
 
 
   // Partie sur le contribualble à modifier et à valider sur l'interface
@@ -638,10 +806,14 @@ const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useSta
           <Label text="Compte bancaire" />
           <Input type="text"
           value={ContribuableData? ContribuableData.numero_compte_bancaire : ""}
-          onChange={(e)=>setContribuableData({...ContribuableData , numero_compte_banquaire : e.target.value})}
+          onChange={(e)=>setContribuableData({...ContribuableData , numero_compte_bancaire : e.target.value})}
           />
         </div>
+        <div className="flex justify-between"> 
+        
+        <button onClick={HandleRenseignementGeneralModifie}   className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave  className="text-2xl mr-2"/>Modifier</button>         
         <button onClick={()=> setBool({...bool , Principaux_renseignement: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+        </div>
     </div>
 </div>
   )
@@ -821,7 +993,7 @@ const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useSta
                 ...ContribuableData,
                 activite: {
                   ...ContribuableData.activite,  
-                  nombre_salaire: e.target.value  
+                  nombre_salarie: e.target.value  
                 }
               })
             }
@@ -1357,7 +1529,7 @@ selectedRowIndex={selectedRowIndexEtablissement}
   Dirigant
   </div>
   { bool.dirigeant=== true && (
-    <div className=" bg-gray-200">
+    <div className=" bg-gray-200 p-4">
     { add === true && ( 
           <div>
 
@@ -1365,34 +1537,47 @@ selectedRowIndex={selectedRowIndexEtablissement}
   <>
   <div className="flex justify-between mt-6">
     <Label text="Nom "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+    value={DataSelectedDirigeant?DataSelectedDirigeant.nom : ""}
+    onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , nom : e.target.value})}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
     <Label text="Fonction"></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+    
+    value={DataSelectedDirigeant?DataSelectedDirigeant.fonction : ""}
+    onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , fonction : e.target.value})}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
             <Label text="Etranger " />
       <div className="flex justify-between w-[200px]">
-    <Checkbox label="Oui" onChange={()=>setValue({ ...value , resident: true})} checked={value.resident == true}></Checkbox>
-    <Checkbox label="Non" onChange={()=>setValue({...value , resident: false})} checked={value.resident == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=>setDataSelectedDirigeant({ ...DataSelectedDirigeant, resident: true})} checked={DataSelectedDirigeant.resident === true}></Checkbox>
+    <Checkbox label="Non" onChange={()=>setDataSelectedDirigeant({...DataSelectedDirigeant , resident: false})} checked={DataSelectedDirigeant.resident === false}></Checkbox>
     </div>
     </div>
-    { value.resident == false && (
+    { DataSelectedDirigeant.resident === false && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numero CIN"></Label>
-<Input type="text"></Input>
+<Input type="text"
+value={DataSelectedDirigeant? DataSelectedDirigeant.cin : ""}
+onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , cin : e.target.value})}
+></Input>
       </div>
       </>
     )
 
     }
-    { value.resident == true && (
+    { DataSelectedDirigeant.resident === true && (
       <>
       <div className="flex justify-between mt-6">
 <Label text="Numéro Passeport ou Carte Résident"></Label>
-<Input type="text"></Input>
+<Input type="text"
+value={DataSelectedDirigeant? DataSelectedDirigeant.passport : ""}
+onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , passport : e.target.value})}
+></Input>
       </div>
       </>
     )
@@ -1400,21 +1585,27 @@ selectedRowIndex={selectedRowIndexEtablissement}
     }
   <div className="flex justify-between mt-6">
     <Label text="Adresse  "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+    value={DataSelectedDirigeant? DataSelectedDirigeant.adresse : ""}
+    onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , adresse : e.target.value})}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
             <Label text="Autre activité " />
       <div className="flex justify-between w-[300px]">
-    <Checkbox label="Avec RF" onChange={(checked:boolean)=> setValue({...value , avec_rf : checked})} checked={value.avec_rf} ></Checkbox>
-    <Checkbox label="Salarié" onChange={(checked:boolean)=>setValue({...value , salarie: checked})} checked={value.salarie}></Checkbox>
-    <Checkbox label="Aucune " onChange={(checked: boolean)=> setValue({...value , aucune: checked})} checked={value.aucune}></Checkbox>
+    <Checkbox label="Avec RF" onChange={(checked : boolean)=> setDataSelectedDirigeant({...DataSelectedDirigeant , avec_rf : checked})} checked={DataSelectedDirigeant.avec_rf} ></Checkbox>
+    <Checkbox label="Salarié" onChange={(checked:boolean)=>setDataSelectedDirigeant({...DataSelectedDirigeant , salarie: checked})} checked={DataSelectedDirigeant.salarie}></Checkbox>
+    <Checkbox label="Aucune " onChange={(checked: boolean)=> setDataSelectedDirigeant({...DataSelectedDirigeant , aucune: checked})} checked={DataSelectedDirigeant.aucune}></Checkbox>
     </div>
     </div>
-    { value.avec_rf === true && (
+    { DataSelectedDirigeant.avec_rf === true && (
       <> 
     <div className="flex justify-between mt-6">
       <Label text="RF"></Label>
-      <Input type="text"></Input>
+      <Input type="text"
+      value={DataSelectedDirigeant? DataSelectedDirigeant.rf : ""}
+      onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , rf : e.target.value})}
+      ></Input>
     </div>  
       </>
     )
@@ -1422,11 +1613,19 @@ selectedRowIndex={selectedRowIndexEtablissement}
     }
   <div className="flex justify-between mt-6">
     <Label text="Email "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+    value={DataSelectedDirigeant? DataSelectedDirigeant.email : ""}
+    onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , email : e.target.value})}
+    ></Input>
   </div>
   <div className="flex justify-between mt-6">
     <Label text="Telephone "></Label>
-    <Input type="text"></Input>
+    <Input type="text"
+    
+    value={DataSelectedDirigeant ? DataSelectedDirigeant.telephone : ""}
+    onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , telephone : e.target.value })}
+    
+    ></Input>
   </div>
    
   
@@ -1447,9 +1646,10 @@ selectedRowIndex={selectedRowIndexEtablissement}
    
   <div className="w-[550px] p-4 mt-6 overflow-y-auto flex justify-center">
 <Table
-
 headers={HeaderDirigent}
 data={datadirigeant}
+onClick={handleSelectedDataTableDirigeant}
+selectedRowIndex={selectedRowIndexDirigeant}
 ></Table>
 </div>
 <div className="flex justify-center mt-6">
@@ -1771,7 +1971,7 @@ onChange={(e)=> setCoordonnees({...Coordonnees , latitude : e.target.value })}
 
 <div className="flex justify-between mt-4">
 <Button text="Valider" onClick={HandleClick}></Button>
-<Button text="Supprimer"></Button>
+<Button text="Modifier" onClick={HandleModificationContribuable}></Button>
 <Button text="Rejeter " onClick={handleButtonClick}></Button>
 </div>
 {/* /saisirmotifrejet */}
