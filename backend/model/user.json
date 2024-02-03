@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 [{"id_user":4,"code":"1357","password":"$2b$10$dHw3ah8fb6Z71fLxsabsVeABn3S0ZGRTU0q7KwyiKlgFzCduyisx6","nom":"Randria ","prenom":"Arzoun","numero_matricule":"098765","type_operateur":"Chef de division","actif":true,"refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiMTM1NyIsImlhdCI6MTcwNjkwMzQ0OCwiZXhwIjoxNzA2OTg5ODQ4fQ.OOHR7nG-am55Flcmcv6UekR5n2wfrQQs7oT90IvA534"}]
+=======
+[{"id_user":4,"code":"1357","password":"$2b$10$dHw3ah8fb6Z71fLxsabsVeABn3S0ZGRTU0q7KwyiKlgFzCduyisx6","nom":"Randria ","prenom":"Arzoun","numero_matricule":"098765","type_operateur":"Chef de division","actif":true,"refreshToken":""},{"id_user":5,"code":"0987","password":"$2b$10$ENkOlR6D3q9xIEsXxThcLeqJoBEnySobtKzporGDUyHjHHy/835my","nom":"GAZO","prenom":"Traumat","numero_matricule":"098765","type_operateur":"Chef de division","actif":true}]
+>>>>>>> 992606de899146bfd71b3feb14e4b3f18eb6044c

@@ -6,6 +6,9 @@ router.route('/')
     .put(contribuableController.updateContribuable)
     .post(contribuableController.setContribuable);
 
+router.route('/avalide')
+    .put(contribuableController.updateContribuableNonValide);
+
 router.route('/login')
     .post(contribuableController.authContribuable);
 

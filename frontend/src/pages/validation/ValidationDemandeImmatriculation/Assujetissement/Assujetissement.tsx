@@ -472,6 +472,7 @@ const [isStorageUpdatedDirigeant, setIsStorageUpdatedDirigeant] = useState(false
 if (ContribuableData){
 
   const RenseignementGeneral = {
+  "reference_fiscal" : ContribuableData.reference_fiscal,
    "id": ContribuableData.id,
    "raison_social": ContribuableData.raison_social ,
    "type" : ContribuableData.type,
@@ -491,7 +492,7 @@ if (ContribuableData){
    "capital" : ContribuableData.capital,
    "RIB": ContribuableData.RIB,
    "numero_compte_banquaire": ContribuableData.numero_compte_banquaire,
-   "reference_fiscal" : ContribuableData.reference_fiscal
+  
   }
 
   try {

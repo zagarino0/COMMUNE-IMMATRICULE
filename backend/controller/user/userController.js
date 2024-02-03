@@ -5,6 +5,7 @@ const data = {
 
 const fsPromises = require('fs').promises;
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const getAllUserActif = (req, res) => {
     res.json(data.users.filter(use => use.actif));
@@ -120,12 +121,12 @@ const handleUpdatePassword = async (req, res) => {
         return res.status(400).json({ 'message': 'user not found' });
     }
 
-    const match = await bcrypt.compare(password, user.mot_de_passe);
+    const match = await bcrypt.compare(password, user.password);
     if (match) {
-        user.mot_de_passe = newPassword;
+        user.password = newPassword;
         const filteredArray = data.users.filter(us => us.code !== code);
         const unsortedArray = [...filteredArray, user];
-        data.setUsers(unsortedArray.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+        data.setUser(unsortedArray.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'user.json'),
             JSON.stringify(data.users)

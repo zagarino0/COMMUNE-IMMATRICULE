@@ -12,5 +12,7 @@ router.route('/:id_siege')
 router.route('/contribuable/:id_contribuable')
     .get(siegeController.getSiegeByIdContribuable);
 
+router.route('/avalide/:id_siege')
+    .put(siegeController.updateSiegeAValide);
 
 module.exports = router;

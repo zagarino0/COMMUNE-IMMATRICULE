@@ -12,4 +12,7 @@ router.route('/:id_interlocuteur')
 router.route('/contribuable/:id_contribuable')
     .get(interlocuteurController.getInterlocuteurByIdContribuable);
 
+router.route('/avalide/:id_interlocuteur')
+    .put(interlocuteurController.updateInterlocuteurAValide);
+
 module.exports = router;

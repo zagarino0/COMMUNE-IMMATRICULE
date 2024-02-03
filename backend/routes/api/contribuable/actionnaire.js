@@ -12,4 +12,7 @@ router.route('/:id_actionnaire')
 router.route('/contribuable/:id_contribuable')
     .get(actionnaireController.getActionnaireByIdContribuable);
 
+router.route('/avalide/:id_actionnaire')
+    .put(actionnaireController.updateActionnaireNonValide);
+
 module.exports = router;

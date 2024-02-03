@@ -12,4 +12,7 @@ router.route('/:id_activite')
 router.route('/contribuable/:id_contribuable')
     .get(activiteController.getActiviteByIdContribuable);
 
+router.route('/avalide/:id_activite')
+    .put(activiteController.updateActiviteAValide);
+
 module.exports = router;
