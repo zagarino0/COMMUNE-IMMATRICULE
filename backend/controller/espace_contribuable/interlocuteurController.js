@@ -75,9 +75,33 @@ const updateInterlocuteur = async (req, res) => {
     res.json({'success': 'mise à jour effectué'});
 }
 
+const updateInterlocuteurAValide = async (req, res) => {
+    const id_interlocuteur = req.params.id_interlocuteur;
+    const id_contribuable = req.body.id_contribuable;
+    const interlocuteur = data.interlocuteurs.find(inter => inter.id_interlocuteur === id_interlocuteur && inter.id_contribuable === id_contribuable);
+
+    if(req.body.nom_interlocuteur)interlocuteur.nom_interlocuteur = req.body.nom_interlocuteur;
+    if(req.body.titre_interlocuteur)interlocuteur.titre_interlocuteur = req.body.titre_interlocuteur;
+    if(req.body.adresse_interlocuteur)interlocuteur.adresse_interlocuteur = req.body.adresse_interlocuteur;
+    if(req.body.telephone_interlocuteur)interlocuteur.telephone_interlocuteur = req.body.telephone_interlocuteur;
+    if(req.body.interlocuteur) interlocuteur.interlocuteur = req.body.interlocuteur;
+
+    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur !== id_interlocuteur);
+    const unsortedInterlocuteur = [...filteredInterlocuteur, interlocuteur];
+    data.setInterlocuteurs(unsortedInterlocuteur.sort((a, b) => a.id_activite > b.id_activite ? 1 : a.id_activite < b.id_activite ? -1 : 0));
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'interlocuteur.json'),
+        JSON.stringify(data.interlocuteurs)
+    )
+
+    res.json({'success': 'mise à jour effectué'});
+}
+
 module.exports = {
     setInterlocuteur,
     getInterlocuteurById,
     getInterlocuteurByIdContribuable,
-    updateInterlocuteur
+    updateInterlocuteur,
+    updateInterlocuteurAValide
 }

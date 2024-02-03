@@ -92,10 +92,41 @@ const updateActivite = async (req, res) => {
     res.json({'success': 'Contribuable à été modifiée'});
 }
 
+
+const updateActiviteAValide = async (req, res) => {
+    const id_activite = req.params.id_activite;
+    const id_contribuable = req.body.id_contribuable;
+    const activites = data.activites.find(act => act.id_activite === id_activite && act.id_contribuable === id_contribuable);
+
+    if(req.body.activite) activites.activite = req.body.activite;
+    if(req.body.precision_activite) activites.precision_activite = req.body.precision_activite;
+    if(req.body.numero_statistique) activites.numero_statistique = req.body.numero_statistique;
+    if(req.body.numero_statistique) activites.statistique = true;
+    if(req.body.date_delivrance_statistique) activites.date_delivrance_statistique = req.body.date_delivrance_statistique;
+    if(req.body.registre_commerce) activites.registre_commerce = req.body.registre_commerce;
+    if(req.body.date_registre_commerce) activites.date_registre_commerce = req.body.date_registre_commerce;
+    if(req.body.debut_exercice) activites.debut_exercice = req.body.debut_exercice;
+    if(req.body.cloture_exercice) activites.cloture_exercice = req.body.cloture_exercice;
+    if(req.body.nif) activites.nif = req.body.nif;
+
+    const filteredActivite = data.activites.filter(act => act.id_activite === id_activite);
+    const unsortedActivite = [...filteredActivite, activites];
+
+    data.setActivites(unsortedActivite.sort((a, b) => a.id_activite > b.id_activite ? 1 : a.id_activite < b.id_activite ? -1 : 0));
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'activite.json'),
+        JSON.stringify(data.activites)
+    )    
+
+    res.json({'success': 'Contribuable à été modifiée'});
+}
+
 module.exports = {
     setActivite,
     getActiviteById,
     getActiviteByIdContribuable,
+    updateActiviteAValide,
     updateActivite
 }
 

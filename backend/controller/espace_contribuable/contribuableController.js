@@ -451,6 +451,46 @@ const updateContribuable = async (req, res) => {
     res.json(data.contribs);
 }
 
+
+const updateContribuableNonValide = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.find(con => con.reference_fiscal == reference_fiscal);
+    if (!contribuable) {
+        return res.status(400).json({ 'message': 'contribuable not found' });
+    }
+    if (req.body.raison_social) contribuable.raison_social = req.body.raison_social;
+    if (req.body.situation_matrimoiniale) contribuable.situation_matrimoiniale = req.body.situation_matrimoiniale;
+    if (req.body.sexe) contribuable.sexe = req.body.sexe;
+    if (req.body.cin) contribuable.cin = req.body.cin;
+    if (req.body.etranger) contribuable.etranger = req.body.etranger;
+    if (req.body.numero_passeport) contribuable.numero_passeport = req.body.numero_passeport;
+    if (req.body.carte_residence) contribuable.carte_residence = req.body.carte_residence;
+    if (req.body.date_de_delivrance_passeport) contribuable.date_de_delivrance_passeport = req.body.date_de_delivrance_passeport;
+    if (req.body.date_de_delivrance_cin) contribuable.date_de_delivrance_cin = req.body.date_de_delivrance_cin;
+    if (req.body.lieu_de_delivrance_cin) contribuable.lieu_de_delivrance_cin = req.body.lieu_de_delivrance_cin;
+    if (req.body.date_de_naissance) contribuable.date_de_naissance = req.body.date_de_naissance;
+    if (req.body.lieu_de_naissance) contribuable.lieu_de_naissance = req.body.lieu_de_naissance;
+    if (req.body.forme_juridique) contribuable.forme_juridique = req.body.forme_juridique;
+    if (req.body.regime_fiscal) contribuable.regime_fiscal = req.body.regime_fiscal;
+    if (req.body.date_agrement) contribuable.date_agrement = req.body.date_agrement;
+    if (req.body.reference_agrement) contribuable.reference_agrement = req.body.reference_agrement;
+    if (req.body.periode_grace) contribuable.periode_grace = req.body.periode_grace;
+    if (req.body.date_creation) contribuable.date_creation = req.body.date_creation;
+    if (req.body.capital) contribuable.capital = req.body.capital;
+    if (req.body.rib) contribuable.rib = req.body.rib;
+    contribuable.actif = true;
+
+    data.setContribuable([...data.contribuables, contribuable]);
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
+        JSON.stringify(data.contribuables)
+    )
+    
+    res.json(data.contribuables);
+}
+
+
 const getContribuablebloque = (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
     const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
@@ -927,6 +967,7 @@ module.exports = {
     setContribuable,
     authContribuable,
     updateContribuable,
+    updateContribuableNonValide,
     getContribuableNonBloque,
     getContribuablebloque,
     validationMiseAJour,

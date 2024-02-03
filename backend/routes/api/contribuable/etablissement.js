@@ -12,5 +12,8 @@ router.route('/:id_etablissement')
     .get(etablissementcontroller.getEtablissementById)
     .put(etablissementcontroller.updateEtablissement);
 
+router.route('/avalide/:id_etablissement')
+    .put(etablissementcontroller.updateEtablissementAValide);
+
 
 module.exports = router;
