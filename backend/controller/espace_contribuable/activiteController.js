@@ -96,8 +96,9 @@ const updateActivite = async (req, res) => {
 const updateActiviteAValide = async (req, res) => {
     const id_activite = req.params.id_activite;
     const id_contribuable = req.body.id_contribuable;
-    const activites = data.activites.find(act => act.id_activite === id_activite && act.id_contribuable === id_contribuable);
-
+    const activites = data.activites.find(act => act.id_activite == id_activite && act.id_contribuable == id_contribuable);
+    if(!activites)
+        return res.json({"message": "activites introuvable"});
     if(req.body.activite) activites.activite = req.body.activite;
     if(req.body.precision_activite) activites.precision_activite = req.body.precision_activite;
     if(req.body.numero_statistique) activites.numero_statistique = req.body.numero_statistique;
