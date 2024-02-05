@@ -478,9 +478,10 @@ const updateContribuableNonValide = async (req, res) => {
     if (req.body.date_creation) contribuable.date_creation = req.body.date_creation;
     if (req.body.capital) contribuable.capital = req.body.capital;
     if (req.body.rib) contribuable.rib = req.body.rib;
-    contribuable.actif = true;
+    
+    const filteredContribuable = data.contribuables.filter(con => con.id !== contribuable.id);
 
-    data.setContribuable([...data.contribuables, contribuable]);
+    data.setContribuable([...filteredContribuable, contribuable]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
