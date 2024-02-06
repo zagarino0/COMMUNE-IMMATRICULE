@@ -109,7 +109,7 @@ const updateActiviteAValide = async (req, res) => {
     if(req.body.debut_exercice) activites.debut_exercice = req.body.debut_exercice;
     if(req.body.cloture_exercice) activites.cloture_exercice = req.body.cloture_exercice;
     if(req.body.nif) activites.nif = req.body.nif;
-
+    if(req.body.nombre_salarie) activites.nombre_salarie = req.body.nombre_salarie;
     const filteredActivite = data.activites.filter(act => act.id_activite === id_activite);
     const unsortedActivite = [...filteredActivite, activites];
 

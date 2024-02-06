@@ -40,6 +40,43 @@ interface Assujetissement {
   date_fin : string
 }
 
+interface Etablissement{
+  activite: string,
+  adresse: string ,
+  autre_telephone : string ,
+  commune : string ,
+  date_ouverture : string ,
+  district : string ,
+  email : string,
+  fax : string ,
+  fokontany : string ,
+  id : number,
+  id_contribuable : string ,
+  nom_commercial : string ,
+  proprietaire_local : string ,
+  province : string ,
+  region : string ,
+  telephone_1 : string ,
+  titre : string 
+}
+
+interface Actionnaire {
+  action_ou_actionnaire : string ,
+  adresse_actionnaire : string ,
+  associe_activite_actionnaire : boolean ,
+  autre_activite_actionnaire : string ,
+  cin_passport_actionnaire : string ,
+  email_actionnaire : string ,
+  fonction_actionnaire : string ,
+  id : number ,
+  id_contribuable : string ,
+  nif_actionnaire : string ,
+  nom_actionnaire : string ,
+  numero_actionnaire : string ,
+  resident_actionnaire : boolean ,
+  type : string  
+}
+
 function Assujetissement() {
 
   function generatePassword() {
@@ -405,7 +442,7 @@ const handlesupression = () =>{
 
 // data selected associe table 
 const [selectedRowIndexAssocie, setSelectedRowIndexAssocie] = useState(null);
-const [DataSelectedAssocie , setDataSelectedAssocie] = useState([]);
+const [DataSelectedAssocie , setDataSelectedAssocie] = useState<Actionnaire>([]);
 
 
 const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
@@ -425,7 +462,7 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
     
 // data selected Etablissement  table 
 const [selectedRowIndexEtablissement, setSelectedRowIndexEtablissement] = useState(null);
-const [DataSelectedEtablisement, setDataSelectedEtablissment] = useState([]);
+const [DataSelectedEtablisement, setDataSelectedEtablissment] = useState<Etablissement>([]);
 
 
 const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useState(false);
@@ -467,7 +504,7 @@ const [isStorageUpdatedDirigeant, setIsStorageUpdatedDirigeant] = useState(false
   // Modification Contribuable
   
   //Modification Renseignement Général
-  const HandleRenseignementGeneralModifie = async () =>{
+const HandleRenseignementGeneralModifie = async () =>{
    
 if (ContribuableData){
 
@@ -497,7 +534,7 @@ if (ContribuableData){
 
   try {
     // Make a POST request to your server endpoint
-    const response = await axios.put(`http://localhost:3500/contribuable`, RenseignementGeneral);
+    const response = await axios.put(`http://localhost:3500/contribuable/avalide`, RenseignementGeneral);
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
@@ -511,15 +548,16 @@ if (ContribuableData){
   }
 
   }
-  const HandleModificationContribuable = async () => {
-  
- 
+
+// Modifie activité contribuable 
+const HandleModifieActivite = async () =>{
+
 //Modofication activité 
- 
 if(activite){
 
   const Activite = {    
     "id_contribuable": ContribuableData.id ,
+    "id_activite" : activite.id_activite ,
     "activite": activite.activite ,
     "precision_activite": activite.precision_activite,
     "statistique" : activite.statistique,
@@ -535,7 +573,7 @@ if(activite){
   }
 try {
   // Make a POST request to your server endpoint
-  const response = await axios.put("http://localhost:3500/activite", Activite);
+  const response = await axios.put(`http://localhost:3500/activite/avalide/${activite.id_activite}`, Activite);
 
   // Check the response status or do something with the response
   console.log("Server Response:", response.data);
@@ -549,10 +587,15 @@ try {
 
 }
 
-// Modification siege 
+}
+
+
+const HandleModifieSiege = async () => {
+  // Modification siege 
 if(siege){
   const DataSiege = {
     "id_contribuable": ContribuableData.id ,
+    "id_siege": siege.id_siege,
     "adresse_actuel" : siege.adresse_actuel,
     "fokontany": siege.fokontany ,
     "commune": siege.commune,
@@ -563,7 +606,7 @@ if(siege){
   }
   try {
     // Make a POST request to your server endpoint
-    const response = await axios.put("http://localhost:3500/siege", DataSiege);
+    const response = await axios.put(`http://localhost:3500/siege/avalide/${siege.id_siege}`, DataSiege);
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
@@ -575,30 +618,35 @@ if(siege){
     alert("Error Siège")
   }
   }
+
+}
+
+const HandleModifieActionnaire = async () => {
+  
   
 // Modification Actionnaire 
 if(actionnaire){
 
   const DataActionnaire = {
     "id_contribuable": ContribuableData.id ,
-    "action_ou_actionnaire" : actionnaire.action_ou_actionnaire,
-    "adresse_actionnaire": actionnaire.adresse_actionnaire,
-    "associe_unique_actionnaire": actionnaire.associe_unique_actionnaire,
-    "cin_passeport_actionnaire": actionnaire.cin_passeport_actionnaire,
-    "email_actionnaire": actionnaire.email_actionnaire ,
-    "fonction_actionaire": actionnaire.fonction_actionnaire,
-    "id": actionnaire.id,
-    "nif_actionnaire": actionnaire.nif_actionnaire,
-    "nom_actionnaire": actionnaire.nom_actionnaire,
-    "numero_actionnaire": actionnaire.numero_actionnaire ,
-    "resident_actionnaire": actionnaire.resident_actionnaire,
-    "type": actionnaire.type 
+    "action_ou_actionnaire" : DataSelectedAssocie.action_ou_actionnaire,
+    "adresse_actionnaire": DataSelectedAssocie.adresse_actionnaire,
+    "associe_unique_actionnaire": DataSelectedAssocie.associe_unique_actionnaire,
+    "cin_passeport_actionnaire": DataSelectedAssocie.cin_passeport_actionnaire,
+    "email_actionnaire": DataSelectedAssocie.email_actionnaire ,
+    "fonction_actionaire": DataSelectedAssocie.fonction_actionnaire,
+    "id": DataSelectedAssocie.id,
+    "nif_actionnaire": DataSelectedAssocie.nif_actionnaire,
+    "nom_actionnaire": DataSelectedAssocie.nom_actionnaire,
+    "numero_actionnaire": DataSelectedAssocie.numero_actionnaire ,
+    "resident_actionnaire": DataSelectedAssocie.resident_actionnaire,
+    "type": DataSelectedAssocie.type 
     
   }
   try {
 
     // Make a POST request to your server endpoint
-    const response = await axios.put(`http://localhost:3500/actionnaire/${actionnaire.id}`, DataActionnaire);
+    const response = await axios.put(`http://localhost:3500/actionnaire/avalide/${actionnaire.id}`, DataActionnaire);
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
@@ -607,14 +655,50 @@ if(actionnaire){
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-    alert("Error Siège")
+    alert("Error Associé")
   }
   }
-  
+  } 
 
+// Modifie etablissement
+const HandleModifieEtablissement = async () => {
+  if (etablissement){
+    const EtablissementData = {
+     "activite" : DataSelectedEtablisement.activite ,
+     "adresse" : DataSelectedEtablisement.adresse ,
+     "autre_telephone" : DataSelectedEtablisement.autre_telephone,
+     "commune": DataSelectedEtablisement.commune,
+     "date_ouverture": DataSelectedEtablisement.date_ouverture,
+     "district": DataSelectedEtablisement.district,
+     "email": DataSelectedEtablisement.email ,
+     "fax": DataSelectedEtablisement.fax ,
+     "fokontany": DataSelectedEtablisement.fokontany,
+      "id": DataSelectedEtablisement.id ,
+      "id_contribuable" : ContribuableData.id ,
+      "nom_commercial" : DataSelectedEtablisement.nom_commercial ,
+      "proprietaire_local": DataSelectedEtablisement.proprietaire_local,
+      "province" : DataSelectedEtablisement.province ,
+      "region": DataSelectedEtablisement.region ,
+      "telephone_1" : DataSelectedEtablisement.telephone_1,
+      "titre": DataSelectedEtablisement.titre
+    }
+    try {
 
-} 
+      // Make a POST request to your server endpoint
+      const response = await axios.put(`http://localhost:3500/etablissement/avalide/${etablissement.id}`, EtablissementData);
+    
+      // Check the response status or do something with the response
+      console.log("Server Response:", response.data);
+    
+     alert("Etablissement Modifié")
+    } catch (error) {
+      // Handle errors
+      console.error("Error:", error);
+      alert("Error Etablissement")
+    } 
 
+  }
+}
 
   // Partie sur le contribualble à modifier et à valider sur l'interface
   
@@ -820,17 +904,18 @@ if(actionnaire){
   )
 
   }
+
   <div  onClick={()=>setBool({...bool , activite:true })} className="w-full bg-white  py-3 px-4 flex flex-row shadow-xl border-[1px] font-semibold cursor-pointer ">
   <ImStatsDots className="text-xl mx-2"></ImStatsDots>
   Activités
   </div>
-  { bool.activite === true && (
+  { bool.activite === true  && (
     <div className="flex justify-center">
       <div className="flex flex-col bg-gray-200 p-4">
       <div className="flex justify-between mt-6">
             <Label text="Activités " />
             <Input type="text" 
-          value={activite.activite}
+          value={activite ?activite.activite:""}
           onChange={e => 
             setContribuableData({
               ...ContribuableData,
@@ -848,7 +933,7 @@ if(actionnaire){
       <Label text="Précision sur les activités "></Label>
       <Input
         type="text" 
-           value={activite.precision_activite}
+           value={activite ? activite.precision_activite: ""}
            onChange={e => 
             setContribuableData({
               ...ContribuableData,
@@ -864,7 +949,7 @@ if(actionnaire){
       <Label text="Numéro d'identification Fiscal"></Label>
       <Input
         type="text" 
-           value={activite.nif }
+           value={activite ? activite.nif: "" }
            onChange={e => 
             setContribuableData({
               ...ContribuableData,
@@ -892,7 +977,7 @@ if(actionnaire){
             ...ContribuableData,
             activite: {
               ...ContribuableData.activite,  
-             numero_statique: e.target.value  
+             numero_statistique: e.target.value  
             }
           })
         }
@@ -907,7 +992,7 @@ if(actionnaire){
       <Label text="Date de délivrance statistique "></Label>
       <Input
         type="date"
-        value={activite.date_delivrance_statistique }
+        value={activite ? activite.date_delivrance_statistique : ""}
         onChange={e => 
           setContribuableData({
             ...ContribuableData,
@@ -923,7 +1008,7 @@ if(actionnaire){
       <Label text="Registre de commerce"></Label>
       <Input
         type="text"
-         value={activite.registre_commerce}
+         value={activite ? activite.registre_commerce : ""}
          onChange={e => 
           setContribuableData({
             ...ContribuableData,
@@ -939,7 +1024,7 @@ if(actionnaire){
       <Label text="Date de registre de commerce"></Label>
       <Input
         type="date"  
-         value={activite.date_registre_commerce}
+         value={activite ? activite.date_registre_commerce : ""}
          onChange={e => 
           setContribuableData({
             ...ContribuableData,
@@ -955,7 +1040,7 @@ if(actionnaire){
       <Label text="Début de l'exercice comptable  "></Label>
       <Input
         type="date"
-         value={activite.debut_exercice}
+         value={activite ? activite.debut_exercice : ""}
          onChange={e => 
           setContribuableData({
             ...ContribuableData,
@@ -972,7 +1057,7 @@ if(actionnaire){
           <div className="flex justify-between mt-6">
             <Label text="Clôture de l'exercice comptable" />
             <Input type="date" 
-             value={activite.cloture_exercice }
+             value={ activite ?activite.cloture_exercice : ""}
              onChange={e => 
               setContribuableData({
                 ...ContribuableData,
@@ -1000,8 +1085,11 @@ if(actionnaire){
             }
              />
           </div>
-          <button onClick={()=> setBool({...bool , activite: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
-   
+<div className="flex justify-between">
+<button onClick={HandleModifieActivite} className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"/>Modifier</button>
+<button onClick={()=> setBool({...bool , activite: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+
+  </div>   
       </div>
           </div>
   )
@@ -1113,7 +1201,10 @@ if(actionnaire){
         } 
       ></Input>
     </div>
+    <div className="flex justify-between">      
+    <button onClick={HandleModifieSiege}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave  className="text-2xl mr-2"/> Modifier</button>
     <button onClick={()=> setBool({...bool , siege: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+    </div>
     </div>
     </div>
 
@@ -1282,7 +1373,7 @@ onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_a
             <Label text="% Action ou" />
               <Input type="text"
               value={DataSelectedAssocie? DataSelectedAssocie.action_ou_actionnaire : ""}
-              onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , action_ou_actionniare : e.target.value})}
+              onChange={(e)=>setDataSelectedAssocie({...DataSelectedAssocie , action_ou_actionnaire : e.target.value})}
               ></Input>
             </div>
             </>
@@ -1290,7 +1381,7 @@ onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_a
 
           }
           <div className="flex justify-center mt-6">
-          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+          <button onClick={HandleModifieActionnaire} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Modifier</button>
           <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
           </div>
  </div>
@@ -1325,7 +1416,10 @@ selectedRowIndex={selectedRowIndexAssocie}
             <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
 </div>
 </div>
+<div className="flex justify-between">
+  
 <button onClick={()=> setBool({...bool , associe: false})}  className="border-[2px] mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
+</div>
    </div>
 
 </div>
@@ -1472,7 +1566,7 @@ selectedRowIndex={selectedRowIndexAssocie}
     
           
           <div className="flex justify-center mt-6">
-          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+          <button onClick={HandleModifieEtablissement} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
           <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
           </div>
             </div>
@@ -1972,7 +2066,6 @@ onChange={(e)=> setCoordonnees({...Coordonnees , latitude : e.target.value })}
 
 <div className="flex justify-between mt-4">
 <Button text="Valider" onClick={HandleClick}></Button>
-<Button text="Modifier" onClick={HandleModificationContribuable}></Button>
 <Button text="Rejeter " onClick={handleButtonClick}></Button>
 </div>
 {/* /saisirmotifrejet */}

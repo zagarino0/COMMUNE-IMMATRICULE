@@ -86,7 +86,7 @@ const updateSiegeAValide = async (req, res) => {
     if(req.body.district) siege.district = req.body.district;
     if(req.body.region) siege.region = req.body.region;
     if(req.body.province) siege.province = req.body.province;
-
+    if(req.body.commune) siege.commune = req.body.commune
     const filterSiege = data.datas.filter(dat => dat.id_siege !== siege.id_siege);
     const unsortedSiege = [...filterSiege, siege];
     data.setDatas(unsortedSiege.sort((a, b) => a.id_siege > b.id_siege ? 1 : a.id_siege < b.id_siege ? -1 : 0));
