@@ -68,8 +68,9 @@ const updateActionnaire = async (req, res) => {
 const updateActionnaireNonValide = async (req, res) => {
     const id_actionnaire = req.params.id_actionnaire;
     const id_contribuable = req.body.id_contribuable;
-    const actionnaire = data.actionnaires.find(act => act.id_actionnaire === id_actionnaire && act.id_contribuable === id_contribuable);
-
+    const actionnaire = data.actionnaires.find(act => act.id_actionnaire == id_actionnaire && act.id_contribuable == id_contribuable);
+    if(!actionnaire)
+        return res.status(404).json({"message": "actoinnaire introuvable"})
     if(req.body.type) actionnaire.type = req.body.type;
     if(req.body.nom_actionnaire) actionnaire.nom_actionnaire = req.body.nom_actionnaire;
     if(req.body.fonction_actionnaire) actionnaire.fonction_actionnaire = req.body.fonction_actionnaire;
