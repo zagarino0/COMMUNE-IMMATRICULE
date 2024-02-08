@@ -3,7 +3,8 @@ const router = express.Router();
 const userController = require('../../../controller/user/userController');
 
 router.route('/actif') 
-    .get(userController.getAllUserActif);
+    .get(userController.getAllUserActif)
+    .post(userController.getUserActifByResearch);
 
 router.route('/reactivation')
     .post(userController.reactivationUser);
@@ -37,5 +38,7 @@ router.route('/code')
 
 router.route('/password/update')
     .put(userController.handleUpdatePassword);
+
+
 
 module.exports = router;

@@ -111,6 +111,46 @@ const getUserByCode = (req, res) => {
     res.json(user);
 }
 
+const getUserActifByResearch = (req, res) => {
+    const code = req.body.code;
+    const date_debut = req.body.date_debut;
+    const date_fin = req.body.date_fin;
+
+    if(!code){
+        if(!date_debut && !date_fin)
+            return res.json(data.users);
+        else if(date_debut && !date_fin){
+            const user = data.users.filter(use => use.actif && (new Date(use.date_creation_compte)) >= (new Date(date_debut)));
+            if(user.length === 0)
+                return res.status(404).json({'message': 'user not found'});
+            res.json(user);
+        }else if(date_fin && date_fin){
+            const user = data.users.filter(use => use.actif && (new Date(use.date_creation_compte)) >= (new Date(date_debut)) && (new Date(use.date_creation_compte)) <= (new Date(date_fin)));
+            if(user.length === 0)
+                return res.status(404).json({'message': 'user not found'});
+            res.json(user);
+        }
+    }else{
+        if(!date_debut && !date_fin){
+            const user = data.users.find(use => use.actif && use.code === code);
+            if(!user)
+                return res.status(404).json({'message': 'user not found'});
+            res.json(user);
+        }
+        else if(date_debut && !date_fin){
+            const user = data.users.filter(use => use.actif && (new Date(use.date_creation_compte)) >= (new Date(date_debut)) && use.code === code);
+            if(user.length === 0)
+                return res.status(404).json({'message': 'user not found'});
+            res.json(user);
+        }else if(date_fin && date_fin){
+            const user = data.users.filter(use => use.actif && use.code === code && (new Date(use.date_creation_compte)) >= (new Date(date_debut)) && (new Date(use.date_creation_compte)) <= (new Date(date_fin)));
+            if(user.length === 0)
+                return res.status(404).json({'message': 'user not found'});
+            res.json(user);
+        }
+    }
+}
+
 const handleUpdatePassword = async (req, res) => {
     const code = req.body.code;
     const password = req.body.password;
@@ -151,5 +191,6 @@ module.exports = {
     getUserInactifById,
     getUserInactifByCode,
     getAllUser,
-    handleUpdatePassword
+    handleUpdatePassword,
+    getUserActifByResearch
 }

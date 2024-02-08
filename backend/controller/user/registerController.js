@@ -33,6 +33,7 @@ const handleNewUser = async (req, res) => {
             'prenom': prenom,
             'numero_matricule': numero_matricule,
             'type_operateur': type_operateur,
+            'date_creation_compte': `${(new Date()).getDate()}/${(new Date()).getMonth() + 1}/${(new Date()).getFullYear()}`,
             'actif': true,
         };
         data.setUsers([...data.users, newUser]);
