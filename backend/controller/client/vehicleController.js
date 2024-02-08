@@ -73,16 +73,15 @@ const addNewVehicle = async (req, res) => {
 
 //----------------function to update vehicle--------------------
 const updateVehicle = async (req, res) => {
-    const vehicle = data.vehicles.find(veh => veh.immatriculation === req.body.immatriculation);
+    const vehicle = data.vehicles.find(veh => veh.numero_immatriculation === req.body.numimmatriculation_v);
     
-    if(vehicle){
+    if(!vehicle){
         return res.status(400).json({'message': 'vehicle not found'});
     }
-
-    if(req.body.numimmatriculation_v) vehicle.numero_immatriculation = req.body.immatriculation;
+;
     if(req.body.marque_v) vehicle.marque = req.body.marque_v;
-    if(req.body.type_v) vehicle.type_v = req.body.type_v;
-    if(req.body.genre_v) vehicle.genre_v = req.body.genre_v;
+    if(req.body.type_v) vehicle.type = req.body.type_v;
+    if(req.body.genre_v) vehicle.genre = req.body.genre_v;
     if(req.body.puissance_v) vehicle.puissance = req.body.puissance_v;
     if(req.body.nbplacecartegrise_v) vehicle.nombre_place_carte_grise = req.body.nbplacecartegrise_v;
     if(req.body.nbplacelicence_v) vehicle.nombre_place_licence = req.body.nbplacelicence_v;
@@ -112,7 +111,7 @@ const updateVehicle = async (req, res) => {
         'date_history': new Date()
     }
 
-    const filteredArray = data.vehicles.filter(veh => veh.immatriculation !== req.body.immatriculation);
+    const filteredArray = data.vehicles.filter(veh => veh.numero_immatriculation !== req.body.numimmatriculation_v);
     const unsortedArray = [...filteredArray, vehicle];
     data.setVehicles(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
     data.setHistory([...data.history, history]);
