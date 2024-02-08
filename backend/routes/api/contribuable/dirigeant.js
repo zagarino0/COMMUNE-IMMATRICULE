@@ -13,6 +13,10 @@ router.route('/:id_dirigeant')
 router.route('/contribuable/:id_contribuable')
     .get(dirigeantController.getDirigeantByIdContribuable);
 
+router.route('/avalide')
+    .post(dirigeantController.setOneDirigeantNonValide);
+
 router.route('/avalide/:id_dirigeant')
+    .delete(dirigeantController.deleteDirigeantsNonValide)
 
 module.exports = router;

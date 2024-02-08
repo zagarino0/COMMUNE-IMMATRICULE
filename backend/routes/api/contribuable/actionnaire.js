@@ -5,9 +5,13 @@ const actionnaireController = require('../../../controller/espace_contribuable/a
 router.route('/')
     .post(actionnaireController.setActionnaire);
 
+router.route('/avalide')
+    .post(actionnaireController.setOneActionnaireNonValide);
+
 router.route('/:id_actionnaire')
     .get(actionnaireController.getActionnaireById)
-    .put(actionnaireController.updateActionnaire);
+    .put(actionnaireController.updateActionnaire)
+    .delete(actionnaireController.deleteOneActionnaireNonValide);
 
 router.route('/contribuable/:id_contribuable')
     .get(actionnaireController.getActionnaireByIdContribuable);

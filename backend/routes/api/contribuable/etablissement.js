@@ -12,8 +12,12 @@ router.route('/:id_etablissement')
     .get(etablissementcontroller.getEtablissementById)
     .put(etablissementcontroller.updateEtablissement);
 
+router.route('/avalide')
+    .post(etablissementcontroller.setOneEtablissementNonValide);
+
 router.route('/avalide/:id_etablissement')
-    .put(etablissementcontroller.updateEtablissementAValide);
+    .put(etablissementcontroller.updateEtablissementAValide)
+    .delete(etablissementcontroller.deleteEtablissementNonValide);
 
 
 module.exports = router;

@@ -44,7 +44,7 @@ const updateEtablissement = async (req, res) => {
     if(req.body.etablissement_date_ouverture) etablissement.etablissement_date_ouverture = req.body.etablissement_date_ouverture;
     if(req.body.etablissement_adresse) etablissement.etablissement_adresse = req.body.etablissement_adresse;
     if(req.body.etablissement_fokontany) etablissement.etablissement_fokontany = req.body.etablissement_fokontany;
-    if(req.body.etablissement_province) etablissement. req.body.etablissement_province;
+    if(req.body.etablissement_province) etablissement.etablissement_province = req.body.etablissement_province;
     if(req.body.etablissement_region) etablissement.etablissement_province = req.body.etablissement_region;
     if(req.body.etablissement_district) etablissement.etablissement_district = req.body.etablissement_district;
     if(req.body.etablissement_commune) etablissement.etablissement_commune = req.body.etablissement_commune;
@@ -69,6 +69,50 @@ const updateEtablissement = async (req, res) => {
 
     res.json(etablissement);
 
+}
+
+const deleteEtablissementNonValide = async (req, res) => {
+    const id_etablissement = req.params.id_etablissement;
+    const id_contribuable = req.body.id_contribuable;
+    const etablissement = data.etablissements.find(etab => etab.id_etablissement == id_etablissement && etab.id_contribuable == id_contribuable);
+    if(!etablissement)
+        return res.status(404).json({'message': 'etablissement not found'});
+    const filteredEtablissement = data.etablissements.filter(etab => etab.id_contribuable != id_contribuable && etab.id_etablissement != id_etablissement);
+    setEtablissements(filteredEtablissement);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'etablissement.json'),
+        JSON.stringify(data.etablissements)
+    )
+    res.json(data.etablissements);
+}
+
+const setOneEtablissementNonValide = async (req, res) => {
+    const newEtablissement = {
+    "etablissement_nom_commercial": req.body.etablissement_nom_commercial,
+    "etablissement_activite": req.body.etablissement_activite,
+    "etablissement_activite": req.body.etablissement_activite,
+    "etablissement_titre": req.body.etablissement_titre,
+    "etablissement_date_ouverture": req.body.etablissement_date_ouverture,
+    "etablissement_adresse": req.body.etablissement_adresse,
+    "etablissement_fokontany": req.body.etablissement_fokontany,
+    "etablissement_province": req.body.etablissement_province,
+    "etablissement_province": req.body.etablissement_region,
+    "etablissement_district": req.body.etablissement_district,
+    "etablissement_commune": req.body.etablissement_commune,
+    "etablissement_telephone": req.body.etablissement_telephone,
+    "etablissement_autre_telephone": req.body.etablissement_autre_telephone,
+    "etablissement_fax": req.body.etablissement_fax,
+    "etablissement_email": req.body.etablissement_email,
+    "etablissement_proprietaire_local": req.body.etablissement_proprietaire_local,
+    "etablissement_type_proprietaire": req.body.etablissement_type_proprietaire,
+    "etablissement_nif_proprietaire": req.body.etablissement_nif_proprietaire
+
+    }
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'etablissement.json'),
+        JSON.stringify(data.etablissements)
+    )
+    res.json(data.etablissements);
 }
 
 const updateEtablissementAValide = async (req, res) => {
@@ -115,5 +159,7 @@ module.exports = {
     getEtablissementById,
     getEtablissementByIdContribuable,
     updateEtablissement,
-    updateEtablissementAValide
+    updateEtablissementAValide,
+    deleteEtablissementNonValide,
+    setOneEtablissementNonValide
 }

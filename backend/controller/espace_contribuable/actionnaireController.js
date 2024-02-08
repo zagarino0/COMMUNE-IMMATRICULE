@@ -17,6 +17,47 @@ const setActionnaire = async (req, res) => {
     )
 }
 
+const setOneActionnaireNonValide = async (req, res) => {
+    const newActionnaire = {
+        "id_contribuable": req.body.id_contribuable,
+        "type_actionnaire": req.body.type_actionnaire,
+        "nom_actionnaire": req.body.nom_actionnaire,
+        "fonction_actionnaire": req.body.fonction_actionnaire,
+        "resident_actionnaire": req.body.resident_actionnaire,
+        "cin_passeport_actionnaire": req.body.cin_passeport_actionnaire,
+        "adresse_actionnaire": req.body.adresse_actionnaire,
+        "autre_activite_actionnaire": req.body.autre_activite_actionnaire,
+        "nif_actionnaire": req.body.nif_actionnaire,
+        "email_actionnaire": req.body.email_actionnaire,
+        "numero_actionnaire": req.body.numero_actionnaire,
+        "associe_unique_actionnaire": req.body.associe_unique_actionnaire,
+        "action_ou_actionnaire": req.body.action_ou_actionnaire,
+        "id_actionnaire": req.body.id_actionnaire
+    }
+    data.setActionnaires([...data.actionnaires, newActionnaire]);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'actionnaire.json'),
+        JSON.stringify(data.actionnaires)
+    )
+    res.json(data.actionnaires);
+}
+
+const deleteOneActionnaireNonValide = async (req, res) => {
+    const id_actionnaire = req.params.id_actionnaire;
+    const id_contribuable = req.body.id_contribuable;
+
+    const actionnaire = data.actionnaires.find(act => act.id_actionnaire == id_actionnaire && act.id_contribuable == id_contribuable);
+    if(!actionnaire)
+        return res.status(404).json({'message': 'actionnaire not found'})
+    const filteredActionnaire = data.actionnaires.filter(act => act.id_actionnaire != id_actionnaire && act.id_contribuable != id_contribuable);
+    data.setActionnaires(filteredActionnaire);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'actionnaire.json'),
+        JSON.stringify(data.actionnaires)
+    )
+    res.json(data.actionnaires);
+}
+
 const getActionnaireByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
     let actionnaires = [];
@@ -102,5 +143,7 @@ module.exports = {
     getActionnaireById,
     getActionnaireByIdContribuable,
     updateActionnaire,
-    updateActionnaireNonValide
+    updateActionnaireNonValide,
+    deleteOneActionnaireNonValide,
+    setOneActionnaireNonValide
 }
