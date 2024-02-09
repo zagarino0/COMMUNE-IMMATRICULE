@@ -5,10 +5,12 @@ const vehicleController = require('../../../controller/client/vehicleController'
 router.route('/')
     .get(vehicleController.getAllVehicles)
     .post(vehicleController.addNewVehicle)
-    .put(vehicleController.updateVehicle)
     .delete(vehicleController.deleteVehicle);
 
 router.route('/:immatriculation')
     .get(vehicleController.getVehicle);
+
+router.route('/:id_vehicule')
+    .put(vehicleController.updateVehicle);
 
 module.exports = router;

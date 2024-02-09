@@ -2,7 +2,8 @@ const data = {
     vehicles: require("../../model/vehicule.json"),
     setVehicles: function (data) { this.vehicles = data },
     history: require('../../model/history.json'),
-    setHistory: function (data) {this.history = data}
+    setHistory: function (data) {this.history = data},
+    contribuable: require('../../model/contribuable.json')
 };
 
 const path = require('path');
@@ -44,6 +45,10 @@ const addNewVehicle = async (req, res) => {
 
     }
 
+    const contribuable = data.contribuable.find(con => con.reference_fiscal === req.body.nifproprietaire_v);
+    if(!contribuable)
+        return res.status(404).json({'message': 'contribuable introuvable'});
+
     const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
 
     const history = {
@@ -73,12 +78,15 @@ const addNewVehicle = async (req, res) => {
 
 //----------------function to update vehicle--------------------
 const updateVehicle = async (req, res) => {
-    const vehicle = data.vehicles.find(veh => veh.numero_immatriculation === req.body.numimmatriculation_v);
-    
+
+    const id_vehicule = req.params.id_vehicule;
+
+    const vehicle = data.vehicles.find(veh => veh.id_vehicule === id_vehicule);
+
     if(!vehicle){
         return res.status(400).json({'message': 'vehicle not found'});
     }
-;
+    if(req.body.numimmatriculation_v) vehicle.numero_immatriculation = req.body.numimmatriculation_v;
     if(req.body.marque_v) vehicle.marque = req.body.marque_v;
     if(req.body.type_v) vehicle.type = req.body.type_v;
     if(req.body.genre_v) vehicle.genre = req.body.genre_v;
