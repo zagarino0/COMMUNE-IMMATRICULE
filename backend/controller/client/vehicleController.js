@@ -81,7 +81,7 @@ const updateVehicle = async (req, res) => {
 
     const id_vehicule = req.params.id_vehicule;
 
-    const vehicle = data.vehicles.find(veh => veh.id_vehicule === id_vehicule);
+    const vehicle = data.vehicles.find(veh => veh.id_vehicule == id_vehicule);
 
     if(!vehicle){
         return res.status(400).json({'message': 'vehicle not found'});
