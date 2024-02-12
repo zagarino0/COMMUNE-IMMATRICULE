@@ -22,16 +22,29 @@ login: "",
   })
  
   const [DataUser ,setDataUser] = useState([]);
-  useEffect(() => {
-      // Récupérer les données depuis le backend
-      axios.get('http://localhost:3500/action')
-        .then((response) => setDataUser(response.data))
-        .catch((error) => console.error(error));
-    }, []);
+  
+
+    const handleSearch = async () => {
+      try{
+        const response = await axios.post("http://localhost:3500/action", {
+          
+              "code": Action.login,
+              "date_debut": Action.date_debut,
+              "date_fin": Action.date_fin,
+            
+        });
+        setDataUser(response.data)
+      }catch(error){
+        console.log('An  error occurred during the request',error);
+        alert("aucune action d'utilisateur")
+      }
+    };
   
     console.log(DataUser)
-    const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" ]
-    const data = DataUser.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , <Checkbox checked={item.actif}/>, item.numero_matricule ])
+
+    const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" , "Date de Création Compte " , "Date historie" , "Motif" ]
+    const data = DataUser.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , 
+    <Checkbox checked={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ]);
       
 
   const contentCard=(
@@ -39,9 +52,8 @@ login: "",
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Consutation action utilisateur</div>
+<div className="text-[#959824] text-3xl  text-center font-semibold border-b-2 border-[#959824] mt-2">Consultation action utilisateur</div>
 <div className="mt-6 flex flex-col  ">
-
 <div className="flex justify-between mt-6">
   <Label text="Login"></Label>
 <Input type="text" 
@@ -66,9 +78,9 @@ onChange={(e)=>{setACtion({...Action , date_fin : e.target.value})}}
 className=" w-40"></Input>
 
 </div>
-<Button text="Rechercher" className="mt-6"></Button>
+<Button text="Rechercher" className="mt-6" onClick={handleSearch}></Button>
 </div>
-<div className="mt-10">
+<div className="overflow-y-auto w-[500px] mt-10">
 <Table
 
 headers={headers}

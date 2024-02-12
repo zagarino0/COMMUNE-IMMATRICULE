@@ -8,7 +8,8 @@
         "numero_matricule": "098765",
         "type_operateur": "Chef de division",
         "actif": true,
-        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiMTM1NyIsImlhdCI6MTcwNzIwMTQ4OCwiZXhwIjoxNzA3Mjg3ODg4fQ.T3NhwWC_N87qTb764gnHNFgprFgDJqoJshizau6jNzY"
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiMTM1NyIsImlhdCI6MTcwNzIwMTQ4OCwiZXhwIjoxNzA3Mjg3ODg4fQ.T3NhwWC_N87qTb764gnHNFgprFgDJqoJshizau6jNzY",
+        "historique": []
     },
     {
         "id_user": 5,
@@ -19,7 +20,8 @@
         "numero_matricule": "28768362",
         "type_operateur": "Mpanolana aomby",
         "date_creation_compte": "8/1/2024",
-        "actif": true
+        "actif": true,
+        "historique": []
     },
     {
         "id_user": 6,
@@ -30,6 +32,18 @@
         "numero_matricule": "45678930",
         "type_operateur": "Mpanolana alika",
         "date_creation_compte": "8/2/2024",
+        "actif": true,
+        "historique": []
+    },
+    {
+        "id_user": 7,
+        "code": "1234",
+        "password": "$2b$10$bzFwFXl6vq2Wyy658740UOyqKhT6x8YTroBVEFidvFOi5HFt6Uroi",
+        "nom": "ADALA",
+        "prenom": "BABA",
+        "numero_matricule": "123456",
+        "type_operateur": "Percepteur",
+        "date_creation_compte": "12/2/2024",
         "actif": true
     }
 ]
