@@ -158,12 +158,23 @@ const deleteVehicle = async (req, res) => {
 
 //-------------function to get one vehicle---------------------
 const getVehicle = (req, res) => {
-    const vehicle = data.vehicles.find(veh => veh.immatriculation === req.params.immatriculation);
+    const vehicle = data.vehicles.find(veh => veh.numero_immatriculation === req.params.immatriculation);
     if(!vehicle){
         return res.status(400).json({'message': 'vehicle not found'});
     }
     res.json(vehicle);
 }
+
+
+const getVehicleByNifContribuable = (req, res) => {
+    const reference_fiscal_proprietaire = req.body.reference_fiscal_proprietaire;
+    const vehicle = data.vehicles.find(veh => veh.nif_proprietaire === reference_fiscal_proprietaire);
+    if(!vehicle){
+        return res.status(400).json({'message': 'vehicle not found'});
+    }
+    res.json(vehicle);
+}
+
 
 //-----------------Exporting all functin----------------------
 module.exports = {
@@ -171,5 +182,6 @@ module.exports = {
     addNewVehicle,
     updateVehicle,
     deleteVehicle,
-    getVehicle
+    getVehicle,
+    getVehicleByNifContribuable
 }

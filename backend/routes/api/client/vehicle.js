@@ -13,4 +13,7 @@ router.route('/:immatriculation')
 router.route('/:id_vehicule')
     .put(vehicleController.updateVehicle);
 
+router.route('/consultation')
+    .post(vehicleController.getVehicleByNifContribuable);
+
 module.exports = router;
