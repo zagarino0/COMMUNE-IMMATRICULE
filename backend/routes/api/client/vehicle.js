@@ -16,4 +16,7 @@ router.route('/:id_vehicule')
 router.route('/consultation')
     .post(vehicleController.getVehicleByNifContribuable);
 
+router.route('/research')
+    .post(vehicleController.getVehicleByAll);
+
 module.exports = router;

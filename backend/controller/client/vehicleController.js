@@ -41,8 +41,8 @@ const addNewVehicle = async (req, res) => {
         "categorie": req.body.categ_v,
         "sous_categorie": req.body.souscateg_v,
         "zone": req.body.zone_v,
-        "age": req.body.age_v
-
+        "age": req.body.age_v,
+        "date_creation_vehicule": new Date()
     }
 
     const contribuable = data.contribuable.find(con => con.reference_fiscal === req.body.nifproprietaire_v);
@@ -136,7 +136,24 @@ const updateVehicle = async (req, res) => {
 }
 
 
-
+const getVehicleByAll = (req, res) => {
+    const date_debut = req.body.date_debut;
+    const date_fin = req.body.date_fin;
+    if(!date_debut && !date_fin){
+        const vehicule = data.vehicles;
+        return res.json(vehicule)
+    }else if (date_debut && !date_fin){
+        const vehicle = data.vehicles.filter(veh => (new Date(veh.date_creation_vehicule)) >= (new Date(date_debut)));
+        if(vehicle.length === 0)
+            return res.status(404).json({'message': 'vehicle not found'});
+        return res.json(vehicle);
+    }else if (date_debut && date_fin){
+        const vehicle = data.vehicles.filter(veh => (new Date(veh.date_creation_vehicule)) >= (new Date(date_debut)) && (new Date(veh.date_creation_vehicule)) <= (new Date(date_fin)));
+        if(vehicle.length === 0)
+            return res.status(404).json({'message': 'vehicle not found'});
+        return res.json(vehicle);
+    }
+}
 
 
 //--------------function to delete vehicle---------------------
@@ -183,5 +200,6 @@ module.exports = {
     updateVehicle,
     deleteVehicle,
     getVehicle,
-    getVehicleByNifContribuable
+    getVehicleByNifContribuable,
+    getVehicleByAll
 }
