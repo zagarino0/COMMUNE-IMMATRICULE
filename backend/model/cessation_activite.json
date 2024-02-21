@@ -1,15 +1,15 @@
 [
     {
-        "id_cessation": 2,
-        "id_contribuable": "Qs3fSuXAYB",
-        "date_cessation": "",
-        "cessation": false
-    },
-    {
         "id_cessation": 1,
         "id_contribuable": "fQ1v0iW0",
         "date_cessation": "",
         "cessation": false
+    },
+    {
+        "id_cessation": 2,
+        "id_contribuable": "Qs3fSuXAYB",
+        "date_cessation": "2024-02-21T19:06:01.088Z",
+        "cessation": true
     },
     {
         "id_cessation": 4,

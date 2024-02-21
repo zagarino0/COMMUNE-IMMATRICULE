@@ -585,7 +585,6 @@ const validationMiseAJour = async (req, res) => {
 
 const cessationActivite = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
-    const motif = req.body.motif;
     const comment = req.body.comment;
     const id_user = req.body.id_user;
 
@@ -604,15 +603,20 @@ const cessationActivite = async (req, res) => {
         'id_history': id_history,
         'id_contribuable': contribuable.id,
         'id_user': id_user,
-        'motif': motif,
+        'motif': `Cessation de l'activité du contribuable ${contribuable.id}`,
         'comment': comment,
         'date_history': new Date()
     }
 
     const filteredCessation = data.cessations.filter(ces => ces.id_contribuable !== contribuable.id);
     const unsortedCessation = [...filteredCessation, cessation];
+    
+    const filteredContribuable = data.contribs.filter(con => con.id !== contribuable.id);
+    const newContribuable = [...filteredContribuable, contribuable];
+
     data.setCessations(unsortedCessation.sort((a, b) => a.id_cessation > b.id_cessation ? 1 : a.id_cessation < b.id_cessation ? -1 : 0));
     data.setHistory([...data.history, history]);
+    data.setContribs(newContribuable);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'cessation_activite.json'),
@@ -622,8 +626,12 @@ const cessationActivite = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'history.json'),
         JSON.stringify(data.history)
     )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
 
-    res.json({ 'message': 'Validation effectué' });
+    res.json({ 'message': `Cessation du contribuable ${contribuable.id}` });
 }
 
 const repriseActivite = async (req, res) => {
@@ -635,12 +643,17 @@ const repriseActivite = async (req, res) => {
     if (!contribuable)
         return res.status(404).json({ 'message': 'Contribuable introuvable' });
 
+    contribuable.actif = true;
+
     const cessation = data.cessations.find(ces => ces.id_contribuable === contribuable.id);
     if (cessation.cessation && ((new Date()).getMonth() - (new Date(cessation.date_cessation)).getMonth()) < 3)
         return res.status(400).json({ 'message': `La cessation de l'activité du contribuable ${contribuable.reference_fiscal} n'est pas encore plus de 3 mois` });
 
     cessation.cessation = false;
     cessation.date_cessation = '';
+
+    const filteredContribuable = data.contribs.filter(con => con.id !== contribuable.id);
+    const newContribuable = [...filteredContribuable, contribuable];
 
     const filteredCessation = data.cessations.filter(ces => ces.id_contribuable !== contribuable.id);
     const unsortedCessation = [...filteredCessation, cessation];
@@ -659,7 +672,12 @@ const repriseActivite = async (req, res) => {
     }
 
     data.setHistory([...data.history, history]);
-
+    data.setContribs(newContribuable);
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'contribuable.json'),
+        JSON.stringify(data.contribs)
+    )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'history.json'),
         JSON.stringify(data.history)
