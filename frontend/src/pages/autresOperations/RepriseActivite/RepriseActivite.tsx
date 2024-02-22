@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import Table from "../../../components/table/table";
@@ -8,17 +8,28 @@ import { Label } from "../../../components/label/label";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function RepriseActivite() {
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
-
   const [Data , setData] = useState([])
   const [reference_fiscal , setReference_fiscal] = useState('');
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/etat/contribuable/cesse')
+      .then((response) => setData(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+  
+  console.log(Data)
+
+
+  const headers = ["RF", "Raison social", "Type", "Forme juridique" , "Date de création"];
+  const data = Data.map((item)=>[item.reference_fiscal , item.raison_social , item.type , item.forme_juridique , item.date_creation ])
+
+
+
+
+
 // Fonction pour faire un  recherche d'un client avec référence fiscal
 const handleSearchClient = async () => {
 const DataSearch ={
@@ -37,13 +48,50 @@ try {
   console.error("Error:", error);
 }
 };
+
+// Selectionner contribuable 
+
+const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [DataSelected , setDataSelected] = useState([]);
+  const navigate = useNavigate()// Initialize useHistory
+
+  const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+  useEffect(() => {
+    // Store Value data in localStorage
+    localStorage.setItem("selectedRepriseData", JSON.stringify(DataSelected ));
+    // Reset the dummy state to trigger rerender
+    console.log(DataSelected)
+    setIsStorageUpdated(false);
+  }, [DataSelected, isStorageUpdated]);
+  
+  const handleButtonClick = () => {
+    // Trigger a rerender by updating the dummy state
+    setIsStorageUpdated(true);
+
+    // Use the selectedOption to determine the route to navigate to
+    const routeToNavigate = "/RepriseInfo";
+
+    // Use navigate to navigate to the determined route
+    navigate(routeToNavigate, { state: { DataSelected } });
+  };
+
+ const handleTableRowClick = (rowIndex) => {
+  setSelectedRowIndex(rowIndex);
+  // Update input fields or perform other actions based on the selected row data
+  const selectedRowData = Data[rowIndex];
+ setDataSelected(selectedRowData)
+ 
+};
+
+
   const contentCard=(
       <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="REPRISE D'ACTIVITE"></TitleH1></div>
-<div className="mt-6 flex flex-col  ">
+{/* <div className="mt-6 flex flex-col  ">
 
 
 <div className="flex justify-between mt-6">
@@ -55,17 +103,19 @@ onChange={(e)=>setReference_fiscal(e.target.value)}
 
 </div>
 <Button text="Trouver" onClick={handleSearchClient} className="mt-6"></Button>
-</div>
+</div> */}
 <div className="mt-10">
 <Table
 
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
 headers={headers}
 data={data}
 ></Table>
 </div>
 <div className="flex justify-start mt-6">
  
- <Link to="#"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></Link>
+ <button onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></button>
  </div>
 <div>
 

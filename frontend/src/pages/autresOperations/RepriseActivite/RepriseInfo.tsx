@@ -1,17 +1,17 @@
+import axios from "axios";
+import { Card } from "../../../components/card/card";
 
-import Button from "../../../components/common/Button";
 import Checkbox from "../../../components/common/checkbox";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import { TitleH1 } from "../../../components/title";
-import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import Button from "../../../components/common/Button";
 
-function CessationInformation() {
+function RepriseInfo() {
     let navigate = useNavigate();
-    const selectedData = localStorage.getItem("selectedCessationData");
+    const selectedData = localStorage.getItem("selectedRepriseData");
     const  parsedDataSelected = JSON.parse(selectedData as string);
     console.log(parsedDataSelected)
     const {activite} = parsedDataSelected ;
@@ -19,22 +19,23 @@ function CessationInformation() {
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
 
+
     const HandleCessation = async () => {
 
       const Data ={
         "reference_fiscal": parsedDataSelected.reference_fiscal,
-        "motif" : "Cessation",
-        "comment" : " Cessation d'activité contribuable",
+        "motif" : "Réprise",
+        "comment" : " Réprise d'activité d'un contribuable",
         "id_user" : userData.id_user         
       }
       try {
         // Make a POST request to your server endpoint
-        const response = await axios.post("http://localhost:3500/contribuable/activite/cessation", Data);
+        const response = await axios.post("http://localhost:3500/contribuable/activite/reprise", Data);
         
         // Check the response status or do something with the response
         console.log("Server Response:", response.data );
-        alert(`Cessation pour ${parsedDataSelected.raison_social} réussi`)
-        navigate('/CessationActivite')
+        alert(`Réprise pour ${parsedDataSelected.raison_social} réussi`)
+        navigate('/RepriseActivite')
       } catch (error) {
         // Handle errors
         console.error("Error:", error);
@@ -44,7 +45,7 @@ function CessationInformation() {
     const content = (
       <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CESSATION D'ACTIVITE"></TitleH1></div>
+        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="REPRISE D'ACTIVITE"></TitleH1></div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
@@ -261,5 +262,4 @@ function CessationInformation() {
         </MainLayout>
        )
 }
-
-export default CessationInformation
+export default RepriseInfo

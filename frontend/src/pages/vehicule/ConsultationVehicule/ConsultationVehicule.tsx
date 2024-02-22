@@ -14,13 +14,15 @@ function ConsultationVehicule() {
   const [DataSelected , setDataSelected] = useState([]);
   
   const [Data , setData] = useState([])
-  const [numimmatriculation_v , setImmatriculation] = useState('');
+  const [reference_fiscal , setImmatriculation] = useState('');
 
   const handleSearchClient = async () => {
-  
+     const Reference_Fiscal_Proprietaire = {
+      "reference_fiscal_proprietaire" : reference_fiscal  
+     }
     try {
       // Make a POST request to your server endpoint
-      const response = await axios.post(`http://localhost:3500/vehicle/${numimmatriculation_v}`);
+      const response = await axios.post(`http://localhost:3500/vehicle/consultation` , Reference_Fiscal_Proprietaire);
       setData(response.data);
       // Check the response status or do something with the response
       console.log("Server Response:", Data );
@@ -30,9 +32,12 @@ function ConsultationVehicule() {
     }
   };
 
-  const headers = ["NIF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = Data.map((item)=>[item.numimmatriculation_v  ,item.marque_v ,  item.puissance_v , item.poidsavide_v])
- 
+
+  const headers = ["Numéro immatriculattion", "Marque", "Puissance", "Poids à vide " , "RF propriétaire"] ;
+ const data =  [
+  [Data.numero_immatriculation  ,Data.marque ,  Data.puissance , Data.poids_a_vide , Data.nif_proprietaire]
+] 
+
 
   const navigate = useNavigate()// Initialize useHistory
 
@@ -80,9 +85,9 @@ function ConsultationVehicule() {
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Annuaire des vehicules sur RFonline</div>
 <div className="mt-6 flex  justify-between ">
-<Label text="Numéro véhicule" className="mt-2"></Label>
+<Label text="RF propriétaire" className="mt-2"></Label>
 <Input type="text" className="w-96 ml-4 "
-value={numimmatriculation_v}
+value={reference_fiscal}
 onChange={(e)=> setImmatriculation(e.target.value)}
 ></Input>
 <Button text="Rechercher" onClick={handleSearchClient} className="ml-4"></Button>
@@ -109,7 +114,7 @@ selectedRowIndex={selectedRowIndex}
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-  <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
+  <Card contentCard={contentCard} className="w-[800px] h-[700px] "></Card>
   </div>
  </MainLayout>
 )

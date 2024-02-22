@@ -181,7 +181,7 @@ const handleTableRowClick = (rowIndex) => {
         <div className="m-4">
             <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation des Référence Fiscal</div>
            <div className="flex flex-col m-4">
-<div className="mt-6 flex flex-row justify-between">
+{/* <div className="mt-6 flex flex-row justify-between">
     <Label text="Domaine de Recherche :" className="mt-4"></Label>
     <Select options={options} value={Contribuable.domaine_recherche} onChange={(option)=>setContribuable({...Contribuable , domaine_recherche : option})} className="w-96  "/>
 </div>
@@ -287,7 +287,8 @@ onChange={(e)=> {setContribuable({...Contribuable , nom_commercial: e.target.val
 
 <div className="mt-6">
 <Button text="Lister" onClick={handleSearchClient}></Button>
-</div>
+</div> */}
+</div> 
 <div className="mt-10">
 <Table
 id="yourTableId" ref={tableRef}

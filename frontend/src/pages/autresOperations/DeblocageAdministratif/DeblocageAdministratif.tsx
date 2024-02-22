@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
@@ -5,20 +6,29 @@ import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { TitleH1 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
+import axios from "axios";
 
 function DeblocageAdministratif() {
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
    
-  ];
+const [DataValide ,setDataValide] = useState([]);
+useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/etat/contribuable/valide')
+      .then((response) => setDataValide(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+console.log(DataValide);
+
+
+const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
+const data = DataValide.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
   const contentCard=(
       <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="DEBLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
-<div className="mt-6 flex flex-col  ">
+{/* <div className="mt-6 flex flex-col  ">
 
 
 <div className="flex justify-between mt-6">
@@ -27,8 +37,8 @@ function DeblocageAdministratif() {
 
 </div>
 <Button text="Trouver" className="mt-6"></Button>
-</div>
-<div className="mt-10">
+</div> */}
+<div className="overflow-auto w-[750px] flex justify-center mt-10">
 <Table
 
 headers={headers}

@@ -106,7 +106,9 @@ useEffect(() => {
   };
 
   const HeaderTable = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const DataTable = DataBloque.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+  const DataTable = [
+    []
+  ]
   const contentCard = (
     <div className="p-8 flex flex-col">
 <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">

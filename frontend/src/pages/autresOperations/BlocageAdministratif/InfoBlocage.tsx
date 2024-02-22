@@ -1,17 +1,16 @@
-
+import axios from "axios";
+import { Card } from "../../../components/card/card";
 import Button from "../../../components/common/Button";
 import Checkbox from "../../../components/common/checkbox";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import { TitleH1 } from "../../../components/title";
-import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-function CessationInformation() {
+function InfoBlocage() {
     let navigate = useNavigate();
-    const selectedData = localStorage.getItem("selectedCessationData");
+    const selectedData = localStorage.getItem("selectedBlocageData");
     const  parsedDataSelected = JSON.parse(selectedData as string);
     console.log(parsedDataSelected)
     const {activite} = parsedDataSelected ;
@@ -262,4 +261,4 @@ function CessationInformation() {
        )
 }
 
-export default CessationInformation
+export default InfoBlocage

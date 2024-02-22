@@ -6,12 +6,18 @@ import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { TitleH3 } from "../../../components/title";
+import { TiDocumentText } from "react-icons/ti";
 
 function RectificationVehiculePage() {
    
-    const dataRectifie =()=>{
-      window.location.href = "/RectificationVehiculeRF"
-     }
+   
+
+     const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+     const [DataSelected , setDataSelected] = useState([]);
+   
+   
 
      const [Data , setData] = useState([])
      const [numimmatriculation_v , setImmatriculation] = useState('');
@@ -35,36 +41,78 @@ function RectificationVehiculePage() {
  
  useEffect(() => {
   // Récupérer les données depuis le backend
-  axios.get('http://localhost:3500/vehicle')
+  axios.get('http://localhost:3500/etat/contribuable/valide')
     .then((response) => setData(response.data))
     .catch((error) => console.error(error));
 }, []);
 
- const headers = ["Numéro immatriculattion", "Marque", "Puissance", "Poids à vide "];
- const data = Data.map((item)=>[item.numimmatriculation_v  ,item.marque_v ,  item.puissance_v , item.poidsavide_v])
+console.log(Data)
+ const headers = ["Raison social", "Référence Fiscal", "Type", "Date de création "];
+ const data = Data.map((item)=>[item.raison_social ,item.reference_fiscal ,  item.type, item.date_creation])
+
+// selection data 
+
+const navigate = useNavigate()// Initialize useHistory
+
+const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+useEffect(() => {
+  // Store Value data in localStorage
+  localStorage.setItem("selectedContribuableRectificationAddVehicule", JSON.stringify(DataSelected ));
+  // Reset the dummy state to trigger rerender
+  console.log(DataSelected)
+  setIsStorageUpdated(false);
+}, [DataSelected, isStorageUpdated]);
+
+const handleButtonClick = () => {
+  // Trigger a rerender by updating the dummy state
+  setIsStorageUpdated(true);
+
+  // Use the selectedOption to determine the route to navigate to
+  const routeToNavigate = "/RectificationVehiculeRF";
+
+  // Use navigate to navigate to the determined route
+  navigate(routeToNavigate, { state: { DataSelected } });
+};
+
+const handleTableRowClick = (rowIndex) => {
+setSelectedRowIndex(rowIndex);
+
+// Extract the property values from the data object
+const selectedRowData = Data[rowIndex]
+
+
+setDataSelected(selectedRowData);
+console.log('Selected Row Data:', DataSelected);
+};
+
  const contentCard=(
         <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Rectification des principaux renseignements des contribuables concernant ses véhicules</div>
-<div className="mt-6 flex flex-row justify-between ">
+{/* <div className="mt-6 flex flex-row justify-between ">
 <Label text="Votre recherche :" className="mt-4"></Label>
 <Input type="text" 
 value={numimmatriculation_v}
 onChange={(e)=>setImmatriculation(e.target.value)}
 className="w-96  "></Input>
 <Button onClick={handleSearchClient} text="Rechercher"></Button>
-</div>
+</div> */}
 <div className="mt-10">
 <Table
-onClick={dataRectifie}
 headers={headers}
 data={data}
+
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
+
 ></Table>
 </div>
 <div>
   
+<button  className="flex flex-row mt-4 " onClick={handleButtonClick}><TiDocumentText  className="mr-2  text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
 </div>
 </div>
         </div>
@@ -73,7 +121,7 @@ data={data}
   return (
    <MainLayout>
     <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-    <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
+    <Card contentCard={contentCard} className="w-[800px] h-[700px] "></Card>
     </div>
    </MainLayout>
   )

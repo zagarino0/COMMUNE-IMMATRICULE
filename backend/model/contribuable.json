@@ -128,34 +128,7 @@
             }
         ],
         "coordonnees": null,
-        "etablissement": [],
-        "interlocuteur": [],
-        "siege": [
-            {
-                "id_siege": 1,
-                "id_contribuable": "NOewonMZFL",
-                "adresse_actuel": "lot 213 J 200",
-                "district": "Mahajanga",
-                "region": "Boeny",
-                "province": "Mahajanga"
-            },
-            {
-                "id_siege": 2,
-                "id_contribuable": "NOewonMZFL",
-                "adresse_actuel": "lot 213 J 200",
-                "district": "Mahajanga",
-                "region": "Boeny",
-                "province": "Mahajanga"
-            },
-            {
-                "id_siege": 3,
-                "id_contribuable": "NOewonMZFL",
-                "adresse_actuel": "lot 213 J 200",
-                "district": "Mahajanga",
-                "region": "Boeny",
-                "province": "Mahajanga"
-            }
-        ],
+        
         "mot_de_passe": "$2lWZgvC_"
     },
     {

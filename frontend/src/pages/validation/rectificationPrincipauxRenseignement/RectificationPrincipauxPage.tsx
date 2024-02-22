@@ -14,10 +14,9 @@ function RectificationPrincipauxPage() {
   // Fonction pour faire un  recherche d'un client avec référence fiscal
 const handleSearchClient = async () => {
   const DataSearch ={
-  
   "reference_fiscal": reference_fiscal,
-  
   }
+
   try {
     // Make a POST request to your server endpoint
     const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
@@ -27,14 +26,16 @@ const handleSearchClient = async () => {
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
+    alert("Aucune information trouvé");
   }
 };
+
     const dataRectifie =()=>{
      window.location.href = "/Rectification"
     }
 
-    const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = Data.map((item)=>[item.id  ,item.raison_social ,  item.nom_commercial , item.forme_juridique])
+    const headers = ["Code", "Raison social", "Type", "Date de Création" , "Référence Fiscal"];
+  const data = Data.map((item)=>[item.id  ,item.raison_social ,  item.type, item.date_creation , item.reference_fiscal])
 
 
     const contentCard = (

@@ -85,7 +85,7 @@ function Associe() {
       };
       // ... (your existing state definitions)
     
-      const handleButtonClickSave = () => {
+   const handleButtonClickSave = () => {
          // Generate a new ID by incrementing the last entry's ID
     const newId = entries.length > 0 ? parseInt(entries[entries.length - 1].id) + 1 : 1;
 

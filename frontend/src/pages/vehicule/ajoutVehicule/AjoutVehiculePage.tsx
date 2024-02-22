@@ -242,7 +242,10 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datev
 </div>
 <div className="mt-6 flex flex-row justify-between">
     <Label text="Age :" className="mt-4"></Label>
-    <Input type="text" placeholder="âge"></Input>
+    <Input type="text" value={value.age_v} placeholder="âge"
+    
+onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, age_v : e.target.value })}
+    ></Input>
 </div>
 <Button type="submit" text="Enregistrer" className="mt-6"></Button>
     </div>

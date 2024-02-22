@@ -19,7 +19,7 @@ import { ImStatsDots } from "react-icons/im";
 import { RiArrowGoBackFill, RiSubtractFill } from "react-icons/ri";
 import { FaUniversity } from "react-icons/fa";
 import { BiBody } from "react-icons/bi";
-import { MdOutlineCached, MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
+import { MdOpenInNew, MdOutlineCached, MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 
 
@@ -65,7 +65,6 @@ interface Actionnaire {
   adresse_actionnaire : string ,
   associe_activite_actionnaire : boolean ,
   autre_activite_actionnaire : string ,
-  cin_passport_actionnaire : string ,
   email_actionnaire : string ,
   fonction_actionnaire : string ,
   id : number ,
@@ -74,7 +73,9 @@ interface Actionnaire {
   nom_actionnaire : string ,
   numero_actionnaire : string ,
   resident_actionnaire : boolean ,
-  type : string  
+  type : string  ,
+  associe_unique_actionnaire : string,
+  cin_passeport_actionnaire: string,
 }
 
 function Assujetissement() {
@@ -113,67 +114,6 @@ function Assujetissement() {
   
 
   const [add , setAdd] = useState(false);
-const [value , setValue] = useState<{
-  personne_physique:boolean,
-  personne_morale:boolean,
-  personne_etrangere:boolean,
-  associe_unique:boolean,
-  resident:boolean,
-  avec_rf: boolean,
-  salarie : boolean,
-  aucune : boolean,
-  numimmatriculation_v:string,
-       marque_v:string,
-       type_v:string,
-       genre_v:string,
-       puissance_v:string,
-       nbplacecartegrise_v:string,
-       nbplacelicence_v:string,
-       chargeutile_v:string,
-       datemisecirculation_v:string,
-       poidsavide_v:string,
-       hikaramana_v:string,
-       datedebut_v:string,
-       nifproprietaire_v:string,
-       centregestion_v:string,
-       ancnifproprietaire_v:string,
-       exploitation_v:string,
-       datevalidlic_v:string,
-       categ_v:string,
-       souscateg_v: string,
-       zone_v:string,
-       age_v:string,
-}>({
-  personne_physique:false,
-  personne_morale:false,
-  personne_etrangere:false,
-  associe_unique:false,
-  resident: true ,
-  avec_rf: false,
-  salarie: false,
-  aucune : false,
-  numimmatriculation_v:"",
-       marque_v:"",
-       type_v:"",
-       genre_v:"",
-       puissance_v:"",
-       nbplacecartegrise_v:"",
-       nbplacelicence_v:"",
-       chargeutile_v:"",
-       datemisecirculation_v:"",
-       poidsavide_v:"",
-       hikaramana_v:"",
-       datedebut_v:"",
-       nifproprietaire_v:"",
-       centregestion_v:"",
-       ancnifproprietaire_v:"",
-       exploitation_v:"",
-       datevalidlic_v:"",
-       categ_v:"",
-       souscateg_v: "",
-       zone_v:"",
-       age_v:"",
-})
 
     
     const selectedData = localStorage.getItem("selectedValidationData");
@@ -296,7 +236,7 @@ console.log(ContribuableData);
 
   // associe Table 
   const HeadersAssocie = ["Type association" , "Nom actionnaire" , "Fonction" , " Résident" , "N° CIN ou Passport" , " Adresse Actionnaire" , "Autre activité " , " Référence contribuable " , "Référence fiscal actionnaire" , "Action ou actionnaire" , "associe unique" , "Email actionnaire" , "numéro actionnaire" ]
-  const DataAssocie = actionnaire ? actionnaire.map((item)=>[item.type , item.nom_actionnaire , item.fonction_actionnaire , item.resident_actionnaire , item.cin_passport_actionnaire , item.adresse_actionnaire , item.autre_activite_actionnaire , item.id_contribuable , item.nif_actionnaire , item.action_ou_actionnaire , item.associe_unique_actionnaire, item.email_actionnaire , item.numero_actionnaire ]) : [];
+  const DataAssocie = actionnaire ? actionnaire.map((item )=>[item.type , item.nom_actionnaire , item.fonction_actionnaire , item.resident_actionnaire , item.cin_passport_actionnaire , item.adresse_actionnaire , item.autre_activite_actionnaire , item.id_contribuable , item.nif_actionnaire , item.action_ou_actionnaire , item.associe_unique_actionnaire, item.email_actionnaire , item.numero_actionnaire ]) : [];
 
  // Etablissement table 
  const Headersetablissement  = ["activité" ,"adresse" , "commune" ,"fokontany" , "district", "province" , "date ouverture", "email" , "fax", "identifiant contribuable" , "nom commercial" ,"proprietaire local" , "region" , "téléphone" , "titre"]
@@ -457,9 +397,17 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
     const selectedRowDataAssocie= actionnaire[rowIndex] ;
     setDataSelectedAssocie(selectedRowDataAssocie);
     console.log("selected :",DataSelectedAssocie);
-    setAdd(true);
-    }
     
+    }
+
+    
+// unselected Data from Associe 
+const unselectRowAssocie = () => {
+  setSelectedRowIndexAssocie(null);
+  setDataSelectedAssocie([]);
+}
+
+
 // data selected Etablissement  table 
 const [selectedRowIndexEtablissement, setSelectedRowIndexEtablissement] = useState(null);
 const [DataSelectedEtablisement, setDataSelectedEtablissment] = useState<Etablissement>([]);
@@ -621,11 +569,30 @@ if(siege){
 
 }
 
+// ajout donné actionnaire dans Table  actionnaire
+const AjoutDataAssocieTable = () => {
+
+}
+
+const DeleteAssocieData = (rowIndex : key) => {
+  setSelectedRowIndexAssocie(rowIndex);
+  const selectedRowDataAssocie= actionnaire[rowIndex] ;
+  setDataSelectedAssocie(selectedRowDataAssocie);
+
+  try {
+   const response = axios.delete(`http://localhost:3500/actionnaire/avalide/${selectedRowDataAssocie.id_actionnaire}`);
+
+  } catch(error){
+ console.error('Erreur de supression :' , error)
+  }
+}
+
+//Modification Donné selectionner 
 const HandleModifieActionnaire = async () => {
   
   
 // Modification Actionnaire 
-if(actionnaire){
+if(DataSelectedAssocie){
 
   const DataActionnaire = {
     "id_contribuable": ContribuableData.id ,
@@ -635,7 +602,7 @@ if(actionnaire){
     "cin_passeport_actionnaire": DataSelectedAssocie.cin_passeport_actionnaire,
     "email_actionnaire": DataSelectedAssocie.email_actionnaire ,
     "fonction_actionaire": DataSelectedAssocie.fonction_actionnaire,
-    "id": DataSelectedAssocie.id,
+    "id_actionnaire": DataSelectedAssocie.id_actionnaire,
     "nif_actionnaire": DataSelectedAssocie.nif_actionnaire,
     "nom_actionnaire": DataSelectedAssocie.nom_actionnaire,
     "numero_actionnaire": DataSelectedAssocie.numero_actionnaire ,
@@ -646,7 +613,7 @@ if(actionnaire){
   try {
 
     // Make a POST request to your server endpoint
-    const response = await axios.put(`http://localhost:3500/actionnaire/avalide/${actionnaire.id}`, DataActionnaire);
+    const response = await axios.put(`http://localhost:3500/actionnaire/avalide/${actionnaire.id_actionnaire}`, DataActionnaire);
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
@@ -658,6 +625,7 @@ if(actionnaire){
     alert("Error Associé")
   }
   }
+
   } 
 
 // Modifie etablissement
@@ -1381,7 +1349,7 @@ onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_a
 
           }
           <div className="flex justify-center mt-6">
-          <button onClick={HandleModifieActionnaire} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Modifier</button>
+          <button onClick={HandleModifieActionnaire} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Enregistrer</button>
           <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
           </div>
  </div>
@@ -1399,15 +1367,18 @@ onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_a
 headers={HeadersAssocie}
 data={DataAssocie}
 onClick={handleSelectedDataTableAssocie}
-selectedRowIndex={selectedRowIndexAssocie}
+selectedRowIndex={selectedRowIndexAssocie || null}
 ></Table>
 </div>
 <div className="flex justify-center mt-6 mb-6">
 <div >
-            <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+            <button  onClick={()=> setAdd(true)}  className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><MdOpenInNew></MdOpenInNew></button>
+</div>
+<div className="ml-4" >
+            <button onClick={() => { unselectRowAssocie() ; setAdd(true)} } className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
 </div>
 <div  className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
+            <button onClick={DeleteAssocieData} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
 </div>
 <div className="ml-4">
             <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>

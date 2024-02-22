@@ -33,8 +33,17 @@ try {
   console.error("Error:", error);
 }
 };
-const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-const data = Data.map((item)=>[item.id  ,item.raison_social ,  item.nom_commercial , item.forme_juridique])
+
+
+useEffect(() => {
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/etat/contribuable/valide')
+    .then((response) => setData(response.data))
+    .catch((error) => console.error(error));
+}, []);
+
+const headers = ["RF", "Raison social", "Type", "Forme juridique" , " Date de Création"];
+const data = Data.map((item)=>[item.reference_fiscal  ,item.raison_social ,  item.type , item.forme_juridique , item.date_creation])
 
 
 const [selectedRowIndex, setSelectedRowIndex] = useState(null);
@@ -76,7 +85,7 @@ const navigate = useNavigate()// Initialize useHistory
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CESSATION D'ACTIVITE"></TitleH1></div>
-<div className="mt-6 flex flex-col  ">
+{/* <div className="mt-6 flex flex-col  ">
 
 
 <div className="flex justify-between mt-6">
@@ -89,7 +98,7 @@ onChange={(e)=>setReference_fiscal(e.target.value)}
 
 </div>
 <Button onClick={handleSearchClient} text="Trouver" className="mt-6"></Button>
-</div>
+</div> */}
 <div className="mt-10">
 <Table
 onClick={handleTableRowClick}

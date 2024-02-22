@@ -49,6 +49,14 @@ function DemandeDeNIFAValiderPage() {
     
     const [Data , setData] = useState([])
     
+    useEffect(() => {
+      // Récupérer les données depuis le backend
+      axios.get('http://localhost:3500/consultation/contribuable/miseajouravalide')
+        .then((response) => setData(response.data))
+        .catch((error) => console.error(error));
+    }, []);
+  
+    
     // Fonction pour faire un  recherche d'un client avec référence fiscal
     const handleSearchClient = async () => {
       const DataSearch ={
@@ -75,10 +83,8 @@ function DemandeDeNIFAValiderPage() {
 
 
 
-    const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
-    const data = [
-      [Data.id  ,Data.raison_social ,  Data.nom_commercial , Data.forme_juridique]
-    ]
+    const headers = ["code", "Raison social", "Référence Fiscal", "Type" , "CIN" , "passeport" , "sexe"];
+    const data = Data.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
     
     
     
@@ -127,7 +133,7 @@ setDataSelected(selectedRowData)
       </div>
      <div className="flex justify-center items-center ">
 <div className="flex flex-col ">
-        
+{/*         
 <div className="flex flex-col py-4">
 
 <div className="mt-6 flex flex-row">
@@ -218,7 +224,7 @@ onChange={(e)=> {setValide({...Valide , date_fin: e.target.value})}}
 ></Input>
 </div>
 <Button  onClick={handleSearchClient} type="submit" text="Rechercher" className="w-96 ml-[180px] rounded font-bold mt-6"></Button>
-        </div>
+        </div> */}
  <div className="flex justify-center items-center mt-4" >
 
 <Table

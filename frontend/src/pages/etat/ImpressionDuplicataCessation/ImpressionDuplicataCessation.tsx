@@ -12,6 +12,7 @@ import axios from "axios";
 
 function ImpressionDuplicataCessation() {
   const [reference_fiscal , setReference_fiscal] = useState('');
+  
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
   const data = [
     ["none", "none", "none", "none"],

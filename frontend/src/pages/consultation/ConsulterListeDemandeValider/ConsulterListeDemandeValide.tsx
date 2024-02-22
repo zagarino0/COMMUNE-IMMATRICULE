@@ -68,7 +68,7 @@ const [DataValide ,setDataValide] = useState([]);
       
  const HeaderTable = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
  const DataTable = DataValide.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
-  const contentCard = (
+ const contentCard = (
     <div className="m-4">
         <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Liste des démandes à valider</div>
        <div className="flex flex-col m-4">

@@ -5,7 +5,10 @@ import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { TitleH3 } from "../../../components/title";
+import { TiDocumentText } from "react-icons/ti";
 
 function MiseJourCaracteristiqueVehicule() {
   const dataRectifie =()=>{
@@ -13,8 +16,63 @@ function MiseJourCaracteristiqueVehicule() {
    }
 
 
+   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+   const [DataSelected , setDataSelected] = useState([]);
+ 
    const [Data , setData] = useState([])
    const [immatriculation , setImmatriculation] = useState('');
+
+
+
+   useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/vehicle')
+      .then((response) => setData(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+  
+  console.log(Data)
+   const headers = ["Numéro immatriculattion", "Marque", "Puissance", "Poids à vide "];
+   const data = Data.map((item)=>[item.numero_immatriculation  ,item.marque ,  item.puissance , item.poids_a_vide])
+  
+// selection data 
+
+const navigate = useNavigate()// Initialize useHistory
+
+const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+useEffect(() => {
+  // Store Value data in localStorage
+  localStorage.setItem("selectedVehiculeMJA", JSON.stringify(DataSelected ));
+  // Reset the dummy state to trigger rerender
+  console.log(DataSelected)
+  setIsStorageUpdated(false);
+}, [DataSelected, isStorageUpdated]);
+
+const handleButtonClick = () => {
+  // Trigger a rerender by updating the dummy state
+  setIsStorageUpdated(true);
+
+  // Use the selectedOption to determine the route to navigate to
+  const routeToNavigate = "/MJAVehicule";
+
+  // Use navigate to navigate to the determined route
+  navigate(routeToNavigate, { state: { DataSelected } });
+};
+
+const handleTableRowClick = (rowIndex) => {
+setSelectedRowIndex(rowIndex);
+
+// Extract the property values from the data object
+const selectedRowData = Data[rowIndex]
+
+
+setDataSelected(selectedRowData);
+console.log('Selected Row Data:', DataSelected);
+};
+
+
+
  // Fonction pour faire un  recherche d'un client avec référence fiscal
 const handleSearchVehicule = async () => {
  
@@ -31,9 +89,6 @@ const handleSearchVehicule = async () => {
 };
 
 
-
-const headers = ["Numero", "Marque", "Type", "Genre"];
- const data = Data.map((item)=>[item.numimmatriculation_v , item.marque_v , item.type_v , item.genre_v ])
   const contentCard=(
       <div >
 
@@ -50,13 +105,17 @@ onChange={(e)=> setImmatriculation(e.target.value)}
 </div>
 <div className="mt-10">
 <Table
-onClick={dataRectifie}
+
 headers={headers}
 data={data}
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
+
 ></Table>
 </div>
 <div>
 
+<button  className="flex flex-row mt-4 " onClick={handleButtonClick}><TiDocumentText  className="mr-2  text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
 </div>
 </div>
       </div>
@@ -65,7 +124,7 @@ data={data}
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-  <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
+  <Card contentCard={contentCard} className="w-[800px] h-[650px] "></Card>
   </div>
  </MainLayout>
 )
