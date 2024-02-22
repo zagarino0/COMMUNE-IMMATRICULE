@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-[{"id_user":4,"code":"1357","password":"$2b$10$dHw3ah8fb6Z71fLxsabsVeABn3S0ZGRTU0q7KwyiKlgFzCduyisx6","nom":"Randria ","prenom":"Arzoun","numero_matricule":"098765","type_operateur":"Chef de division","actif":true,"refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiMTM1NyIsImlhdCI6MTcwODQ2NzM3MSwiZXhwIjoxNzA4NTUzNzcxfQ.bN8wmKbLpQk-YO2atd9I_jtwueCE6N-yQS46sghEXec"}]
-=======
 [
     {
         "id_user": 4,
@@ -50,4 +47,3 @@
         "actif": true
     }
 ]
->>>>>>> refs/remotes/origin/main
