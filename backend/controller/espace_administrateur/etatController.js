@@ -178,8 +178,7 @@ module.exports = {
     getContribuableVeilleuse,
     getContribuableVeilleuseByReferenceFiscal,
     getContribuableEveille,
-    getContribuableEveilleByReferenceFiscal,
-    
+    getContribuableEveilleByReferenceFiscal,    
     getCessationContribuable,
     getCessationContribuableByAll,
     getCessationContribuableById,

@@ -1,10 +1,11 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { MainLayout } from "../../../layouts/main";
-import axios from "axios";
+import axios from "axios"
+//import { API_ENDPOINTS } from "./config";
 
 interface Mdp {
   code : string ,
@@ -14,33 +15,31 @@ interface Mdp {
  }
 
 function ModifierMotDePassePage() {  
+  
  const [ Mot_de_pass , setMot_de_pass] = useState<Mdp>({
   code : "",
   ancien_mot_de_pass : "",
   nouveau_mot_de_pass : "",
   confirm_mot_de_pass : ""  
- })   
+ });
+ 
+        const [loading, setLoading] = useState(false)
+        const [error, setError] = useState<string | null>(null);
 
  const handleChangePassword = async () => {
   if (Mot_de_pass.nouveau_mot_de_pass !== Mot_de_pass.confirm_mot_de_pass) {
-    alert("Les nouveaux mots de passe ne correspondent pas");
+    setError("Les nouveaux mots de passe ne correspondent pas");
     return;
   }
+  setLoading(true)
+    const ChangePassword = {
+        "code" : Mot_de_pass.code,
+        "password": Mot_de_pass.ancien_mot_de_pass,
+        "newPassword": Mot_de_pass.nouveau_mot_de_pass,    
+    }
 
   try {
-
-    const Motdepass = {
-      "code" : Mot_de_pass.code ,
-      "password" : Mot_de_pass.ancien_mot_de_pass,
-      "newPassword": Mot_de_pass.nouveau_mot_de_pass
-    }
-    console.log(Motdepass)
-    // Replace 'YOUR_BACKEND_CHANGE_PASSWORD_URL' with your actual backend API endpoint for changing the password
-    const response = await axios.post(
-      "http://localhost:3500/user/password/update",
-      Motdepass
-    );
-
+    const response = await axios.put('http://localhost:3500/user/password/update', ChangePassword);
     // Handle the response from the server as needed
     console.log("Password change successful:", response.data);
     alert(`Mot de passe changer  pour l'utilisateur ${Mot_de_pass.code}`)
@@ -53,11 +52,12 @@ function ModifierMotDePassePage() {
     });
   } catch (error) {
     // Handle errors from the server
-    console.error("Password change failed:", error.message);
+   // console.error("Password change failed:", error.message);
     alert(
       "La modification du mot de passe a échoué. Veuillez vérifier vos informations d'identification et réessayer."
     );
   }
+  finally{setLoading(false)}
 };
   const ContentCard = (
     <div className="flex justify-center items-center">
@@ -103,3 +103,6 @@ return (
 }
 
 export default ModifierMotDePassePage
+
+
+//changement mot d passe efa madeha tsara

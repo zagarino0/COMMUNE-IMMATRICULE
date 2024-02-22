@@ -14,7 +14,7 @@ contentCard,
     bg-white
     rounded-md
     py-1
-    shadow-xl
+    shadow-x1
     ${className}
     `}
     >

@@ -44,7 +44,7 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     };
     try {
       // Make a POST request to deactivate the user
-      await axios.post(`http://localhost:3500/user/desactivatin`, UserCode);
+      await axios.post(`http://localhost:3500/user/desactivation`, UserCode);
 
       // Update the list of data after successful deactivation
       setDataUser((prevData) => prevData.filter((data) => data.code !== code));
@@ -78,7 +78,7 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     };
     try {
       // Make a POST request to deactivate the user
-      await axios.post(`http://localhost:3500/user/reactivation`, UserCode);
+      await axios.post(`http://localhost:3500/user/actif`, UserCode);
 
       // Update the list of data after successful deactivation
       setDataUser((prevData) => prevData.filter((data) => data.code !== code));
@@ -97,21 +97,21 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     <Checkbox checked={item.actif} />,
     item.numero_matricule,
     <Button text="Désactiver" key={item.code} className='cursor-pointer' onClick={() => handleDesactivate(item.code)} />,
-    <Button text="Activer" onClick={() => handleReactivation(item.code)}/>,
-    <Button text="Supprimer" onClick={() => handleDelete(item.code)} />,
+    <Button text="Activer" className='cursor-pointer' onClick={() => handleReactivation(item.code)}/>,
+    <Button text="Supprimer" className='cursor-pointer' onClick={() => handleDelete(item.code)} />,
   ]);
 
   const handleSearch = async () => {
     try {
       // Make a GET request to search for users based on the provided parameters
-      const response = await axios.get<User[]>('YOUR_BACKEND_SEARCH_URL', { params: Compte });
+      const response = await axios.post<User[]>(`http://localhost:3500/user`, { params: Compte });
 
       // Handle the response from the server as needed
       console.log("Search results:", response.data);
 
       // Set the search results to state
       setDataUser(response.data);
-    } catch (error ) {
+    } catch (error) {
       // Handle errors from the server
       console.error("Search failed:", error.message);
       alert("Search failed. Please try again.");
@@ -121,7 +121,7 @@ function GererLesComptesOperateurDeVotreCentrePage() {
   const contentCard = (
     <div className="flex justify-center items-center">
       <div className="flex flex-col">
-        <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Gestion compte opérateur - Centre fiscal Mahajanga A</div>
+        <div className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-8">Gestion compte opérateur</div>
 
         <div className="flex flex-col mt-6 p-12">
           <Input type="text" value={Compte.login_operatreur} onChange={(e) => setCompte({ ...Compte, login_operatreur: e.target.value })} placeholder="Login opérateur" className="mt-6 w-full" />
@@ -130,6 +130,9 @@ function GererLesComptesOperateurDeVotreCentrePage() {
           <Input type="text" value={Compte.numero_matricule} onChange={(e) => setCompte({ ...Compte, numero_matricule: e.target.value })} placeholder="Numéro matricule" className="mt-6 w-full" />
           <Input type="text" value={Compte.corps} onChange={(e) => setCompte({ ...Compte, corps: e.target.value })} placeholder="Corps" className="mt-6 w-full" />
 
+         
+              <Button text="Rechercher" className="mt-6" onClick={handleSearch}></Button>
+          
         
           <div className="overflow-y-auto w-[700px] mt-6">
             <Table headers={headers} data={data} />
@@ -149,3 +152,6 @@ function GererLesComptesOperateurDeVotreCentrePage() {
 }
 
 export default GererLesComptesOperateurDeVotreCentrePage;
+
+//efa vita 
+
