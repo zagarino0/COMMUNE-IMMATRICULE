@@ -73,12 +73,12 @@ const getContribuablebloque = (req, res) => {
     const nom_commercial = req.body.nom_commercial;
     const date_debut = req.body.date_debut;
     const date_fin = req.body.date_fin;
-    let contribuable = {};
 
 
-    if (!date_debut) {
+    if (!date_debut && !date_fin) {
+
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.id === reference);
+            const contribuable = data.contribuablesNonValide.find(con => con.id === reference);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -93,9 +93,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
+            const contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -110,9 +111,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
+            const contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -127,9 +129,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
+            const contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -144,6 +147,7 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
             const adresse = data.siegeTemps.find(sie => sie.adresse_actuel === adresse);
@@ -158,12 +162,12 @@ const getContribuablebloque = (req, res) => {
             contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
             contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = adresse
-
+            return res.json(contribuable)
         }
     } else if (date_debut && !date_fin) {
         const date = (new Date(date_debut)).setDate((new Date(date_debut)).getDate() + 7);
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date);
+            const contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -178,9 +182,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
-            contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
+            const contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -195,9 +200,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
-            contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
+            const contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -212,9 +218,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
-            contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
+            const contribuable = data.contribuablesNonValide.find(con => con.cin === cin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -229,9 +236,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date) {
-            contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
+            const contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -246,10 +254,11 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
     } else if (date_debut && date_fin) {
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
+            const contribuable = data.contribuablesNonValide.find(con => con.id === reference && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -264,9 +273,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin) {
-            contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
+            const contribuable = data.contribuablesNonValide.find(con => con.raison_social === raison_social);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -281,9 +291,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && reference_fiscal && !cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
+            const contribuable = data.contribuablesNonValide.find(con => con.reference_fiscal === reference_fiscal && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -300,7 +311,7 @@ const getContribuablebloque = (req, res) => {
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
         }
         else if (!reference && !raison_social && !reference_fiscal && cin && !adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.cin === cin && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
+            const contribuable = data.contribuablesNonValide.find(con => con.cin === cin && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -315,9 +326,10 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
         else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
-            contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
+            const contribuable = data.contribuablesNonValide.find(con => con.adresse === adresse && (new Date(con.date_creation)) >= date_debut && (new Date(con.date_creation)) <= date_fin);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
@@ -332,14 +344,28 @@ const getContribuablebloque = (req, res) => {
             contribuable.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
             contribuable.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === contribuable.id);
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
+            return res.json(contribuable)
         }
     } else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && !date_debut && !date_fin) {
-        return res.status(404).json({ 'message': 'aucun contribuable' })
+        const contribuable = data.contribuables;
+        contribuable.map(con => { 
+            const modif = data.modifications.find(mod => mod.id_contribuable === con.id && mod.nombre_modification === 5 && mod.blockage);
+            if(modif.blockage)  {
+            con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
+            con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
+            con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === con.id);
+            con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === con.id);
+            con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === con.id);
+            con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
+            con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
+            con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === con.id);
+            con.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === con.id);
+            }
+        })
+        return res.json(contribuable)
     } else {
         return res.status(404).json({ 'message': 'aucun contribuable' })
     }
-
-    res.json(contribuable);
 }
 
 const getContribuableNonBloque = (req, res) => {

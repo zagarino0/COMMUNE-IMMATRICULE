@@ -45,10 +45,6 @@ const addNewVehicle = async (req, res) => {
         "date_creation_vehicule": new Date()
     }
 
-    const contribuable = data.contribuable.find(con => con.reference_fiscal === req.body.nifproprietaire_v);
-    if(!contribuable)
-        return res.status(404).json({'message': 'contribuable introuvable'});
-
     const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
 
     const history = {

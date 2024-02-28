@@ -3,7 +3,7 @@ const router = express.Router();
 const consultationController = require('../../../controller/consultation/consultationController');
 
 router.route('/contribuable/bloque')
-    .get(consultationController.getContribuablebloque);
+    .post(consultationController.getContribuablebloque);
 
 router.route('/contribuable/nonbloque')
     .get(consultationController.getContribuableNonBloque);
