@@ -868,7 +868,7 @@ const blockageContribuable = async (req, res) => {
     const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && !mod.blockage);
     if(!modification)
         return res.status(400).json({'message': 'contribuable déjà bloqué'});
-    modification.blockage = false;
+    modification.blockage = true;
     
     const filteredModification = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
     data.setModifications([...filteredModification, modification]);
@@ -895,7 +895,7 @@ const blockageContribuable = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'history.json'),
         JSON.stringify(data.history)
     ) 
-
+        res.json({'success': 'contribuable bloqué'})
 }
 
 const reveilleContribuable = async (req, res) => {
@@ -1038,5 +1038,7 @@ module.exports = {
     miseEnVeilleuseContribuable,
     reveilleContribuable,
     deleteContribuable,
+    blockageContribuable,
     getContribuableById
+
 }
