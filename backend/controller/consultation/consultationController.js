@@ -639,17 +639,19 @@ const getAllContribuableBloque = (req, res) => {
     const contribluable = data.contribuablesNonValide;
     const contribluableBloque = [];
     contribluable.map( con => {
-        con.modification = data.modifications.find(mod => mod.id_contribuable === con.id);
-        con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
-        con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
-        con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === con.id);
-        con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === con.id);
-        con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === con.id);
-        con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
-        con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
-        con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.find(sie => sie.id_contribuable === con.id);
-        contribluableBloque.push({...con});
+        if(data.modifications.find(mod => mod.id_contribuable === con.id && mod.blockage).blockage){
+            con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
+            con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
+            con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === con.id);
+            con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === con.id);
+            con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === con.id);
+            con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
+            con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
+            con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.find(sie => sie.id_contribuable === con.id);
+            contribluableBloque.push({...con});
+        }
     })
+    res.json(contribluableBloque);
 }
 
 const getListeDemandeAValide = (req, res) => {
