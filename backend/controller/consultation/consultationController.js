@@ -81,9 +81,9 @@ const getContribuablebloque = (req, res) => {
             const contribuable = data.contribuablesNonValide.find(con => con.id === reference);
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
-            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
-            if (modification)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage);
+            if (!modification.blockage)
+                return res.status(404).json({ 'message': "Ce contribuable n'est bloqué" })
             contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
@@ -100,8 +100,8 @@ const getContribuablebloque = (req, res) => {
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
-            if (modification)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            if (!modification.blockage)
+                return res.status(404).json({ 'message': "Ce contribuable n'est bloqué" })
             contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
@@ -118,8 +118,8 @@ const getContribuablebloque = (req, res) => {
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
-            if (modification)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            if (!modification.blockage)
+                return res.status(404).json({ 'message': "Ce contribuable n'est bloqué" })
             contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
@@ -136,8 +136,8 @@ const getContribuablebloque = (req, res) => {
             if (!contribuable)
                 return res.status(404).json({ 'message': 'Aucun contribuable' });
             const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && mod.nombre_modification === 5 && mod.blockage)
-            if (modification)
-                return res.status(404).json({ 'message': 'Ce contribuable est bloqué' })
+            if (!modification.blockage)
+                return res.status(404).json({ 'message': "Ce contribuable n'est bloqué" })
             contribuable.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
             contribuable.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
             contribuable.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
@@ -149,21 +149,27 @@ const getContribuablebloque = (req, res) => {
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
             return res.json(contribuable)
         }
-        else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
-            const adresse = data.siegeTemps.find(sie => sie.adresse_actuel === adresse);
-            if (!adresse)
-                return res.status(404).json({ 'message': 'Aucun contribuable' });
-            contribuable = data.contribuablesNonValide.filter(con => con.id === adresse.id_contribuable);
-            contribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
-            contribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
-            contribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
-            contribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
-            contribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
-            contribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
-            contribuable.siege = adresse
-            return res.json(contribuable)
-        }
+        // else if (!reference && !raison_social && !reference_fiscal && !cin && adresse && !nom_commercial) {
+        //     const adresse = data.siegeTemps.find(sie => sie.adresse_actuel === adresse);
+        //     if (!adresse)
+        //         return res.status(404).json({ 'message': 'Aucun contribuable' });
+        //     const contribuable = data.contribuablesNonValide.filter(con => con.id === adresse.id_contribuable);
+        //     con.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
+        //     con.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
+        //     con.activite = data.activiteTemps.filter(act => act.id_contribuable === con.id);
+        //     con.autre = data.autreTemps.filter(aut => aut.id_contribuable === con.id);
+        //     con.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === con.id);
+        //     con.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
+        //     con.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === con.id);
+        //     con.siege = adresse
+        //     return res.json(contribuable)
+        // }
+        // else {
+        //     const contribuable = data.contribuablesNonValide;
+        //     const modification = data.modification;
+
+        //     return res.json(contribuable)
+        // }
     } else if (date_debut && !date_fin) {
         const date = (new Date(date_debut)).setDate((new Date(date_debut)).getDate() + 7);
         if (reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial) {
@@ -346,23 +352,6 @@ const getContribuablebloque = (req, res) => {
             contribuable.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === contribuable.id);
             return res.json(contribuable)
         }
-    } else if (!reference && !raison_social && !reference_fiscal && !cin && !adresse && !nom_commercial && !date_debut && !date_fin) {
-        const contribuable = data.contribuables;
-        contribuable.map(con => { 
-            const modif = data.modifications.find(mod => mod.id_contribuable === con.id && mod.nombre_modification === 5 && mod.blockage);
-            if(modif.blockage)  {
-            con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
-            con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
-            con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === con.id);
-            con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === con.id);
-            con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === con.id);
-            con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
-            con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
-            con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.siege(sie => sie.id_contribuable === con.id);
-            con.assujetissement = data.assujetissementTemps === 0 ? null : data.assujetissementTemps.filter(sie => sie.id_contribuable === con.id);
-            }
-        })
-        return res.json(contribuable)
     } else {
         return res.status(404).json({ 'message': 'aucun contribuable' })
     }
@@ -644,6 +633,23 @@ const getContribuableNonBloque = (req, res) => {
     }
 
     res.json(contribuable);
+}
+
+const getAllContribuableBloque = (req, res) => {
+    const contribluable = data.contribuablesNonValide;
+    const contribluableBloque = [];
+    contribluable.map( con => {
+        con.modification = data.modifications.find(mod => mod.id_contribuable === con.id);
+        con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
+        con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
+        con.activite = data.activiteTemps.length === 0 ? null : data.activiteTemps.find(act => act.id_contribuable === con.id);
+        con.autre = data.autreTemps.length === 0 ? null : data.autreTemps.find(aut => aut.id_contribuable === con.id);
+        con.coordonnees = data.coordonneeTemps.length === 0 ? null : data.coordonneeTemps.find(coo => coo.id_contribuable === con.id);
+        con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
+        con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
+        con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.find(sie => sie.id_contribuable === con.id);
+        contribluableBloque.push({...con});
+    })
 }
 
 const getListeDemandeAValide = (req, res) => {
@@ -1220,5 +1226,6 @@ module.exports = {
     getListeDemandeAValide,
     getListeMiseAJourAValide,
     getListeDemandeAValideByAll,
-    getListeMiseAJourAValideByAll
+    getListeMiseAJourAValideByAll,
+    getAllContribuableBloque
 }
