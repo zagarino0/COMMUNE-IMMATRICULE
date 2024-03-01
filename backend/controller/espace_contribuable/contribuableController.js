@@ -859,6 +859,45 @@ const miseEnVeilleuseContribuable = async (req, res) => {
     res.json({ 'success': 'Mise en veille du contribuable effectué' });
 }
 
+const blockageContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return res.status(400).json({'message': 'contribuable introuvable'});
+    const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && !mod.blockage);
+    if(!modification)
+        return res.status(400).json({'message': 'contribuable déjà bloqué'});
+    modification.blockage = false;
+    
+    const filteredModification = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
+    data.setModifications([...filteredModification, modification]);
+
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': req.body.id_user,
+        'motif': `Blockage de contribuable dont la reference fiscal est : ${contribuable.reference_fiscal}`,
+        'comment': req.body.comment,
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history])
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
+    ) 
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
+    ) 
+
+}
+
 const reveilleContribuable = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
     const comment = req.body.comment;
