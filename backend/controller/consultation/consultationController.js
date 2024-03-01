@@ -639,6 +639,8 @@ const getAllContribuableBloque = (req, res) => {
     const contribluable = data.contribuablesNonValide;
     const contribluableBloque = [];
     contribluable.map( con => {
+        if(!data.modifications.find(mod => mod.id_contribuable === con.id && mod.blockage))
+            return res.status(404).json({'message': 'erreur quoi'})
         if(data.modifications.find(mod => mod.id_contribuable === con.id && mod.blockage).blockage){
             con.actionnaire = data.actionnaireTemps.length === 0 ? null : data.actionnaireTemps.filter(act => act.id_contribuable === con.id);
             con.dirigeant = data.dirigeantTemps.length === 0 ? null : data.dirigeantTemps.filter(dir => dir.id_contribuable === con.id);
