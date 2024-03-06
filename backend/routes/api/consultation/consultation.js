@@ -6,6 +6,10 @@ router.route('/contribuable/bloque')
     .get(consultationController.getAllContribuableBloque)
     .post(consultationController.getContribuablebloque);
 
+
+router.route('/contribuable/deuxdates')
+    .post(consultationController.getContribuableByTwoDates);
+
 router.route('/contribuable/nonbloque')
     .get(consultationController.getContribuableNonBloque);
 

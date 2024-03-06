@@ -71,6 +71,21 @@ const addNewVehicle = async (req, res) => {
     res.json(data.vehicles);
 }
 
+const getListeVehiculeByTwoDates = (req, res) => {
+    const date_debut = req.body.date_debut;
+    const date_fin = req.body.date_fin;
+
+    if(date_debut && !date_fin){
+        const vehicule = data.vehicles.filter(veh => (new Date(veh.date_creation_vehicule)) >= (new Date(date_debut)))
+        return res.json(vehicule);
+    }else if(date_debut && date_fin){
+        const vehicule = data.vehicles.filter(veh => (new Date(veh.date_creation_vehicule)) >= (new Date(date_debut)) && (new Date(veh.date_creation_vehicule)) <= (new Date(date_fin)));
+        return res.json(vehicule);
+    }else if(!date_debut && !date_fin){
+        const vehicule = data.vehicles;
+        return res.json(vehicule)
+    }
+}
 
 
 //----------------function to update vehicle--------------------
@@ -198,5 +213,6 @@ module.exports = {
     deleteVehicle,
     getVehicle,
     getVehicleByNifContribuable,
-    getVehicleByAll
+    getVehicleByAll,
+    getListeVehiculeByTwoDates
 }
