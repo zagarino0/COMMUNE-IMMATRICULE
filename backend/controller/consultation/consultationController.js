@@ -704,6 +704,22 @@ const getContribuableByTwoDates = (req, res) => {
     }
 }
 
+const getContribuableByRef = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
+    if(!contribuable)
+        return res.status(400).json({'message': 'Contribuable introuvable'});
+    contribuable.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+    contribuable.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+    contribuable.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === contribuable.id);
+    contribuable.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+    contribuable.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+    contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+    contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+    contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
+    res.json(contribuable);
+}
+
 const getListeDemandeAValide = (req, res) => {
     const contribuablesNonValides = [];
     data.contribuablesNonValide.map(con => {
@@ -1280,5 +1296,6 @@ module.exports = {
     getListeDemandeAValideByAll,
     getListeMiseAJourAValideByAll,
     getAllContribuableBloque,
-    getContribuableByTwoDates
+    getContribuableByTwoDates,
+    getContribuableByRef
 }
