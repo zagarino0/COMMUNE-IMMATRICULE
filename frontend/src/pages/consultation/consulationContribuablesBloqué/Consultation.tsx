@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../../../components/card/card"
-import Input from "../../../components/inputs"
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label"
+// import Input from "../../../components/inputs"
+// import Select from "../../../components/inputs/selectInput";
+// import { Label } from "../../../components/label/label"
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
-import { Button } from "../../../components/common";
+// import { Button } from "../../../components/common";
 import { Link } from "react-router-dom";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { ImFilePdf } from "react-icons/im";
@@ -17,31 +17,30 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 function ConsultationContribuableBloque() {
-  const [selectedOption, setSelectedOption] = useState('');
-   
 
-  const [bloque , setbloque ]  =  useState<{
-    domaine_recherche : string ,
-    reference : string ,
-    cin:string,
-    raison_social : string,
-    adresse : string,
-    nom_commercial: string,
-    date_debut : string ,
-    date_fin : string,
-    reference_fiscal : string
+  // const [selectedOption, setSelectedOption] = useState('');
+  // const [bloque , setbloque ]  =  useState<{
+  //   domaine_recherche : string ,
+  //   reference : string ,
+  //   cin:string,
+  //   raison_social : string,
+  //   adresse : string,
+  //   nom_commercial: string,
+  //   date_debut : string ,
+  //   date_fin : string,
+  //   reference_fiscal : string
     
-    }>({
-      domaine_recherche : "" ,
-      reference : "" ,
-      cin:"",
-      raison_social:"",
-      adresse:"",
-      nom_commercial:"",
-      date_debut : "" ,
-      date_fin : "",
-      reference_fiscal: ""
-    })
+  //   }>({
+  //     domaine_recherche : "" ,
+  //     reference : "" ,
+  //     cin:"",
+  //     raison_social:"",
+  //     adresse:"",
+  //     nom_commercial:"",
+  //     date_debut : "" ,
+  //     date_fin : "",
+  //     reference_fiscal: ""
+  //   })
   
 const [DataBloque ,setDataBloque] = useState([]);
 useEffect(() => {
@@ -51,17 +50,17 @@ useEffect(() => {
       .catch((error) => console.error(error));
   }, []);
 
+console.log(DataBloque)
 
 
-
-  const options = [
-    { value: 'référence', label: 'référence' },
-    { value: 'Raison sociale', label: 'Raison sociale' },
-    { value: 'Référence fiscal', label: 'Référence fiscal' },
-    { value: 'CIN', label: 'CIN' },
-    { value: 'Adresse', label: 'Adresse' },
-    { value: 'Nom commercial', label: 'Nom commercial' },
-  ];
+  // const options = [
+  //   { value: 'référence', label: 'référence' },
+  //   { value: 'Raison sociale', label: 'Raison sociale' },
+  //   { value: 'Référence fiscal', label: 'Référence fiscal' },
+  //   { value: 'CIN', label: 'CIN' },
+  //   { value: 'Adresse', label: 'Adresse' },
+  //   { value: 'Nom commercial', label: 'Nom commercial' },
+  // ];
 
   const exportToExcelAllData = () => {
     const allData = DataBloque.map((item) => ({
@@ -114,10 +113,10 @@ useEffect(() => {
 <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
   Consultation des contribuables bloqués
 </div>
-<div className="mt-4 text-xl font-semibold">
+{/* <div className="mt-4 text-xl font-semibold">
   veuillez remplir vos critères ci-dessous : 
-</div>
-<div className="flex justify-between mt-4">
+</div> */}
+{/* <div className="flex justify-between mt-4">
 <Label text="Domaine de recherche :" className="mt-4"></Label>
 <Select options={options} value={bloque.domaine_recherche} onChange={(options)=>{setbloque({...bloque , domaine_recherche : options})}} className="w-96 mx-6"/>
 </div>
@@ -187,20 +186,20 @@ onChange={(e)=> {setbloque({...bloque , nom_commercial: e.target.value})}}
 ></Input>
 </div>
 ) 
-}
-<div className="flex justify-between mt-4">
+} */}
+{/* <div className="flex justify-between mt-4">
 <Label text="Date blocage du :" className="mt-4"></Label>
 <Input type="date" className="w-96 mx-6" ></Input>
-</div>
+</div> */}
 
-<div className="flex justify-between mt-4">
+{/* <div className="flex justify-between mt-4">
 <Label text="Au :" className="mt-4"></Label>
 <Input type="date" className="w-96 mx-6" ></Input>
-</div>
-
+</div> */}
+{/* 
 <div className="mt-4">
 <Button text="Lister" className="rounded w-40"></Button>
-</div>
+</div> */}
 <div className="flex justify-center items-center mt-12" >
 
 <Table

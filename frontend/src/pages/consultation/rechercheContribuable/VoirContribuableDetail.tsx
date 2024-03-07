@@ -7,8 +7,8 @@ import { MainLayout } from "../../../layouts/main";
 
 function VoirContribuableDetail() {
     const selectedData = localStorage.getItem("selectedRechercheConsulationData");
-    const DataSelected = JSON.parse(selectedData as string);
-    console.log(DataSelected)
+    const  parsedDataSelected = JSON.parse(selectedData as string);
+    console.log("data affiché :", parsedDataSelected)
     const HeaderVehicule = [ "Numéro vehicule" , "Genre" , "Marque" , "Type" , "Nbre Place" , "DMC" , "Poids"]
     
     const DataVehicule = [
@@ -22,54 +22,54 @@ function VoirContribuableDetail() {
     ]
     const contentCard = (
         <div className="m-4">
-            <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation du contribuable ayant comme RF : {DataSelected.reference_fiscal}</div>
+            <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation du contribuable ayant comme RF : {parsedDataSelected.reference_fiscal}</div>
            <div className="flex flex-col bg-gray-20 m-4">
 <div className="mt-6">
     <TitleH3 text="Contribuable actif"></TitleH3>
 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Raison social"></Label>
-                    <Label text={DataSelected.raison_social}></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.raison_social : ""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Nom commercial"></Label>
-                    <Label text={DataSelected.nom_commercial}></Label>
+                    <Label text={parsedDataSelected.nom_commercial}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Type"></Label>
-                    <Label text={DataSelected.type}></Label>
+                    <Label text={parsedDataSelected.type}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Situation matrimoniale"></Label>
-                    <Label text={DataSelected.situationmatrimoinial}></Label>
+                    <Label text={parsedDataSelected.situationmatrimoinial}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Sexe"></Label>
-                    <Label text={DataSelected.sexe}></Label>
+                    <Label text={parsedDataSelected.sexe}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="CIN"></Label>
-                    <Label text={DataSelected.cin}></Label>
+                    <Label text={parsedDataSelected.cin}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Délivrée le"></Label>
-                    <Label text={DataSelected.delivre_le}></Label>
+                    <Label text={parsedDataSelected.date_de_delivrance_cin}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="A"></Label>
-                    <Label text={DataSelected.lieudelivrancecin}></Label>
+                    <Label text={parsedDataSelected.lieu_de_livrancecin}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Né(e) le"></Label>
-                    <Label text={DataSelected.datenaissance}></Label>
+                    <Label text={parsedDataSelected.date_de_naissance}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="A"></Label>
-                    <Label text={DataSelected.lieunaissance}></Label>
+                    <Label text={parsedDataSelected.lieu_de_naissance}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Passport"></Label>
-                    <Label text={DataSelected.passport}></Label>
+                    <Label text={parsedDataSelected.numero_passport}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Associé majoritaire"></Label>
@@ -81,31 +81,31 @@ function VoirContribuableDetail() {
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Forme juridique"></Label>
-                    <Label text="Forme juridique"></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.forme_juridique : ""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Régime Fiscal"></Label>
-                    <Label text="Régime Fiscal"></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.regime_fiscal : ""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Date d'agrément"></Label>
-                    <Label text="Date d'agrément"></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.date_agrement : ""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Réf agrément"></Label>
-                    <Label text="Réf agrément"></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.reference_agrement :""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Période de grace"></Label>
-                    <Label text="Période de grace"></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.periode_grace : ""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Date de création"></Label>
-                    <Label text="Date de création"></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.date_creation : ""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Capital en Ar"></Label>
-                    <Label text="Capital en Ar"></Label>
+                    <Label text={parsedDataSelected ? parsedDataSelected.capital : ""}></Label>
                 </div>
                 <div className="flex justify-between mt-6">
                     <Label text="Activités"></Label>

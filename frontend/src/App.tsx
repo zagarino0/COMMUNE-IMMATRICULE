@@ -83,6 +83,7 @@ import ListeAttestation from "./pages/etat/ListeAttestation/ListeAttestation";
 import ListeCarteRegularite from "./pages/etat/ListeCarteRegularite/ListeCarteRegularite";
 import ListeUtilisateur from "./pages/etat/ListeUtlisateur/ListeUtilisateur";
 import RepriseInfo from "./pages/autresOperations/RepriseActivite/RepriseInfo";
+import InfoBlocage from "./pages/autresOperations/BlocageAdministratif/InfoBlocage";
 function App() {
   
   return (
@@ -173,6 +174,7 @@ function App() {
         <Route path="/ListeCarteRegularite" element={<ListeCarteRegularite/>}></Route>
         <Route path="/ListeUtilisateur" element={<ListeUtilisateur/>}></Route>
         <Route path="/RepriseInfo" element={<RepriseInfo/>}></Route>
+        <Route path="/InfoBlocage" element={<InfoBlocage/>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>        
 
       </Routes>

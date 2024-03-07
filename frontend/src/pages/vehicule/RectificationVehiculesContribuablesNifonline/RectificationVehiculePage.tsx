@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Card } from "../../../components/card/card"
-import { Button } from "../../../components/common";
-import Input from "../../../components/inputs";
-import { Label } from "../../../components/label/label";
+// import { Button } from "../../../components/common";
+// import Input from "../../../components/inputs";
+// import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
 import { useEffect, useState } from "react";

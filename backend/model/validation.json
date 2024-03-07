@@ -1,14 +1,1 @@
-[
-    {
-        "id_validation": 1,
-        "id_contribuable": "1657",
-        "date_validation": "2024-01-22T22:37:53.874Z",
-        "validite": true
-    },
-    {
-        "id_validation": 7,
-        "id_contribuable": "rZYkBl3nTL",
-        "validite": true,
-        "date_validation": "2024-01-25T13:14:30.949Z"
-    }
-]
+[{"id_validation":1,"id_contribuable":"1657","date_validation":"2024-01-22T22:37:53.874Z","validite":true},{"id_validation":7,"id_contribuable":"rZYkBl3nTL","validite":true,"date_validation":"2024-01-25T13:14:30.949Z"},{"id_validation":12,"id_contribuable":"01Zdm5e20","date_validation":"2024-03-02T02:46:02.047Z","validite":true}]

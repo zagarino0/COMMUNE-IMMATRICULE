@@ -12,7 +12,7 @@ function InfoBlocage() {
     let navigate = useNavigate();
     const selectedData = localStorage.getItem("selectedBlocageData");
     const  parsedDataSelected = JSON.parse(selectedData as string);
-    console.log(parsedDataSelected)
+    console.log("Data from Bloc :",parsedDataSelected)
     const {activite} = parsedDataSelected ;
     const {siege} = parsedDataSelected ;
     const userAdminData = localStorage.getItem("userAdministrationData");
@@ -22,18 +22,17 @@ function InfoBlocage() {
 
       const Data ={
         "reference_fiscal": parsedDataSelected.reference_fiscal,
-        "motif" : "Cessation",
-        "comment" : " Cessation d'activité contribuable",
+        "comment" : " Blocage d'activité contribuable",
         "id_user" : userData.id_user         
       }
       try {
         // Make a POST request to your server endpoint
-        const response = await axios.post("http://localhost:3500/contribuable/activite/cessation", Data);
+        const response = await axios.post("http://localhost:3500/contribuable/bloquer", Data);
         
         // Check the response status or do something with the response
         console.log("Server Response:", response.data );
-        alert(`Cessation pour ${parsedDataSelected.raison_social} réussi`)
-        navigate('/CessationActivite')
+        alert(`Mise en veille pour ${parsedDataSelected.raison_social} réussi`)
+        navigate('/BlocageAdministratif')
       } catch (error) {
         // Handle errors
         console.error("Error:", error);
@@ -43,7 +42,7 @@ function InfoBlocage() {
     const content = (
       <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CESSATION D'ACTIVITE"></TitleH1></div>
+        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="BLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>

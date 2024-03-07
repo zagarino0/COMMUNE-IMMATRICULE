@@ -117,6 +117,41 @@ function Associe() {
         setAdd(false); 
       };
     
+      // Delete the Data From the Table 
+      const handleDeleteButtonClick = (idToDelete: string) => {
+        // Filter out the entry with the specified ID
+        const updatedEntries = entries.filter((entry) => entry.id !== idToDelete);
+      
+        // Update the entries state with the filtered entries
+        setEntries(updatedEntries);
+      
+        
+      };
+      
+
+
+      // select Data in the table
+      
+      const [EntriesSelected , setEntriesSelected] = useState([])
+      const [selectedRowIndexEntries  , setSelectedRowIndexEntries] = useState(null) 
+      const handleTableRowClickEntries = (rowIndex) => {
+        if (rowIndex === selectedRowIndexEntries) {
+          // If the clicked row is already selected, unselect it
+          setSelectedRowIndexEntries(null);
+          setEntriesSelected({});
+        } else {
+          // Extract the property values from the data object
+          const selectedRowData = entries[rowIndex];
+      
+          // Select the clicked row
+          setSelectedRowIndexEntries(rowIndex);
+          setEntriesSelected(selectedRowData);
+        }
+      
+        console.log('Selected entiers Data:', EntriesSelected);
+      };
+      
+
       const headers = [
         "Type association",
         "Nom actionnaire",
@@ -332,6 +367,8 @@ function Associe() {
           
     <div className="w-[1000px] mt-6 overflow-y-auto h-96">
   <Table
+onClick={handleTableRowClickEntries}
+selectedRowIndex={selectedRowIndexEntries}
 
 headers={headers}
 data={data}
@@ -342,14 +379,9 @@ data={data}
             <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
 </div>
 <div  className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
+            <button onClick={()=>handleDeleteButtonClick(EntriesSelected.id)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
 </div>
-<div className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
-</div>
-<div className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
-</div>
+
 </div>
 </div>
 )} 

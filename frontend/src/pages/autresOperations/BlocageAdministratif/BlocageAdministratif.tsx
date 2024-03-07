@@ -46,7 +46,7 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     setIsStorageUpdated(true);
 
     // Use the selectedOption to determine the route to navigate to
-    const routeToNavigate = "/RepriseInfo";
+    const routeToNavigate = "/InfoBlocage";
 
     // Use navigate to navigate to the determined route
     navigate(routeToNavigate, { state: { DataSelected } });

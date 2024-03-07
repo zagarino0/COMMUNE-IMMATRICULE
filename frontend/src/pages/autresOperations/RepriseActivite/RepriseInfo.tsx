@@ -39,7 +39,7 @@ function RepriseInfo() {
       } catch (error) {
         // Handle errors
         console.error("Error:", error);
-        alert("Il y a une erreur")
+        alert("Vous ne pouvez pas faire une réprise d'activité avant 3 mois")
       }
     }
     const content = (

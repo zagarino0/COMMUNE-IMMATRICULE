@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../../../components/card/card"
-import Checkbox from "../../../components/common/checkbox";
-import Input from "../../../components/inputs";
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label";
+// import Checkbox from "../../../components/common/checkbox";
+// import Input from "../../../components/inputs";
+// import Select from "../../../components/inputs/selectInput";
+// import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { TitleH3 } from "../../../components/title";
 import { ImFilePdf } from "react-icons/im";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
-import { Button } from "../../../components/common";
+// import { Button } from "../../../components/common";
 import * as XLSX from 'xlsx';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -22,31 +22,31 @@ function RechercheContribuablePage() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [DataSelected , setDataSelected] = useState([]);
 
-    const [Contribuable , setContribuable ]  =  useState<{
-      domaine_recherche : string ,
-      reference : string ,
-      cin:string,
-      raison_social : string,
-      adresse : string,
-      nom_commercial: string,
-      date_debut : string ,
-      date_fin : string,
-      reference_fiscal : string
-      regimfiscal : string , 
-      type: string      
-      }>({
-        domaine_recherche : "" ,
-        reference : "" ,
-        cin:"",
-        raison_social:"",
-        adresse:"",
-        nom_commercial:"",
-        date_debut : "" ,
-        date_fin : "",
-        reference_fiscal: "",
-        regimfiscal : "",
-        type: ""
-      })
+    // const [Contribuable , setContribuable ]  =  useState<{
+    //   domaine_recherche : string ,
+    //   reference : string ,
+    //   cin:string,
+    //   raison_social : string,
+    //   adresse : string,
+    //   nom_commercial: string,
+    //   date_debut : string ,
+    //   date_fin : string,
+    //   reference_fiscal : string
+    //   regimfiscal : string , 
+    //   type: string      
+    //   }>({
+    //     domaine_recherche : "" ,
+    //     reference : "" ,
+    //     cin:"",
+    //     raison_social:"",
+    //     adresse:"",
+    //     nom_commercial:"",
+    //     date_debut : "" ,
+    //     date_fin : "",
+    //     reference_fiscal: "",
+    //     regimfiscal : "",
+    //     type: ""
+    //   })
   
 
 
@@ -62,41 +62,41 @@ useEffect(() => {
  
     
 
-  const handleSearchClient = async () => {
-    const DataSearch ={
-      "reference":Contribuable.reference,
-      "raison_social":Contribuable.raison_social,
-      "reference_fiscal": Contribuable.reference_fiscal,
-      "cin":Contribuable.cin,
-      "adresse": Contribuable.adresse,
-      "nom_commercial": Contribuable.nom_commercial,
-      "date_debut":Contribuable.date_debut,
-      "date_fin": Contribuable.date_fin  
-    }
-    try {
-      // Make a POST request to your server endpoint
-      const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
-      setDataContribuble(response.data);
-      // Check the response status or do something with the response
-      console.log("Server Response:", DataContribuable );
-    } catch (error) {
-      // Handle errors
-      console.error("Error:", error);
-    }
-  };
+  // const handleSearchClient = async () => {
+  //   const DataSearch ={
+  //     "reference":Contribuable.reference,
+  //     "raison_social":Contribuable.raison_social,
+  //     "reference_fiscal": Contribuable.reference_fiscal,
+  //     "cin":Contribuable.cin,
+  //     "adresse": Contribuable.adresse,
+  //     "nom_commercial": Contribuable.nom_commercial,
+  //     "date_debut":Contribuable.date_debut,
+  //     "date_fin": Contribuable.date_fin  
+  //   }
+  //   try {
+  //     // Make a POST request to your server endpoint
+  //     const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
+  //     setDataContribuble(response.data);
+  //     // Check the response status or do something with the response
+  //     console.log("Server Response:", DataContribuable );
+  //   } catch (error) {
+  //     // Handle errors
+  //     console.error("Error:", error);
+  //   }
+  // };
     
 
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
   const data = DataContribuable.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
     
-      const options = [
-        { value: 'référence', label: 'référence' },
-        { value: 'Raison sociale', label: 'Raison sociale' },
-        { value: 'Référence fiscal', label: 'Référence fiscal' },
-        { value: 'CIN', label: 'CIN' },
-        { value: 'Adresse', label: 'Adresse' },
-        { value: 'Nom commercial', label: 'Nom commercial' },
-      ];
+      // const options = [
+      //   { value: 'référence', label: 'référence' },
+      //   { value: 'Raison sociale', label: 'Raison sociale' },
+      //   { value: 'Référence fiscal', label: 'Référence fiscal' },
+      //   { value: 'CIN', label: 'CIN' },
+      //   { value: 'Adresse', label: 'Adresse' },
+      //   { value: 'Nom commercial', label: 'Nom commercial' },
+      // ];
     
 
       const exportToExcelAllData = () => {

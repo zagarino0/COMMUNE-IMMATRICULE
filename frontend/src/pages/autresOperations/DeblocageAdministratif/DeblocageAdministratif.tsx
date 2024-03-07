@@ -13,7 +13,7 @@ function DeblocageAdministratif() {
 const [DataValide ,setDataValide] = useState([]);
 useEffect(() => {
     // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/etat/contribuable/valide')
+    axios.get('http://localhost:3500/consultation/contribuable/bloque')
       .then((response) => setDataValide(response.data))
       .catch((error) => console.error(error));
   }, []);

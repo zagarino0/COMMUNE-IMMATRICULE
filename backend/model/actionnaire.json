@@ -62,5 +62,53 @@
         "associe_unique_actionnaire": "",
         "action_ou_actionnaire": "13",
         "id": "2"
+    },
+    {
+        "id": "1",
+        "id_contribuable": "01Zdm5e20",
+        "type": "Personne morale",
+        "nom_actionnaire": "",
+        "fonction_actionnaire": "",
+        "resident_actionnaire": true,
+        "cin_passeport_actionnaire": "",
+        "adresse_actionnaire": "",
+        "autre_activite_actionnaire": "",
+        "nif_actionnaire": "234567890°",
+        "email_actionnaire": "",
+        "numero_actionnaire": "",
+        "associe_unique_actionnaire": true,
+        "action_ou_actionnaire": "12"
+    },
+    {
+        "id_contribuable": "01Zdm5e20",
+        "type": "Personne physique",
+        "nom_actionnaire": "personne physique",
+        "fonction_actionnaire": "fonction",
+        "resident_actionnaire": true,
+        "cin_passeport_actionnaire": "234567890",
+        "adresse_actionnaire": "lot 0211 j 0380",
+        "autre_activite_actionnaire": "Avec RF",
+        "nif_actionnaire": "34567890",
+        "email_actionnaire": "email",
+        "numero_actionnaire": "09876543",
+        "associe_unique_actionnaire": true,
+        "action_ou_actionnaire": "13",
+        "id": "2"
+    },
+    {
+        "id_contribuable": "01Zdm5e20",
+        "type": "Personne morale etrangère/Etat",
+        "nom_actionnaire": "Jean frédi",
+        "fonction_actionnaire": "",
+        "resident_actionnaire": "",
+        "cin_passeport_actionnaire": "",
+        "adresse_actionnaire": "avenue 001",
+        "autre_activite_actionnaire": "",
+        "nif_actionnaire": "",
+        "email_actionnaire": "",
+        "numero_actionnaire": "",
+        "associe_unique_actionnaire": true,
+        "action_ou_actionnaire": "6",
+        "id": "3"
     }
 ]
