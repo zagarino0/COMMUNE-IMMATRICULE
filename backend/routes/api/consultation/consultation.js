@@ -6,6 +6,10 @@ router.route('/contribuable/bloque')
     .get(consultationController.getAllContribuableBloque)
     .post(consultationController.getContribuablebloque);
 
+
+router.route('/contribuable/deuxdates')
+    .post(consultationController.getContribuableByTwoDates);
+
 router.route('/contribuable/nonbloque')
     .get(consultationController.getContribuableNonBloque);
 
@@ -16,5 +20,8 @@ router.route('/contribuable/avalide')
 router.route('/contribuable/miseajouravalide')
     .get(consultationController.getListeMiseAJourAValide)
     .post(consultationController.getListeMiseAJourAValideByAll);
+
+router.route('/contribuable/referencefiscal')
+    .post(consultationController.getContribuableByRef);
 
 module.exports = router;

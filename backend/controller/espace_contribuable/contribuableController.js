@@ -215,6 +215,7 @@ const validationContribuable = async (req, res) => {
         data.setActionnaireTemps(filtederActionnaire);
         data.setActionnaire([...data.actionnaires, ...actionnaire]);
     }
+
     //dirigeant
     const dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
     if (dirigeant.length !== 0) {
@@ -222,6 +223,7 @@ const validationContribuable = async (req, res) => {
         data.setDirigeantTemps(filteredDirigeant);
         data.setDirigeant([...data.dirigeant, ...dirigeant]);
     }
+
     //activite
     const activite = data.activiteTemps.find(act => act.id_contribuable === contribuable.id);
     if (activite) {
@@ -229,6 +231,7 @@ const validationContribuable = async (req, res) => {
         data.setActiviteTemps(filteredActivite);
         data.setActivite([...data.activite, activite]);
     }
+
     //interlocuteur
     const interlocuteur = data.interlocuteurTemps.find(inter => inter.id_contribuable === contribuable.id);
     if (interlocuteur) {
@@ -236,6 +239,7 @@ const validationContribuable = async (req, res) => {
         data.setInterlocuteurTemps(filteredInterlocuteur);
         data.setInterlocuteur([...data.interlocuteur, interlocuteur]);
     }
+
     //siege
     const siege = data.siegeTemps.find(sie => sie.id_contribuable === contribuable.id);
     if (siege) {
@@ -243,6 +247,7 @@ const validationContribuable = async (req, res) => {
         data.setSiegeTemps(filteredSiege);
         data.setSiege([...data.siege, siege]);
     }
+
     //etablissement
     const etablissement = data.etablissementsTemps.filter(eta => eta.id_contribuable === contribuable.id);
     if (etablissement.length !== 0) {
@@ -250,6 +255,7 @@ const validationContribuable = async (req, res) => {
         data.setEtablissementsTemps(filteredEtablissement);
         data.setEtablissements([...data.etablissements, ...etablissement]);
     }
+
     //autre
     const autre = data.autresTemps.find(aut => aut.id_contribuable === contribuable.id);
     if (autre) {
@@ -257,6 +263,7 @@ const validationContribuable = async (req, res) => {
         data.setAutresTemps(filteredAutres);
         data.setAutres([...data.autres, autre]);
     }
+
     //coordonnees
     const coordonnees = data.coordonneeTemps.find(coo => coo.id_contribuable === contribuable.id);
     if (coordonnees) {
@@ -869,6 +876,7 @@ const blockageContribuable = async (req, res) => {
     if(!modification)
         return res.status(400).json({'message': 'contribuable déjà bloqué'});
     modification.blockage = true;
+    modification.date_blockage = new Date();
     
     const filteredModification = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
     data.setModifications([...filteredModification, modification]);
@@ -1039,6 +1047,6 @@ module.exports = {
     reveilleContribuable,
     deleteContribuable,
     blockageContribuable,
-    getContribuableById
+    getContribuableById,
 
 }

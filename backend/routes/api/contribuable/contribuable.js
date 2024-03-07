@@ -6,6 +6,7 @@ router.route('/')
     .put(contribuableController.updateContribuable)
     .post(contribuableController.setContribuable);
 
+
 router.route('/bloquer')
     .post(contribuableController.blockageContribuable);
 
