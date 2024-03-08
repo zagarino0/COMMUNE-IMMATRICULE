@@ -173,7 +173,6 @@ const authContribuable = (req, res) => {
     const contribuable = data.contribs.find(con => con.id === id && con.mot_de_passe === mot_de_passe);
     if (!contribuable)
         return res.status(404).json({ 'message': 'contribuable introuvable' });
-
     contribuable.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === id);
     contribuable.activite = data.activite.length === 0 ? [] : data.activite.filter(act => act.id_contribuable === id);
     contribuable.siege = data.siege.length === 0 ? [] : data.siege.filter(act => act.id_contribuable === id);

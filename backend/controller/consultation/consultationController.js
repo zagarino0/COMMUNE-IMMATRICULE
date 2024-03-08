@@ -704,6 +704,7 @@ const getContribuableByTwoDates = (req, res) => {
     }
 }
 
+
 const getContribuableByRef = (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
     const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
@@ -717,8 +718,9 @@ const getContribuableByRef = (req, res) => {
     contribuable.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
     contribuable.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
     contribuable.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === contribuable.id);
-    res.json(contribuable);
+    res.json([contribuable]);
 }
+
 
 const getListeDemandeAValide = (req, res) => {
     const contribuablesNonValides = [];
