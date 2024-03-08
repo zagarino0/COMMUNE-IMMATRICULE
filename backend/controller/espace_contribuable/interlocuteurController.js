@@ -55,7 +55,10 @@ const getInterlocuteurByIdContribuable = (req, res) => {
 
 const updateInterlocuteur = async (req, res) => {
     const id_interlocuteur = req.params.id_interlocuteur;
-    const interlocuteur = data.interlocs.find(inter => inter.id_interlocuteur === id_interlocuteur);
+    const id_contribuable = req.body.id_contribuable;
+    const interlocuteur = data.interlocs.find(inter => inter.id_interlocuteur === id_interlocuteur && inter.id_contribuable === id_contribuable);
+    if(!interlocuteur)
+        return res.status(404).json({'message': 'Interlocuteur introuvable'});
 
     if(req.body.nom_interlocuteur)interlocuteur.nom_interlocuteur = req.body.nom_interlocuteur;
     if(req.body.titre_interlocuteur)interlocuteur.titre_interlocuteur = req.body.titre_interlocuteur;
@@ -80,6 +83,8 @@ const updateInterlocuteurAValide = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const interlocuteur = data.interlocuteurs.find(inter => inter.id_interlocuteur === id_interlocuteur && inter.id_contribuable === id_contribuable);
 
+    if(!interlocuteur)
+        res.status(404).json({'message': 'interlocuteur introuvable'});
     if(req.body.nom_interlocuteur)interlocuteur.nom_interlocuteur = req.body.nom_interlocuteur;
     if(req.body.titre_interlocuteur)interlocuteur.titre_interlocuteur = req.body.titre_interlocuteur;
     if(req.body.adresse_interlocuteur)interlocuteur.adresse_interlocuteur = req.body.adresse_interlocuteur;
