@@ -6,6 +6,8 @@ router.route('/contribuable/bloque')
     .get(consultationController.getAllContribuableBloque)
     .post(consultationController.getContribuablebloque);
 
+router.route('/contribuable/valide')
+    .get(consultationController.getAllContribuableValide)
 
 router.route('/contribuable/deuxdates')
     .post(consultationController.getContribuableByTwoDates);

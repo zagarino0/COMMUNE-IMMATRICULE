@@ -357,6 +357,27 @@ const getContribuablebloque = (req, res) => {
     }
 }
 
+const getAllContribuableValide = (req, res) => {
+    const contribuable = data.contribuables.filter(con => con.actif);
+    const contribuableValide = [];
+    contribuable.map(con => {
+        const modif = data.modifications.find(mod => mod.id_contribuable == con.id);
+        if(!modif.blockage){
+            con.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === con.id);
+            con.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === con.id);
+            con.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
+            con.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === con.id);
+            con.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === con.id);
+            con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
+            con.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === con.id);
+            con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
+            contribuableValide.push({...con});
+        }
+    })
+
+    res.json(contribuableValide);
+}
+
 const getContribuableNonBloque = (req, res) => {
     const reference = req.body.reference;
     const raison_social = req.body.raison_social;
@@ -1299,5 +1320,6 @@ module.exports = {
     getListeMiseAJourAValideByAll,
     getAllContribuableBloque,
     getContribuableByTwoDates,
-    getContribuableByRef
+    getContribuableByRef,
+    getAllContribuableValide
 }
