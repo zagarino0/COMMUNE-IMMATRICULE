@@ -26,4 +26,7 @@ router.route('/contribuable/miseajouravalide')
 router.route('/contribuable/referencefiscal')
     .post(consultationController.getContribuableByRef);
 
+router.route('/contribuable/veille')
+    .get(consultationController.getAllContribuableInactif)
+
 module.exports = router;
