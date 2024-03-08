@@ -5,21 +5,64 @@ import { TiDocumentText } from "react-icons/ti";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label";
-import Input from "../../../components/inputs";
+//import { Button } from "../../../components/common";
+//import Select from "../../../components/inputs/selectInput";
+//import { Label } from "../../../components/label/label";
+//import Input from "../../../components/inputs";
 import { TitleH1, TitleH3 } from "../../../components/title";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
 function ListeContribuableSuspendu() {
-  const [selectedOption, setSelectedOption] = useState('');
+  //const [selectedOption, setSelectedOption] = useState('');
+  const [contribuable, setContribuable] = useState<{
+    id: string,
+    raison_social:string,
+    reference_fiscal:string,
+    type: string,
+    cin:string ,
+    numero_passeport:string,
+    sexe: string,
+  }>({
+    id:"",
+    raison_social:"",
+    reference_fiscal:"",
+    type:"",
+    cin:"",
+    numero_passeport:"",
+    sexe:"",
+  })
+
+  const [dataTable ,setDataTable] = useState([]);
+  useEffect(() => {
+    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
+    handleActive();
+  }, [""]);
+  const handleActive = async () => {
+    try{
+      const response = await axios.post('http://localhost:3500/contribuable/avalide',{
+          'id': contribuable.id,
+          'raison_social': contribuable.raison_social,
+          'reference_fiscal': contribuable.reference_fiscal,
+          'type': contribuable.type,
+          'CIN':contribuable.cin,
+          'passport':contribuable.numero_passeport,
+          'sexe':contribuable.sexe,
+        });
+    
+        setContribuable(response.data)
+    }
+    catch(error)
+    {
+         console.log('An  error occurred during the request');
+      }
+  };
+  console.log(contribuable);
 
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+  const data = dataTable.map((item : any )=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+
+{/**
 
   //option select input
   const options = [
@@ -36,16 +79,25 @@ function ListeContribuableSuspendu() {
     setSelectedOption(value);
   };
 
+*/}
+
+
+
+
+
 
   const contentCard=(
       <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables suspendus"></TitleH1></div>
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  text-center font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables suspendus"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 
-<div className="flex justify-between mt-6">
+{/**
+ * 
+ * 
+ * <div className="flex justify-between mt-6">
   <Label text="Date  Du"></Label>
 <Input type="date"  className=" w-40"></Input>
 </div>
@@ -62,7 +114,12 @@ function ListeContribuableSuspendu() {
   <Label text="CF Gestionnaire"></Label>
 <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
 </div>
-<Button text="Lister" className="mt-6"></Button>
+ * 
+ * <Button text="Lister" className="mt-6"></Button>
+ */}
+
+
+
 </div>
 <div className="mt-10">
 <Table

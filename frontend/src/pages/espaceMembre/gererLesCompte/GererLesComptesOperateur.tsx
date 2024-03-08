@@ -31,7 +31,7 @@ function GererLesComptesOperateurDeVotreCentrePage() {
   const [DataUser, setDataUser] = useState<User[]>([]);
   useEffect(() => {
     // Fetch data from the backend on component mount
-    axios.get<User[]>('http://localhost:3500/user/all')
+    axios.post<User[]>('http://localhost:3500/all')
       .then((response) => setDataUser(response.data))
       .catch((error) => console.error(error));
   }, []);
@@ -44,7 +44,7 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     };
     try {
       // Make a POST request to deactivate the user
-      await axios.post(`http://localhost:3500/user/desactivation`, UserCode);
+      await axios.post(`http://localhost:3500/desactivation`, UserCode);
 
       // Update the list of data after successful deactivation
       setDataUser((prevData) => prevData.filter((data) => data.code !== code));
@@ -78,12 +78,12 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     };
     try {
       // Make a POST request to deactivate the user
-      await axios.post(`http://localhost:3500/user/actif`, UserCode);
+      await axios.post(`http://localhost:3500/actif/code`, UserCode);
 
       // Update the list of data after successful deactivation
       setDataUser((prevData) => prevData.filter((data) => data.code !== code));
 
-      alert(`L'utilisateur avec le code : ${code} est suprimmé.`);
+      alert(`L'utilisateur avec le code : ${code} est activé.`);
     } catch (error) {
       console.error('Error deactivating user:', error);
     }

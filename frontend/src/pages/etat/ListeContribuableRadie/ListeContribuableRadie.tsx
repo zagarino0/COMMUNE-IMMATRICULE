@@ -6,20 +6,58 @@ import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label";
-import Input from "../../../components/inputs";
-import { useState } from "react";
+//import { Button } from "../../../components/common";
+//import Select from "../../../components/inputs/selectInput";
+//import { Label } from "../../../components/label/label";
+//import Input from "../../../components/inputs";
+import { useState, useEffect } from "react";
+import  axios from "axios";
 
 function ListeContribuableRadie() {
-  const [selectedOption, setSelectedOption] = useState('');
+ // const [selectedOption, setSelectedOption] = useState('');
+ const [contribuable, setContribuable] = useState<{
+  rf: string,
+  raison_social:string,
+  nom_commerciale:string,
+  form_juridique:string,
 
+}>({
+  rf:"",
+  raison_social:"",
+  nom_commerciale:"",
+  form_juridique:"",
+ 
+})
+
+  const [dataTable ,setDataTable] = useState([]);
+  useEffect(() => {
+    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
+    handleActive();
+  }, []);
+  const handleActive = async () => {
+    try{
+      const response = await axios.post('http://localhost:3500/contribuable/avalide',{
+          'etat':'RADIE',
+          'rf':contribuable.rf,
+          'raison_social': contribuable.raison_social,
+          'nom_commerciale': contribuable.nom_commerciale,
+          'form_juridique': contribuable.form_juridique,
+         
+        });
+    
+        setContribuable(response.data)
+    }
+    catch(error)
+    {
+         console.log('An  error occurred during the request');
+      }
+  };
+ console.log(contribuable);
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+  const data = dataTable.map((item: any ) => [item.rf, item.raison_social, item.nom_commerciale, item.form_juridique])
+
+{/**
+
 
   //option select input
   const options = [
@@ -36,16 +74,20 @@ function ListeContribuableRadie() {
     setSelectedOption(value);
   };
 
+*/}
 
   const contentCard=(
       <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables radiés"></TitleH1></div>
+<div className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables radiés"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 
-<div className="flex justify-between mt-6">
+
+{/** 
+ * 
+ * <div className="flex justify-between mt-6">
   <Label text="Date  Du"></Label>
 <Input type="date"  className=" w-40"></Input>
 </div>
@@ -62,7 +104,12 @@ function ListeContribuableRadie() {
   <Label text="CF Gestionnaire"></Label>
 <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
 </div>
-<Button text="Lister" className="mt-6"></Button>
+ * 
+ * 
+ * <Button text="Lister" className="mt-6"></Button>
+ *
+*/}
+
 </div>
 <div className="mt-10">
 <Table

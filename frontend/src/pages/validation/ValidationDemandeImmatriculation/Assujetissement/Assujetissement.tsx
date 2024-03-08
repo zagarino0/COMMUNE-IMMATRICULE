@@ -673,7 +673,7 @@ const HandleModifieEtablissement = async () => {
     const contentCard = (
         <div className="m-4 mb-4">
        
-        <div className="text-white bg-[#959824] py-3 px-4 rounded  text-3xl  font-semibold  "> Validation des demandes du contribuable  : {ContribuableData?ContribuableData.id:""}</div>
+        <div className="text-white bg-[#959824] py-3 px-4 rounded  text-3xl  font-semibold  "> Validation des demandes du contribuable  : {ContribuableData?ContribuableData.reference_fiscal:""}</div>
 <div className="flex flex-col">
 <div className="flex items-center justify-center p-2">
   <div className="flex flex-col">

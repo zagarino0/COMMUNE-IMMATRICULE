@@ -65,14 +65,13 @@ function AjouterUnCompteOperateurPage() {
       });
     } catch (error) {
       // Handle errors from the server
-      console.error("Registration failed:", error.message);
       alert("Registration failed. Please try again.");
     }
   };
     const contentCard =(
       <div className="flex items-center justify-center ">
 <div className="flex flex-col">
-<div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Ajout compte un opérateur </div>
+<div className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-6">Ajouter un compte  opérateur </div>
 
   <div className="flex flex-col mt-6 p-12 ml-24">
 

@@ -6,10 +6,10 @@ import { TiDocumentText } from "react-icons/ti";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label";
-import Input from "../../../components/inputs";
+//import { Button } from "../../../components/common";
+//import Select from "../../../components/inputs/selectInput";
+//import { Label } from "../../../components/label/label";
+//import Input from "../../../components/inputs";
 import { useState } from "react";
 
 function ListeReprise() {
@@ -20,6 +20,11 @@ function ListeReprise() {
     ["none", "none", "none", "none"],
    
   ];
+
+
+{/**
+
+
 
   //option select input
   const options = [
@@ -36,24 +41,6 @@ function ListeReprise() {
     setSelectedOption(value);
   };
 
-
-  const contentCard=(
-      <div >
-
-<div className="flex justify-center items-center mt-4" >
-<div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES CONTRIBUABLES AYANT EFFECTUES DE REPRISE"></TitleH1></div>
-<div className="mt-6 flex flex-col  ">
-
-<div className="flex justify-between mt-6">
-  <Label text="Date de Réprise , Du"></Label>
-<Input type="date"  className=" w-40"></Input>
-</div>
-<div className="flex justify-between mt-6">
-  <Label text="Au"></Label>
-<Input type="date"  className=" w-40"></Input>
-</div>
-
 <div className="flex justify-between mt-6">
   <Label text="Région"></Label>
 <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
@@ -62,7 +49,35 @@ function ListeReprise() {
   <Label text="CF Gestionnaire"></Label>
 <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
 </div>
-<Button text="Lister" className="mt-6"></Button>
+
+*/}
+  const contentCard=(
+      <div >
+
+<div className="flex justify-center items-center mt-4" >
+<div className="mt-4 flex flex-col mx-6">
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES CONTRIBUABLES AYANT EFFECTUES DE REPRISE"></TitleH1></div>
+<div className="mt-6 flex flex-col  ">
+
+{/**
+ * 
+ * 
+ * <div className="flex justify-between mt-6">
+  <Label text="Date de Réprise , Du"></Label>
+<Input type="date"  className=" w-40"></Input>
+</div>
+<div className="flex justify-between mt-6">
+  <Label text="Au"></Label>
+<Input type="date"  className=" w-40"></Input>
+</div>
+ * 
+ * <Button text="Lister" className="mt-6"></Button>
+ * 
+ * 
+ */}
+
+
+
 </div>
 <div className="mt-10">
 <Table

@@ -2,51 +2,88 @@ import { Link } from "react-router-dom";
 import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Input from "../../../components/inputs";
-import { Label } from "../../../components/label/label";
+// import { Button } from "../../../components/common";
+// import Input from "../../../components/inputs";
+// import { Label } from "../../../components/label/label";
 import { TiDocumentText } from "react-icons/ti";
 import { TitleH1, TitleH3 } from "../../../components/title";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 function ImpressionDuplicataCessation() {
-  const [reference_fiscal , setReference_fiscal] = useState('');
-  
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+  const printRef = useRef<HTMLDivElement>(null);
 
+  const handlePrint = () => {
+    if (printRef.current) {
+      const content = printRef.current.innerHTML;
+      const originalContent = document.body.innerHTML;
   
-const [Data , setData] = useState([])
+      // Ajoutez une feuille de style pour l'impression
+      const printStyle = document.createElement('style');
+      printStyle.innerHTML =
+        '@media print { body { visibility: hidden; } .print-content { visibility: visible; } }';
+      document.head.appendChild(printStyle);
+  
+      document.body.innerHTML = `<div class="print-content">${content}</div>`;
+  
+      window.print();
+  
+      // Supprimez la feuille de style après l'impression
+      document.head.removeChild(printStyle);
+  
+      // Restaurez le contenu original après l'impression
+      document.body.innerHTML = originalContent;
+      window.location.reload();
+    }
+  };
+
+  const [DataSearch, setDataSearch]= useState<{
+    "reference_fiscal": string,
+  }>({
+    reference_fiscal: ""
+  })
+
 
   // Fonction pour faire un  recherche d'un client avec référence fiscal
 const handleSearchClient = async () => {
-  const DataSearch ={
-  
-  "reference_fiscal": reference_fiscal,
-  
-  }
+
   try {
     // Make a POST request to your server endpoint
-    const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
+    const response = await axios.post("http://localhost:3500/contribuable/",{
+      "search" : DataSearch,
+      "reference_fiscal": DataSearch.reference_fiscal,
+    });
     setData(response.data);
-    // Check the response status or do something with the response
-    console.log("Server Response:", Data );
+
+    console.log("Server Response:", data );
   } catch (error) {
-    // Handle errors
+
     console.error("Error:", error);
   }
 };
+const [Data , setData] = useState([])
+const [reference_fiscal , setReference_fiscal] = useState('');
+useEffect(() => {
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/etat/contribuable/cesse')
+    .then((response) => setData(response.data))
+    .catch((error) => console.error(error));
+}, []);
+
+console.log(Data)
+
+
+const headers = ["RF", "Raison social", "Type", "Forme juridique" , "Date de création"];
+const data = Data.map((item)=>[item.reference_fiscal , item.raison_social , item.type , item.forme_juridique , item.date_creation ])
+
+
   const contentCard=(
       <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="IMPRESSION DU DUPLICATA DE LA CESSATION"></TitleH1></div>
-<div className="mt-6 flex flex-col  ">
+{/* <div className="mt-6 flex flex-col  ">
 
 <div className="flex justify-between mt-6">
   <Label text="Référence Fiscal"></Label>
@@ -56,9 +93,9 @@ onChange={(e)=>setReference_fiscal(e.target.value)}
 className=" w-40"></Input>
 
 </div>
-<Button onClick={handleSearchClient} text="Trouver" className="mt-6"></Button>
-</div>
-<div className="mt-10">
+<Button onClick={handleSearchClient} type="submit" text="Trouver" className="mt-6"></Button>
+</div> */}
+<div className="mt-10" ref={printRef}>
 <Table
 
 headers={headers}
@@ -67,7 +104,7 @@ data={data}
 </div>
 <div className="flex justify-start mt-6">
  
- <Link to="#"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Imprimer l'Attestation de Cessation " className="text-xs"></TitleH3></Link>
+ <button onClick={()=>handlePrint()}   className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Imprimer l'Attestation de Cessation " className="text-xs"></TitleH3></button>
  </div>
 <div>
 

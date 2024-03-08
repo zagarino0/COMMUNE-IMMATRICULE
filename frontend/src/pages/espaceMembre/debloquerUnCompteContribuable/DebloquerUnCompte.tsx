@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MainLayout } from "../../../layouts/main";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
@@ -9,14 +9,39 @@ import Table from "../../../components/table/table";
 import Checkbox from "../../../components/common/checkbox";
 
 function DebloquerUnComptePage() {
+
+  const [Debloque , setDebloque] = useState<{
+    reference_fiscal:string,
+    id_user:number,
+    comment:string,
+    motif:string
+   }>
+   ({
+   reference_fiscal:"",
+   id_user:0,
+   comment:"",
+   motif:""   
+      })
    
   const [DataUser ,setDataUser] = useState([]);
-  useEffect(() => {
-      // Récupérer les données depuis le backend
-      axios.get('http://localhost:3500/user/inactif')
-        .then((response) => setDataUser(response.data))
-        .catch((error) => console.error(error));
-    }, []);
+
+    const handleSearch = async () => {
+      
+      try{
+      
+        const response = await axios.post("http://localhost:3500/debloque", {
+        "reference_fiscal":Debloque.reference_fiscal,
+        " id_user" : Debloque.id_user,
+        " comment" :Debloque.comment,
+        " motif ": Debloque.motif,
+            
+        });
+        setDataUser(response.data)
+      }
+        catch(error){
+            alert("aucune action utilisateur")
+      }
+    };
   
     console.log(DataUser)
     const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" ]
@@ -26,13 +51,15 @@ function DebloquerUnComptePage() {
       const contentCard =(
         <div className="flex justify-center items-center">
       <div className="flex flex-col">
-      <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Cestion compte Contribuable</div>
+      <div className="text-[#959824] text-3xl  text-center font-semibold border-b-2 border-[#959824] mt-6">Gestion de compte contribuable</div>
       
       <div className="flex justify-between mt-6 p-8 w-full">
         <Label text="Référence Fiscal" className="w-60 mt-2"></Label>
-      <Input type="text" placeholder="Référence Fiscal" className=" w-full ml-4"></Input>
+      <Input type="text" 
+              onChange={(e)=>{setDebloque({...Debloque , reference_fiscal  : e.target.value})}}
+              placeholder="Référence Fiscal" className=" w-full ml-4"></Input>
       
-      <Button type="submit" text="Recherche" className=" ml-4"></Button>
+      <Button type="submit" text="Recherche" className=" ml-4"  onClick={handleSearch}  ></Button>
       
       
       

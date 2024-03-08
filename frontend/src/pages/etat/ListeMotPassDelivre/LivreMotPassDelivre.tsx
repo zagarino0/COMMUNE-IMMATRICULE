@@ -6,29 +6,57 @@ import { TiDocumentText } from "react-icons/ti";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label";
-import Input from "../../../components/inputs";
-import { useEffect, useState } from "react";
+//kimport { Button } from "../../../components/common";
+//import Select from "../../../components/inputs/selectInput";
+//import { Label } from "../../../components/label/label";
+//import Input from "../../../components/inputs";
+import {useEffect, useState } from "react";
 import axios from "axios";
 
 function LivreMotPassDelivre() {
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState ('')
 
-  const [DataContribuable ,setDataContribuble] = useState([]);
-useEffect(() => {
-    // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/etat/contribuable/valide')
-      .then((response) => setDataContribuble(response.data))
-      .catch((error) => console.error(error));
-  }, []);
+  const [Contribuable] =useState<{
+    reference_fiscale: string,
+    id:string,
+  }>
+  ({
+    reference_fiscale:"",
+    id:"",
+  })
+
+  const [DataContribuable ,setDataContribuble] = useState ([])
+
+  useEffect(() => {
+    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
+    handleSearch();
+  }, [Contribuable, selectedOption]);
+   // Récupérer les données depuis le backend
+  const handleSearch = async () =>{
+
+            try
+            {
+                  const response = await axios.post('http://localhost:3500/contribuable', {
+                    "reference_fiscal": Contribuable.reference_fiscale,
+                    "id": Contribuable.id,
+                  });
+
+                  setDataContribuble(response.data)
+            }     
+            catch(error)
+            {
+                    console.log('An  error occurred during the request',error);
+                  
+              }
+
+  };
+
+ 
+    const headers = [ "code" , "Mot de passe","Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
+    const data = DataContribuable.map((item:any)=>[item.id , item.mot_de_passe, item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
 
 
-
-  const headers = [ "code" , "Mot de passe","Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const data = DataContribuable.map((item)=>[item.id , item.mot_de_passe, item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
-
+{/**
 
 
   //option select input
@@ -42,9 +70,17 @@ useEffect(() => {
   ];
 
   // onChange in the select input 
-  const handleOptionChange = (value: string) => {
-    setSelectedOption(value);
+  const handleOptionChange = (value:any) => {
+    setSelectedOption(DataContribuable[value]);
   };
+
+
+
+*/}
+
+
+
+  
 
 
   const contentCard=(
@@ -52,27 +88,40 @@ useEffect(() => {
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES MOTS DE PASSE DES REFERENCES FISCALS DELIVRES"></TitleH1></div>
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES MOTS DE PASSE DES REFERENCES FISCALS DELIVRES"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
+  
+  {/** 
+   * 
+   * 
+   * <div className="flex justify-between mt-6">
+      <Label text="Date de Validation , Du"></Label>
+    <Input type="date"  className=" w-40"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Au"></Label>
+    <Input type="date"  className=" w-40"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Région"></Label>
+    <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="CF Gestionnaire"></Label>
+    <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
+    </div>
+   * 
+   * 
+   * <Button text="Lister" type="button" className="mt-6" onClick={handleSearch}></Button>
+   * 
+   * 
+  */}
 
-<div className="flex justify-between mt-6">
-  <Label text="Date de Validation , Du"></Label>
-<Input type="date"  className=" w-40"></Input>
-</div>
-<div className="flex justify-between mt-6">
-  <Label text="Au"></Label>
-<Input type="date"  className=" w-40"></Input>
-</div>
 
-<div className="flex justify-between mt-6">
-  <Label text="Région"></Label>
-<Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-</div>
-<div className="flex justify-between mt-6">
-  <Label text="CF Gestionnaire"></Label>
-<Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-</div>
-<Button text="Lister" className="mt-6"></Button>
+
+
+
+
 </div>
 <div className="overflow-y-auto h-[500px] w-[950px] mt-10">
 <Table

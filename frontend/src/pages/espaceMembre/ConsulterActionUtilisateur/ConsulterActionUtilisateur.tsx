@@ -15,7 +15,7 @@ function ConsulterActionUtilisateur() {
    date_fin: string,
 
   }>({
-login: "",
+   login: "",
    date_debut : "",
    date_fin: "",
    
@@ -35,7 +35,6 @@ login: "",
         });
         setDataUser(response.data)
       }catch(error){
-        console.log('An  error occurred during the request',error);
         alert("aucune action d'utilisateur")
       }
     };
@@ -43,8 +42,9 @@ login: "",
     console.log(DataUser)
 
     const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" , "Date de Création Compte " , "Date historie" , "Motif" ]
-    const data = DataUser.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , 
-    <Checkbox checked={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ]);
+   const data = []
+  //  Action.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , 
+    // <Checkbox checked={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ]);
       
 
   const contentCard=(

@@ -21,11 +21,6 @@ function ListeUtilisateur() {
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className=""><TitleH1 text="Liste des Utilisateurs" className="text-[#959824] text-sm border-b-2 border-[#959824] mt-2"></TitleH1></div>
-<div className="mt-6 flex  justify-between ">
-<Label text="Votre Recherche" className="mt-2" ></Label>
-<Input type="text" className="w-96 ml-4 "></Input>
-<Button text="Lister" className="ml-4"></Button>
-</div>
 <div className="mt-10">
 <Table
 
