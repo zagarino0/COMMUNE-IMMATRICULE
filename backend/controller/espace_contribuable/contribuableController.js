@@ -11,6 +11,8 @@ const data = {
     setCessations: function (data) { this.cessations = data },
     history: require('../../model/history.json'),
     setHistory: function (data) { this.history = data },
+    history_contribuable: require('../../model/history_contribuable.json'),
+    setHistoryContribuable: function (data) {this.history_contribuable = data},
 
 
     //Temp model
@@ -139,6 +141,15 @@ const setContribuable = async (req, res) => {
         "cessation": false
     }
 
+    const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
+    const history_contribuable = {
+        'id_history_contribuable': id_history_contribuable,
+        'id_contribuable': id,
+        'motif': 'Creation de contribuable',
+        'date_modification': new Date()
+    }
+
+    data.setHistoryContribuable([...data.history_contribuable, history_contribuable])
     data.setContribuable([...data.contribuables, newContribuable]);
     data.setModifications([...data.modifications, modification]);
     data.setValidationTemps([...data.validationTemps, validation]);
@@ -151,6 +162,10 @@ const setContribuable = async (req, res) => {
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
         JSON.stringify(data.modifications)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history_contribuable.json'),
+        JSON.stringify(data.history_contribuable)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'validation.json'),

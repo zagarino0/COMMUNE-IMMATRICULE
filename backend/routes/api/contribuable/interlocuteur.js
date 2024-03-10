@@ -15,4 +15,7 @@ router.route('/contribuable/:id_contribuable')
 router.route('/avalide/:id_interlocuteur')
     .put(interlocuteurController.updateInterlocuteurAValide);
 
+router.route('/contribuable/:id_interlocuteur')
+    .put(interlocuteurController.updateInterlocuteurByContribuable);
+
 module.exports = router;

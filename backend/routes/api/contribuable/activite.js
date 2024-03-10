@@ -15,4 +15,7 @@ router.route('/contribuable/:id_contribuable')
 router.route('/avalide/:id_activite')
     .put(activiteController.updateActiviteAValide);
 
+router.route('/contribuable/:id_activite')
+    .put(activiteController.updateActiviteByContribuable);
+
 module.exports = router;

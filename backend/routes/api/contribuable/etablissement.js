@@ -19,5 +19,8 @@ router.route('/avalide/:id_etablissement')
     .put(etablissementcontroller.updateEtablissementAValide)
     .delete(etablissementcontroller.deleteEtablissementNonValide);
 
+router.route('/contribuable/:id_contribuable')
+    .put(etablissementcontroller.updateEtablissementByContribuable);
+
 
 module.exports = router;

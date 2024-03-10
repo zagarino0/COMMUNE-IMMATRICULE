@@ -19,4 +19,7 @@ router.route('/avalide')
 router.route('/avalide/:id_dirigeant')
     .delete(dirigeantController.deleteDirigeantsNonValide)
 
+router.route('/contribuable/:id_dirigeant')
+    .put(dirigeantController.updateDirigeantByContribuable);
+
 module.exports = router;

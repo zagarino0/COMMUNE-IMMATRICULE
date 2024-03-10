@@ -15,4 +15,7 @@ router.route('/contribuable/:id_contribuable')
 router.route('/avalide/:id_siege')
     .put(siegeController.updateSiegeAValide);
 
+router.route('/contribuable/:id_siege')
+    .put(siegeController.updateSiegeByContribuable);
+
 module.exports = router;

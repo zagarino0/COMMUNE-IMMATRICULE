@@ -53,6 +53,7 @@ app.use('/vehicle', require('./routes/api/client/vehicle'));
 app.use('/impot', require('./routes/api/impot/impot'));
 app.use('/etat', require('./routes/api/administrateur/etat'));
 app.use('/radiation', require('./routes/api/administrateur/radiation'));
+app.use('/history', require('./routes/api/contribuable/historyContribuable'));
 
 //consultation
 app.use('/consultation', require('./routes/api/consultation/consultation'));

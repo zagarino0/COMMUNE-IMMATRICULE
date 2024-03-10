@@ -1,7 +1,9 @@
 const data = {
     activites: require('../../model/model_temp/activite.json'),
     setActivites: function(data) { this.activites = data},
-    actives: require('../../model/activite.json')
+    actives: require('../../model/activite.json'),
+    history_contribuable: require('../../model/history_contribuable.json'),
+    setHistoryContribuable: function (data) { this.history_contribuable = data }
 }
 
 const path = require('path');
@@ -93,6 +95,51 @@ const updateActivite = async (req, res) => {
 }
 
 
+
+const updateActiviteByContribuable = async (req, res) => {
+    const id_activite = req.body.id_activite;
+    const activites = data.actives.find(act => act.id_activite == id_activite);
+
+    if(req.body.activite) activites.activite = req.body.activite;
+    if(req.body.precision_activite) activites.precision_activite = req.body.precision_activite;
+    if(req.body.numero_statistique) activites.numero_statistique = req.body.numero_statistique;
+    if(req.body.numero_statistique) activites.statistique = true;
+    if(req.body.date_delivrance_statistique) activites.date_delivrance_statistique = req.body.date_delivrance_statistique;
+    if(req.body.registre_commerce) activites.registre_commerce = req.body.registre_commerce;
+    if(req.body.date_registre_commerce) activites.date_registre_commerce = req.body.date_registre_commerce;
+    if(req.body.debut_exercice) activites.debut_exercice = req.body.debut_exercice;
+    if(req.body.cloture_exercice) activites.cloture_exercice = req.body.cloture_exercice;
+    if(req.body.nif) activites.nif = req.body.nif;
+
+    const filteredActivite = data.activites.filter(act => act.id_activite === id_activite);
+    const unsortedActivite = [...filteredActivite, activites];
+
+    data.setActivites(unsortedActivite.sort((a, b) => a.id_activite > b.id_activite ? 1 : a.id_activite < b.id_activite ? -1 : 0));
+
+    const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
+    const history_contribuable = {
+        'id_history_contribuable': id_history_contribuable,
+        'id_contribuable': req.body.id_contribuable,
+        'motif': 'Mise à jour actionnaire',
+        'date_modification': new Date()
+    }
+
+    data.setHistoryContribuable([...data.history_contribuable, history_contribuable])
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history_contribuable.json'),
+        JSON.stringify(data.history_contribuable)
+    )
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'activite.json'),
+        JSON.stringify(data.activites)
+    )    
+
+    res.json({'success': 'Contribuable à été modifiée'});
+}
+
+
 const updateActiviteAValide = async (req, res) => {
     const id_activite = req.params.id_activite;
     const id_contribuable = req.body.id_contribuable;
@@ -128,7 +175,8 @@ module.exports = {
     getActiviteById,
     getActiviteByIdContribuable,
     updateActiviteAValide,
-    updateActivite
+    updateActivite,
+    updateActiviteByContribuable
 }
 
 

@@ -76,6 +76,44 @@ const updateSiege = async (req, res) => {
 }
 
 
+const updateSiegeByContribuable = async (req, res) => {
+    const id_siege = req.params.id_siege;
+    const id_contribuable = req.body.id_contribuable;
+    const siege = data.siege.find(dat => dat.id_siege == id_siege && dat.id_contribuable === id_contribuable);
+    
+    if(req.body.adresse_actuelle) siege.adresse_actuel = req.body.adresse_actuelle;
+    if(req.body.fonkotany) siege.fokontany = req.body.fonkotany;
+    if(req.body.district) siege.district = req.body.district;
+    if(req.body.region) siege.region = req.body.region;
+    if(req.body.province) siege.province = req.body.province;
+
+    const filterSiege = data.datas.filter(dat => dat.id_siege !== siege.id_siege);
+    const unsortedSiege = [...filterSiege, siege];
+    data.setDatas(unsortedSiege.sort((a, b) => a.id_siege > b.id_siege ? 1 : a.id_siege < b.id_siege ? -1 : 0));
+
+    const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
+    const history_contribuable = {
+        'id_history_contribuable': id_history_contribuable,
+        'id_contribuable': req.body.id_contribuable,
+        'motif': 'Mise à jour actionnaire',
+        'date_modification': new Date()
+    }
+
+    data.setHistoryContribuable([...data.history_contribuable, history_contribuable])
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history_contribuable.json'),
+        JSON.stringify(data.history_contribuable)
+    )
+    
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'siege.json'),
+        JSON.stringify(data.datas)
+    )
+}
+
+
 const updateSiegeAValide = async (req, res) => {
     const id_siege = req.params.id_siege;
     const id_contribuable = req.body.id_contribuable;
@@ -102,5 +140,6 @@ module.exports = {
     getSiegeById,
     getSiegeByIdContribuable,
     updateSiege,
-    updateSiegeAValide
+    updateSiegeAValide,
+    updateSiegeByContribuable
 }
