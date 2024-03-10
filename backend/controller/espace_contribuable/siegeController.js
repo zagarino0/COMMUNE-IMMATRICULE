@@ -57,7 +57,7 @@ const getSiegeByIdContribuable = (req, res) => {
 const updateSiege = async (req, res) => {
     const id_siege = req.params.id_siege;
     const id_contribuable = req.body.id_contribuable;
-    const siege = data.siege.find(dat => dat.id_siege === id_siege && dat.id_contribuable === id_contribuable);
+    const siege = data.siege.find(dat => dat.id_siege == id_siege && dat.id_contribuable === id_contribuable);
     
     if(req.body.adresse_actuelle) siege.adresse_actuel = req.body.adresse_actuelle;
     if(req.body.fonkotany) siege.fokontany = req.body.fonkotany;
@@ -79,7 +79,7 @@ const updateSiege = async (req, res) => {
 const updateSiegeAValide = async (req, res) => {
     const id_siege = req.params.id_siege;
     const id_contribuable = req.body.id_contribuable;
-    const siege = data.datas.find(dat => dat.id_siege === id_siege && dat.id_contribuable === id_contribuable);
+    const siege = data.datas.find(dat => dat.id_siege == id_siege && dat.id_contribuable === id_contribuable);
     
     if(req.body.adresse_actuelle) siege.adresse_actuel = req.body.adresse_actuelle;
     if(req.body.fonkotany) siege.fokontany = req.body.fonkotany;

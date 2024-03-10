@@ -66,7 +66,7 @@ const getActiviteByIdContribuable = (req, res) => {
 
 const updateActivite = async (req, res) => {
     const id_activite = req.body.id_activite;
-    const activites = data.actives.find(act => act.id_activite === id_activite);
+    const activites = data.actives.find(act => act.id_activite == id_activite);
 
     if(req.body.activite) activites.activite = req.body.activite;
     if(req.body.precision_activite) activites.precision_activite = req.body.precision_activite;

@@ -22,20 +22,20 @@ const setEtablissements = async (req, res) => {
 
 const getEtablissementById = (req, res) => {
     const id_etablissement = data.params.id_etablissement;
-    const etablissement = data.etablissements.find(eta => eta.id_etablissement === id_etablissement);
+    const etablissement = data.etablissements.find(eta => eta.id_etablissement == id_etablissement);
     res.json(etablissement);
 }
 
 const getEtablissementByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
-    const etablissement = data.etablissements.find(eta => eta.id_contribuable === id_contribuable);
+    const etablissement = data.etablissements.find(eta => eta.id_contribuable == id_contribuable);
     res.json(etablissement);
 }
 
 const updateEtablissement = async (req, res) => {
     const id_etablissement = req.params.id_etablissement;
     const id_contribuable = req.body.id_contribuable;
-    const etablissement = data.etablisseme.find(eta => eta.id_etablissement === id_etablissement && eta.id_contribuable === id_contribuable);
+    const etablissement = data.etablisseme.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
 
     if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
     if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
@@ -118,7 +118,7 @@ const setOneEtablissementNonValide = async (req, res) => {
 const updateEtablissementAValide = async (req, res) => {
     const id_etablissement = req.params.id_etablissement;
     const id_contribuable = req.body.id_contribuable;
-    const etablissement = data.etablissements.find(eta => eta.id_etablissement === id_etablissement && eta.id_contribuable === id_contribuable);
+    const etablissement = data.etablissements.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
 
     if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
     if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;

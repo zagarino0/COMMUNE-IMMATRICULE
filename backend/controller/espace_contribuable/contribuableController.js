@@ -868,7 +868,7 @@ const miseEnVeilleuseContribuable = async (req, res) => {
 const blockageContribuable = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
 
-    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
+    const contribuable = data.contribs.find(con => con.reference_fiscal == reference_fiscal);
     if(!contribuable)
         return res.status(400).json({'message': 'contribuable introuvable'});
     const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && !mod.blockage);

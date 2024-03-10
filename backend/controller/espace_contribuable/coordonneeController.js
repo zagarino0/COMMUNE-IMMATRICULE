@@ -30,19 +30,19 @@ const setCoordonnees = async (req, res) => {
 
 const getCoordonneesById = (req, res) => {
     const id_coordonnee = req.params.id_coordonnee;
-    const coordonnee = data.coordonnees.find(coo => coo.id_coordonnee === id_coordonnee);
+    const coordonnee = data.coordonnees.find(coo => coo.id_coordonnee == id_coordonnee);
     res.json(coordonnee);
 }
 
 const getCoordonneesByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
-    const coordonnee = data.coordonnees.find(coo => coo.id_contribuable === id_contribuable);
+    const coordonnee = data.coordonnees.find(coo => coo.id_contribuable == id_contribuable);
     res.json(coordonnee);
 }
 
 const updateCoordonnees = async (req, res) => {
     const id_coordonnee = data.params.id_coordonnee;
-    const coordonees = data.coordonnees.find(coo => coo.id_coordonnee === id_coordonnee);
+    const coordonees = data.coordonnees.find(coo => coo.id_coordonnee == id_coordonnee);
 
     if(req.body.longitude) coordonees.longitude = req.body.longitude;
     if(req.body.latitude) coordonees.latitude = req.body.latitude;

@@ -62,7 +62,7 @@ const getActionnaireByIdContribuable = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
     let actionnaires = [];
     data.actions.map(act => {
-        if(act.id_contribuable === id_contribuable)
+        if(act.id_contribuable == id_contribuable)
             actionnaires.push(act);
     })
     res.json(actionnaires);
@@ -71,14 +71,14 @@ const getActionnaireByIdContribuable = (req, res) => {
 
 const getActionnaireById = (req, res) => {
     const id_actionnaire = req.params.id_actionnaire;
-    const actionnaire = data.actions.find(act => act.id_actionnaire === id_actionnaire);
+    const actionnaire = data.actions.find(act => act.id_actionnaire == id_actionnaire);
     res.json(actionnaire);
 }
  
 const updateActionnaire = async (req, res) => {
     const id_actionnaire = req.params.id_actionnaire;
     const id_contribuable = req.body.id_contribuable;
-    const actionnaire = data.actions.find(act => act.id_actionnaire === id_actionnaire && act.id_contribuable === id_contribuable);
+    const actionnaire = data.actions.find(act => act.id_actionnaire == id_actionnaire && act.id_contribuable === id_contribuable);
 
     if(req.body.type) actionnaire.type = req.body.type;
     if(req.body.nom_actionnaire) actionnaire.nom_actionnaire = req.body.nom_actionnaire;
