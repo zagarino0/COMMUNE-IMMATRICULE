@@ -22,4 +22,7 @@ router.route('/consultation')
 router.route('/research')
     .post(vehicleController.getVehicleByAll);
 
+router.route('/all')
+    .post(vehicleController.addNewVehicles);
+
 module.exports = router;

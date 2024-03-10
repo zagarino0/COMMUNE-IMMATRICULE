@@ -240,5 +240,6 @@ module.exports = {
     getVehicle,
     getVehicleByNifContribuable,
     getVehicleByAll,
-    getListeVehiculeByTwoDates
+    getListeVehiculeByTwoDates,
+    addNewVehicles
 }
