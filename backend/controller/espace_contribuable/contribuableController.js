@@ -182,7 +182,7 @@ const setContribuable = async (req, res) => {
 }
 
 
-const authContribuable = (req, res) => {
+const authContribuable = async (req, res) => {
     const mot_de_passe = req.body.mot_de_passe;
     const id = req.body.id;
     const contribuable = data.contribs.find(con => con.id === id && con.mot_de_passe === mot_de_passe);
@@ -195,6 +195,22 @@ const authContribuable = (req, res) => {
     contribuable.etablissement = data.etablissements.length === 0 ? [] : data.etablissements.filter(act => act.id_contribuable === id);
     contribuable.autre = data.autres.length === 0 ? [] : data.autres.filter(act => act.id_contribuable === id);
     contribuable.dirigeant = data.dirigeant.length === 0 ? [] : data.dirigeant.filter(act => act.id_contribuable === id);
+
+    const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
+    const history_contribuable = {
+        'id_history_contribuable': id_history_contribuable,
+        'id_contribuable': req.body.id_contribuable,
+        'motif': 'Connexion',
+        'date_modification': new Date()
+    }
+
+    data.setHistoryContribuable([...data.history_contribuable, history_contribuable])
+    
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history_contribuable.json'),
+        JSON.stringify(data.history_contribuable)
+    )
+
     res.json(contribuable);
 }
 

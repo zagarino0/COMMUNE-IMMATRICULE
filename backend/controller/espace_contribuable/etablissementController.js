@@ -166,6 +166,7 @@ const setOneEtablissementNonValide = async (req, res) => {
     "etablissement_nif_proprietaire": req.body.etablissement_nif_proprietaire
 
     }
+    data.setEtablissements([...data.etablissements, newEtablissement])
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'etablissement.json'),
         JSON.stringify(data.etablissements)
