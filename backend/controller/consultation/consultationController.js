@@ -708,6 +708,31 @@ const getAllContribuableBloque = (req, res) => {
     res.json(contribluableBloque);
 }
 
+const getAllContribuableDeBloque = (req, res) => {
+    const contribluable = data.contribuables;
+    const contribluableDeBloque = [];
+    contribluable.map( con => {
+        // if(!data.modifications.find(mod => mod.id_contribuable === con.id && mod.blockage))
+        //     return res.status(404).json({'message': 'erreur quoi'})
+        const modif = data.modifications.find(mod => mod.id_contribuable == con.id);
+        if(!modif.blockage){
+            con.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === con.id);
+            con.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === con.id);
+            con.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
+            con.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === con.id);
+            con.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === con.id);
+            con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
+            con.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === con.id);
+            con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
+            con.vehicule = data.vehicule.length === 0 ? null : data.vehicule.filter(veh => veh.nif_proprietaire === con.reference_fiscal);
+            con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
+            contribluableDeBloque.push({...con});
+        }
+    })
+    res.json(contribluableDeBloque);
+}
+
+
 
 const getContribuableByTwoDates = (req, res) => {
     const date_debut = req.body.date_debut;
@@ -1356,5 +1381,6 @@ module.exports = {
     getContribuableByTwoDates,
     getContribuableByRef,
     getAllContribuableValide,
-    getAllContribuableInactif
+    getAllContribuableInactif,
+    getAllContribuableDeBloque
 }

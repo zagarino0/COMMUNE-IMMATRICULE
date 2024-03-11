@@ -29,4 +29,7 @@ router.route('/contribuable/referencefiscal')
 router.route('/contribuable/veille')
     .get(consultationController.getAllContribuableInactif)
 
+router.route('/contribuable/debloque')
+    .get(consultationController.getAllContribuableDeBloque);
+
 module.exports = router;
