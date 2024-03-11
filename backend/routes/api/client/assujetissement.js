@@ -8,4 +8,7 @@ router.route('/')
 router.route('/:id_contribuable')
     .get(assujetissementController.getAssujetissementById);
 
+router.route('/:id_assujetissement')
+    .put(assujetissementController.updateAssujetissement);
+
 module.exports = router;
