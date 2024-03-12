@@ -16,6 +16,9 @@ const getAllVehicles = (req, res) => {
 
 const addNewVehicles = async (req, res) => {
     const vehicles = req.body.vehicles;
+
+    if(vehicles.lenght === 0)
+        return res.status(404).json({'message': 'aucun vehicule trouvé'});
     const history = {
         'id_history': id_history,
         'id_vehicule': [...vehicles.id_vehicule],
