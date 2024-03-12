@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MainLayout } from "../../../layouts/main";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
@@ -10,31 +10,20 @@ import Checkbox from "../../../components/common/checkbox";
 
 function DebloquerUnComptePage() {
 
-  const [Debloque , setDebloque] = useState<{
-    reference_fiscal:string,
-    id_user:number,
-    comment:string,
-    motif:string
-   }>
-   ({
-   reference_fiscal:"",
-   id_user:0,
-   comment:"",
-   motif:""   
-      })
-   
-  const [DataUser ,setDataUser] = useState([]);
+  const [Debloque , setDebloque] = useState([])
+  const [DataUser, setDataUser] = useState([])
+      useEffect(() => {
+        // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
+        handleSearch();
+      },[Debloque])
+
 
     const handleSearch = async () => {
       
       try{
       
-        const response = await axios.post("http://localhost:3500/debloque", {
-        "reference_fiscal":Debloque.reference_fiscal,
-        " id_user" : Debloque.id_user,
-        " comment" :Debloque.comment,
-        " motif ": Debloque.motif,
-            
+        const response = await axios.get("http://localhost:3500/consultation/contribuable/debloque", {
+      
         });
         setDataUser(response.data)
       }
@@ -43,17 +32,18 @@ function DebloquerUnComptePage() {
       }
     };
   
-    console.log(DataUser)
+    
     const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" ]
-    const data = DataUser.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , <Checkbox checked={item.actif}/>, item.numero_matricule ])
+    const data = DataUser.map((item : any)=>[item.nom , item.prenom , item.code , item.type_operateur , <Checkbox checked={item.actif}/>, item.numero_matricule ])
       
 
       const contentCard =(
         <div className="flex justify-center items-center">
       <div className="flex flex-col">
       <div className="text-[#959824] text-3xl  text-center font-semibold border-b-2 border-[#959824] mt-6">Gestion de compte contribuable</div>
-      
-      <div className="flex justify-between mt-6 p-8 w-full">
+      {/**
+
+       *    <div className="flex justify-between mt-6 p-8 w-full">
         <Label text="Référence Fiscal" className="w-60 mt-2"></Label>
       <Input type="text" 
               onChange={(e)=>{setDebloque({...Debloque , reference_fiscal  : e.target.value})}}
@@ -64,6 +54,9 @@ function DebloquerUnComptePage() {
       
       
       </div>
+       * 
+       */}
+   
       
 <div className="mt-6">
 <Table

@@ -37,32 +37,10 @@ function ImpressionDuplicataCessation() {
     }
   };
 
-  const [DataSearch, setDataSearch]= useState<{
-    "reference_fiscal": string,
-  }>({
-    reference_fiscal: ""
-  })
-
-
   // Fonction pour faire un  recherche d'un client avec référence fiscal
-const handleSearchClient = async () => {
 
-  try {
-    // Make a POST request to your server endpoint
-    const response = await axios.post("http://localhost:3500/contribuable/",{
-      "search" : DataSearch,
-      "reference_fiscal": DataSearch.reference_fiscal,
-    });
-    setData(response.data);
-
-    console.log("Server Response:", data );
-  } catch (error) {
-
-    console.error("Error:", error);
-  }
-};
 const [Data , setData] = useState([])
-const [reference_fiscal , setReference_fiscal] = useState('');
+//const [reference_fiscal , setReference_fiscal] = useState('');
 useEffect(() => {
   // Récupérer les données depuis le backend
   axios.get('http://localhost:3500/etat/contribuable/cesse')
@@ -70,11 +48,11 @@ useEffect(() => {
     .catch((error) => console.error(error));
 }, []);
 
-console.log(Data)
+
 
 
 const headers = ["RF", "Raison social", "Type", "Forme juridique" , "Date de création"];
-const data = Data.map((item)=>[item.reference_fiscal , item.raison_social , item.type , item.forme_juridique , item.date_creation ])
+const data = Data.map((item:any)=>[item.id , item.raison_social , item.type , item.forme_juridique , item.date_creation ])
 
 
   const contentCard=(

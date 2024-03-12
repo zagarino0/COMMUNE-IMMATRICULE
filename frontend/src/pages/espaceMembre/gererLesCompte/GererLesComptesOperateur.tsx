@@ -31,12 +31,12 @@ function GererLesComptesOperateurDeVotreCentrePage() {
   const [DataUser, setDataUser] = useState<User[]>([]);
   useEffect(() => {
     // Fetch data from the backend on component mount
-    axios.post<User[]>('http://localhost:3500/all')
+    axios.get<User[]>('http://localhost:3500/user/actif')
       .then((response) => setDataUser(response.data))
       .catch((error) => console.error(error));
-  }, []);
+  }, [Compte]);
 
-  console.log(DataUser);
+
 
   const handleDesactivate = async (code: string) => {
     const UserCode = {
@@ -44,7 +44,7 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     };
     try {
       // Make a POST request to deactivate the user
-      await axios.post(`http://localhost:3500/desactivation`, UserCode);
+      await axios.post(`http://localhost:3500/user/desactivation`, UserCode);
 
       // Update the list of data after successful deactivation
       setDataUser((prevData) => prevData.filter((data) => data.code !== code));
@@ -104,7 +104,7 @@ function GererLesComptesOperateurDeVotreCentrePage() {
   const handleSearch = async () => {
     try {
       // Make a GET request to search for users based on the provided parameters
-      const response = await axios.post<User[]>(`http://localhost:3500/user`, { params: Compte });
+      const response = await axios.post<User[]>(`http://localhost:3500/user/actif`, { params: Compte });
 
       // Handle the response from the server as needed
       console.log("Search results:", response.data);
@@ -123,19 +123,24 @@ function GererLesComptesOperateurDeVotreCentrePage() {
       <div className="flex flex-col">
         <div className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-8">Gestion compte opérateur</div>
 
-        <div className="flex flex-col mt-6 p-12">
-          <Input type="text" value={Compte.login_operatreur} onChange={(e) => setCompte({ ...Compte, login_operatreur: e.target.value })} placeholder="Login opérateur" className="mt-6 w-full" />
+        <div className="flex flex-col ">
+          {/**
+           * 
+           *           <Input type="text" value={Compte.login_operatreur} onChange={(e) => setCompte({ ...Compte, login_operatreur: e.target.value })} placeholder="Login opérateur" className="mt-6 w-full" />
           <Input type="text" value={Compte.nom} onChange={(e) => setCompte({ ...Compte, nom: e.target.value })} placeholder="Nom" className="mt-6 w-full" />
           <Input type="text" value={Compte.prenom} onChange={(e) => setCompte({ ...Compte, prenom: e.target.value })} placeholder="Prénom" className="mt-6 w-full" />
           <Input type="text" value={Compte.numero_matricule} onChange={(e) => setCompte({ ...Compte, numero_matricule: e.target.value })} placeholder="Numéro matricule" className="mt-6 w-full" />
           <Input type="text" value={Compte.corps} onChange={(e) => setCompte({ ...Compte, corps: e.target.value })} placeholder="Corps" className="mt-6 w-full" />
 
-         
-              <Button text="Rechercher" className="mt-6" onClick={handleSearch}></Button>
+          <Button text="Rechercher" className="mt-6" onClick={handleSearch}></Button>
+           * 
+           */}
+
+             
           
         
           <div className="overflow-y-auto w-[700px] mt-6">
-            <Table headers={headers} data={data} />
+            <Table headers={headers} data = {data} />
           </div>
         </div>
       </div>

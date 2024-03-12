@@ -15,9 +15,9 @@ import axios from "axios";
 
 function ListeActif() {
  // const [selectedOption, setSelectedOption] = useState('');
-
-const [contribuable, setContribuable] = useState<{
-  id: string,
+//zagarino modifier 
+const [Contribuable] = useState<{
+  id:string,
   raison_social:string,
   reference_fiscal:string,
   type: string,
@@ -38,20 +38,19 @@ const [contribuable, setContribuable] = useState<{
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleActive();
-  }, [""]);
+  }, [Contribuable]);
   const handleActive = async () => {
     try{
-      const response = await axios.get('http://localhost:3500/contribuable/avalide');
-    
-        setDataTable(response.data)
-        console.log(dataTable);
+      const response = await axios.get('http://localhost:3500/consultation/contribuable/valide');
+         
+        setDataTable(response.data) 
     }
     catch(error)
     {
          console.log('An  error occurred during the request');
       }
   };
- console.log(contribuable);
+
 
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"];
   const data = dataTable.map((item : any )=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])

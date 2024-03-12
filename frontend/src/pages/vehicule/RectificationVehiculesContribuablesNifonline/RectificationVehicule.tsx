@@ -61,6 +61,7 @@ console.log(VehiculeData)
         numero_immatriculation: DataSelected.numero_immatriculation,
         genre: DataSelected.genre,
         puissance: DataSelected.puissance,
+        id_vehicule : DataSelected.id_vehicule
         // Add other properties as needed
       };
     // Update the entries state with the new entry
@@ -90,8 +91,36 @@ console.log(VehiculeData)
     setEntriesSelected(selectedRowData);
     console.log('Selected entiers Data:', EntriesSelected);
     };
+      
+    // Enregistrement véhicule Avec Tableau 
+    const HandleSaveVehiculeTable = async () => {
+      if (entries){
+        const DataVehicule = {
+          "vehicles" : entries
+        }
+      try {
+       const response = await axios.post("http://localhost:3500/vehicle/all" , DataVehicule);
+       console.log("Vehicule : " , response.data),
+       alert("vehicule Ajouter")
+      } catch(error){
+       console.error("error:" , error)
+       alert("erreur ajout vehicule")
+      }
+      }
+    }
   
-    // Enregistrement vé
+      // Delete the Data From the Table 
+      const handleDeleteButtonClick = (idToDelete: string) => {
+        // Filter out the entry with the specified ID
+        const updatedEntries = EntriesSelected.filter((entry) => entry.id_vehicule !== idToDelete);
+      
+        // Update the entries state with the filtered entries
+        setEntriesSelected(updatedEntries);
+      
+        
+      };
+
+
   const contentCard=(
       <div >
 
@@ -161,8 +190,8 @@ data={data}
 </div>
 <div className="flex justify-between mt-6">
 <Button text="Ajouter un vehicule" onClick={()=> setIsModal(true)}></Button>
-<Button text="Enregistrer"></Button>
-<Button text="Supprimer un vehicule"></Button>
+<Button text="Enregistrer" onClick={HandleSaveVehiculeTable}></Button>
+<Button onClick={()=>handleDeleteButtonClick(EntriesSelected.id_vehicule)} text="Supprimer un vehicule"></Button>
 </div>
 <div>
 

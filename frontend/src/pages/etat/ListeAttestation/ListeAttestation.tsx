@@ -17,14 +17,14 @@ function ListeAttestation() {
  // const [selectedOption, setSelectedOption] = useState('');
  
  const [attestations, setAttestations] = useState<{
-  rf: string,
+  id: string,
   raison_social:string,
   nom_commeriale:string,
   forme_juridique:string,
 
 
 }>({
-  rf:"",
+  id:"",
   raison_social:"",
   nom_commeriale:"",
   forme_juridique:""
@@ -32,29 +32,25 @@ function ListeAttestation() {
 const [DataUser, setDataUser] = useState([]);
  useEffect(() => {
       handleSearch();
-}, [""]);
+}, [attestations]);
 
 
 const handleSearch = async () => {
   try{
-    const response = await axios.post("http://localhost:3500/contribuable/avalide",{
-      rf : attestations.rf,
-      raison_social: attestations.raison_social,
-      nom_commerce: attestations.nom_commeriale,
-      forme_juridique: attestations.forme_juridique,
+    const response = await axios.get("http://localhost:3500/consultation/contribuable/avalide",{
     
     });
-  setAttestations(response.data)
+  setDataUser(response.data)
 
    
   }
   catch (err) {console.log("erreur")}
 
 };
-console.log( attestations)
+
 
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = DataUser.map((item : any) => [item.rf, item.raison_social,item.raison_sociale,  ]);
+  const data = DataUser.map((item : any) => [item.id, item.raison_social,item.nom_commercial, item.forme_juridique  ]);
   
   
   

@@ -97,5 +97,30 @@
         "zone": "",
         "age": "3",
         "date_creation_vehicule": "2024-02-16T19:40:47.321Z"
+    },
+    {
+        "id_vehicule": 3,
+        "numero_immatriculation": "2344TDD",
+        "marque": "4L",
+        "type": "type",
+        "genre": "genre",
+        "puissance": "20 chevaux ",
+        "nombre_place_carte_grise": "4",
+        "nombre_place_licence": "5",
+        "charge_utile": "400 kg",
+        "date_mise_circulation": "2011-10-02",
+        "poids_a_vide": "350 kg",
+        "hikaramana": "",
+        "date_debut": "2014-01-10",
+        "nif_proprietaire": "",
+        "centre_gestionnaire": "",
+        "anc_nif_proprietaire": "",
+        "exploitation": "Sub-urbaine",
+        "date_validite_licence": "2015-11-10",
+        "categorie": "Transport marchandise",
+        "sous_categorie": "",
+        "zone": "",
+        "age": "4",
+        "date_creation_vehicule": "2024-03-10T08:05:08.178Z"
     }
 ]

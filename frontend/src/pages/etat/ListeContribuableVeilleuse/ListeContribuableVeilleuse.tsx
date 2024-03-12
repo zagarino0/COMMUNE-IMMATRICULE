@@ -15,7 +15,7 @@ import axios from "axios";
 
 function ListeContribuableVeilleuse() {
 
-  const [contribuable, setContribuable] = useState<{
+  const [contribuable] = useState<{
     reference: string,
     raison_social:string,
     reference_fiscal:string,
@@ -33,25 +33,15 @@ function ListeContribuableVeilleuse() {
     sexe:"",
   });
   
-    const [dataUser ,setDataUser] = useState([]);
+    const [dataUser ,setContribuable] = useState([]);
     useEffect(() => {
       // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
       handleActive();
-    }, [""]);
+    }, [contribuable]);
     const handleActive = async () => {
       try{
-        const response = await axios.post('http://localhost:3500/contribuable/avalide',{
-            'reference': contribuable.reference,
-            'raison_social': contribuable.raison_social,
-            'reference_fiscal': contribuable.reference_fiscal,
-            'type': contribuable.type,
-            'CIN':contribuable.cin,
-            'passport':contribuable.numero_passeport,
-            'sexe':contribuable.sexe,
-          });
-      
-          setContribuable(response.data)
-          setDataUser(response.data);
+        const response = await axios.get('http://localhost:3500/consultation/contribuable/veille',{});
+          setContribuable(response.data);
       }
       catch(error)
       {
@@ -66,7 +56,7 @@ function ListeContribuableVeilleuse() {
   //const [selectedOption, setSelectedOption] = useState('');
 
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const data = dataUser.map((item:any)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+  const data = dataUser.map((item : any )=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
 
 {/**
 

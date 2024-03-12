@@ -21,7 +21,7 @@ const [ Data , setData ] = useState([])
  const HandleDataDonwnload = () =>{
 
     // Récupérer les données depuis le backend
-    axios.post(`http://localhost:3500/vehicle/research` , Date)
+    axios.post(`http://localhost:3500/vehicle/deuxdates` , Date)
     .then((response) => setData(response.data))
     .catch((error) => console.error(error)); 
 

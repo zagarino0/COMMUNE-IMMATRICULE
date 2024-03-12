@@ -6,20 +6,42 @@ import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label";
-import Input from "../../../components/inputs";
-import { useState } from "react";
+//import { Button } from "../../../components/common";
+//import Select from "../../../components/inputs/selectInput";
+//import { Label } from "../../../components/label/label";
+//import Input from "../../../components/inputs";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function ListeDemandeMJRRejete() {
-  const [selectedOption, setSelectedOption] = useState('');
+  //const [selectedOption, setSelectedOption] = useState('');
+
+
+
+
+  const [dataTable ,setDataTable] = useState([]);
+  useEffect(() => {
+    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
+    handleActive();
+  }, [dataTable]);
+  const handleActive = async () => {
+    try{
+      const response = await axios.get('http://localhost:3500/etat/contribuable/rejete');
+    
+        setDataTable(response.data)
+   
+    }
+    catch(error)
+    {
+         console.log('An  error occurred during the request');
+         alert("Il y a une erreur")
+      }
+  };
 
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+  const data = dataTable.map((item : any)=>[item.id , item.raison_social , item.nom_commerciale  , item.forme_juridique])
+
+{/**
 
   //option select input
   const options = [
@@ -30,11 +52,15 @@ function ListeDemandeMJRRejete() {
     { value: 'Adresse', label: 'Adresse' },
     { value: 'Nom commercial', label: 'Nom commercial' },
   ];
-
-  // onChange in the select input 
+ // onChange in the select input 
   const handleOptionChange = (value: string) => {
     setSelectedOption(value);
   };
+*/}
+
+
+
+ 
 
 
   const contentCard=(
@@ -45,7 +71,9 @@ function ListeDemandeMJRRejete() {
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des demandes de mise à jour rejetées"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 
-<div className="flex justify-between mt-6">
+  {/**
+   * 
+   * <div className="flex justify-between mt-6">
   <Label text="Date  Du"></Label>
 <Input type="date"  className=" w-40"></Input>
 </div>
@@ -54,7 +82,7 @@ function ListeDemandeMJRRejete() {
 <Input type="date"  className=" w-40"></Input>
 </div>
 
-<div className="flex justify-between mt-6">
+   * <div className="flex justify-between mt-6">
   <Label text="Région"></Label>
 <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
 </div>
@@ -62,7 +90,12 @@ function ListeDemandeMJRRejete() {
   <Label text="CF Gestionnaire"></Label>
 <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
 </div>
-<Button text="Lister" className="mt-6"></Button>
+   * <Button text="Lister" className="mt-6"></Button>
+   */}
+
+
+
+
 </div>
 <div className="mt-10">
 <Table

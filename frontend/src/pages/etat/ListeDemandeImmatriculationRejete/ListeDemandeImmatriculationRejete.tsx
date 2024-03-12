@@ -37,13 +37,13 @@ function ListeDemandeImmatriculationRejete() {
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleActive();
-  }, [""]);
+  }, [dataTable]);
   const handleActive = async () => {
     try{
       const response = await axios.get('http://localhost:3500/etat/contribuable/rejete');
     
         setDataTable(response.data)
-        console.log(dataTable);
+   
     }
     catch(error)
     {
@@ -51,11 +51,11 @@ function ListeDemandeImmatriculationRejete() {
          alert("Il y a une erreur")
       }
   };
- console.log(contribuable);
+ 
 
 
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const data = dataTable.map((item : any)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+  const data = dataTable.map((item : any)=>[item.id, item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
 {/**
 
 //option select input

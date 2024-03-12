@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 function InfoDeblocage() {
   let navigate = useNavigate();
-  const selectedData = localStorage.getItem("selectedBlocageData");
+  const selectedData = localStorage.getItem("selectedDeblocageData");
   const  parsedDataSelected = JSON.parse(selectedData as string);
   console.log(parsedDataSelected)
   const {activite} = parsedDataSelected ;
@@ -22,18 +22,18 @@ function InfoDeblocage() {
 
     const Data ={
       "reference_fiscal": parsedDataSelected.reference_fiscal,
-      "motif" : "Mise en veilleuse",
-      "comment" : " Mise en veilleuse d'activité contribuable",
+      "motif" : "Déblocage Contribuable",
+      "comment" : " Déblocage d'activiter Contribuable",
       "id_user" : userData.id_user         
     }
     try {
       // Make a POST request to your server endpoint
-      const response = await axios.post("http://localhost:3500/contribuable/miseenveille", Data);
+      const response = await axios.post("http://localhost:3500/contribuable/deblockage", Data);
       
       // Check the response status or do something with the response
       console.log("Server Response:", response.data );
-      alert(`Mise en veille pour ${parsedDataSelected.raison_social} réussi`)
-      navigate('/BlocageAdministratif')
+      alert(`Déblocage pour ${parsedDataSelected.raison_social} réussi`)
+      navigate('/DeblocageAdministratif')
     } catch (error) {
       // Handle errors
       console.error("Error:", error);

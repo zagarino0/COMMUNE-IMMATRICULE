@@ -48,7 +48,7 @@ function AjouterUnCompteOperateurPage() {
 
     try {
       // Replace 'YOUR_BACKEND_API_URL' with your actual backend API endpoint for registration
-      const response = await axios.post('http://localhost:3500/user/register', Compte);
+      const response = await axios.post('http://localhost:3500/user/register/', Compte);
 
       // Handle the response from the server as needed
       console.log("Registration successful:", response.data);

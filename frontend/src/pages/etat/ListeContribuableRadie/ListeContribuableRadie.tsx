@@ -16,13 +16,13 @@ import  axios from "axios";
 function ListeContribuableRadie() {
  // const [selectedOption, setSelectedOption] = useState('');
  const [contribuable, setContribuable] = useState<{
-  rf: string,
+  id: string,
   raison_social:string,
   nom_commerciale:string,
   form_juridique:string,
 
 }>({
-  rf:"",
+  id:"",
   raison_social:"",
   nom_commerciale:"",
   form_juridique:"",
@@ -33,28 +33,21 @@ function ListeContribuableRadie() {
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleActive();
-  }, []);
+  }, [contribuable]);
   const handleActive = async () => {
     try{
-      const response = await axios.post('http://localhost:3500/contribuable/avalide',{
-          'etat':'RADIE',
-          'rf':contribuable.rf,
-          'raison_social': contribuable.raison_social,
-          'nom_commerciale': contribuable.nom_commerciale,
-          'form_juridique': contribuable.form_juridique,
-         
-        });
+      const response = await axios.get('http://localhost:3500/consultation/contribuable/bloque',{});
     
-        setContribuable(response.data)
+        setDataTable(response.data)
     }
     catch(error)
     {
          console.log('An  error occurred during the request');
       }
   };
- console.log(contribuable);
+
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = dataTable.map((item: any ) => [item.rf, item.raison_social, item.nom_commerciale, item.form_juridique])
+  const data = dataTable.map((item: any ) => [item.id, item.raison_social, item.nom_commerciale, item.forme_juridique])
 
 {/**
 

@@ -6,15 +6,15 @@ import { Link } from "react-router-dom";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
-import { Label } from "../../../components/label/label";
-import Input from "../../../components/inputs";
+//import { Button } from "../../../components/common";
+//import Select from "../../../components/inputs/selectInput";
+//import { Label } from "../../../components/label/label";
+//import Input from "../../../components/inputs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function ListeContribuableNouvellementImmatricule() {
-  const [selectedOption, setSelectedOption] = useState('');
+  //const [selectedOption, setSelectedOption] = useState('');
 
   
   const [DataContribuable ,setDataContribuble] = useState([]);
@@ -30,8 +30,9 @@ useEffect(() => {
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
   const data = DataContribuable.map((item:any)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
 
+{/**
 
-  //option select input
+ //option select input
   const options = [
     { value: 'référence', label: 'référence' },
     { value: 'Raison sociale', label: 'Raison sociale' },
@@ -40,13 +41,11 @@ useEffect(() => {
     { value: 'Adresse', label: 'Adresse' },
     { value: 'Nom commercial', label: 'Nom commercial' },
   ];
-
   // onChange in the select input 
   const handleOptionChange = (value: string) => {
     setSelectedOption(value);
   };
-
-
+*/}
   const contentCard=(
       <div >
 
@@ -55,24 +54,30 @@ useEffect(() => {
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables nouvellement immatriculés"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 
-<div className="flex justify-between mt-6">
-  <Label text="Date  Du"></Label>
-<Input type="date"  className=" w-40"></Input>
-</div>
-<div className="flex justify-between mt-6">
-  <Label text="Au"></Label>
-<Input type="date"  className=" w-40"></Input>
-</div>
+  {/**
+   * 
+      * <div className="flex justify-between mt-6">
+      <Label text="Date  Du"></Label>
+    <Input type="date"  className=" w-40"></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Au"></Label>
+    <Input type="date"  className=" w-40"></Input>
+    </div>
 
-<div className="flex justify-between mt-6">
-  <Label text="Région"></Label>
-<Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-</div>
-<div className="flex justify-between mt-6">
-  <Label text="CF Gestionnaire"></Label>
-<Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-</div>
-<Button text="Lister" className="mt-6"></Button>
+    <div className="flex justify-between mt-6">
+      <Label text="Région"></Label>
+    <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="CF Gestionnaire"></Label>
+    <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
+    </div>
+   * <Button text="Lister" className="mt-6"></Button>
+   */}
+
+
+
 </div>
 <div className="mt-10">
 <Table

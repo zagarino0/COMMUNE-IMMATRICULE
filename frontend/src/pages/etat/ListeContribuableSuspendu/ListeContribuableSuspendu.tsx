@@ -15,52 +15,45 @@ import axios from 'axios';
 
 function ListeContribuableSuspendu() {
   //const [selectedOption, setSelectedOption] = useState('');
-  const [contribuable, setContribuable] = useState<{
+  const [contribuable] = useState<{
     id: string,
     raison_social:string,
     reference_fiscal:string,
-    type: string,
-    cin:string ,
-    numero_passeport:string,
-    sexe: string,
+    forme_juridique:string,
+    nom_commercial:string,
+ 
   }>({
     id:"",
     raison_social:"",
     reference_fiscal:"",
-    type:"",
-    cin:"",
-    numero_passeport:"",
-    sexe:"",
+    forme_juridique:"",
+    nom_commercial:"",
+
   })
 
   const [dataTable ,setDataTable] = useState([]);
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleActive();
-  }, [""]);
+  }, [contribuable]);
   const handleActive = async () => {
     try{
-      const response = await axios.post('http://localhost:3500/contribuable/avalide',{
-          'id': contribuable.id,
-          'raison_social': contribuable.raison_social,
-          'reference_fiscal': contribuable.reference_fiscal,
-          'type': contribuable.type,
-          'CIN':contribuable.cin,
-          'passport':contribuable.numero_passeport,
-          'sexe':contribuable.sexe,
+      const response = await axios.get('http://localhost:3500/consultation/contribuable/bloque',{
+         
+     
         });
     
-        setContribuable(response.data)
+        setDataTable(response.data)
     }
     catch(error)
     {
          console.log('An  error occurred during the request');
       }
   };
-  console.log(contribuable);
+  
 
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = dataTable.map((item : any )=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+  const data = dataTable.map((item : any )=>[item.id , item.raison_social ,item.nom_commercial, item.forme_juridique])
 
 {/**
 

@@ -15,6 +15,17 @@ function Rectification() {
   const handleCheckboxChange  = () => {
         
   };
+
+  
+  const selectedData = localStorage.getItem("selectedRectifictationData");
+ 
+  const [ContribuableData, setContribuableData] = useState(
+ JSON.parse(selectedData  as string)
+);
+
+console.log(ContribuableData);
+
+
   const options = [
     { value: 'référence', label: 'Choisissez dans la liste' },
     { value: 'Raison sociale', label: 'Raison sociale' },
@@ -31,11 +42,14 @@ function Rectification() {
   const contentCard = (
     <div className="m-4 mb-4">
        
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 "> Rectification des principaux renseignement des contribuables ayant le RF : référence fiscal</div>
+        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 "> Rectification des principaux renseignement des contribuables ayant le RF : {ContribuableData ? ContribuableData.reference_fiscal : ""}</div>
 <div className="flex flex-col">
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Raison social" className="mt-4"></Label>
-<Input type="text" className="w-96  "></Input>
+<Input type="text" className="w-96  "
+value={ContribuableData ? ContribuableData.raison_social : ""}
+onChange={(e)=> setContribuableData({...ContribuableData , raison_social : e.target.value})}
+></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Nom commercial" className="mt-4"></Label>

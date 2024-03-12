@@ -2,9 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Input from "../../../components/inputs";
-import { Label } from "../../../components/label/label";
+//import { Button } from "../../../components/common";
+//import Input from "../../../components/inputs";
+//import { Label } from "../../../components/label/label";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 function RepriseActivite() {
   const [Data , setData] = useState([])
-  const [reference_fiscal , setReference_fiscal] = useState('');
+  //const [reference_fiscal , setReference_fiscal] = useState('');
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/etat/contribuable/cesse')

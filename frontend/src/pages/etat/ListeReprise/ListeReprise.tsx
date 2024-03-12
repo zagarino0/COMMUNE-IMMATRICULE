@@ -10,16 +10,53 @@ import Table from "../../../components/table/table";
 //import Select from "../../../components/inputs/selectInput";
 //import { Label } from "../../../components/label/label";
 //import Input from "../../../components/inputs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function ListeReprise() {
-  const [selectedOption, setSelectedOption] = useState('');
+  //const [selectedOption, setSelectedOption] = useState('');
+
+
+  const [Contribuable] = useState<{
+
+    id:string,
+    raison_social:string,
+    nom_commercial:string,
+    forme_juridique:string,
+ 
+  }>({
+  
+    id:"",
+    raison_social:"",
+    nom_commercial:"",
+    forme_juridique:"",
+   
+  })
+
+
+  const [dataTable, setDataTable] = useState([]);
+
+  useEffect(() => {
+    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
+    handleActive();
+  }, [Contribuable]);
+  const handleActive = async () => {
+    try{
+      const response = await axios.get('http://localhost:3500/consultation/contribuable/valide');
+        
+        setDataTable(response.data)
+      
+        
+    }
+    catch(error)
+    {
+         console.log('An  error occurred during the request');
+      }
+  };
 
   const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+  const data = dataTable.map((item:any)=>[item.id, item.raison_social, item.nom_commercial, item.forme_juridique])
+
 
 
 {/**

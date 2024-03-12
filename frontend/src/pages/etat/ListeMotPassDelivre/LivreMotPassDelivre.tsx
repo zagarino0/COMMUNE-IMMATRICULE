@@ -14,31 +14,22 @@ import {useEffect, useState } from "react";
 import axios from "axios";
 
 function LivreMotPassDelivre() {
-  const [selectedOption, setSelectedOption] = useState ('')
+  //const [selectedOption] = useState ('')
 
-  const [Contribuable] =useState<{
-    reference_fiscale: string,
-    id:string,
-  }>
-  ({
-    reference_fiscale:"",
-    id:"",
-  })
-
+  const [Contribuable] =useState([])
+ 
   const [DataContribuable ,setDataContribuble] = useState ([])
 
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleSearch();
-  }, [Contribuable, selectedOption]);
+  }, [Contribuable]);
    // Récupérer les données depuis le backend
   const handleSearch = async () =>{
 
             try
             {
-                  const response = await axios.post('http://localhost:3500/contribuable', {
-                    "reference_fiscal": Contribuable.reference_fiscale,
-                    "id": Contribuable.id,
+                  const response = await axios.get('http://localhost:3500/etat/contribuable/cesse', {
                   });
 
                   setDataContribuble(response.data)

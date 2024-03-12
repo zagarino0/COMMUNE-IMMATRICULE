@@ -4,17 +4,32 @@ import { TitleH1, TitleH3 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
-import Input from "../../../components/inputs";
-import { Label } from "../../../components/label/label";
+//import { Button } from "../../../components/common";
+//import Input from "../../../components/inputs";
+//import { Label } from "../../../components/label/label";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 
 function ListeUtilisateur() {
-  const headers = ["Centre", "Tél Fixe", "Tél Mobile", "Mail"];
-  const data = [
-    ["none", "none", "none", "none"],
+
+
+
+  const [dataTable ,setDataTable] = useState([]);
+  
    
-  ];
- 
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/user/all')
+      .then((response) => setDataTable(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  console.log(dataTable)
+  const headers = ["Code", "Nom", "Prénom", "Numéro matriculé" , "Type opérateur"];
+  const data = dataTable.map((item )=>[item.code,  item.nom , item.prenom , item.numero_matricule , item.type_operateur])
+
+
   const contentCard=(
       <div >
 

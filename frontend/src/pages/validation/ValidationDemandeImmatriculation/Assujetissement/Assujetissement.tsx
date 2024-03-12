@@ -392,13 +392,21 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
      setIsStorageUpdatedAssocie(false);
   }, [DataSelectedAssocie, isStorageUpdatedAssocie]);
   
-  const handleSelectedDataTableAssocie = (rowIndex : key) =>{
-    setSelectedRowIndexAssocie(rowIndex);
-    const selectedRowDataAssocie= actionnaire[rowIndex] ;
-    setDataSelectedAssocie(selectedRowDataAssocie);
-    console.log("selected :",DataSelectedAssocie);
-    
+  const handleSelectedDataTableAssocie = (rowIndex: key) => {
+    // Check if the clicked row is already selected
+    if (rowIndex === selectedRowIndexAssocie) {
+      // If selected, unselect it
+      setSelectedRowIndexAssocie(null);
+      setDataSelectedAssocie(null);
+    } else {
+      // If not selected, select it
+      setSelectedRowIndexAssocie(rowIndex);
+      const selectedRowDataAssocie = actionnaire[rowIndex];
+      setDataSelectedAssocie(selectedRowDataAssocie);
+      console.log("selected:", DataSelectedAssocie);
     }
+  };
+  
 
     
 // unselected Data from Associe 
@@ -425,7 +433,7 @@ const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useSta
     const selectedRowDataEtablissment= etablissement[rowIndex] ;
     setDataSelectedEtablissment(selectedRowDataEtablissment);
     console.log("selected :",DataSelectedEtablisement);
-    setAdd(true);
+    
     }
     
 // data selected Dirigeant  table 
@@ -486,7 +494,7 @@ if (ContribuableData){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-    alert("contribuable Modifié")
+    alert("Enseignement générale")
    
   } catch (error) {
     // Handle errors
@@ -574,25 +582,49 @@ const AjoutDataAssocieTable = () => {
 
 }
 
-const DeleteAssocieData = (rowIndex : key) => {
-  setSelectedRowIndexAssocie(rowIndex);
-  const selectedRowDataAssocie= actionnaire[rowIndex] ;
-  setDataSelectedAssocie(selectedRowDataAssocie);
 
+
+const DeleteAssocieData = async (rowIndex: key) => {
   try {
-   const response = axios.delete(`http://localhost:3500/actionnaire/avalide/${selectedRowDataAssocie.id_actionnaire}`);
+    // Check if the clicked row is already selected
+    if (rowIndex === selectedRowIndexAssocie) {
+      // If selected, unselect it
+      setSelectedRowIndexAssocie(null);
+      setDataSelectedAssocie(null);
+    } else {
+      // If not selected, select it
+      setSelectedRowIndexAssocie(rowIndex);
+      const selectedRowDataAssocie = actionnaire[rowIndex];
+      setDataSelectedAssocie(selectedRowDataAssocie);
+      console.log("selected:", DataSelectedAssocie);
 
-  } catch(error){
- console.error('Erreur de supression :' , error)
+      // Optional: You can include a confirmation dialog before deleting
+      const isConfirmed = window.confirm("Are you sure you want to delete this data?");
+
+      if (isConfirmed) {
+        // Perform the deletion
+        const response = await axios.delete(`http://localhost:3500/actionnaire/avalide/${selectedRowDataAssocie.id}`);
+        console.log("data deleted", response.data);
+
+        // Optionally, you may want to update your local state or refresh the data after deletion
+        // Example: Assuming you have an 'updateData' function to refresh the data
+        // updateData();
+      }
+    }
+  } catch (error) {
+    console.error('Erreur lors de la sélection :', error);
   }
-}
+};
 
 //Modification Donné selectionner 
 const HandleModifieActionnaire = async () => {
-  
+
+
   
 // Modification Actionnaire 
 if(DataSelectedAssocie){
+
+  
 
   const DataActionnaire = {
     "id_contribuable": ContribuableData.id ,
@@ -602,7 +634,7 @@ if(DataSelectedAssocie){
     "cin_passeport_actionnaire": DataSelectedAssocie.cin_passeport_actionnaire,
     "email_actionnaire": DataSelectedAssocie.email_actionnaire ,
     "fonction_actionaire": DataSelectedAssocie.fonction_actionnaire,
-    "id_actionnaire": DataSelectedAssocie.id_actionnaire,
+    "id": DataSelectedAssocie.id,
     "nif_actionnaire": DataSelectedAssocie.nif_actionnaire,
     "nom_actionnaire": DataSelectedAssocie.nom_actionnaire,
     "numero_actionnaire": DataSelectedAssocie.numero_actionnaire ,
@@ -610,15 +642,18 @@ if(DataSelectedAssocie){
     "type": DataSelectedAssocie.type 
     
   }
+  console.log(DataActionnaire)
   try {
 
     // Make a POST request to your server endpoint
-    const response = await axios.put(`http://localhost:3500/actionnaire/avalide/${actionnaire.id_actionnaire}`, DataActionnaire);
+    const response = await axios.put(`http://localhost:3500/actionnaire/avalide/${DataSelectedAssocie.id}`, DataActionnaire);
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   
    alert("Associé Modifié")
+   setAdd(false);
+   window.location.reload();
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
@@ -653,7 +688,7 @@ const HandleModifieEtablissement = async () => {
     try {
 
       // Make a POST request to your server endpoint
-      const response = await axios.put(`http://localhost:3500/etablissement/avalide/${etablissement.id}`, EtablissementData);
+      const response = await axios.put(`http://localhost:3500/etablissement/avalide/${DataSelectedEtablisement.id}`, EtablissementData);
     
       // Check the response status or do something with the response
       console.log("Server Response:", response.data);
@@ -667,6 +702,44 @@ const HandleModifieEtablissement = async () => {
 
   }
 }
+
+
+// Interlocuteur  Modification 
+const HandleModifieInterlocuteur = async () => {
+  // Modification siege 
+if(interlocuteur){
+  const DataInterlocuteur = {
+    "id_contribuable": ContribuableData.id ,
+    "id_interlocuteur": interlocuteur.id_interlocuteur,
+    "nom_interlocuteur" : interlocuteur.nom_interlocuteur,
+    "titre_interlocuteur": interlocuteur.titre_interlocuteur,
+    "adresse_interlocuteur": interlocuteur.adresse_interlocuteur,
+    "telephone_interlocuteur": interlocuteur.telephone_interlocuteur,
+    "email_interlocuteur": interlocuteur.email_interlocuteur ,
+  }
+  console.log( "Interlocuteur" , DataInterlocuteur)
+  try {
+    // Make a POST request to your server endpoint
+    const response = await axios.put(`http://localhost:3500/interlocuteur/avalide/${interlocuteur.id_interlocuteur}`, DataInterlocuteur);
+  
+    // Check the response status or do something with the response
+    console.log("Server Response:", response.data);
+  
+   alert("Interlocuetur Modifié")
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+    alert("Error Interlocuteur")
+  }
+  }
+
+}
+
+// Modal pour ajouter les nouvelle information
+const [isModalAssocie , setIsModalAssocie] = useState(false);
+const [isModalEtablissemnt , setIsModalEtablissement] = useState(false);
+const [isModalDirigeant , setIsModalDirigeant] = useState(false);
+
 
   // Partie sur le contribualble à modifier et à valider sur l'interface
   
@@ -1367,7 +1440,7 @@ onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_a
 headers={HeadersAssocie}
 data={DataAssocie}
 onClick={handleSelectedDataTableAssocie}
-selectedRowIndex={selectedRowIndexAssocie || null}
+selectedRowIndex={selectedRowIndexAssocie }
 ></Table>
 </div>
 <div className="flex justify-center mt-6 mb-6">
@@ -1375,17 +1448,12 @@ selectedRowIndex={selectedRowIndexAssocie || null}
             <button  onClick={()=> setAdd(true)}  className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><MdOpenInNew></MdOpenInNew></button>
 </div>
 <div className="ml-4" >
-            <button onClick={() => { unselectRowAssocie() ; setAdd(true)} } className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
 </div>
 <div  className="ml-4">
             <button onClick={DeleteAssocieData} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
 </div>
-<div className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
-</div>
-<div className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
-</div>
+
 </div>
 <div className="flex justify-between">
   
@@ -1558,17 +1626,12 @@ selectedRowIndex={selectedRowIndexEtablissement}
 </div>
 <div className="flex justify-center mt-6">
 <div >
-            <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+            <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><MdOpenInNew></MdOpenInNew></button>
 </div>
 <div  className="ml-4">
             <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
 </div>
-<div className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
-</div>
-<div className="ml-4">
-            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
-</div>
+
 </div>
 <button onClick={()=> setBool({...bool , etablissement: false})}  className="border-[2px] ml-40 mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
    </div>
@@ -1844,7 +1907,7 @@ selectedRowIndex={selectedRowIndexDirigeant}
       ></Input>
     </div>
     <div className="flex justify-center mt-6">
-        <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Modifier</button>
+        <button  onClick={HandleModifieInterlocuteur} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Modifier</button>
         <button onClick={()=> setBool({...bool , interlocuteur : false})}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/>Fermer</button>
         </div>
     </div>
@@ -1879,22 +1942,22 @@ selectedRowIndex={selectedRowIndexDirigeant}
                 <div className="flex justify-between mt-6">
             <Label text="M'envoyer par e-mail les informations saisies " />
       <div className="flex justify-between w-[300px]">
-    <Checkbox label="Oui" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre:{...ContribuableData.autre , information_mail : checked}})} checked={autre.information_mail == true }></Checkbox>
-    <Checkbox label="Non" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre:{...ContribuableData.autre , information_mail : !checked}})} checked={autre.information_mail == false}></Checkbox>
+    <Checkbox label="Oui" onChange={()=> window} checked={autre.information_mail == true }></Checkbox>
+    <Checkbox label="Non" onChange={()=> window} checked={autre.information_mail == false}></Checkbox>
     </div>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Votre exerice dépasse t-il 12 mois ? " />
       <div className="flex justify-between w-[300px]">
-    <Checkbox label="Oui(18 mois)" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre: {...ContribuableData.autre , depassement_12_mois : checked}})} checked={autre.depassement_12_mois == true}></Checkbox>
-    <Checkbox label="Non(12 mois)" onChange={(checked)=>setContribuableData({ ...ContribuableData , autre: {...ContribuableData.autre , depassement_12_mois : !checked}})} checked={autre.depassement_12_mois == false}></Checkbox>
+    <Checkbox label="Oui(18 mois)" onChange={()=> window} checked={autre.depassement_12_mois == true}></Checkbox>
+    <Checkbox label="Non(12 mois)" onChange={()=> window} checked={autre.depassement_12_mois == false}></Checkbox>
     </div>
     </div>
     <div className="flex justify-between mt-6">
             <Label text="Je certifie que ces renseignements sont complets et exacts " />
       <div className="flex justify-between w-[300px]">
     
-    <Checkbox onChange={(checked)=>setContribuableData({ ...ContribuableData , autre: {...ContribuableData.autre , certification : checked}})} checked={autre ? autre.certification : "" }></Checkbox>
+    <Checkbox onChange={()=> window} checked={autre ? autre.certification : "" }></Checkbox>
     </div>
     </div>
 
@@ -1903,7 +1966,7 @@ selectedRowIndex={selectedRowIndexDirigeant}
       </div>
       </div>
     <div className="flex justify-center mt-6">
-        <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave>Modifier</button>
+       
         <button onClick={()=> setBool({...bool , autre : false})}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/>Fermer</button>
         </div>
     

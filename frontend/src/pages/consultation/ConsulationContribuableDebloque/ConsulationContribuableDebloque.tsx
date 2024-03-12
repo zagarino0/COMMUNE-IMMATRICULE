@@ -46,7 +46,7 @@ const [DataDebloque ,setDataDebloque] = useState([]);
 
 useEffect(() => {
     // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/consultation/contribuable/nonbloque')
+    axios.get('http://localhost:3500/consultation/contribuable/debloque')
       .then((response) => setDataDebloque(response.data))
       .catch((error) => console.error(error));
   }, []);
@@ -105,22 +105,20 @@ useEffect(() => {
   };
 
   const HeaderTable = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const DataTable = [
-    []
-  ]
+  const DataTable = DataDebloque.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
   const contentCard = (
     <div className="p-8 flex flex-col">
 <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
   Consultation des contribuables débloqués
 </div>
-<div className="mt-4 text-xl font-semibold">
+{/* <div className="mt-4 text-xl font-semibold">
   veuillez remplir vos critères ci-dessous : 
-</div>
-<div className="flex justify-between mt-4">
+</div> */}
+{/* <div className="flex justify-between mt-4">
 <Label text="Domaine de recherche :" className="mt-4"></Label>
 <Select options={options} value={Debloque.domaine_recherche} onChange={(options)=>{setDebloque({...Debloque ,domaine_recherche: options})}} className="w-96 mx-6"/>
-</div>
-{Debloque.domaine_recherche === "Raison sociale" &&(
+</div> */}
+{/* {Debloque.domaine_recherche === "Raison sociale" &&(
 
 <div className="mt-4 flex justify-between">
 <Label text="Raison Social :"></Label>
@@ -205,7 +203,7 @@ onChange={(e)=> {setDebloque({...Debloque , date_fin: e.target.value})}}
 
 <div className="mt-4">
 <Button text="Lister" className="rounded w-40"></Button>
-</div>
+</div> */}
 <div className="flex justify-center items-center mt-12" >
 
 <Table

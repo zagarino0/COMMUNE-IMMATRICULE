@@ -31,7 +31,7 @@ function HIstoriqueContribuable() {
     const [DataHistorique,setDataHistorique] = useState([]);
     useEffect(() => {
         // Récupérer les données depuis le backend
-        axios.get('http://localhost:3500/consultation/contribuable/bloque')
+        axios.get('http://localhost:3500/history/contribuable')
           .then((response) => setDataHistorique(response.data))
           .catch((error) => console.error(error));
       }, []);
@@ -39,11 +39,8 @@ function HIstoriqueContribuable() {
     console.log(DataHistorique)
     
 
-  const headers = ["Ref démandé", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-  ["none", "none", "none", "none"],
-  
-  ];
+  const headers = ["Ref ", "Motif", "Date de modification"];
+  const data = DataHistorique.map((item)=>[item.id_history_contribuable , item.motif , item.date_modification])
     const contentCard = (
       <div className="p-8 flex flex-col">
   <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">

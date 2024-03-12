@@ -1,40 +1,87 @@
 import { Link } from "react-router-dom";
 import { Card } from "../../../components/card/card";
-import { Button } from "../../../components/common";
-import Input from "../../../components/inputs";
-import { Label } from "../../../components/label/label";
+//import { Button } from "../../../components/common";
+//import Input from "../../../components/inputs";
+//import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import { TiDocumentText } from "react-icons/ti";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
-import Select from "../../../components/inputs/selectInput";
-import { useState } from "react";
+//import Select from "../../../components/inputs/selectInput";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function ListeNIFDelivre() {
-  const [selectedOption, setSelectedOption] = useState('');
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "oui"],
+  //const [selectedOption, setSelectedOption] = useState('');
+  
+  const [Contribuable] = useState<{
+
+    reference_fiscal:string,
+    raison_social:string,
+    nom_commercial:string,
+    forme_juridique:string,
+ 
+  }>({
+  
+    reference_fiscal:"",
+    raison_social:"",
+    nom_commercial:"",
+    forme_juridique:"",
    
-  ];
+  })
 
-  //option select input
-  const options = [
-    { value: 'référence', label: 'référence' },
-    { value: 'Raison sociale', label: 'Raison sociale' },
-    { value: 'NIF', label: 'NIF' },
-    { value: 'CIN', label: 'CIN' },
-    { value: 'Adresse', label: 'Adresse' },
-    { value: 'Nom commercial', label: 'Nom commercial' },
-  ];
 
-  // onChange in the select input 
-  const handleOptionChange = (value: string) => {
-    setSelectedOption(value);
+  const [dataTable, setDataTable] = useState([]);
+
+  useEffect(() => {
+    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
+    handleActive();
+  }, [Contribuable]);
+  const handleActive = async () => {
+    try{
+      const response = await axios.get('http://localhost:3500/etat/contribuable/cesse');
+        
+        setDataTable(response.data)
+      
+        
+    }
+    catch(error)
+    {
+         console.log('An  error occurred during the request');
+      }
   };
+
+
+
+
+
+  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
+  const data = dataTable.map((item:any)=>[item.reference_fiscal, item.raison_social, item.nom_commercial, item.forme_juridique])
+
+{/**
+
+    //option select input
+    const options = [
+      { value: 'référence', label: 'référence' },
+      { value: 'Raison sociale', label: 'Raison sociale' },
+      { value: 'NIF', label: 'NIF' },
+      { value: 'CIN', label: 'CIN' },
+      { value: 'Adresse', label: 'Adresse' },
+      { value: 'Nom commercial', label: 'Nom commercial' },
+    ];
+
+      // onChange in the select input 
+      const handleOptionChange = (value: string) => {
+        setSelectedOption(value);
+      };
+
+*/}
+
+
+
+
 
 
   const contentCard=(
