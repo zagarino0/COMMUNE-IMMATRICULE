@@ -16,13 +16,21 @@ const getAllVehicles = (req, res) => {
 
 const addNewVehicles = async (req, res) => {
     const vehicles = req.body.vehicles;
-
+    const id_vehicles = [];
+    const id_contribuable = [];
     if(vehicles.lenght === 0)
         return res.status(404).json({'message': 'aucun vehicule trouvé'});
+    
+    vehicles.map(veh => {
+        id_vehicles.push(veh.id_vehicule);
+        id_contribuable.push(veh.id_contribuable);
+    })
+
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
     const history = {
         'id_history': id_history,
-        'id_vehicule': [...vehicles.id_vehicule],
-        'id_contribuable': req.body.nifproprietaire_v,
+        'id_vehicule': id_vehicles,
+        'id_contribuable': id_contribuable,
         'id_user': req.body.id_user,
         'motif': "Creation des vehicules",
         'comment': req.body.comment,
