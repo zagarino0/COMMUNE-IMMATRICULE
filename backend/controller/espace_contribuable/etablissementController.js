@@ -59,7 +59,7 @@ const updateEtablissement = async (req, res) => {
 
  
 
-    const filteredEtablissement = data.etablissements.filter(eta => eta.id !== id_etablissement);
+    const filteredEtablissement = data.etablissements.filter(eta => eta.id != id_etablissement && eta.id_contribuable != id_contribuable);
     const unsortedEtablissement = [...filteredEtablissement, etablissement];
     data.setEtablissements(unsortedEtablissement.sort((a, b) => a.id > b.id_etablissement ? 1 : a.id < b.id_etablissement ? -1 : 0));
 
@@ -98,7 +98,7 @@ const updateEtablissementByContribuable = async (req, res) => {
 
  
 
-    const filteredEtablissement = data.etablissements.filter(eta => eta.id !== id_etablissement);
+    const filteredEtablissement = data.etablissements.filter(eta => eta.id != id_etablissement && eta.id_contribuable != id_contribuable);
     const unsortedEtablissement = [...filteredEtablissement, etablissement];
     data.setEtablissements(unsortedEtablissement.sort((a, b) => a.id > b.id_etablissement ? 1 : a.id < b.id_etablissement ? -1 : 0));
 
@@ -204,9 +204,9 @@ const updateEtablissementAValide = async (req, res) => {
 
  
 
-    const filteredEtablissement = data.etablissements.filter(eta => eta.id !== id_etablissement);
+    const filteredEtablissement = data.etablissements.filter(eta => eta.id != id_etablissement && eta.id_contribuable != id_contribuable);
     const unsortedEtablissement = [...filteredEtablissement, etablissement];
-    data.setEtablissements(unsortedEtablissement.sort((a, b) => a.id > b.id_etablissement ? 1 : a.id < b.id_etablissement ? -1 : 0));
+    data.setEtablissements(unsortedEtablissement);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'etablissement.json'),
