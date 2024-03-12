@@ -1,6 +1,6 @@
 import { MainLayout } from "../../../layouts/main";
 import { Card } from "../../../components/card/card";
-import Input from "../../../components/inputs";
+//import Input from "../../../components/inputs";
 import { Button } from "../../../components/common";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -31,10 +31,10 @@ function GererLesComptesOperateurDeVotreCentrePage() {
   const [DataUser, setDataUser] = useState<User[]>([]);
   useEffect(() => {
     // Fetch data from the backend on component mount
-    axios.get<User[]>('http://localhost:3500/user/actif')
+    axios.get('http://localhost:3500/user/actif')
       .then((response) => setDataUser(response.data))
       .catch((error) => console.error(error));
-  }, [Compte]);
+  }, [setCompte]);
 
 
 
@@ -89,12 +89,13 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     }
   };
   const headers = ["Nom", "Prenom", "Code", "Type opérateur", "Actif", "Numéro matriculé", "Désactiver", "Activer", "Supprimer"];
+
   const data = DataUser.map((item) => [
     item.nom,
     item.prenom,
     item.code,
     item.type_operateur,
-    <Checkbox checked={item.actif} />,
+    <Checkbox checked = {item.actif} />,
     item.numero_matricule,
     <Button text="Désactiver" key={item.code} className='cursor-pointer' onClick={() => handleDesactivate(item.code)} />,
     <Button text="Activer" className='cursor-pointer' onClick={() => handleReactivation(item.code)}/>,
@@ -104,19 +105,21 @@ function GererLesComptesOperateurDeVotreCentrePage() {
   const handleSearch = async () => {
     try {
       // Make a GET request to search for users based on the provided parameters
-      const response = await axios.post<User[]>(`http://localhost:3500/user/actif`, { params: Compte });
+      const response = await axios.get(`http://localhost:3500/user/`, { params: Compte });
 
       // Handle the response from the server as needed
       console.log("Search results:", response.data);
 
       // Set the search results to state
       setDataUser(response.data);
+    
     } catch (error) {
       // Handle errors from the server
       console.error("Search failed:", error.message);
       alert("Search failed. Please try again.");
     }
   };
+
 
   const contentCard = (
     <div className="flex justify-center items-center">

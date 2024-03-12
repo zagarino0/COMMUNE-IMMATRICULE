@@ -27,11 +27,11 @@ function ConsulterActionUtilisateur() {
     };
 
     const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" , "Date de Création Compte " , "Date historie" , "Motif" ]
-    const data = DataUser.map((item:any)=>[item.nom , item.prenom , item.code , item.type_operateur ,
-       <Checkbox checked ={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ])
+    const data = DataUser.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur ,
+       <Checkbox checked ={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ]);
   //  Action.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , 
     // <Checkbox checked={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ]);
-      
+   
 
   const contentCard=(
       <div >
