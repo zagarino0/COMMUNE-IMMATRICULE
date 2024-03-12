@@ -172,10 +172,10 @@ const updateActionnaireNonValide = async (req, res) => {
     if(req.body.associe_unique_actionnaire) actionnaire.associe_unique_actionnaire = req.body.associe_unique_actionnaire;
     if(req.body.action_ou_actionnaire) actionnaire.action_ou_actionnaire = req.body.action_ou_actionnaire;
 
-    const filteredActionnaire = data.actionnaires.filter(act => act.id_actionnaire !== id_actionnaire);
+    const filteredActionnaire = data.actionnaires.filter(act => act.id_actionnaire !== id_actionnaire && act.id_contribuable !== id_contribuable);
     const unsortedActionnaire = [...filteredActionnaire, actionnaire];
 
-    data.setActionnaires(unsortedActionnaire.sort((a, b) => a.id_siege > b.id_siege ? 1 : a.id_siege < b.id_siege ? -1 : 0));
+    data.setActionnaires(unsortedActionnaire);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'actionnaire.json'),
