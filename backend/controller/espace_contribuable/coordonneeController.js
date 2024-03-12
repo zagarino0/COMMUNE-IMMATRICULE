@@ -47,7 +47,7 @@ const updateCoordonnees = async (req, res) => {
     if(req.body.longitude) coordonees.longitude = req.body.longitude;
     if(req.body.latitude) coordonees.latitude = req.body.latitude;
 
-    const filteredCoordonnees = data.coordonnees.filter(coo => coo.id_coordonnee !== id_coordonnee);
+    const filteredCoordonnees = data.coordonnees.filter(coo => coo.id_coordonnee != id_coordonnee);
     const unsortedCoordonnees = [...filteredCoordonnees, coordonees];
     data.setCoordonnees(unsortedCoordonnees.sort((a, b) => a.id_coordonnee > b.id_coordonnee ? 1 : a.id_coordonnee < b.id_coordonnee ? -1 : 0));
 

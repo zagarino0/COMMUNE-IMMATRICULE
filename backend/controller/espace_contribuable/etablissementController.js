@@ -37,7 +37,7 @@ const getEtablissementByIdContribuable = (req, res) => {
 const updateEtablissement = async (req, res) => {
     const id_etablissement = req.params.id_etablissement;
     const id_contribuable = req.body.id_contribuable;
-    const etablissement = data.etablisseme.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
+    const etablissement = data.etablisseme.find(eta => eta.id == id_etablissement && eta.id_contribuable === id_contribuable);
 
     if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
     if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
@@ -60,7 +60,7 @@ const updateEtablissement = async (req, res) => {
 
  
 
-    const filteredEtablissement = data.etablissements.filter(eta => eta.id_etablissement !== id_etablissement);
+    const filteredEtablissement = data.etablissements.filter(eta => eta.id != id_etablissement && eta.id_contribuable != id_contribuable);
     const unsortedEtablissement = [...filteredEtablissement, etablissement];
     data.setEtablissements(unsortedEtablissement.sort((a, b) => a.id_etablissement > b.id_etablissement ? 1 : a.id_etablissement < b.id_etablissement ? -1 : 0));
 
@@ -76,7 +76,7 @@ const updateEtablissement = async (req, res) => {
 const updateEtablissementByContribuable = async (req, res) => {
     const id_etablissement = req.params.id_etablissement;
     const id_contribuable = req.body.id_contribuable;
-    const etablissement = data.etablisseme.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
+    const etablissement = data.etablisseme.find(eta => eta.id == id_etablissement && eta.id_contribuable === id_contribuable);
 
     if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
     if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
@@ -99,7 +99,7 @@ const updateEtablissementByContribuable = async (req, res) => {
 
  
 
-    const filteredEtablissement = data.etablissements.filter(eta => eta.id_etablissement !== id_etablissement);
+    const filteredEtablissement = data.etablissements.filter(eeta => eta.id != id_etablissement && eta.id_contribuable != id_contribuable);
     const unsortedEtablissement = [...filteredEtablissement, etablissement];
     data.setEtablissements(unsortedEtablissement.sort((a, b) => a.id_etablissement > b.id_etablissement ? 1 : a.id_etablissement < b.id_etablissement ? -1 : 0));
 
@@ -132,7 +132,7 @@ const updateEtablissementByContribuable = async (req, res) => {
 const deleteEtablissementNonValide = async (req, res) => {
     const id_etablissement = req.params.id_etablissement;
     const id_contribuable = req.body.id_contribuable;
-    const etablissement = data.etablissements.find(etab => etab.id_etablissement == id_etablissement && etab.id_contribuable == id_contribuable);
+    const etablissement = data.etablissements.find(etab => etab.id == id_etablissement && etab.id_contribuable == id_contribuable);
     if(!etablissement)
         return res.status(404).json({'message': 'etablissement not found'});
     const filteredEtablissement = data.etablissements.filter(etab => etab.id_contribuable != id_contribuable && etab.id_etablissement != id_etablissement);
@@ -177,7 +177,7 @@ const setOneEtablissementNonValide = async (req, res) => {
 const updateEtablissementAValide = async (req, res) => {
     const id_etablissement = req.params.id_etablissement;
     const id_contribuable = req.body.id_contribuable;
-    const etablissement = data.etablissements.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
+    const etablissement = data.etablissements.find(eta => eta.id == id_etablissement && eta.id_contribuable === id_contribuable);
 
     if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
     if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
@@ -200,7 +200,7 @@ const updateEtablissementAValide = async (req, res) => {
 
  
 
-    const filteredEtablissement = data.etablissements.filter(eta => eta.id_etablissement !== id_etablissement);
+    const filteredEtablissement = data.etablissements.filter(eta => eta.id != id_etablissement && eta.id_contribuable != id_contribuable);
     const unsortedEtablissement = [...filteredEtablissement, etablissement];
     data.setEtablissements(unsortedEtablissement.sort((a, b) => a.id_etablissement > b.id_etablissement ? 1 : a.id_etablissement < b.id_etablissement ? -1 : 0));
 

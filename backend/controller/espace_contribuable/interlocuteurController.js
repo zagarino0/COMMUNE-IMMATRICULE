@@ -68,7 +68,7 @@ const updateInterlocuteur = async (req, res) => {
     if(req.body.telephone_interlocuteur)interlocuteur.telephone_interlocuteur = req.body.telephone_interlocuteur;
     if(req.body.interlocuteur) interlocuteur.interlocuteur = req.body.interlocuteur;
 
-    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur !== id_interlocuteur);
+    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur != id_interlocuteur && inter.id_contribuable != id_contribuable);
     const unsortedInterlocuteur = [...filteredInterlocuteur, interlocuteur];
     data.setInterlocuteurs(unsortedInterlocuteur.sort((a, b) => a.id_activite > b.id_activite ? 1 : a.id_activite < b.id_activite ? -1 : 0));
 
@@ -93,7 +93,7 @@ const updateInterlocuteurByContribuable = async (req, res) => {
     if(req.body.telephone_interlocuteur)interlocuteur.telephone_interlocuteur = req.body.telephone_interlocuteur;
     if(req.body.interlocuteur) interlocuteur.interlocuteur = req.body.interlocuteur;
 
-    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur !== id_interlocuteur);
+    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur != id_interlocuteur && inter.id_contribuable != id_contribuable);
     const unsortedInterlocuteur = [...filteredInterlocuteur, interlocuteur];
     data.setInterlocuteurs(unsortedInterlocuteur.sort((a, b) => a.id_activite > b.id_activite ? 1 : a.id_activite < b.id_activite ? -1 : 0));
     const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
@@ -133,7 +133,7 @@ const updateInterlocuteurAValide = async (req, res) => {
     if(req.body.telephone_interlocuteur)interlocuteur.telephone_interlocuteur = req.body.telephone_interlocuteur;
     if(req.body.interlocuteur) interlocuteur.interlocuteur = req.body.interlocuteur;
 
-    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur !== id_interlocuteur);
+    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur != id_interlocuteur && inter.id_contribuable != id_contribuable);
     const unsortedInterlocuteur = [...filteredInterlocuteur, interlocuteur];
     data.setInterlocuteurs(unsortedInterlocuteur.sort((a, b) => a.id_activite > b.id_activite ? 1 : a.id_activite < b.id_activite ? -1 : 0));
 

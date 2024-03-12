@@ -51,10 +51,10 @@ const setOneDirigeantNonValide = async (req, res) => {
 const deleteDirigeantsNonValide = async (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
     const id_contribuable = req.body.id_contribuable;
-    const dirigeant = data.dirigeants.find(dir => dir.id_dirigeant == id_dirigeant && dir.id_contribuable == id_contribuable);
+    const dirigeant = data.dirigeants.find(dir => dir.id == id_dirigeant && dir.id_contribuable == id_contribuable);
     if(!dirigeant)
         return res.status(404).json({'message': 'dirigeant not found'});
-    const filteredDirigeant = data.dirigeants.filter(dir => dir.id_dirigeant != id_dirigeant && dir.id_contribuable != id_contribuable);
+    const filteredDirigeant = data.dirigeants.filter(dir => dir.id != id_dirigeant && dir.id_contribuable != id_contribuable);
     data.setDirigeants(filteredDirigeant);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'dirigeant.json'),
@@ -65,7 +65,7 @@ const deleteDirigeantsNonValide = async (req, res) => {
 
 const getDirigeantById = (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
-    const dirigeant = data.diriges.find(dir => dir.id_dirigeant == id_dirigeant);
+    const dirigeant = data.diriges.find(dir => dir.id == id_dirigeant);
     res.json(dirigeant);
 }
 
@@ -85,7 +85,7 @@ const getDirigeantByIdContribuable = (req, res) => {
 const updateDirigeant = async (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
     const id_contribuable = req.body.id_contribuable
-    const dirigeant = data.diriges.find(dir => dir.id_dirigeant == id_dirigeant && dir.id_contribuable === id_contribuable);
+    const dirigeant = data.diriges.find(dir => dir.id == id_dirigeant && dir.id_contribuable === id_contribuable);
 
     if(req.body.nom_commercial_dirigeant) dirigeant.nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
     if(req.body.activite_dirigeant) dirigeant.activite_dirigeant = req.body.activite_dirigeant;
@@ -103,7 +103,7 @@ const updateDirigeant = async (req, res) => {
     if(req.body.email_dirigeant) dirigeant.email_dirigeant = req.body.email_dirigeant;
     if(req.body.proprietaire_local_dirigeant) dirigeant.proprietaire_local_dirigeant = req.body.proprietaire_local_dirigeant;
 
-    const filteredDirigeant = data.dirigeants.filter(dir => dir.id_dirigeant !== id_dirigeant);
+    const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
     const unsortedDirigeant = [...filteredDirigeant, dirigeant];
 
     data.setDirigeants(unsortedDirigeant.sort((a, b) => a.id_dirigeant > b.id_dirigeant ? 1 : a.id_dirigeant < b.id_dirigeant ? -1 : 0));
@@ -118,7 +118,7 @@ const updateDirigeant = async (req, res) => {
 const updateDirigeantByContribuable = async (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
     const id_contribuable = req.body.id_contribuable
-    const dirigeant = data.diriges.find(dir => dir.id_dirigeant == id_dirigeant && dir.id_contribuable === id_contribuable);
+    const dirigeant = data.diriges.find(dir => dir.id == id_dirigeant && dir.id_contribuable === id_contribuable);
 
     if(req.body.nom_commercial_dirigeant) dirigeant.nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
     if(req.body.activite_dirigeant) dirigeant.activite_dirigeant = req.body.activite_dirigeant;
@@ -136,7 +136,7 @@ const updateDirigeantByContribuable = async (req, res) => {
     if(req.body.email_dirigeant) dirigeant.email_dirigeant = req.body.email_dirigeant;
     if(req.body.proprietaire_local_dirigeant) dirigeant.proprietaire_local_dirigeant = req.body.proprietaire_local_dirigeant;
 
-    const filteredDirigeant = data.dirigeants.filter(dir => dir.id_dirigeant !== id_dirigeant);
+    const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
     const unsortedDirigeant = [...filteredDirigeant, dirigeant];
 
     data.setDirigeants(unsortedDirigeant.sort((a, b) => a.id_dirigeant > b.id_dirigeant ? 1 : a.id_dirigeant < b.id_dirigeant ? -1 : 0));
@@ -166,7 +166,7 @@ const updateDirigeantByContribuable = async (req, res) => {
 const updateDirigeantAValide = async (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
     const id_contribuable = req.body.id_contribuable
-    const dirigeant = data.dirigeants.find(dir => dir.id_dirigeant == id_dirigeant && dir.id_contribuable === id_contribuable);
+    const dirigeant = data.dirigeants.find(dir => dir.id == id_dirigeant && dir.id_contribuable === id_contribuable);
 
     if(req.body.nom_commercial_dirigeant) dirigeant.nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
     if(req.body.activite_dirigeant) dirigeant.activite_dirigeant = req.body.activite_dirigeant;
@@ -184,7 +184,7 @@ const updateDirigeantAValide = async (req, res) => {
     if(req.body.email_dirigeant) dirigeant.email_dirigeant = req.body.email_dirigeant;
     if(req.body.proprietaire_local_dirigeant) dirigeant.proprietaire_local_dirigeant = req.body.proprietaire_local_dirigeant;
 
-    const filteredDirigeant = data.dirigeants.filter(dir => dir.id_dirigeant !== id_dirigeant);
+    const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
     const unsortedDirigeant = [...filteredDirigeant, dirigeant];
 
     data.setDirigeants(unsortedDirigeant.sort((a, b) => a.id_dirigeant > b.id_dirigeant ? 1 : a.id_dirigeant < b.id_dirigeant ? -1 : 0));
