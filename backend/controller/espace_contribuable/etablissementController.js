@@ -39,24 +39,23 @@ const updateEtablissement = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const etablissement = data.etablisseme.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
 
-    if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
-    if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
-    if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
-    if(req.body.etablissement_titre) etablissement.etablissement_titre = req.body.etablissement_titre;
-    if(req.body.etablissement_date_ouverture) etablissement.etablissement_date_ouverture = req.body.etablissement_date_ouverture;
-    if(req.body.etablissement_adresse) etablissement.etablissement_adresse = req.body.etablissement_adresse;
-    if(req.body.etablissement_fokontany) etablissement.etablissement_fokontany = req.body.etablissement_fokontany;
-    if(req.body.etablissement_province) etablissement.etablissement_province = req.body.etablissement_province;
-    if(req.body.etablissement_region) etablissement.etablissement_province = req.body.etablissement_region;
-    if(req.body.etablissement_district) etablissement.etablissement_district = req.body.etablissement_district;
-    if(req.body.etablissement_commune) etablissement.etablissement_commune = req.body.etablissement_commune;
-    if(req.body.etablissement_telephone) etablissement.etablissement_telephone = req.body.etablissement_telephone;
-    if(req.body.etablissement_autre_telephone) etablissement.etablissement_autre_telephone = req.body.etablissement_autre_telephone;
-    if(req.body.etablissement_fax) etablissement.etablissement_fax = req.body.etablissement_fax;
-    if(req.body.etablissement_email) etablissement.etablissement_email = req.body.etablissement_email;
-    if(req.body.etablissement_proprietaire_local) etablissement.etablissement_proprietaire_local = req.body.etablissement_proprietaire_local;
-    if(req.body.etablissement_type_proprietaire) etablissement.etablissement_type_proprietaire = req.body.etablissement_type_proprietaire;
-    if(req.body.etablissement_nif_proprietaire) etablissement.etablissement_nif_proprietaire = req.body.etablissement_nif_proprietaire;
+    if(req.body.nom_commercial) etablissement.nom_commercial = req.body.nom_commercial;
+    if(req.body.activite) etablissement.activite = req.body.activite;
+    if(req.body.titre) etablissement.titre = req.body.titre;
+    if(req.body.date_ouverture) etablissement.date_ouverture = req.body.date_ouverture;
+    if(req.body.adresse) etablissement.adresse = req.body.adresse;
+    if(req.body.fokontany) etablissement.fokontany = req.body.fokontany;
+    if(req.body.province) etablissement.province = req.body.province;
+    if(req.body.region) etablissement.province = req.body.region;
+    if(req.body.district) etablissement.district = req.body.district;
+    if(req.body.commune) etablissement.commune = req.body.commune;
+    if(req.body.telephone) etablissement.telephone = req.body.telephone;
+    if(req.body.autre_telephone) etablissement.autre_telephone = req.body.autre_telephone;
+    if(req.body.fax) etablissement.fax = req.body.fax;
+    if(req.body.email) etablissement.email = req.body.email;
+    if(req.body.proprietaire_local) etablissement.proprietaire_local = req.body.proprietaire_local;
+    if(req.body.type_proprietaire) etablissement.type_proprietaire = req.body.type_proprietaire;
+    if(req.body.nif_proprietaire) etablissement.nif_proprietaire = req.body.nif_proprietaire;
 
  
 
@@ -78,24 +77,24 @@ const updateEtablissementByContribuable = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const etablissement = data.etablisseme.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
 
-    if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
-    if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
-    if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
-    if(req.body.etablissement_titre) etablissement.etablissement_titre = req.body.etablissement_titre;
-    if(req.body.etablissement_date_ouverture) etablissement.etablissement_date_ouverture = req.body.etablissement_date_ouverture;
-    if(req.body.etablissement_adresse) etablissement.etablissement_adresse = req.body.etablissement_adresse;
-    if(req.body.etablissement_fokontany) etablissement.etablissement_fokontany = req.body.etablissement_fokontany;
-    if(req.body.etablissement_province) etablissement.etablissement_province = req.body.etablissement_province;
-    if(req.body.etablissement_region) etablissement.etablissement_province = req.body.etablissement_region;
-    if(req.body.etablissement_district) etablissement.etablissement_district = req.body.etablissement_district;
-    if(req.body.etablissement_commune) etablissement.etablissement_commune = req.body.etablissement_commune;
-    if(req.body.etablissement_telephone) etablissement.etablissement_telephone = req.body.etablissement_telephone;
-    if(req.body.etablissement_autre_telephone) etablissement.etablissement_autre_telephone = req.body.etablissement_autre_telephone;
-    if(req.body.etablissement_fax) etablissement.etablissement_fax = req.body.etablissement_fax;
-    if(req.body.etablissement_email) etablissement.etablissement_email = req.body.etablissement_email;
-    if(req.body.etablissement_proprietaire_local) etablissement.etablissement_proprietaire_local = req.body.etablissement_proprietaire_local;
-    if(req.body.etablissement_type_proprietaire) etablissement.etablissement_type_proprietaire = req.body.etablissement_type_proprietaire;
-    if(req.body.etablissement_nif_proprietaire) etablissement.etablissement_nif_proprietaire = req.body.etablissement_nif_proprietaire;
+    if(req.body.nom_commercial) etablissement.nom_commercial = req.body.nom_commercial;
+    if(req.body.activite) etablissement.activite = req.body.activite;
+    if(req.body.activite) etablissement.activite = req.body.activite;
+    if(req.body.titre) etablissement.titre = req.body.titre;
+    if(req.body.date_ouverture) etablissement.date_ouverture = req.body.date_ouverture;
+    if(req.body.adresse) etablissement.adresse = req.body.adresse;
+    if(req.body.fokontany) etablissement.fokontany = req.body.fokontany;
+    if(req.body.province) etablissement.province = req.body.province;
+    if(req.body.region) etablissement.province = req.body.region;
+    if(req.body.district) etablissement.district = req.body.district;
+    if(req.body.commune) etablissement.commune = req.body.commune;
+    if(req.body.telephone) etablissement.telephone = req.body.telephone;
+    if(req.body.autre_telephone) etablissement.autre_telephone = req.body.autre_telephone;
+    if(req.body.fax) etablissement.fax = req.body.fax;
+    if(req.body.email) etablissement.email = req.body.email;
+    if(req.body.proprietaire_local) etablissement.proprietaire_local = req.body.proprietaire_local;
+    if(req.body.type_proprietaire) etablissement.type_proprietaire = req.body.type_proprietaire;
+    if(req.body.nif_proprietaire) etablissement.nif_proprietaire = req.body.nif_proprietaire;
 
  
 
@@ -146,24 +145,24 @@ const deleteEtablissementNonValide = async (req, res) => {
 
 const setOneEtablissementNonValide = async (req, res) => {
     const newEtablissement = {
-    "etablissement_nom_commercial": req.body.etablissement_nom_commercial,
-    "etablissement_activite": req.body.etablissement_activite,
-    "etablissement_activite": req.body.etablissement_activite,
-    "etablissement_titre": req.body.etablissement_titre,
-    "etablissement_date_ouverture": req.body.etablissement_date_ouverture,
-    "etablissement_adresse": req.body.etablissement_adresse,
-    "etablissement_fokontany": req.body.etablissement_fokontany,
-    "etablissement_province": req.body.etablissement_province,
-    "etablissement_province": req.body.etablissement_region,
-    "etablissement_district": req.body.etablissement_district,
-    "etablissement_commune": req.body.etablissement_commune,
-    "etablissement_telephone": req.body.etablissement_telephone,
-    "etablissement_autre_telephone": req.body.etablissement_autre_telephone,
-    "etablissement_fax": req.body.etablissement_fax,
-    "etablissement_email": req.body.etablissement_email,
-    "etablissement_proprietaire_local": req.body.etablissement_proprietaire_local,
-    "etablissement_type_proprietaire": req.body.etablissement_type_proprietaire,
-    "etablissement_nif_proprietaire": req.body.etablissement_nif_proprietaire
+    "nom_commercial": req.body.nom_commercial,
+    "activite": req.body.activite,
+    "activite": req.body.activite,
+    "titre": req.body.titre,
+    "date_ouverture": req.body.date_ouverture,
+    "adresse": req.body.adresse,
+    "fokontany": req.body.fokontany,
+    "province": req.body.province,
+    "province": req.body.region,
+    "district": req.body.district,
+    "commune": req.body.commune,
+    "telephone": req.body.telephone,
+    "autre_telephone": req.body.autre_telephone,
+    "fax": req.body.fax,
+    "email": req.body.email,
+    "proprietaire_local": req.body.proprietaire_local,
+    "type_proprietaire": req.body.type_proprietaire,
+    "nif_proprietaire": req.body.nif_proprietaire
 
     }
     data.setEtablissements([...data.etablissements, newEtablissement])
@@ -179,24 +178,27 @@ const updateEtablissementAValide = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const etablissement = data.etablissements.find(eta => eta.id_etablissement == id_etablissement && eta.id_contribuable === id_contribuable);
 
-    if(req.body.etablissement_nom_commercial) etablissement.etablissement_nom_commercial = req.body.etablissement_nom_commercial;
-    if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
-    if(req.body.etablissement_activite) etablissement.etablissement_activite = req.body.etablissement_activite;
-    if(req.body.etablissement_titre) etablissement.etablissement_titre = req.body.etablissement_titre;
-    if(req.body.etablissement_date_ouverture) etablissement.etablissement_date_ouverture = req.body.etablissement_date_ouverture;
-    if(req.body.etablissement_adresse) etablissement.etablissement_adresse = req.body.etablissement_adresse;
-    if(req.body.etablissement_fokontany) etablissement.etablissement_fokontany = req.body.etablissement_fokontany;
-    if(req.body.etablissement_province) etablissement. req.body.etablissement_province;
-    if(req.body.etablissement_region) etablissement.etablissement_province = req.body.etablissement_region;
-    if(req.body.etablissement_district) etablissement.etablissement_district = req.body.etablissement_district;
-    if(req.body.etablissement_commune) etablissement.etablissement_commune = req.body.etablissement_commune;
-    if(req.body.etablissement_telephone) etablissement.etablissement_telephone = req.body.etablissement_telephone;
-    if(req.body.etablissement_autre_telephone) etablissement.etablissement_autre_telephone = req.body.etablissement_autre_telephone;
-    if(req.body.etablissement_fax) etablissement.etablissement_fax = req.body.etablissement_fax;
-    if(req.body.etablissement_email) etablissement.etablissement_email = req.body.etablissement_email;
-    if(req.body.etablissement_proprietaire_local) etablissement.etablissement_proprietaire_local = req.body.etablissement_proprietaire_local;
-    if(req.body.etablissement_type_proprietaire) etablissement.etablissement_type_proprietaire = req.body.etablissement_type_proprietaire;
-    if(req.body.etablissement_nif_proprietaire) etablissement.etablissement_nif_proprietaire = req.body.etablissement_nif_proprietaire;
+    if(!etablissement)
+        return res.status(404).json({'message': 'etablissement introuvable'});
+
+    if(req.body.nom_commercial) etablissement.nom_commercial = req.body.nom_commercial;
+    if(req.body.activite) etablissement.activite = req.body.activite;
+    if(req.body.activite) etablissement.activite = req.body.activite;
+    if(req.body.titre) etablissement.titre = req.body.titre;
+    if(req.body.date_ouverture) etablissement.date_ouverture = req.body.date_ouverture;
+    if(req.body.adresse) etablissement.adresse = req.body.adresse;
+    if(req.body.fokontany) etablissement.fokontany = req.body.fokontany;
+    if(req.body.province) etablissement. req.body.province;
+    if(req.body.region) etablissement.province = req.body.region;
+    if(req.body.district) etablissement.district = req.body.district;
+    if(req.body.commune) etablissement.commune = req.body.commune;
+    if(req.body.telephone) etablissement.telephone = req.body.telephone;
+    if(req.body.autre_telephone) etablissement.autre_telephone = req.body.autre_telephone;
+    if(req.body.fax) etablissement.fax = req.body.fax;
+    if(req.body.email) etablissement.email = req.body.email;
+    if(req.body.proprietaire_local) etablissement.proprietaire_local = req.body.proprietaire_local;
+    if(req.body.type_proprietaire) etablissement.type_proprietaire = req.body.type_proprietaire;
+    if(req.body.nif_proprietaire) etablissement.nif_proprietaire = req.body.nif_proprietaire;
 
  
 
