@@ -190,7 +190,7 @@ const updateEtablissementAValide = async (req, res) => {
     if(req.body.date_ouverture) etablissement.date_ouverture = req.body.date_ouverture;
     if(req.body.adresse) etablissement.adresse = req.body.adresse;
     if(req.body.fokontany) etablissement.fokontany = req.body.fokontany;
-    if(req.body.province) etablissement. req.body.province;
+    if(req.body.province) etablissement.province = req.body.province;
     if(req.body.region) etablissement.province = req.body.region;
     if(req.body.district) etablissement.district = req.body.district;
     if(req.body.commune) etablissement.commune = req.body.commune;
