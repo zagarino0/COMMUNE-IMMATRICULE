@@ -178,8 +178,6 @@ const updateEtablissementAValide = async (req, res) => {
     const id_contribuable = req.body.id_contribuable;
     const etablissement = data.etablissements.find(eta => eta.id == id_etablissement && eta.id_contribuable == id_contribuable);
 
-    console.log(id_etablissement, id_contribuable);
-
     if(!etablissement)
         return res.status(404).json({'message': 'etablissement introuvable'});
 
