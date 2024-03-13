@@ -23,18 +23,18 @@ const setDirigeant = async (req, res) => {
 
 const setOneDirigeantNonValide = async (req, res) => {
     const newDirigeant = {
-        "nom_commercial_dirigeant": req.body.nom_commercial_dirigeant,
-        "activite_dirigeant": req.body.activite_dirigeant,
-        "titre_dirigeant": req.body.titre_dirigeant,
-        "date_ouverture_dirigeant": req.body.date_ouverture_dirigeant,
-        "adresse_dirigeant": req.body.adresse_dirigeant,
-        "fokontany_dirigeant": req.body.fokontany_dirigeant,
-        "province_dirigeant": req.body.province_dirigeant,
-        "region_dirigeant": req.body.region_dirigeant,
-        "district_dirigeant": req.body.district_dirigeant,
-        "commune_dirigeant": req.body.commune_dirigeant,
-        "telephone_dirigeant": req.body.telephone_dirigeant,
-        "autre_telephone_dirigeant": req.body.autre_telephone_dirigeant,
+        "associe_unique": req.body.associe_unique,
+        "resident": req.body.resident,
+        "avec_rf": req.body.avec_rf,
+        "salarie": req.body.salarie,
+        "aucune": req.body.aucune,
+        "nom": req.body.nom,
+        "fonction": req.body.fonction,
+        "cin": req.body.cin,
+        "passport": req.body.passport,
+        "adresse": req.body.adresse,
+        "rf": req.body.rf,
+        "email": req.body.email,
         "fax_dirigeant": req.body.fax_dirigeant,
         "email_dirigeant": req.body.email_dirigeant,
         "proprietaire_local_dirigeant": req.body.proprietaire_local_dirigeant
@@ -87,21 +87,20 @@ const updateDirigeant = async (req, res) => {
     const id_contribuable = req.body.id_contribuable
     const dirigeant = data.diriges.find(dir => dir.id == id_dirigeant && dir.id_contribuable === id_contribuable);
 
-    if(req.body.nom_commercial_dirigeant) dirigeant.nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
-    if(req.body.activite_dirigeant) dirigeant.activite_dirigeant = req.body.activite_dirigeant;
-    if(req.body.titre_dirigeant) dirigeant.titre_dirigeant = req.body.titre_dirigeant;
-    if(req.body.date_ouverture_dirigeant) dirigeant.date_ouverture_dirigeant = req.body.date_ouverture_dirigeant;
-    if(req.body.adresse_dirigeant) dirigeant.adresse_dirigeant = req.body.adresse_dirigeant;
-    if(req.body.fokontany_dirigeant) dirigeant.fokontany_dirigeant = req.body.fokontany_dirigeant;
-    if(req.body.province_dirigeant) dirigeant.province_dirigeant = req.body.province_dirigeant;
-    if(req.body.region_dirigeant) dirigeant.region_dirigeant = req.body.region_dirigeant;
-    if(req.body.district_dirigeant) dirigeant.district_dirigeant = req.body.district_dirigeant;
-    if(req.body.commune_dirigeant) dirigeant.commune_dirigeant = req.body.commune_dirigeant;
-    if(req.body.telephone_dirigeant) dirigeant.telephone_dirigeant = req.body.telephone_dirigeant;
-    if(req.body.autre_telephone_dirigeant) dirigeant.autre_telephone_dirigeant = req.body.autre_telephone_dirigeant;
-    if(req.body.fax_dirigeants) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
-    if(req.body.email_dirigeant) dirigeant.email_dirigeant = req.body.email_dirigeant;
-    if(req.body.proprietaire_local_dirigeant) dirigeant.proprietaire_local_dirigeant = req.body.proprietaire_local_dirigeant;
+    if(req.body.associe_unique) dirigeant.associe_unique = req.body.associe_unique;
+    if(req.body.resident) dirigeant.resident = req.body.resident;
+    if(req.body.avec_rf) dirigeant.avec_rf = req.body.avec_rf;
+    if(req.body.salarie) dirigeant.salarie = req.body.salarie;
+    if(req.body.aucune) dirigeant.aucune = req.body.aucune;
+    if(req.body.nom) dirigeant.nom = req.body.nom;
+    if(req.body.fonction) dirigeant.fonction = req.body.fonction;
+    if(req.body.cin) dirigeant.cin = req.body.cin;
+    if(req.body.passport) dirigeant.passport = req.body.passport;
+    if(req.body.adresse) dirigeant.adresse = req.body.adresse;
+    if(req.body.rf) dirigeant.rf = req.body.rf;
+    if(req.body.email) dirigeant.email = req.body.email;
+    if(req.body.telephone) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
+
 
     const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
     const unsortedDirigeant = [...filteredDirigeant, dirigeant];
@@ -120,21 +119,20 @@ const updateDirigeantByContribuable = async (req, res) => {
     const id_contribuable = req.body.id_contribuable
     const dirigeant = data.diriges.find(dir => dir.id == id_dirigeant && dir.id_contribuable === id_contribuable);
 
-    if(req.body.nom_commercial_dirigeant) dirigeant.nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
-    if(req.body.activite_dirigeant) dirigeant.activite_dirigeant = req.body.activite_dirigeant;
-    if(req.body.titre_dirigeant) dirigeant.titre_dirigeant = req.body.titre_dirigeant;
-    if(req.body.date_ouverture_dirigeant) dirigeant.date_ouverture_dirigeant = req.body.date_ouverture_dirigeant;
-    if(req.body.adresse_dirigeant) dirigeant.adresse_dirigeant = req.body.adresse_dirigeant;
-    if(req.body.fokontany_dirigeant) dirigeant.fokontany_dirigeant = req.body.fokontany_dirigeant;
-    if(req.body.province_dirigeant) dirigeant.province_dirigeant = req.body.province_dirigeant;
-    if(req.body.region_dirigeant) dirigeant.region_dirigeant = req.body.region_dirigeant;
-    if(req.body.district_dirigeant) dirigeant.district_dirigeant = req.body.district_dirigeant;
-    if(req.body.commune_dirigeant) dirigeant.commune_dirigeant = req.body.commune_dirigeant;
-    if(req.body.telephone_dirigeant) dirigeant.telephone_dirigeant = req.body.telephone_dirigeant;
-    if(req.body.autre_telephone_dirigeant) dirigeant.autre_telephone_dirigeant = req.body.autre_telephone_dirigeant;
-    if(req.body.fax_dirigeants) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
-    if(req.body.email_dirigeant) dirigeant.email_dirigeant = req.body.email_dirigeant;
-    if(req.body.proprietaire_local_dirigeant) dirigeant.proprietaire_local_dirigeant = req.body.proprietaire_local_dirigeant;
+    if(req.body.associe_unique) dirigeant.associe_unique = req.body.associe_unique;
+    if(req.body.resident) dirigeant.resident = req.body.resident;
+    if(req.body.avec_rf) dirigeant.avec_rf = req.body.avec_rf;
+    if(req.body.salarie) dirigeant.salarie = req.body.salarie;
+    if(req.body.aucune) dirigeant.aucune = req.body.aucune;
+    if(req.body.nom) dirigeant.nom = req.body.nom;
+    if(req.body.fonction) dirigeant.fonction = req.body.fonction;
+    if(req.body.cin) dirigeant.cin = req.body.cin;
+    if(req.body.passport) dirigeant.passport = req.body.passport;
+    if(req.body.adresse) dirigeant.adresse = req.body.adresse;
+    if(req.body.rf) dirigeant.rf = req.body.rf;
+    if(req.body.email) dirigeant.email = req.body.email;
+    if(req.body.telephone) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
+
 
     const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
     const unsortedDirigeant = [...filteredDirigeant, dirigeant];
@@ -168,21 +166,20 @@ const updateDirigeantAValide = async (req, res) => {
     const id_contribuable = req.body.id_contribuable
     const dirigeant = data.dirigeants.find(dir => dir.id == id_dirigeant && dir.id_contribuable === id_contribuable);
 
-    if(req.body.nom_commercial_dirigeant) dirigeant.nom_commercial_dirigeant = req.body.nom_commercial_dirigeant;
-    if(req.body.activite_dirigeant) dirigeant.activite_dirigeant = req.body.activite_dirigeant;
-    if(req.body.titre_dirigeant) dirigeant.titre_dirigeant = req.body.titre_dirigeant;
-    if(req.body.date_ouverture_dirigeant) dirigeant.date_ouverture_dirigeant = req.body.date_ouverture_dirigeant;
-    if(req.body.adresse_dirigeant) dirigeant.adresse_dirigeant = req.body.adresse_dirigeant;
-    if(req.body.fokontany_dirigeant) dirigeant.fokontany_dirigeant = req.body.fokontany_dirigeant;
-    if(req.body.province_dirigeant) dirigeant.province_dirigeant = req.body.province_dirigeant;
-    if(req.body.region_dirigeant) dirigeant.region_dirigeant = req.body.region_dirigeant;
-    if(req.body.district_dirigeant) dirigeant.district_dirigeant = req.body.district_dirigeant;
-    if(req.body.commune_dirigeant) dirigeant.commune_dirigeant = req.body.commune_dirigeant;
-    if(req.body.telephone_dirigeant) dirigeant.telephone_dirigeant = req.body.telephone_dirigeant;
-    if(req.body.autre_telephone_dirigeant) dirigeant.autre_telephone_dirigeant = req.body.autre_telephone_dirigeant;
-    if(req.body.fax_dirigeants) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
-    if(req.body.email_dirigeant) dirigeant.email_dirigeant = req.body.email_dirigeant;
-    if(req.body.proprietaire_local_dirigeant) dirigeant.proprietaire_local_dirigeant = req.body.proprietaire_local_dirigeant;
+    if(req.body.associe_unique) dirigeant.associe_unique = req.body.associe_unique;
+    if(req.body.resident) dirigeant.resident = req.body.resident;
+    if(req.body.avec_rf) dirigeant.avec_rf = req.body.avec_rf;
+    if(req.body.salarie) dirigeant.salarie = req.body.salarie;
+    if(req.body.aucune) dirigeant.aucune = req.body.aucune;
+    if(req.body.nom) dirigeant.nom = req.body.nom;
+    if(req.body.fonction) dirigeant.fonction = req.body.fonction;
+    if(req.body.cin) dirigeant.cin = req.body.cin;
+    if(req.body.passport) dirigeant.passport = req.body.passport;
+    if(req.body.adresse) dirigeant.adresse = req.body.adresse;
+    if(req.body.rf) dirigeant.rf = req.body.rf;
+    if(req.body.email) dirigeant.email = req.body.email;
+    if(req.body.telephone) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
+
 
     const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
     const unsortedDirigeant = [...filteredDirigeant, dirigeant];
