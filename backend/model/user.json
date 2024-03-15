@@ -1,14 +1,1 @@
-[
-    {
-        "id_user": 7,
-        "code": "1357",
-        "password": "$2b$10$owk/Xf.zCTN3eDjimp9PNuD2s5hNz1WtxBHP8IDx.NsJUGLkQggJC",
-        "nom": "Randria",
-        "prenom": "prenom",
-        "numero_matricule": "987654567",
-        "type_operateur": "Chef de division",
-        "date_creation_compte": "12/3/2024",
-        "actif": true,
-        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiMTM1NyIsImlhdCI6MTcxMDIyMDE2MSwiZXhwIjoxNzEwMzA2NTYxfQ.BUhvRiRPjHdA4L6ivJh3EZVPmS1xPYICXn4vN_C0gBU"
-    }
-]
+[{"id_user":8,"code":"RAK","password":"$2b$10$EFofHpFtSfMKNFdJBhBAOupt64lViJ/v7/eef7Ad6y0N90ENWL5uS","nom":"RAKOTO","prenom":"RAVE","numero_matricule":"7689","type_operateur":"Directeur financier","date_creation_compte":"13/3/2024","actif":true,"refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiUkFLIiwiaWF0IjoxNzEwNTIzMDEwLCJleHAiOjE3MTA2MDk0MTB9.0YF8V-mwWYDem1p5YVwmQMrdoH1piB0NynbTSZK9VOM"}]

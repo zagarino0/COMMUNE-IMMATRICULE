@@ -15,7 +15,7 @@ function AutresOperationsPage() {
 
       //Links navbar
     const links = [
-      { title: "Relance des défaillants", link: "/RelanceDeffaillant" },
+      { title: "Mise en Contribuable Radié", link: "/RelanceDeffaillant" },
       { title: "Blocage Administratif / Mise en veilleuse d'un contribuable", link: "/BlocageAdministratif" },
       { title: "Déblocage Administratif / réveil d'un contribuable ", link: "/DeblocageAdministratif" },
       { title: "Cessation d'activité", link: "/CessationActivite" },
