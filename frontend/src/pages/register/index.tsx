@@ -104,7 +104,7 @@ const links = [
 
   const content =(
     <div className="flex justify-between ">
-     <Link to="/"><div className="font-semibold flex flex-row "><p className="text-3xl text-[#959824]  ">E</p><p className="text-3xl">-mmatriculation</p></div></Link>
+     <Link to="/"><div className="font-semibold flex flex-row "><p className="text-3xl text-[#959824]  ">E</p><p className="text-3xl">-immatriculation</p></div></Link>
      <div className="flex justify-between py-3 w-[350px]">
      <Link to="/Immatriculation" className="font-[Tara]  hover:border-b-2 hover:border-[#959824]">Immatriculation</Link>
      <Link to="https://mairie-mahajanga.mg/" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2 ">Site CUM</Link>

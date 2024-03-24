@@ -18,7 +18,8 @@ function MiseJourCaracteristiqueVehicule() {
 
    const [selectedRowIndex, setSelectedRowIndex] = useState(null);
    const [DataSelected , setDataSelected] = useState([]);
- 
+   const [searchTerm, setSearchTerm] = useState("")
+
    const [Data , setData] = useState([])
    const [immatriculation , setImmatriculation] = useState('');
 
@@ -33,8 +34,29 @@ function MiseJourCaracteristiqueVehicule() {
   
   console.log(Data)
    const headers = ["Numéro immatriculattion", "Marque", "Puissance", "Poids à vide "];
-   const data = Data.map((item)=>[item.numero_immatriculation  ,item.marque ,  item.puissance , item.poids_a_vide])
+  // const data = Data.map((item : any )=>[item.numero_immatriculation  ,item.marque ,  item.puissance , item.poids_a_vide])
   
+  const filteredData = Data.filter ((item:any)=>
+  item.numero_immatriculation.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const data = filteredData.map((item:any)=>
+  [
+   item.numero_immatriculation,
+   item.marque ,
+   item.puissance,
+   item.poids_a_vide
+ 
+  ]);
+ 
+  const handleSearch = (e:any) => {
+   setSearchTerm(e.target.value);
+ };
+ 
+ const handleSearchButtonClick = () => {
+   console.log(filteredData);
+ }
+ 
 // selection data 
 
 const navigate = useNavigate()// Initialize useHistory
@@ -60,7 +82,7 @@ const handleButtonClick = () => {
   navigate(routeToNavigate, { state: { DataSelected } });
 };
 
-const handleTableRowClick = (rowIndex) => {
+const handleTableRowClick = (rowIndex:null) => {
 setSelectedRowIndex(rowIndex);
 
 // Extract the property values from the data object
@@ -72,8 +94,8 @@ console.log('Selected Row Data:', DataSelected);
 };
 
 
-
  // Fonction pour faire un  recherche d'un client avec référence fiscal
+ {/**
 const handleSearchVehicule = async () => {
  
  try {
@@ -88,6 +110,9 @@ const handleSearchVehicule = async () => {
  }
 };
 
+*/}
+
+
 
   const contentCard=(
       <div >
@@ -96,22 +121,28 @@ const handleSearchVehicule = async () => {
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Mise à jour des caractéristique des véhicules</div>
 <div className="mt-6 flex  justify-between ">
-<Label text="Numéro véhicules" className="mt-2" ></Label>
+
+  
+             {/**card recherche  */} 
+             <div className="mt-6 flex  justify-between ">
+                        <Label text="Numéro immatriculattion" className="mt-4" ></Label>
+                        <Input type="text" className="w-96 ml-5 "placeholder="Numéro immatriculattion EX: 7878 TBA" onChange={handleSearch}></Input>
+                        <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                    </div>
+{/**
+ * <Label text="Numéro véhicules" className="mt-2" ></Label>
 <Input type="text" className="w-96 ml-4 "
 value={immatriculation}
 onChange={(e)=> setImmatriculation(e.target.value)}
 ></Input>
 <Button onClick={handleSearchVehicule} text="Rechercher" className="ml-4"></Button>
+ */}
+
 </div>
 <div className="mt-10">
 <Table
 
-headers={headers}
-data={data}
-onClick={handleTableRowClick}
-selectedRowIndex={selectedRowIndex}
-
-></Table>
+headers={headers}data={data }onClick = {handleTableRowClick}selectedRowIndex={selectedRowIndex}></Table>
 </div>
 <div>
 

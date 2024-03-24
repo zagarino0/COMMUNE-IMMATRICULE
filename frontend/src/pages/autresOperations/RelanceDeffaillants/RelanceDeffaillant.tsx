@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-// import { Button } from "../../../components/common";
-// import Input from "../../../components/inputs";
-// import { Label } from "../../../components/label/label";
+import { Button } from "../../../components/common";
+import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
 import axios from "axios";
@@ -13,6 +13,8 @@ import { TiDocumentText } from "react-icons/ti";
 function RelanceDeffaillant() {
 
   const [Data ,setData] = useState([]);
+  const [ searchTerm, setSearchTerm] = useState("")
+
 useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/etat/contribuable/valide')
@@ -23,9 +25,24 @@ console.log(Data);
 
   
 
- const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" ] 
-const data = Data.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type ])
-  
+const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" ] 
+const filteredData = Data.filter((item:any) =>
+item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const data = filteredData.map((item :any) => [
+  item.id,
+  item.raison_social,
+  item.reference_fiscal,
+  item.type,
+
+]);
+const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
+const handleSearchButtonClick = () => {
+  console.log(filteredData);
+};
+
 
   
 // Selectionner contribuable 
@@ -73,6 +90,15 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Mise en Contribuable Radié</div>
 <div className="mt-6 flex flex-col  ">
+
+ {/**card recherche  */} 
+ <div className="mt-6 flex  justify-between ">
+        <Label text="Reference " className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
+
+
 {/* 
 <div className="flex justify-between mt-6">
   <Label text="Année"></Label>

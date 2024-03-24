@@ -6,18 +6,18 @@ import { Link } from "react-router-dom";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
-//import { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 //import Select from "../../../components/inputs/selectInput";
-//import { Label } from "../../../components/label/label";
-//import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function ListeContribuableNouvellementImmatricule() {
   //const [selectedOption, setSelectedOption] = useState('');
-
-  
   const [DataContribuable ,setDataContribuble] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
 useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/etat/contribuable/nouvellementimmatricule')
@@ -25,10 +25,30 @@ useEffect(() => {
       .catch((error) => console.error(error));
   }, []);
 
-
-
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const data = DataContribuable.map((item:any)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+  const filteredData = DataContribuable.filter((item:any) =>
+  item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+
+);
+const data = filteredData.map((item:any) => [
+  item.id,
+  item.raison_social,
+  item.reference_fiscal,
+  item.type ,
+  item.cin ,
+  item.numero_passeport,
+  item.sexe,
+]);
+
+const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
+
+const handleSearchButtonClick = () => {
+  // Vous pouvez déclencher la recherche ici en utilisant la même logique que handleSearch
+  console.log(filteredData);
+  // Mettre à jour l'état searchTerm ici en fonction de la logique de recherche
+};
 
 {/**
 
@@ -54,6 +74,13 @@ useEffect(() => {
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables nouvellement immatriculés"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 
+      {/**card recherche  */} 
+      <div className="mt-4 flex  justify-between ">
+        <Label text="Reference" className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX:005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-2" onClick={handleSearchButtonClick}></Button>
+      </div> 
+
   {/**
    * 
       * <div className="flex justify-between mt-6">
@@ -75,9 +102,7 @@ useEffect(() => {
     </div>
    * <Button text="Lister" className="mt-6"></Button>
    */}
-
-
-
+   
 </div>
 <div className="mt-10">
 <Table

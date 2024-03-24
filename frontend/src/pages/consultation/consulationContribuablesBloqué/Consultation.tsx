@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../../../components/card/card"
-// import Input from "../../../components/inputs"
+import Input from "../../../components/inputs"
 // import Select from "../../../components/inputs/selectInput";
-// import { Label } from "../../../components/label/label"
+import { Label } from "../../../components/label/label"
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
-// import { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 import { Link } from "react-router-dom";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { ImFilePdf } from "react-icons/im";
@@ -19,7 +19,7 @@ import html2canvas from "html2canvas";
 function ConsultationContribuableBloque() {
 
   // const [selectedOption, setSelectedOption] = useState('');
-  // const [bloque , setbloque ]  =  useState<{
+  //const [bloque , setbloque ]  =  useState<{
   //   domaine_recherche : string ,
   //   reference : string ,
   //   cin:string,
@@ -43,9 +43,10 @@ function ConsultationContribuableBloque() {
   //   })
   
 const [DataBloque ,setDataBloque] = useState([]);
+const [searchTerm, setSearchTerm] = useState("");
 useEffect(() => {
     // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/consultation/contribuable/bloque')
+    axios.post('http://localhost:3500/consultation/contribuable/bloque')
       .then((response) => setDataBloque(response.data))
       .catch((error) => console.error(error));
   }, []);
@@ -63,7 +64,7 @@ console.log(DataBloque)
   // ];
 
   const exportToExcelAllData = () => {
-    const allData = DataBloque.map((item) => ({
+    const allData = DataBloque.map((item:any) => ({
       "Référence ": item.id,
       "Raison social" : item.raison_social ,
       "Référence Fiscale" : item.reference_fiscal,
@@ -104,12 +105,44 @@ console.log(DataBloque)
     });
   };
 
+  
   const HeaderTable = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const DataTable =  DataBloque.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+  const filteredData = DataBloque.filter((item:any) => 
+  item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const DataTable = filteredData.map((item:any) =>[
+    item.id , 
+    item.raison_social , 
+    item.reference_fiscal , 
+    item.type , 
+    item.cin , 
+    item.numero_passeport , 
+    item.sexe,
+  ]);
+
+  
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    console.log(filteredData);
+  };
+ 
+  
   const contentCard = (
     <div className="p-8 flex flex-col">
 <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
   Consultation des contribuables bloqués
+</div>
+<div className="flex flex-col mt-2">
+    {/**card recherche  */} 
+    <div className="mt-6 flex  justify-between ">
+                <Label text="Réference" className="mt-4" ></Label>
+                <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX:0005" onChange={handleSearch}></Input>
+                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+            </div>
 </div>
 {/* <div className="mt-4 text-xl font-semibold">
   veuillez remplir vos critères ci-dessous : 

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Card } from "../../../components/card/card"
-// import { Button } from "../../../components/common";
-// import Input from "../../../components/inputs";
-// import { Label } from "../../../components/label/label";
+import { Button } from "../../../components/common";
+import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ function RectificationVehiculePage() {
 
      const [selectedRowIndex, setSelectedRowIndex] = useState(null);
      const [DataSelected , setDataSelected] = useState([]);
-   
+     const [searchTerm, setSearchTerm] = useState("")
    
 
      const [Data , setData] = useState([])
@@ -48,7 +48,27 @@ function RectificationVehiculePage() {
 
 console.log(Data)
  const headers = ["Raison social", "Référence Fiscal", "Type", "Date de création "];
- const data = Data.map((item)=>[item.raison_social ,item.reference_fiscal ,  item.type, item.date_creation])
+// const data = Data.map((item)=>[item.raison_social ,item.reference_fiscal ,  item.type, item.date_creation])
+ const filteredData = Data.filter ((item:any)=>
+ item.reference_fiscal.toLowerCase().includes(searchTerm.toLowerCase())
+ );
+ 
+ const data = filteredData.map((item:any)=>
+ [
+  item.raison_social,
+  item.reference_fiscal,
+  item.type,
+  item.date_creation
+
+ ]);
+
+ const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
+
+const handleSearchButtonClick = () => {
+  console.log(filteredData);
+}
 
 // selection data 
 
@@ -92,6 +112,15 @@ console.log('Selected Row Data:', DataSelected);
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Rectification des principaux renseignements des contribuables concernant ses véhicules</div>
+
+             {/**card recherche  */} 
+             <div className="mt-6 flex  justify-between ">
+                        <Label text="Reférence fiscal" className="mt-4" ></Label>
+                        <Input type="text" className="w-96 ml-5 "placeholder="Reférence fiscal EX: 000015" onChange={handleSearch}></Input>
+                        <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                    </div>
+
+
 {/* <div className="mt-6 flex flex-row justify-between ">
 <Label text="Votre recherche :" className="mt-4"></Label>
 <Input type="text" 

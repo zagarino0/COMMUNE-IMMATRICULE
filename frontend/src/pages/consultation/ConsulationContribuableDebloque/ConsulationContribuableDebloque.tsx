@@ -7,7 +7,7 @@ import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
 import { Button } from "../../../components/common";
-import Select from "../../../components/inputs/selectInput";
+//import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label";
 import Input from "../../../components/inputs";
 import { useEffect, useRef, useState } from "react";
@@ -43,6 +43,7 @@ const [Debloque , setDebloque ]  =  useState<{
   })
      
 const [DataDebloque ,setDataDebloque] = useState([]);
+const [searchTerm, setSearchTerm] = useState("")
 
 useEffect(() => {
     // Récupérer les données depuis le backend
@@ -51,7 +52,7 @@ useEffect(() => {
       .catch((error) => console.error(error));
   }, []);
 
-
+{/**
   const options = [
     { value: 'référence', label: 'référence' },
     { value: 'Raison sociale', label: 'Raison sociale' },
@@ -60,10 +61,12 @@ useEffect(() => {
     { value: 'Adresse', label: 'Adresse' },
     { value: 'Nom commercial', label: 'Nom commercial' },
   ];
+*/}
+
 
 
   const exportToExcelAllData = () => {
-    const allData = DataDebloque.map((item) => ({
+    const allData = DataDebloque.map((item : any) => ({
       "Référence ": item.id,
       "Raison social" : item.raison_social ,
       "Référence Fiscale" : item.reference_fiscal,
@@ -105,12 +108,44 @@ useEffect(() => {
   };
 
   const HeaderTable = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const DataTable = DataDebloque.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+  
+  const filteredData = DataDebloque.filter((item:any)=>
+  item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const DataTable = filteredData.map((item:any) =>[
+    item.id , 
+    item.raison_social , 
+    item.reference_fiscal , 
+    item.type , 
+    item.cin , 
+    item.numero_passeport , 
+    item.sexe,
+  ]);
+
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    console.log(filteredData);
+  };
+ 
   const contentCard = (
     <div className="p-8 flex flex-col">
-<div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
-  Consultation des contribuables débloqués
-</div>
+        <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
+          Consultation des contribuables débloqués
+        </div>
+
+        <div className="flex flex-col mt-2">
+            {/**card recherche  */} 
+                    <div className="mt-6 flex  justify-between ">
+                        <Label text="Réference" className="mt-4" ></Label>
+                        <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX:0005" onChange={handleSearch}></Input>
+                        <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                    </div>
+        </div>
+
+
 {/* <div className="mt-4 text-xl font-semibold">
   veuillez remplir vos critères ci-dessous : 
 </div> */}

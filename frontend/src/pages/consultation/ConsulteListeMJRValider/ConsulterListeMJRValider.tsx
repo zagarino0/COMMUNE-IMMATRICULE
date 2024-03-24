@@ -6,6 +6,9 @@ import { ImFilePdf } from "react-icons/im"
 import { SiMicrosoftexcel } from "react-icons/si"
 import Table from "../../../components/table/table"
 import { TitleH3 } from "../../../components/title"
+import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
+import { Button } from "../../../components/common";
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import * as XLSX from 'xlsx';
@@ -16,6 +19,7 @@ function ConsulterListeMJRValider() {
 
   
 const [DataMJRValide ,setDataMJRValide] = useState([]);
+const [searchTerm, setSearchTerm] = useState("")
 useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/consultation/contribuable/miseajouravalide')
@@ -24,7 +28,7 @@ useEffect(() => {
   }, []);
 
   const exportToExcelAllData = () => {
-    const allData = DataMJRValide.map((item) => ({
+    const allData = DataMJRValide.map((item : any) => ({
       "Référence ": item.id,
       "Raison social" : item.raison_social ,
       "Référence Fiscale" : item.reference_fiscal,
@@ -65,11 +69,45 @@ useEffect(() => {
     });
   };
   const HeaderTable = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const DataTable = DataMJRValide.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
-   const contentCard = (
+  //const DataTable = DataMJRValide.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+   
+  const filteredData = DataMJRValide.filter ((item:any)=>
+  item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const DataTable = filteredData.map((item:any)=>
+  [
+   item.id,
+   item.raison_social,
+   item.reference_fiscal ,
+   item.type,
+   item.cin,
+   item.numero_passeport,
+   item.sexe,
+  ]);
+ 
+  const handleSearch = (e:any) => {
+   setSearchTerm(e.target.value);
+ };
+ 
+ const handleSearchButtonClick = () => {
+   console.log(filteredData);
+ }
+  
+  
+  
+  const contentCard = (
      <div className="m-4">
          <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Liste des mise à jour à valider</div>
         <div className="flex flex-col m-4">
+
+                               {/**card recherche  */} 
+                     <div className="mt-6 flex  justify-between ">
+                        <Label text="Reférence" className="mt-4" ></Label>
+                        <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX: 005" onChange={handleSearch}></Input>
+                        <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                    </div>
+
  
          <div className="mt-6">
  <Table headers={HeaderTable} data={DataTable} id="yourTableId" ref={tableRef}>

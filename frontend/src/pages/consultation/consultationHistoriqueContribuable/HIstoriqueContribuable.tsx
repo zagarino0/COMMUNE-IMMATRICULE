@@ -3,14 +3,14 @@ import { Card } from "../../../components/card/card"
 import { MainLayout } from "../../../layouts/main"
 import { TiDocumentText } from "react-icons/ti";
 import Table from "../../../components/table/table";
-// import { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 // import Select from "../../../components/inputs/selectInput";
-// import { Label } from "../../../components/label/label";
-// import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
 import { TitleH3 } from "../../../components/title";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { useState } from "react";
+
 
 function HIstoriqueContribuable() {
     // const [selectedOption, setSelectedOption] = useState('');
@@ -29,6 +29,7 @@ function HIstoriqueContribuable() {
     // ];
   
     const [DataHistorique,setDataHistorique] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("")
     useEffect(() => {
         // Récupérer les données depuis le backend
         axios.get('http://localhost:3500/history/contribuable')
@@ -40,12 +41,40 @@ function HIstoriqueContribuable() {
     
 
   const headers = ["Ref ", "Motif", "Date de modification"];
-  const data = DataHistorique.map((item)=>[item.id_history_contribuable , item.motif , item.date_modification])
-    const contentCard = (
+ 
+ //const data = DataHistorique.map((item)=>[item.id_history_contribuable , item.motif , item.date_modification])
+ const filteredData = DataHistorique.filter ((item:any)=>
+ item.date_modification.toLowerCase().includes(searchTerm.toLowerCase())
+ );
+ 
+ const data = filteredData.map((item:any)=>
+ [
+  item.id_history_contribuable,
+  item.motif,
+  item.date_modification,
+ ]);
+
+ const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
+
+const handleSearchButtonClick = () => {
+  console.log(filteredData);
+};
+ 
+ const contentCard = (
       <div className="p-8 flex flex-col">
   <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
     Consultation de l'historique des contribuables
   </div>
+  <div className="flex flex-col mt-2">
+            {/**card recherche  */} 
+                    <div className="mt-6 flex  justify-between ">
+                        <Label text="Date de modification" className="mt-4" ></Label>
+                        <Input type="text" className="w-96 ml-5 "placeholder="Date EX: 2023-01-01" onChange={handleSearch}></Input>
+                        <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                    </div>
+        </div>
   {/* <div className="mt-4 text-xl font-semibold">
     veuillez remplir vos critères ci-dessous : 
   </div>

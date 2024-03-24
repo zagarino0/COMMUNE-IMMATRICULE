@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import Table from "../../../components/table/table";
-// import { Button } from "../../../components/common";
-// import Input from "../../../components/inputs";
-// import { Label } from "../../../components/label/label";
+import { Button } from "../../../components/common";
+import Input from "../../../components/inputs";
+ import { Label } from "../../../components/label/label";
 import { TiDocumentText } from "react-icons/ti";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import { useEffect, useRef, useState } from "react";
@@ -36,10 +36,10 @@ function ImpressionDuplicataCessation() {
       window.location.reload();
     }
   };
-
   // Fonction pour faire un  recherche d'un client avec référence fiscal
-
 const [Data , setData] = useState([])
+const [searchTerm, setSearchTerm] = useState("");
+
 //const [reference_fiscal , setReference_fiscal] = useState('');
 useEffect(() => {
   // Récupérer les données depuis le backend
@@ -47,21 +47,47 @@ useEffect(() => {
     .then((response) => setData(response.data))
     .catch((error) => console.error(error));
 }, []);
+console.log(Data);
 
+const headers = ["Reference", "Raison social", "Type", "Forme juridique" , "Date de création"];
+//const data = Data.map((item:any)=>[item.id , item.raison_social , item.type , item.forme_juridique , item.date_creation ])
+const filteredData = Data.filter((item:any) =>
+item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const data = filteredData.map((item:any) => [
+  item.id,
+  item.raison_social,
+  item.type ,
+  item.forme_juridique,
+  item.date_creation,
+]);
 
+const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
 
-
-const headers = ["RF", "Raison social", "Type", "Forme juridique" , "Date de création"];
-const data = Data.map((item:any)=>[item.id , item.raison_social , item.type , item.forme_juridique , item.date_creation ])
-
-
+const handleSearchButtonClick = () => {
+  // Vous pouvez déclencher la recherche ici en utilisant la même logique que handleSearch
+  console.log(filteredData);
+  // Mettre à jour l'état searchTerm ici en fonction de la logique de recherche
+};
   const contentCard=(
       <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="IMPRESSION DU DUPLICATA DE LA CESSATION"></TitleH1></div>
-{/* <div className="mt-6 flex flex-col  ">
+<div className="mt-6 flex flex-col  ">
+
+
+   {/**card recherche  */} 
+   <div className="mt-6 flex  justify-between ">
+        <Label text="Reference" className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX: 005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
+</div>
+{/* 
 
 <div className="flex justify-between mt-6">
   <Label text="Référence Fiscal"></Label>
@@ -72,7 +98,7 @@ className=" w-40"></Input>
 
 </div>
 <Button onClick={handleSearchClient} type="submit" text="Trouver" className="mt-6"></Button>
-</div> */}
+ */}
 <div className="mt-10" ref={printRef}>
 <Table
 

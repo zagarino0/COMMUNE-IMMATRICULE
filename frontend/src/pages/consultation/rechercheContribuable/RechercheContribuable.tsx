@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../../../components/card/card"
 // import Checkbox from "../../../components/common/checkbox";
-// import Input from "../../../components/inputs";
-// import Select from "../../../components/inputs/selectInput";
-// import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
+//import Select from "../../../components/inputs/selectInput";
+import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main"
 import {  useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import { TitleH3 } from "../../../components/title";
 import { ImFilePdf } from "react-icons/im";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
-// import { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 import * as XLSX from 'xlsx';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -51,6 +51,7 @@ function RechercheContribuablePage() {
 
 
 const [DataContribuable ,setDataContribuble] = useState([]);
+const [searchTerm, setSearchTerm] = useState ("")
 useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/etat/contribuable/valide')
@@ -87,8 +88,27 @@ useEffect(() => {
     
 
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const data = DataContribuable.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
-    
+  const filteredData = DataContribuable.filter((item:any)=>
+  item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const data = filteredData.map((item:any) => [
+    item.id , 
+    item.raison_social , 
+    item.reference_fiscal , 
+    item.type , 
+    item.cin , 
+    item.numero_passeport , 
+    item.sexe,
+
+  ]);
+
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    console.log(filteredData);
+  };
       // const options = [
       //   { value: 'référence', label: 'référence' },
       //   { value: 'Raison sociale', label: 'Raison sociale' },
@@ -100,7 +120,7 @@ useEffect(() => {
     
 
       const exportToExcelAllData = () => {
-        const allData = DataContribuable.map((item) => ({
+        const allData = DataContribuable.map((item:any) => ({
           "Référence ": item.id,
           "Raison social" : item.raison_social ,
           "Référence Fiscale" : item.reference_fiscal,
@@ -181,6 +201,12 @@ const handleTableRowClick = (rowIndex) => {
         <div className="m-4">
             <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation des Référence Fiscal</div>
            <div className="flex flex-col m-4">
+                  {/**card recherche  */} 
+                  <div className="mt-6 flex  justify-between ">
+                <Label text="Reférence" className="mt-4" ></Label>
+                <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX:1234556" onChange={handleSearch}></Input>
+                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+            </div>
 {/* <div className="mt-6 flex flex-row justify-between">
     <Label text="Domaine de Recherche :" className="mt-4"></Label>
     <Select options={options} value={Contribuable.domaine_recherche} onChange={(option)=>setContribuable({...Contribuable , domaine_recherche : option})} className="w-96  "/>

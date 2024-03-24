@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 function DemandeDeNIFAValiderPage() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [DataSelected , setDataSelected] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [Valide , setValide] = useState<{
     domaine_recherche : string ,
     reference : string ,
@@ -84,9 +86,32 @@ function DemandeDeNIFAValiderPage() {
 
 
     const headers = ["code", "Raison social", "Référence Fiscal", "Type" , "CIN" , "passeport" , "sexe"];
-    const data = Data.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
+    //const data = Data.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
     
+    const filteredData = Data.filter((item:any) => 
+    item.code.toLowerCase().includes(searchTerm.toLowerCase())
+    );
     
+    const data = filteredData.map((item:any) =>[
+      item.code , 
+      item.raison_social ,  
+      item.reference_fiscal , 
+      item.type , 
+      item.cin ,
+      item.numero_passeport ,
+      item.sexe
+
+    ]);
+  
+    
+    const handleSearch = (e:any) => {
+      setSearchTerm(e.target.value);
+    };
+  
+    const handleSearchButtonClick = () => {
+      console.log(filteredData);
+    };
+   
     
  const navigate = useNavigate()// Initialize useHistory
 
@@ -133,6 +158,13 @@ setDataSelected(selectedRowData)
       </div>
      <div className="flex justify-center items-center ">
 <div className="flex flex-col ">
+
+    {/**card recherche  */} 
+    <div className="mt-6 flex  justify-between ">
+                <Label text="code" className="mt-4" ></Label>
+                <Input type="text" className="w-96 ml-5 "placeholder="code EX:1245" onChange={handleSearch}></Input>
+                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+            </div>
 {/*         
 <div className="flex flex-col py-4">
 

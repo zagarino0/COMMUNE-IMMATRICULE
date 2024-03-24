@@ -13,6 +13,7 @@ import { TiDocumentText } from "react-icons/ti";
 function DeblocageAdministratif() {
    
 const [DataValide ,setDataValide] = useState([]);
+const [ searchTerm, setSearchTerm] = useState("")
 useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/consultation/contribuable/bloque')
@@ -23,8 +24,25 @@ console.log(DataValide);
 
 
 const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-const data = DataValide.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
- 
+const filteredData = DataValide.filter((item:any) =>
+item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const data = filteredData.map((item :any) => [
+  item.id,
+  item.raison_social,
+  item.reference_fiscal,
+  item.type,
+  item.cin ,
+  item.numero_passeport ,
+  item.sexe,
+]);
+const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
+const handleSearchButtonClick = () => {
+  console.log(filteredData);
+};  
+
 // Selectionner contribuable 
 
 const [selectedRowIndex, setSelectedRowIndex] = useState(null);
@@ -67,6 +85,13 @@ const contentCard=(
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="DEBLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
+
+    {/**card recherche  */} 
+    <div className="mt-6 flex  justify-between ">
+        <Label text="Reference " className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
 {/* <div className="mt-6 flex flex-col  ">
 
 

@@ -8,44 +8,64 @@ import axios from "axios";
 import Table from "../../../components/table/table";
 import Checkbox from "../../../components/common/checkbox";
 
+
 function DebloquerUnComptePage() {
-
-  const [Debloque , setDebloque] = useState([])
   const [DataUser, setDataUser] = useState([])
+  const [ searchTerm,  setSearchTerm] = useState("")
+ 
       useEffect(() => {
-        // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
-        handleSearch();
-      },[Debloque])
+        handleActive();
+      },[DataUser])
 
-
-    const handleSearch = async () => {
-      
+    const handleActive = async () => {
       try{
-      
-        const response = await axios.get("http://localhost:3500/consultation/contribuable/debloque", {
-      
-        });
+        const response = await axios.get("http://localhost:3500/consultation/contribuable/miseajouravalide", {});
         setDataUser(response.data)
       }
         catch(error){
             alert("aucune action utilisateur")
+ 
       }
     };
   
-    
-    const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" ]
-    const data = DataUser.map((item : any)=>[item.nom , item.prenom , item.code , item.type_operateur , <Checkbox checked={item.actif}/>, item.numero_matricule ])
-      
+    console.log(DataUser)
+    const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" ]  
+    const filteredData = DataUser.filter((item:any) =>
+    item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  
+  );
+  const data = filteredData.map((item:any) => [
+    item.nom , 
+    item.prenom , 
+    item.code , 
+    item.type_operateur , 
+    <Checkbox checked={item.actif}/>, 
+    item.numero_matricule,
+  ]);
+  
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+  
+  const handleSearchButtonClick = () => {
+    console.log(filteredData);
+  };
+
 
       const contentCard =(
         <div className="flex justify-center items-center">
       <div className="flex flex-col">
       <div className="text-[#959824] text-3xl  text-center font-semibold border-b-2 border-[#959824] mt-6">Gestion de compte contribuable</div>
+          {/**card recherche  */} 
+            <div className="mt-6 flex  justify-between ">
+              <Label text="code" className="mt-2" ></Label>
+              <Input type="text" className="w-96 ml-5 " onChange={handleSearch}></Input>
+                  <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+            </div>
       {/**
-
-       *    <div className="flex justify-between mt-6 p-8 w-full">
+        <div className="flex justify-between mt-6 p-8 w-full">
         <Label text="Référence Fiscal" className="w-60 mt-2"></Label>
-      <Input type="text" 
+              <Input type="text" 
               onChange={(e)=>{setDebloque({...Debloque , reference_fiscal  : e.target.value})}}
               placeholder="Référence Fiscal" className=" w-full ml-4"></Input>
       
@@ -53,9 +73,10 @@ function DebloquerUnComptePage() {
       
       
       
-      </div>
+       </div>
        * 
        */}
+      
    
       
 <div className="mt-6">
@@ -73,7 +94,7 @@ data={data}
       return (
       <MainLayout>
           <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-          <Card className="w-[800px] h-[800px]" contentCard={contentCard}></Card>
+              <Card className="w-[800px] h-[800px]" contentCard={contentCard}></Card>
           </div>
       </MainLayout>
       )
