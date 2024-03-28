@@ -118,7 +118,7 @@ function Assujetissement() {
     
     const selectedData = localStorage.getItem("selectedValidationData");
  
-   const [ContribuableData, setContribuableData] = useState(
+  const [ContribuableData, setContribuableData] = useState(
   JSON.parse(selectedData  as string)
 );
 
@@ -428,13 +428,24 @@ const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useSta
      setIsStorageUpdatedEtablissement(false);
   }, [DataSelectedEtablisement, isStorageUpdatedEtablissement]);
   
-  const handleSelectedDataTableEtablissment= (rowIndex : key) =>{
-    setSelectedRowIndexEtablissement(rowIndex);
-    const selectedRowDataEtablissment= etablissement[rowIndex] ;
-    setDataSelectedEtablissment(selectedRowDataEtablissment);
-    console.log("selected :",DataSelectedEtablisement);
-    
+  const handleSelectedDataTableEtablissment = (rowIndex: key) => {
+    // Check if the clicked row is already selected
+    const isRowSelected = rowIndex === selectedRowIndexEtablissement;
+  
+    // If the row is selected, unselect it
+    if (isRowSelected) {
+      setSelectedRowIndexEtablissement(null);
+      setDataSelectedEtablissment({});
+    } else {
+      // If the row is not selected, select it
+      setSelectedRowIndexEtablissement(rowIndex);
+      const selectedRowDataEtablissment = etablissement[rowIndex];
+      setDataSelectedEtablissment(selectedRowDataEtablissment);
     }
+  
+    console.log("selected :", DataSelectedEtablisement);
+  };
+  
     
 // data selected Dirigeant  table 
 const [selectedRowIndexDirigeant, setSelectedRowIndexDirigeant] = useState(null);
@@ -448,14 +459,24 @@ const [isStorageUpdatedDirigeant, setIsStorageUpdatedDirigeant] = useState(false
      setIsStorageUpdatedDirigeant(false);
   }, [DataSelectedDirigeant, isStorageUpdatedDirigeant]);
   
-  const handleSelectedDataTableDirigeant= (rowIndex : key) =>{
-    setSelectedRowIndexDirigeant(rowIndex);
-    const selectedRowDataDirigeant= dirigeant[rowIndex] ;
-    setDataSelectedDirigeant(selectedRowDataDirigeant);
-    console.log("selected :",DataSelectedDirigeant);
-    setAdd(true);
+  const handleSelectedDataTableDirigeant = (rowIndex: key) => {
+    // Check if the clicked row is already selected
+    const isRowSelected = rowIndex === selectedRowIndexDirigeant;
+  
+    // If the row is selected, unselect it
+    if (isRowSelected) {
+      setSelectedRowIndexDirigeant(null);
+      setDataSelectedDirigeant({});
+    } else {
+      // If the row is not selected, select it
+      setSelectedRowIndexDirigeant(rowIndex);
+      const selectedRowDataDirigeant = dirigeant[rowIndex];
+      setDataSelectedDirigeant(selectedRowDataDirigeant);
     }
-    
+  
+    console.log("selected :", DataSelectedDirigeant);
+  };
+  
 
   // Modification Contribuable
   
@@ -685,6 +706,8 @@ const HandleModifieEtablissement = async () => {
       "telephone_1" : DataSelectedEtablisement.telephone_1,
       "titre": DataSelectedEtablisement.titre
     }
+
+    console.log(EtablissementData);
     try {
 
       // Make a POST request to your server endpoint
@@ -734,6 +757,45 @@ if(interlocuteur){
   }
 
 }
+
+// Modification Dirigeant 
+const HandleModificationDirigeant = async () => {
+   
+  if(dirigeant){
+    const DataDirigeant = {
+      "id_contribuable": ContribuableData.id ,
+      "adresse": dirigeant.adresse,
+      "associe_unique" : dirigeant.associe_unique,
+      "aucune": dirigeant.aucune,
+      "avec_rf": dirigeant.avec_rf,
+      "cin": dirigeant.cin,
+      "email": dirigeant.email,
+      "fonction": dirigeant.fonction,
+      "id": dirigeant.id,
+      "nom": dirigeant.nom,
+      "passport": dirigeant.passport,
+      "resident": dirigeant.resident,
+      "rf": dirigeant.rf,
+      "salarie": dirigeant.salarie,
+      "telephone": dirigeant.telephone,
+    }
+    console.log( "Dirigeant :" , DataDirigeant)
+    try {
+      // Make a POST request to your server endpoint
+      const response = await axios.put(`http://localhost:3500/dirigeant/avalide/${dirigeant.id}`, DataDirigeant);
+    
+      // Check the response status or do something with the response
+      console.log("Server Response:", response.data);
+    
+     alert("Dirigeant Modifié")
+    } catch (error) {
+      // Handle errors
+      console.error("Error:", error);
+      alert("Error Dirigeant")
+    }
+    }
+}
+
 
 // Modal pour ajouter les nouvelle information
 const [isModalAssocie , setIsModalAssocie] = useState(false);
@@ -1628,6 +1690,9 @@ selectedRowIndex={selectedRowIndexEtablissement}
 <div >
             <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><MdOpenInNew></MdOpenInNew></button>
 </div>
+<div className="ml-4" >
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+</div>
 <div  className="ml-4">
             <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
 </div>
@@ -1783,17 +1848,15 @@ selectedRowIndex={selectedRowIndexDirigeant}
 </div>
 <div className="flex justify-center mt-6">
 <div >
-          <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
+          <button onClick={()=> setAdd(true)} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><MdOpenInNew></MdOpenInNew></button>
+</div>
+<div className="ml-4" >
+            <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white "><IoAdd></IoAdd></button>
 </div>
 <div  className="ml-4">
           <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><RiSubtractFill></RiSubtractFill></button>
 </div>
-<div className="ml-4">
-          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdOutlineZoomInMap></MdOutlineZoomInMap></button>
-</div>
-<div className="ml-4">
-          <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white"><MdZoomOutMap></MdZoomOutMap> </button>
-</div>
+
 </div>
 <button onClick={()=> setBool({...bool , dirigeant: false})}  className="border-[2px]  mt-6 mb-6 w-40 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Fermer</button>
 </div>

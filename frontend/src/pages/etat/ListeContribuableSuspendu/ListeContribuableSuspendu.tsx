@@ -5,10 +5,10 @@ import { TiDocumentText } from "react-icons/ti";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
-//import { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 //import Select from "../../../components/inputs/selectInput";
-//import { Label } from "../../../components/label/label";
-//import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -32,15 +32,15 @@ function ListeContribuableSuspendu() {
   })
 
   const [dataTable ,setDataTable] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleActive();
   }, [contribuable]);
   const handleActive = async () => {
     try{
-      const response = await axios.get('http://localhost:3500/consultation/contribuable/bloque',{
+      const response = await axios.post('http://localhost:35/consultation/contribuable/veille',{
          
-     
         });
     
         setDataTable(response.data)
@@ -52,9 +52,26 @@ function ListeContribuableSuspendu() {
   };
   
 
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = dataTable.map((item : any )=>[item.id , item.raison_social ,item.nom_commercial, item.forme_juridique])
-
+  const headers = ["Reference", "Raison social", "Nom commercial", "Forme juridique"];    
+    // Filtrer les données en fonction du terme de recherche
+    const filteredData = dataTable.filter((item:any) =>
+    item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+ 
+  const data = filteredData.map((item :any) => [
+    item.id,
+    item.raison_social,
+    item.nom_commercial,
+    item.forme_juridique,
+  ]);
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+  const handleSearchButtonClick = () => {
+    // Vous pouvez déclencher la recherche ici en utilisant la même logique que handleSearch
+    console.log(filteredData);
+    // Mettre à jour l'état searchTerm ici en fonction de la logique de recherche
+  };
 {/**
 
   //option select input
@@ -86,6 +103,14 @@ function ListeContribuableSuspendu() {
 <div className="mt-4 flex flex-col mx-6">
 <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  text-center font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables suspendus"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
+
+
+       {/**card recherche  */} 
+     <div className="mt-6 flex  justify-between ">
+        <Label text="Reference " className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
 
 {/**
  * 

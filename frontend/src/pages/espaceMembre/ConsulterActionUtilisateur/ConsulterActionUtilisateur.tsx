@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-//import { Button } from "../../../components/common";
-//import Input from "../../../components/inputs";
-//import { Label } from "../../../components/label/label";
+import { Button } from "../../../components/common";
+import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
 import axios from "axios";
 import Checkbox from "../../../components/common/checkbox";
 
 function ConsulterActionUtilisateur() {
-  const [Action] = useState([])
   const [DataUser ,setDataUser] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("")
+
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
-    handleSearch();
-  }, [Action]);
-    const handleSearch = async () => {
+    handleActive();
+  }, []);
+    const handleActive = async () => {
       try{
-        const response = await axios.get("http://localhost:3500/consultation/contribuable/valide", {
+        const response = await axios.get("http://localhost:3500/user/all", {
           
         });
         setDataUser(response.data)
@@ -27,10 +28,34 @@ function ConsulterActionUtilisateur() {
     };
 
     const headers = [ "Nom" , "Prenom" , "code" , "Type opérateur" , "Actif" , "Numéro matriculé" , "Date de Création Compte " , "Date historie" , "Motif" ]
-    const data = DataUser.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur ,
-       <Checkbox checked ={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ]);
   //  Action.map((item)=>[item.nom , item.prenom , item.code , item.type_operateur , 
     // <Checkbox checked={item.actif}/> , item.numero_matricule , item.date_creation_compte , item.date_history , item.motif  ]);
+
+    const filteredData = DataUser.filter((item:any) =>
+    item.code.toLowerCase().includes(searchTerm.toLowerCase())
+  
+  )
+  const data = filteredData.map((item:any) => [
+    item.nom , 
+    item.prenom ,
+    item.code , 
+    item.type_operateur ,
+    <Checkbox checked ={item.actif}/> , 
+    item.numero_matricule , 
+    item.date_creation_compte , 
+    item.date_history , 
+    item.motif, 
+  ]);
+  
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+  
+  const handleSearchButtonClick = () => {
+    // on peut déclencher la recherche ici en utilisant la même logique que handleSearch
+    console.log(filteredData);
+    // Mettre à jour l'état searchTerm ici en fonction de la logique de recherche
+  };
    
 
   const contentCard=(
@@ -41,6 +66,13 @@ function ConsulterActionUtilisateur() {
 <div className="text-[#959824] text-3xl  text-center font-semibold border-b-2 border-[#959824] mt-2">Consultation action utilisateur</div>
 <div className="mt-6 flex flex-col  ">
 <div className="flex justify-between mt-6">
+  
+   {/**card recherche  */} 
+   <div className="mt-6 flex  justify-between ">
+        <Label text="code" className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 " onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
 
 
 

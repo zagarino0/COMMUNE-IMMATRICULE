@@ -6,34 +6,18 @@ import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import Table from "../../../components/table/table";
-//import { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 //import Select from "../../../components/inputs/selectInput";
-//import { Label } from "../../../components/label/label";
-//import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function ListeDemandeImmatriculationRejete() {
 
-  const [contribuable, setContribuable] = useState<{
-    refence: string,
-    raison_social:string,
-    reference_fiscal:string,
-    type: string,
-    cin:string ,
-    numero_passeport:string,
-    sexe: string,
-  }>({
-    refence:"",
-    raison_social:"",
-    reference_fiscal:"",
-    type:"",
-    cin:"",
-    numero_passeport:"",
-    sexe:"",
-  })
-
   const [dataTable ,setDataTable] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleActive();
@@ -41,9 +25,7 @@ function ListeDemandeImmatriculationRejete() {
   const handleActive = async () => {
     try{
       const response = await axios.get('http://localhost:3500/etat/contribuable/rejete');
-    
         setDataTable(response.data)
-   
     }
     catch(error)
     {
@@ -51,13 +33,34 @@ function ListeDemandeImmatriculationRejete() {
          alert("Il y a une erreur")
       }
   };
- 
-
-
+  console.log(dataTable);
+  
   const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-  const data = dataTable.map((item : any)=>[item.id, item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
-{/**
+  const filteredData = dataTable.filter((item:any) =>
+    item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
 
+  );
+  const data = filteredData.map((item:any) => [
+    item.id,
+    item.raison_social,
+    item.reference_fiscal,
+    item.type ,
+    item.cin ,
+    item.numero_passeport,
+    item.sexe,
+  ]);
+
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    // Vous pouvez déclencher la recherche ici en utilisant la même logique que handleSearch
+    console.log(filteredData);
+    // Mettre à jour l'état searchTerm ici en fonction de la logique de recherche
+  };
+
+{/**
 //option select input
   const options = [
     { value: 'référence', label: 'référence' },
@@ -72,11 +75,6 @@ function ListeDemandeImmatriculationRejete() {
   const handleOptionChange = (value: string) => {
     setSelectedOption(value);
   };
-
-
-
-
-
 */}
   
   const contentCard=(
@@ -86,7 +84,14 @@ function ListeDemandeImmatriculationRejete() {
       <div className="mt-4 flex flex-col mx-6">
       <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des demandes d'immatriculation rejetées"></TitleH1></div>
       <div className="mt-6 flex flex-col  ">
-      <div className="flex justify-between mt-6">
+
+      <div className="flex justify-between mt-1">
+          {/**card recherche  */} 
+     <div className="mt-6 flex  justify-between ">
+        <Label text="Reference" className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 "placeholder="reference EX: 005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
 
   {/**
    * 

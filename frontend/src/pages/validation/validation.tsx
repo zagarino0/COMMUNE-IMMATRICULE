@@ -17,7 +17,7 @@ function ValidationPage() {
         
         { title: "Validation des démandes d'immatriculation ", link: "/ValidationDemandeImmatriculation" },
         { title: "Validation des mise à jour sur les renseignements des contribuables", link: "/demandeDeNIFValider" },        
-        { title: "Rectification des principaux renseignements des contribuables", link: "/rectificationprincipauxrenseignementcontribuable" },
+       // { title: "Rectification des principaux renseignements des contribuables", link: "/rectificationprincipauxrenseignementcontribuable" },
        
         
        
@@ -52,7 +52,7 @@ function ValidationPage() {
     )
   return (
     <MainLayout>
-<div className=" overflow-y-auto h-[500px] mt-14 mb-8  ">
+<div className=" overflow-y-auto h-[500px] mt-28 mb-8  ">
 <Card contentCard={contentCard} className="w-[1000px] h-[400px] "></Card>
 </div>
     </MainLayout>

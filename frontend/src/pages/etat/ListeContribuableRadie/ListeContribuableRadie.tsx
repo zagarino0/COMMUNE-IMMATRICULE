@@ -6,16 +6,16 @@ import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { TitleH1, TitleH3 } from "../../../components/title";
 import Table from "../../../components/table/table";
-//import { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 //import Select from "../../../components/inputs/selectInput";
-//import { Label } from "../../../components/label/label";
-//import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
 import { useState, useEffect } from "react";
 import  axios from "axios";
 
 function ListeContribuableRadie() {
  // const [selectedOption, setSelectedOption] = useState('');
- const [contribuable, setContribuable] = useState<{
+ const [contribuable] = useState<{
   id: string,
   raison_social:string,
   nom_commerciale:string,
@@ -30,14 +30,15 @@ function ListeContribuableRadie() {
 })
 
   const [dataTable ,setDataTable] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
-    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
     handleActive();
   }, [contribuable]);
+
   const handleActive = async () => {
     try{
-      const response = await axios.get('http://localhost:3500/consultation/contribuable/bloque',{});
-    
+      const response = await axios.get('http://localhost:3500/consultation/contribuable/veille',{});
         setDataTable(response.data)
     }
     catch(error)
@@ -46,8 +47,22 @@ function ListeContribuableRadie() {
       }
   };
 
-  const headers = ["RF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = dataTable.map((item: any ) => [item.id, item.raison_social, item.nom_commerciale, item.forme_juridique])
+  const headers = ["Reference", "Raison social", "Nom commercial", "Forme juridique"];
+  const filteredData = dataTable.filter((item:any) => item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  
+);
+const data = filteredData.map((item:any) => [
+  item.id,
+  item.raison_social,
+  item.nom_commercial,
+  item.forme_juridique,
+]);
+const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
+const handleSearchButtonClick = () => {
+  console.log(filteredData);
+};
 
 {/**
 
@@ -69,6 +84,7 @@ function ListeContribuableRadie() {
 
 */}
 
+
   const contentCard=(
       <div >
 
@@ -77,8 +93,13 @@ function ListeContribuableRadie() {
 <div className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="Liste des Contribuables radiés"></TitleH1></div>
 <div className="mt-6 flex flex-col  ">
 
-
-{/** 
+   {/**card recherche  */} 
+      <div className="mt-6 flex  justify-between ">
+        <Label text="Reference" className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 "placeholder="Reférence  EX: 005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
+{/*
  * 
  * <div className="flex justify-between mt-6">
   <Label text="Date  Du"></Label>
@@ -97,27 +118,21 @@ function ListeContribuableRadie() {
   <Label text="CF Gestionnaire"></Label>
 <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
 </div>
- * 
- * 
  * <Button text="Lister" className="mt-6"></Button>
  *
 */}
 
 </div>
-<div className="mt-10">
-<Table
+    <div className="mt-10">
+          <Table headers={headers} data={data}></Table>
+        </div> 
+        <div className="flex justify-between mt-12">
+              <button className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
+              <button  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
+              <Link to="#"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
 
-headers={headers}
-data={data}
-></Table>
-</div>
-<div className="flex justify-between mt-12">
-<button className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
-<button  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
-<Link to="#"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
-
-</div>
-<div>
+        </div>
+      <div>
 
 </div>
 </div>

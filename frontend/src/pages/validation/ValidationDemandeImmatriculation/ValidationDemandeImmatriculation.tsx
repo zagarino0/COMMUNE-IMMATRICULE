@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-// import { Button } from "../../../components/common";
-// import Input from "../../../components/inputs";
+import { Button } from "../../../components/common";
+import Input from "../../../components/inputs";
 // import Select from "../../../components/inputs/selectInput";
-// import { Label } from "../../../components/label/label";
+import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
 import "../../../components/font/font.css"
@@ -42,7 +42,7 @@ reference_fiscal : string
 })
 
 const [Data , setData] = useState([])
-
+const [searchTerm, setSearchTerm] = useState("");
 // Fonction pour faire un  recherche d'un client avec référence fiscal
 const handleSearchClient = async () => {
   const DataSearch ={
@@ -67,6 +67,7 @@ const handleSearchClient = async () => {
     alert('il y a une erreur')
   }
 };
+{/**
   const options = [
       { value: 'référence', label: 'référence' },
       { value: 'Raison sociale', label: 'Raison sociale' },
@@ -75,6 +76,7 @@ const handleSearchClient = async () => {
       { value: 'Adresse', label: 'Adresse' },
       { value: 'Nom commercial', label: 'Nom commercial' },
     ];
+ */}
 
  
     useEffect(() => {
@@ -86,10 +88,31 @@ const handleSearchClient = async () => {
     
      
 const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" , "Référence Fiscal" , "type" ];
-const data = Data.map((item)=>[item.id , item.raison_social , item.capital , item.forme_juridique , item.reference_fiscal , item.type])
+//const data = Data.map((item)=>[item.id , item.raison_social , item.capital , item.forme_juridique , item.reference_fiscal , item.type])
   // [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
 
+  const filteredData = Data.filter((item:any) => 
+  item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const data = filteredData.map((item:any) =>[
+    item.id , 
+    item.raison_social , 
+    item.capital , 
+    item.forme_juridique , 
+    item.reference_fiscal , 
+    item.type , 
+  ]);
 
+  
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    console.log(filteredData);
+  };
+ 
 
 
  const navigate = useNavigate()// Initialize useHistory
@@ -133,6 +156,15 @@ const data = Data.map((item)=>[item.id , item.raison_social , item.capital , ite
    <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
        DEMANDES RF A VALIDER
      </div>
+
+     <div className="flex flex-col mt-2">
+    {/**card recherche  */} 
+    <div className="mt-6 flex  justify-between ">
+                <Label text="Réference" className="mt-4" ></Label>
+                <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX:0005" onChange={handleSearch}></Input>
+                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+            </div>
+</div>
          {/* <div className="text-lg font-semibold p-4 ">
            Recherche des contribuables :
          </div>

@@ -6,50 +6,56 @@ import { TiDocumentText } from "react-icons/ti";
 import { ImFilePdf } from "react-icons/im";
 import { SiMicrosoftexcel } from "react-icons/si";
 import Table from "../../../components/table/table";
-//kimport { Button } from "../../../components/common";
+import { Button } from "../../../components/common";
 //import Select from "../../../components/inputs/selectInput";
-//import { Label } from "../../../components/label/label";
-//import Input from "../../../components/inputs";
+import { Label } from "../../../components/label/label";
+import Input from "../../../components/inputs";
 import {useEffect, useState } from "react";
 import axios from "axios";
 
 function LivreMotPassDelivre() {
   //const [selectedOption] = useState ('')
-
-  const [Contribuable] =useState([])
- 
   const [DataContribuable ,setDataContribuble] = useState ([])
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Cette fonction est appelée à chaque fois que le composant est monté ou que `Contribuable` ou `selectedOption` change.
-    handleSearch();
-  }, [Contribuable]);
-   // Récupérer les données depuis le backend
-  const handleSearch = async () =>{
-
+    handleCesse();
+  }, []);
+  const handleCesse = async () =>{
             try
             {
-                  const response = await axios.get('http://localhost:3500/etat/contribuable/cesse', {
-                  });
-
+                  const response = await axios.get('http://localhost:3500/etat/contribuable/cesse', {});
                   setDataContribuble(response.data)
             }     
             catch(error)
             {
-                    console.log('An  error occurred during the request',error);
-                  
+                    console.log('An  error occurred during the request',error);   
               }
-
+  };
+   console.log(DataContribuable);
+   
+    const headers = [ "code" , "Mot de passe","Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
+    const filteredData = DataContribuable.filter((item:any) => item.reference_fiscal.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+  const data = filteredData.map((item:any) => [
+    item.id,
+    item.mot_de_passe,
+    item.raison_social,
+    item.reference_fiscal,
+    item.type,
+    item.cin,
+    item.numero_passeport,
+    item.sexe,
+  ]);
+  const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
   };
 
- 
-    const headers = [ "code" , "Mot de passe","Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
-    const data = DataContribuable.map((item:any)=>[item.id , item.mot_de_passe, item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
-
+  const handleSearchButtonClick = () => {
+    console.log(filteredData);
+  };
 
 {/**
-
-
   //option select input
   const options = [
     { value: 'référence', label: 'référence' },
@@ -64,80 +70,66 @@ function LivreMotPassDelivre() {
   const handleOptionChange = (value:any) => {
     setSelectedOption(DataContribuable[value]);
   };
-
-
-
 */}
-
-
-
-  
-
-
   const contentCard=(
-      <div className="">
 
-<div className="flex justify-center items-center mt-4" >
-<div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES MOTS DE PASSE DES REFERENCES FISCALS DELIVRES"></TitleH1></div>
-<div className="mt-6 flex flex-col  ">
-  
-  {/** 
-   * 
-   * 
-   * <div className="flex justify-between mt-6">
-      <Label text="Date de Validation , Du"></Label>
-    <Input type="date"  className=" w-40"></Input>
-    </div>
-    <div className="flex justify-between mt-6">
-      <Label text="Au"></Label>
-    <Input type="date"  className=" w-40"></Input>
-    </div>
-    <div className="flex justify-between mt-6">
-      <Label text="Région"></Label>
-    <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-    </div>
-    <div className="flex justify-between mt-6">
-      <Label text="CF Gestionnaire"></Label>
-    <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
-    </div>
-   * 
-   * 
-   * <Button text="Lister" type="button" className="mt-6" onClick={handleSearch}></Button>
-   * 
-   * 
-  */}
+  <div className="flex justify-center items-center mt-4" >
+      <div className="mt-4 flex flex-col mx-6">
+        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-2" text="CONSULTATION DES MOTS DE PASSE DES REFERENCES FISCALS DELIVRES"></TitleH1></div>
+              <div className="mt-6 flex flex-col  ">
 
+                    {/**card recherche  */} 
+                    <div className="mt-6 flex  justify-between ">
+                      <Label text="Reference fiscale" className="mt-2" ></Label>
+                      <Input type="text" className="w-96 ml-5 " placeholder="Reférence fiscale EX: 0001236" onChange={handleSearch}></Input>
+                          <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                    </div>
+                
+                {/** 
+                 * 
+                 * 
+                 * <div className="flex justify-between mt-6">
+                    <Label text="Date de Validation , Du"></Label>
+                  <Input type="date"  className=" w-40"></Input>
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Label text="Au"></Label>
+                  <Input type="date"  className=" w-40"></Input>
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Label text="Région"></Label>
+                  <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Label text="CF Gestionnaire"></Label>
+                  <Select options={options} value={selectedOption} onChange={handleOptionChange} className=""></Select>
+                  </div>
+                * 
+                * 
+                * <Button text="Lister" type="button" className="mt-6" onClick={handleSearch}></Button>
+                * 
+                * 
+                */}
 
-
-
-
-
-</div>
-<div className="overflow-y-auto h-[500px] w-[950px] mt-10">
-<Table
-
-headers={headers}
-data={data}
-></Table>
-</div>
-<div className="flex justify-between mt-12">
-<button className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
-<button  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
-<Link to="#"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
-
-</div>
-<div>
-
-</div>
-</div>
+              </div>
+              <div className="overflow-y-auto h-[500px] w-[950px] mt-10">
+                  <Table headers={headers} data={data}></Table>
+              </div>
+              <div className="flex justify-between mt-12">
+                  <button className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
+                  <button  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
+                  <Link to="#"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
+              </div>
+        <div>
       </div>
-      </div>
+        </div>
+  </div>
+      
   )
 return (
   <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={contentCard} className="w-[1000px] h-[1200px] "></Card>
+      <Card contentCard={contentCard} className="w-[1000px] h-[1200px] "></Card>
   </div>
  </MainLayout>
 )

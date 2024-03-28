@@ -1,24 +1,105 @@
+import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { TitleH3 } from "../../../components/title";
+import { TiDocumentText } from "react-icons/ti";
 
 function RelanceDeffaillant() {
-  const headers = ["NIF", "Raison social", "Nom commercial", "Forme juridique"];
-  const data = [
-    ["none", "none", "none", "none"],
-   
-  ];
+
+  const [Data ,setData] = useState([]);
+  const [ searchTerm, setSearchTerm] = useState("")
+
+useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/etat/contribuable/valide')
+      .then((response) => setData(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+console.log(Data);
+
+  
+
+const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" ] 
+const filteredData = Data.filter((item:any) =>
+item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const data = filteredData.map((item :any) => [
+  item.id,
+  item.raison_social,
+  item.reference_fiscal,
+  item.type,
+
+]);
+const handleSearch = (e:any) => {
+  setSearchTerm(e.target.value);
+};
+const handleSearchButtonClick = () => {
+  console.log(filteredData);
+};
+
+
+  
+// Selectionner contribuable 
+
+const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [DataSelected , setDataSelected] = useState([]);
+  const navigate = useNavigate()
+
+  const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+
+  useEffect(() => {
+    // Store Value data in localStorage
+    localStorage.setItem("selectedContribuableRadieData", JSON.stringify(DataSelected ));
+    // Reset the dummy state to trigger rerender
+    console.log(DataSelected)
+    setIsStorageUpdated(false);
+  }, [DataSelected, isStorageUpdated]);
+  
+  const handleButtonClick = () => {
+    // Trigger a rerender by updating the dummy state
+    setIsStorageUpdated(true);
+
+    // Use the selectedOption to determine the route to navigate to
+    const routeToNavigate = "/InfoContribuableRadie";
+
+    // Use navigate to navigate to the determined route
+    navigate(routeToNavigate, { state: { DataSelected } });
+  };
+  const handleTableRowClick = (rowIndex) => {
+    if (selectedRowIndex === rowIndex) {
+      // If the clicked row is already selected, unselect it
+      setSelectedRowIndex(null);
+      setDataSelected([]);
+    } else {
+      // Otherwise, select the clicked row
+      setSelectedRowIndex(rowIndex);
+      const selectedRowData = Data[rowIndex];
+      setDataSelected(selectedRowData);
+    }
+  };
   const contentCard=(
       <div >
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Relance des Défaillants</div>
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Mise en Contribuable Radié</div>
 <div className="mt-6 flex flex-col  ">
 
+ {/**card recherche  */} 
+ <div className="mt-6 flex  justify-between ">
+        <Label text="Reference " className="mt-2" ></Label>
+        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
+            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+      </div>
+
+
+{/* 
 <div className="flex justify-between mt-6">
   <Label text="Année"></Label>
 <Input type="text" placeholder="Année" className=" w-40"></Input>
@@ -30,17 +111,18 @@ function RelanceDeffaillant() {
 
 </div>
 
-<Button text="Lister" className="mt-6"></Button>
+<Button text="Lister" className="mt-6"></Button> */}
 </div>
 <div className="mt-10">
 <Table
-
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
 headers={headers}
 data={data}
 ></Table>
 </div>
-<div>
-
+<div className="mt-4">
+<button  onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></button>
 </div>
 </div>
       </div>

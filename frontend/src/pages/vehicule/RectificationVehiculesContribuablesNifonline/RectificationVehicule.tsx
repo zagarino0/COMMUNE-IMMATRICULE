@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
 import { Button } from "../../../components/common";
-import Checkbox from "../../../components/common/checkbox";
+//import Checkbox from "../../../components/common/checkbox";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
@@ -37,6 +37,8 @@ console.log(VehiculeData)
   
   const headerVehiculeTable = ["Numéro immatriculation" , "genre" , "puissance"]
   const dataVehiculeTable  = VehiculeData.map((item)=>[item.numero_immatriculation ,item.genre ,  item.puissance])
+
+
 
   const handleTableRowClick = (rowIndex) => {
     setSelectedRowIndex(rowIndex);
@@ -78,8 +80,8 @@ console.log(VehiculeData)
   
     
    const headers = ["Numéro Immatriculation", "genre", "Puissance"];
-   const data = entries.map((item)=>[item.numero_immatriculation ,item.genre ,  item.puissance])
- 
+   const data = entries.map((item:any)=>[item.numero_immatriculation ,item.genre ,  item.puissance])
+  
 
    const handleTableRowClickEntries = (rowIndex) => {
     setSelectedRowIndexEntries(rowIndex);

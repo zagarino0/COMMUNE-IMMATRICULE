@@ -122,5 +122,30 @@
         "zone": "",
         "age": "4",
         "date_creation_vehicule": "2024-03-10T08:05:08.178Z"
+    },
+    {
+        "id_vehicule": 4,
+        "numero_immatriculation": "4532fr",
+        "marque": "kia",
+        "type": "berlin",
+        "genre": "legere",
+        "puissance": "14",
+        "nombre_place_carte_grise": "5",
+        "nombre_place_licence": "5",
+        "charge_utile": "1499",
+        "date_mise_circulation": "2024-03-13",
+        "poids_a_vide": "1400",
+        "hikaramana": "",
+        "date_debut": "2024-03-13",
+        "nif_proprietaire": "1344517676R7",
+        "centre_gestionnaire": "",
+        "anc_nif_proprietaire": "453531",
+        "exploitation": "",
+        "date_validite_licence": "2024-03-13",
+        "categorie": "",
+        "sous_categorie": "",
+        "zone": "",
+        "age": "24",
+        "date_creation_vehicule": "2024-03-13T15:00:42.710Z"
     }
 ]

@@ -17,7 +17,7 @@ function Immatriculation() {
       <Link to="/" className="flex justify-start">
         <span className="font-semibold flex flex-row">
           <p className="text-3xl text-[#959824]  ">E</p>
-          <p className="text-3xl">-mmatriculation</p>
+          <p className="text-3xl">-immatriculation</p>
         </span>
       </Link>
       <div className="flex justify-between py-3 w-[350px]">
@@ -99,7 +99,7 @@ function Immatriculation() {
           <div className="flex flex-col">
           <h1 className="text-2xl text-center font-[Tara]    flex flex-row">Pièces à présenter pour l'obtention du RF :</h1>
           <h1 className="text-2xl text-center font-[Tara] text-gray-800/70 mt-8  flex flex-row">Pour les personnes physiques</h1>
-          <h1 className="text-2xl text-center font-[Tara] text-[#959824] cursor-pointer hover:border-b-[#959824] hover:border-b-2 w-[560px] mt-8  flex flex-row">Formulaire NIFONLINE pour les personnes physiques</h1>
+          <h1 className="text-2xl text-center font-[Tara] text-[#959824] cursor-pointer hover:border-b-[#959824] hover:border-b-2 w-[600px] mt-8  flex flex-row">Formulaire E-immatriculation pour les personnes physiques</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-8 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Originale et copie de la CIN</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Carte de résident pour les étrangers</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Certificat de résidence et/ou Facture de la JIRAMA moins de trois mois</h1>
@@ -116,7 +116,7 @@ function Immatriculation() {
           <div className="flex flex-col mt-8">
         
           <h1 className="text-2xl text-center font-[Tara] text-gray-800/70 mt-8  flex flex-row">Pour les Personnes Morales :</h1>
-          <h1 className="text-2xl text-center font-[Tara] text-[#959824] cursor-pointer hover:border-b-[#959824] hover:border-b-2 w-[560px] mt-8  flex flex-row">Formulaire NIFONLINE pour les personnes morales</h1>
+          <h1 className="text-2xl text-center font-[Tara] text-[#959824] cursor-pointer hover:border-b-[#959824] hover:border-b-2 w-[580px] mt-8  flex flex-row">Formulaire E-immatricualtion pour les personnes morales</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-8 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Statuts de la société</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Originale et copie de la CIN du premier responsable</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Carte de résident pour les étrangers</h1>
@@ -163,7 +163,7 @@ function Immatriculation() {
         </div>
   
         <div className="bg-black w-full h-16 p-3 flex justify-center">
-             <p className="text-justify  text-white ">© 2022-2023, Direction Générale des Impôts, SSIF</p>
+             <p className="text-justify  text-white ">© 2023-2024, Commune Urbaine Mahajanga , CUM </p>
         </div>
     </div>
   )
