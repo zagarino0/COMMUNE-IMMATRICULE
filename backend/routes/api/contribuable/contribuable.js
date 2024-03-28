@@ -6,7 +6,6 @@ router.route('/')
     .put(contribuableController.updateContribuable)
     .post(contribuableController.setContribuable);
 
-
 router.route('/bloquer')
     .post(contribuableController.blockageContribuable);
 
@@ -52,5 +51,8 @@ router.route('/reveille')
 router.route('/:id')
     .get(contribuableController.getContribuableById)
     .delete(contribuableController.deleteContribuable);
+
+router.route('/download')
+    .get(contribuableController.getToutContribuableATelecharger);
 
 module.exports = router;

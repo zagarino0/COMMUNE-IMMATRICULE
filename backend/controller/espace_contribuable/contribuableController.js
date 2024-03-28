@@ -69,7 +69,11 @@ const data = {
     rejetCoordonnees: require('../../model/model_delete/coordonnees.json'),
     setRejetCoordonnees: function (data) { this.rejetCoordonnees = data },
     history: require('../../model/history.json'),
-    setHistory: function (data) { this.history = data }
+    setHistory: function (data) { this.history = data },
+
+    //radie
+
+    radieContribuable: require('../../model/model_radie/contribuable.json')
 }
 
 const bcrypt = require('bcrypt');
@@ -1059,8 +1063,29 @@ const getContribuableById = (req, res) => {
     res.json(contribuable);
 }
 
+
+const getToutContribuableATelecharger = (req, res) => {
+    const contribuableRadie = data.radieContribuable;
+    const contribuableNonValide = data.contribuables;
+    const contribuableValide = data.contribs;
+    const contribuableRejet = data.rejetContribuable;
+
+    const allContrib = [];
+    if(contribuableRadie.length !== 0)
+        allContrib.push(contribuableRadie);
+    if(contribuableNonValide.length !== 0)
+        allContrib.push(contribuableNonValide);
+    if(contribuableValide.length !== 0)
+        allContrib.push(contribuableValide);
+    if(contribuableRejet.length !== 0)
+        allContrib.push(contribuableRejet)
+
+    res.json(allContrib);
+}
+
 module.exports = {
     setContribuable,
+    getToutContribuableATelecharger,
     authContribuable,
     updateContribuable,
     updateContribuableNonValide,
@@ -1077,6 +1102,6 @@ module.exports = {
     reveilleContribuable,
     deleteContribuable,
     blockageContribuable,
-    getContribuableById,
+    getContribuableById
 
 }

@@ -17,6 +17,7 @@ router.route('/avalide')
     .post(dirigeantController.setOneDirigeantNonValide);
 
 router.route('/avalide/:id_dirigeant')
+    .put(dirigeantController.updateDirigeantAValide)
     .delete(dirigeantController.deleteDirigeantsNonValide)
 
 router.route('/contribuable/:id_dirigeant')

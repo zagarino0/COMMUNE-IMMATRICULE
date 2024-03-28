@@ -55,6 +55,12 @@ const updateAssujetissement = async (req, res) => {
 
 }
 
+
+const deleteAssujetissement = (req, res) => {
+    const id_assujetissement = req.params.id_assujetissement;
+    const id_contribuable = req.body.id_contribuable;
+}
+
 module.exports = {
     setAssujetissement,
     getAssujetissementById,

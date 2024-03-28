@@ -1,30 +1,37 @@
 [
     {
         "code": "1",
-        "libelle": "Impot sur les revenus"
+        "libelle": "Impot sur les revenus",
+        "abbreviation": ""
     },
     {
         "code": "2",
-        "libelle": "Impot sur le patrimoine"
+        "libelle": "Impot sur le patrimoine",
+        "abbreviation": ""
     },
     {
         "code": "3",
-        "libelle": "impots sur les biens et services"
+        "libelle": "impots sur les biens et services",
+        "abbreviation": ""
     },
     {
         "code": "4",
-        "libelle": "Autres recettes fiscales"
+        "libelle": "Autres recettes fiscales",
+        "abbreviation": ""
     },
     {
         "code": "5",
-        "libelle": "Recettes non fiscales"
+        "libelle": "Recettes non fiscales",
+        "abbreviation": ""
     },
     {
         "code": "6",
-        "libelle": "Redevance sur autorisation administratives"
+        "libelle": "Redevance sur autorisation administratives",
+        "abbreviation": ""
     },
     {
         "code": "7",
-        "libelle": "Autres redevances locales"
+        "libelle": "Autres redevances locales",
+        "abbreviation": ""
     }
 ]
