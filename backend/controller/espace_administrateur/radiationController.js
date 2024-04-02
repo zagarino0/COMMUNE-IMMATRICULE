@@ -237,7 +237,15 @@ const setRadiation = async (req, res) => {
 }
 
 const getAllRadiation = (req, res) => {
-    const radiations = data.contribuablesNonValide;
+    const radiationsContribuable = data.contribuablesNonValide;
+    radiationsContribuable.actionnaire = data.actionnaireTemps.filter(act => act.id_contribuable === contribuable.id);
+    radiationsContribuable.dirigeant = data.dirigeantTemps.filter(dir => dir.id_contribuable === contribuable.id);
+    radiationsContribuable.activite = data.activiteTemps.filter(act => act.id_contribuable === contribuable.id);
+    radiationsContribuable.autre = data.autreTemps.filter(aut => aut.id_contribuable === contribuable.id);
+    radiationsContribuable.coordonnees = data.coordonneeTemps.filter(coo => coo.id_contribuable === contribuable.id);
+    radiationsContribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
+    radiationsContribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
+    radiationsContribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
     res.json(radiation);
 }
 
