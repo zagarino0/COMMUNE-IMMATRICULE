@@ -236,6 +236,12 @@ const setRadiation = async (req, res) => {
     res.json(contribuable)
 }
 
+const getAllRadiation = (req, res) => {
+    const radiations = data.contribuablesNonValide;
+    res.json(radiation);
+}
+
+
 const consultationradiation = (req, res) => {
     const reference = req.body.reference;
     const raison_social = req.body.raison_social;
@@ -470,5 +476,6 @@ const getRadiationById = (req, res) => {
 module.exports = {
     setRadiation,
     consultationradiation,
-    getRadiationById
+    getRadiationById,
+    getAllRadiation
 }

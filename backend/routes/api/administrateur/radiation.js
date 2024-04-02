@@ -3,8 +3,9 @@ const router = express.Router();
 const radiationController = require('../../../controller/espace_administrateur/radiationController');
 
 router.route('/')
+    .get(radiationController.getAllRadiation)
     .post(radiationController.setRadiation);
-
+    
 router.route('/:id_radiation')
     .get(radiationController.getRadiationById);
 
