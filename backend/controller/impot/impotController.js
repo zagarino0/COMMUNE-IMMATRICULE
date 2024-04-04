@@ -4,6 +4,7 @@ const data = {
 }
 
 const fsPromises = require('fs').promises;
+const path = require('path')
 
 const getImpot = (req, res) => {
     res.json(data.impots);

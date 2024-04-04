@@ -249,7 +249,6 @@ const getAllRadiation = (req, res) => {
     res.json(radiation);
 }
 
-
 const consultationradiation = (req, res) => {
     const reference = req.body.reference;
     const raison_social = req.body.raison_social;
