@@ -33,6 +33,8 @@ const setImpot = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'impot.json'),
         JSON.stringify(data.impots)
     )
+
+    res.json(data.impots);
 }
 
 const updateImpot = async (req, res) => {
