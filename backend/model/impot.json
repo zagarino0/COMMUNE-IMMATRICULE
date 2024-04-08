@@ -38,5 +38,15 @@
         "code": 8,
         "libelle": "IMPOT SYNT",
         "abbreviation": "IS"
+    },
+    {
+        "code": 9,
+        "libelle": "IMPOT SYNTHETYC",
+        "abbreviation": "IST"
+    },
+    {
+        "code": 10,
+        "libelle": "IMPOT SYNTHETYC EXEMPLE",
+        "abbreviation": "ISTE"
     }
 ]

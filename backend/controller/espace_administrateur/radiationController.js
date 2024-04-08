@@ -132,7 +132,7 @@ const setRadiation = async (req, res) => {
         'id_history': id_history,
         'id_contribuable': contribuable.id,
         'id_user': req.body.id_user,
-        'motif': 'Radiation contribuable',
+        'motif': req.body.motif,
         'comment': req.body.comment,
         'date_history': new Date()
     }
