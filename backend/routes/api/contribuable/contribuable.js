@@ -49,7 +49,6 @@ router.route('/reveille')
     .post(contribuableController.reveilleContribuable);
 
 router.route('/:id')
-    .get(contribuableController.getContribuableById)
     .delete(contribuableController.deleteContribuable);
 
 router.route('/download')
