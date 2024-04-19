@@ -6,7 +6,7 @@ import { Label } from "../../components/label/label";
 import Table from "../../components/table/table";
 import { Layout } from "./Layout";
 import { AiOutlineSave } from "react-icons/ai";
-import { MdOutlineZoomInMap, MdZoomOutMap } from "react-icons/md";
+// import { MdOutlineZoomInMap, MdZoomOutMap } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { useEffect, useState } from "react";
@@ -72,11 +72,11 @@ id:string
       
       const [EntriesSelected , setEntriesSelected] = useState([])
       const [selectedRowIndexEntries  , setSelectedRowIndexEntries] = useState(null) 
-      const handleTableRowClickEntries = (rowIndex) => {
+      const handleTableRowClickEntries = (rowIndex : any) => {
         if (rowIndex === selectedRowIndexEntries) {
           // If the clicked row is already selected, unselect it
           setSelectedRowIndexEntries(null);
-          setEntriesSelected({});
+          setEntriesSelected([]);
         } else {
           // Extract the property values from the data object
           const selectedRowData = entries[rowIndex];
@@ -93,7 +93,7 @@ id:string
             // Delete the Data From the Table 
             const handleDeleteButtonClick = (idToDelete: string) => {
               // Filter out the entry with the specified ID
-              const updatedEntries = entries.filter((entry) => entry.id !== idToDelete);
+              const updatedEntries = entries.filter((entry : any) => entry.id !== idToDelete);
             
               // Update the entries state with the filtered entries
               setEntries(updatedEntries);
@@ -130,7 +130,7 @@ id:string
       const handleButtonClickSave = () => {
       // Add the current entry to the list of entries
                // Generate a new ID by incrementing the last entry's ID
-               const newId = entries.length > 0 ? parseInt(entries[entries.length - 1].id) + 1 : 1;
+               const newId  = entries.length > 0 ? parseInt(entries[entries.length - 1].id) + 1 : 1;
 
                // Update the Actionnaire state with the new ID
                setEtablissment((prevEtablissement) => ({
@@ -139,7 +139,7 @@ id:string
                }));
            
                // Add the current entry to the list of entries
-               setEntries((prevEntries) => [...prevEntries, { ...Etablissement, id: newId.toString() }]);
+               setEntries((prevEntries ) => [...prevEntries, { ...Etablissement, id: newId.toString() }]);
            
     
         // Reset the Actionnaire state to clear the form
@@ -184,7 +184,7 @@ id:string
         "proprietaire_local",
       ];
     
-      const data = entries.map((entry) => [
+      const data = entries.map((entry : any ) => [
         
         entry.nom_commercial,
         entry.activite,
@@ -200,7 +200,7 @@ id:string
         entry.autre_telephone,
         entry.fax,
         entry.email,        
-        <Checkbox checked={entry.proprietaire_local}></Checkbox>
+        <Checkbox checked={entry.proprietaire_local} onChange={()=> window}></Checkbox>
       ]);
     
     
@@ -232,13 +232,7 @@ id:string
        onChange={(e)=>{setEtablissment({...Etablissement , activite: e.target.value})}}
       ></Input>
     </div>
-    <div className="flex justify-between mt-6">
-      <Label text="Titre "></Label>
-      <Input type="text"
-       value={Etablissement.titre}
-       onChange={(e)=>{setEtablissment({...Etablissement , titre: e.target.value})}}
-      ></Input>
-    </div>
+   
     <div className="flex justify-between mt-6">
       <Label text="Date Ouverture "></Label>
       <Input type="date"

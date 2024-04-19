@@ -1,11 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
+// import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
-import { TitleH1, TitleH3 } from "../../../components/title";
+import {  TitleH3 } from "../../../components/title";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -39,30 +39,28 @@ function RepriseActivite() {
   const handleSearch = (e:any) => {
     setSearchTerm(e.target.value);
   };
-  const handleSearchButtonClick = () => {
-    console.log(filteredData);
-  };
+  
 
 
 
-// Fonction pour faire un  recherche d'un client avec référence fiscal
-const handleSearchClient = async () => {
-const DataSearch ={
+// // Fonction pour faire un  recherche d'un client avec référence fiscal
+// const handleSearchClient = async () => {
+// const DataSearch ={
 
-"reference_fiscal": reference_fiscal,
+// "reference_fiscal": reference_fiscal,
 
-}
-try {
-  // Make a POST request to your server endpoint
-  const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
-  setData(response.data);
-  // Check the response status or do something with the response
-  console.log("Server Response:", Data );
-} catch (error) {
-  // Handle errors
-  console.error("Error:", error);
-}
-};
+// }
+// try {
+//   // Make a POST request to your server endpoint
+//   const response = await axios.post("http://localhost:3500/contribuable", DataSearch);
+//   setData(response.data);
+//   // Check the response status or do something with the response
+//   console.log("Server Response:", Data );
+// } catch (error) {
+//   // Handle errors
+//   console.error("Error:", error);
+// }
+// };
 
 // Selectionner contribuable 
 
@@ -91,13 +89,19 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     navigate(routeToNavigate, { state: { DataSelected } });
   };
 
- const handleTableRowClick = (rowIndex) => {
-  setSelectedRowIndex(rowIndex);
-  // Update input fields or perform other actions based on the selected row data
-  const selectedRowData = Data[rowIndex];
- setDataSelected(selectedRowData)
- 
-};
+  const handleTableRowClick = (rowIndex: any) => {
+    // If the clicked row is already selected, unselect it
+    if (selectedRowIndex === rowIndex) {
+      setSelectedRowIndex(null); // Unselect the row
+      setDataSelected([]); // Clear the selected data
+    } else {
+      // Otherwise, select the clicked row
+      setSelectedRowIndex(rowIndex); // Set the selected row index
+      const selectedRowData = Data[rowIndex]; // Get the data of the selected row
+      setDataSelected(selectedRowData); // Set the selected data
+    }
+  };
+  
 
 
   const contentCard=(
@@ -105,13 +109,13 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="REPRISE D'ACTIVITE"></TitleH1></div>
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><h1 className="text-white p-5 text-3xl   font-semibold  bg-[#959824] mt-2" >REPRISE D'ACTIVITE</h1></div>
 
     {/**card recherche  */} 
-    <div className="mt-6 flex  justify-between ">
+    <div className="mt-6 flex  justify-center ">
         <Label text="Reference " className="mt-2" ></Label>
-        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
-            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+        <Input type="text" className="w-96 ml-8 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
+            {/* <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}
       </div>
 {/* <div className="mt-6 flex flex-col  ">
 
@@ -126,7 +130,7 @@ onChange={(e)=>setReference_fiscal(e.target.value)}
 </div>
 <Button text="Trouver" onClick={handleSearchClient} className="mt-6"></Button>
 </div> */}
-<div className="mt-10">
+<div className="mt-4">
 <Table
 
 onClick={handleTableRowClick}
@@ -135,7 +139,7 @@ headers={headers}
 data={data}
 ></Table>
 </div>
-<div className="flex justify-start mt-6">
+<div className="flex justify-start mt-4">
  
  <button onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></button>
  </div>
@@ -149,7 +153,7 @@ data={data}
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={contentCard} className="w-[800px] h-[800px] "></Card>
+  <Card contentCard={contentCard} className="w-[800px] h-[500px] "></Card>
   </div>
  </MainLayout>
 )

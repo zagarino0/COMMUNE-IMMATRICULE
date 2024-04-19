@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-import { Button } from "../../../components/common";
+// import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
-import { TitleH1, TitleH3 } from "../../../components/title";
+import {  TitleH3 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ useEffect(() => {
 console.log(Data);
 
 
-const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
+const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" ]
 const filteredData = Data.filter((item:any) =>
 item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
 );
@@ -33,16 +33,12 @@ const data = filteredData.map((item :any) => [
   item.raison_social,
   item.reference_fiscal,
   item.type,
-  item.cin ,
-  item.numero_passeport ,
-  item.sexe,
+ 
 ]);
 const handleSearch = (e:any) => {
   setSearchTerm(e.target.value);
 };
-const handleSearchButtonClick = () => {
-  console.log(filteredData);
-};  
+
 
 // Selectionner contribuable 
 
@@ -71,26 +67,32 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     navigate(routeToNavigate, { state: { DataSelected } });
   };
 
- const handleTableRowClick = (rowIndex) => {
-  setSelectedRowIndex(rowIndex);
-  // Update input fields or perform other actions based on the selected row data
-  const selectedRowData = Data[rowIndex];
- setDataSelected(selectedRowData)
- 
-};
+  const handleTableRowClick = (rowIndex: any) => {
+    // If the clicked row is already selected, unselect it
+    if (selectedRowIndex === rowIndex) {
+      setSelectedRowIndex(null); // Unselect the row
+      setDataSelected([]); // Clear the selected data
+    } else {
+      // Otherwise, select the clicked row
+      setSelectedRowIndex(rowIndex); // Set the selected row index
+      const selectedRowData = Data[rowIndex]; // Get the data of the selected row
+      setDataSelected(selectedRowData); // Set the selected data
+    }
+  };
+  
 
 const contentCard=(
       <div >
 
-<div className="flex justify-center items-center mt-4" >
-<div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="BLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
+<div className="flex justify-center items-center " >
+<div className=" flex flex-col mx-6">
+<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><h1 className="text-white rounded-md p-4 text-3xl  font-semibold  bg-[#959824] mt-2" >BLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE</h1></div>
 
      {/**card recherche  */} 
-     <div className="mt-6 flex  justify-between ">
+     <div className="mt-6 flex  justify-center ">
         <Label text="Reference " className="mt-2" ></Label>
-        <Input type="text" className="w-96 ml-5 " placeholder="Reférence EX:005" onChange={handleSearch}></Input>
-            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+        <Input type="text" className="w-96 ml-16 " placeholder="Reférence EX:005" onChange={handleSearch}></Input>
+            
       </div>
 
 {/* <div className="mt-6 flex flex-col  ">
@@ -122,7 +124,7 @@ data={data}
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={contentCard} className="w-[800px] h-[800px] "></Card>
+  <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
   </div>
  </MainLayout>
 )

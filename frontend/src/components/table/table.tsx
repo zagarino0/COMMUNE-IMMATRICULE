@@ -40,7 +40,7 @@ const Table: FC<TableProps> = ({
   );
 
   return (
-    <div className={`overflow-y-auto h-96 ${classTable}`}>
+    <div className={`overflow-y-auto h-60 ${classTable}`}>
       <table id={id} ref={ref} className={`bg-white ${className}`}>
         <thead>
           <tr>

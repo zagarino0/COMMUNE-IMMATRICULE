@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-import { Button } from "../../../components/common";
+// import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 // import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label";
@@ -18,55 +18,55 @@ function ValidationDemandeImmatriculation() {
 
 
 
-  const [Valide , setValide] = useState<{
-domaine_recherche : string ,
-reference : string ,
-cin:string,
-raison_social : string,
-adresse : string,
-nom_commercial: string,
-date_debut : string ,
-date_fin : string,
-reference_fiscal : string
+//   const [Valide ] = useState<{
+// domaine_recherche : string ,
+// reference : string ,
+// cin:string,
+// raison_social : string,
+// adresse : string,
+// nom_commercial: string,
+// date_debut : string ,
+// date_fin : string,
+// reference_fiscal : string
 
-}>({
-  domaine_recherche : "" ,
-  reference : "" ,
-  cin:"",
-  raison_social:"",
-  adresse:"",
-  nom_commercial:"",
-  date_debut : "" ,
-  date_fin : "",
-  reference_fiscal: ""
-})
+// }>({
+//   domaine_recherche : "" ,
+//   reference : "" ,
+//   cin:"",
+//   raison_social:"",
+//   adresse:"",
+//   nom_commercial:"",
+//   date_debut : "" ,
+//   date_fin : "",
+//   reference_fiscal: ""
+// })
 
 const [Data , setData] = useState([])
 const [searchTerm, setSearchTerm] = useState("");
 // Fonction pour faire un  recherche d'un client avec référence fiscal
-const handleSearchClient = async () => {
-  const DataSearch ={
-  "reference":Valide.reference,
-  "raison_social":Valide.raison_social,
-  "reference_fiscal": Valide.reference_fiscal,
-  "cin":Valide.cin,
-  "adresse": Valide.adresse,
-  "nom_commercial": Valide.nom_commercial,
-  "date_debut":Valide.date_debut,
-  "date_fin": Valide.date_fin
-  }
-  try {
-    // Make a POST request to your server endpoint
-    const response = await axios.post("http://localhost:3500/consultation/contribuable/avalide", DataSearch);
-    setData(response.data);
-    // Check the response status or do something with the response
-    console.log("Server Response:", Data );
-  } catch (error) {
-    // Handle errors
-    console.error("Error:", error);
-    alert('il y a une erreur')
-  }
-};
+// const handleSearchClient = async () => {
+//   const DataSearch ={
+//   "reference":Valide.reference,
+//   "raison_social":Valide.raison_social,
+//   "reference_fiscal": Valide.reference_fiscal,
+//   "cin":Valide.cin,
+//   "adresse": Valide.adresse,
+//   "nom_commercial": Valide.nom_commercial,
+//   "date_debut":Valide.date_debut,
+//   "date_fin": Valide.date_fin
+//   }
+//   try {
+//     // Make a POST request to your server endpoint
+//     const response = await axios.post("http://localhost:3500/consultation/contribuable/avalide", DataSearch);
+//     setData(response.data);
+//     // Check the response status or do something with the response
+//     console.log("Server Response:", Data );
+//   } catch (error) {
+//     // Handle errors
+//     console.error("Error:", error);
+//     alert('il y a une erreur')
+//   }
+// };
 {/**
   const options = [
       { value: 'référence', label: 'référence' },
@@ -87,7 +87,7 @@ const handleSearchClient = async () => {
       }, []);
     
      
-const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" , "Référence Fiscal" , "type" ];
+const headers = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type" ];
 //const data = Data.map((item)=>[item.id , item.raison_social , item.capital , item.forme_juridique , item.reference_fiscal , item.type])
   // [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
 
@@ -98,8 +98,6 @@ const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" 
   const data = filteredData.map((item:any) =>[
     item.id , 
     item.raison_social , 
-    item.capital , 
-    item.forme_juridique , 
     item.reference_fiscal , 
     item.type , 
   ]);
@@ -109,10 +107,6 @@ const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" 
     setSearchTerm(e.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    console.log(filteredData);
-  };
- 
 
 
  const navigate = useNavigate()// Initialize useHistory
@@ -138,16 +132,22 @@ const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" 
     navigate(routeToNavigate, { state: { DataSelected } });
   };
 
- const handleTableRowClick = (rowIndex) => {
-  setSelectedRowIndex(rowIndex);
+  const handleTableRowClick = (rowIndex: any) => {
+    // Check if the clicked row is already selected
+    const isSelected = rowIndex === selectedRowIndex;
   
-  // Extract the property values from the data object
-  const selectedRowData = Data[rowIndex]
-
+    // Toggle selection
+    const newSelectedRowIndex = isSelected ? null : rowIndex;
+    setSelectedRowIndex(newSelectedRowIndex);
   
-  setDataSelected(selectedRowData);
-  console.log('Selected Row Data:', DataSelected);
-};
+    // Extract the property values from the data object
+    const selectedRowData = isSelected ? null : Data[rowIndex];
+  
+    // Set the selected data
+    setDataSelected(selectedRowData);
+    console.log('Selected Row Data:', selectedRowData);
+  };
+  
 
   const ContentSearch =(
     <div>     
@@ -159,10 +159,10 @@ const headers = ["Ref démandé", "Raison social", "Capital", "Forme juridique" 
 
      <div className="flex flex-col mt-2">
     {/**card recherche  */} 
-    <div className="mt-6 flex  justify-between ">
+    <div className="mt-6 flex  justify-center ">
                 <Label text="Réference" className="mt-4" ></Label>
-                <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX:0005" onChange={handleSearch}></Input>
-                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                <Input type="text" className="w-96 ml-16 "placeholder="Reférence EX:0005" onChange={handleSearch}></Input>
+                {/* <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}
             </div>
 </div>
          {/* <div className="text-lg font-semibold p-4 ">
@@ -273,19 +273,19 @@ headers={headers}
 data={data}
 onClick={handleTableRowClick}
 selectedRowIndex={selectedRowIndex}
-
+className=""
 ></Table>
 </div>
 
-<button  className="flex flex-row mt-4 " onClick={handleButtonClick}><TiDocumentText  className="mr-2  text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
+<button  className="flex flex-row mt-2 " onClick={handleButtonClick}><TiDocumentText  className="mr-2  text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
 </div>
    </div>
    </div>
   )
 return (
   <MainLayout>
-  <div className=" mt-16 mb-8">
-  <Card contentCard={ContentSearch} className="w-[1000px] h-[550px]"></Card>
+  <div className=" mt-24 mb-8">
+  <Card contentCard={ContentSearch} className="w-[1000px] h-[500px]"></Card>
   </div>
       </MainLayout>
 )

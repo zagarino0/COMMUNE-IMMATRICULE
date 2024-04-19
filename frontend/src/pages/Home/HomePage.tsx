@@ -1,5 +1,5 @@
 import { Navbar } from "../../components/navbar/Nabvar"
-import Repoblika from "../../assets/Repoblika.png"
+// import Repoblika from "../../assets/Repoblika.png"
 import "../../components/font/font.css";
 import Button from "../../components/common/Button";
 import { GoPencil } from "react-icons/go";
@@ -34,8 +34,8 @@ function HomePage() {
       
         <Navbar content={content} className="h-16 "></Navbar>
         <div className=" flex justify-center py-14 bg-hoteldeville ">
-            <div className="flex flex-col">
-            <img src={Repoblika} alt="repoblika photo" />
+            <div className="flex flex-col mt-60">
+           
             <div className="bg-white w-[600px] h-[100px] rounded flex items-center justify-center ">
             <p className="text-center font-[kaldera] text-4xl ">Bienvenue sur E-immatriculation</p>
             </div>

@@ -20,7 +20,7 @@ onChange
     value={value}
     onChange={onChange}
     className={`
-    shadow appearance-none border h-10 rounded w-96 py-2 px-3 text-gray-700  focus:outline-none focus:shadow-outline
+    shadow appearance-none border h-10 rounded w-96 py-2 px-3 text-gray-700  focus:outline-none focus:shadow-outline text-left text-xs leading-4 
     ${className}`} placeholder={placeholder} />
     </>
   )
@@ -41,7 +41,7 @@ export const InputSecondary: React.FC<InputProps> = ({
       border-[2px]
       py-3
       px-6 
-  
+      shadow appearance-none border h-10 rounded w-96 py-2 px-3 text-gray-700  focus:outline-none focus:shadow-outline
       ${className}`} placeholder={placeholder} />
       </>
     )

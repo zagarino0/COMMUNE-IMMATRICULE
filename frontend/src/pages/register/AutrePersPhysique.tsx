@@ -15,6 +15,7 @@ import { ModalLogin } from "../Home/Modal/ModalLogin";
 import {  useState } from "react";
 import Checkbox from "../../components/common/checkbox";
 import axios from "axios";
+import Modal from "../../components/modals/modals";
 
 interface LayoutProps {
   children?: React.ReactElement;
@@ -46,9 +47,11 @@ const AutrePersPhysique: React.FC<LayoutProps>  = ({  currentPath })=> {
       certification: false
     }) 
 
+const [IsAlertRenseignementError , setIsAlertRenseignementError] = useState(false)
 
-const HandleClick = async  () =>{
 
+const HandleClick = async (e: React.FormEvent) =>{
+e.preventDefault();
 
 if (parsedDataRegistre){
 
@@ -58,12 +61,12 @@ if (parsedDataRegistre){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-    alert("contribuable renseignement ajouté")
+    setIsAlertRenseignement(true);
    
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-    alert("il y a une erreur sur  l'ajout contribuable")
+   setIsAlertRenseignementError(true);
   }
 }
 
@@ -85,7 +88,7 @@ if(parsedDataActivite){
   try {
     // Make a POST request to your server endpoint
     const response = await axios.post("http://localhost:3500/activite", Activite);
-  alert('activité ajouté')
+   setIsAlertActivite(true);
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   
@@ -93,7 +96,7 @@ if(parsedDataActivite){
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-    alert("erreur de l 'ajout d'activité")
+    setIsAlertActiviteError(true);
   }
 
 }
@@ -103,14 +106,14 @@ if(parsedDataSiege){
   try {
     // Make a POST request to your server endpoint
     const response = await axios.post("http://localhost:3500/siege", parsedDataSiege);
-    alert("siège ajouté")
+   setIsAlertSiege(true);
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   
    
   } catch (error) {
     // Handle errors
-    alert("erreur sur l'ajout de siège")
+    setIsAlertSiegeError(true);
     console.error("Error:", error);
   }
 }
@@ -123,9 +126,9 @@ if(Autre){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-  alert("tout est enregistré ")
-  alert("Générateur de code en cours !")
-  alert(`Votre code est de ${parsedDataRegistre.id}`)
+    setIsAlertAutre(true);
+    setIsAlertCode(true);
+    
         localStorage.removeItem("registrationData");
         localStorage.removeItem("activiteData");
         localStorage.removeItem("siegeData");
@@ -134,10 +137,10 @@ if(Autre){
         localStorage.removeItem("interlocuteurData");
         localStorage.removeItem("associeData");
         
-  navigate("/register") 
+  navigate("/register"); 
   } catch (error) {
     // Handle errors
-    alert("il y a  une erreur sur l'ajout")
+    setIsAlertAutreError(true);
     console.error("Error:", error);
   }
 }
@@ -192,6 +195,14 @@ if(Autre){
       </nav>
     );
   
+    const [ IsAlertRenseignement , setIsAlertRenseignement] = useState(false);
+    const [ IsAlertActivite , setIsAlertActivite] = useState(false);
+    const [ IsAlertSiege , setIsAlertSiege] = useState(false);
+    const [ IsAlertAutre , setIsAlertAutre] = useState(false);
+    const [IsAlertActiviteError , setIsAlertActiviteError] = useState(false);
+    const [IsAlertSiegeError , setIsAlertSiegeError] = useState(false);
+    const [IsAlertAutreError , setIsAlertAutreError] = useState(false);
+    const [IsAlertCode , setIsAlertCode ] = useState(false);
     return (
       <div className="h-full w-full bg-gray-200 ">
         <ModalLogin isOpen={isModal} onClose={()=> setIsModal(false)} quitter={()=> setIsModal(false)}></ModalLogin>
@@ -264,6 +275,78 @@ if(Autre){
     <div className="bg-black w-full h-16 p-3 flex justify-center">
                <p className="text-justify  text-white ">© 2022-2023, Direction Générale des Impôts, SSIF</p>
           </div>
+          <Modal isOpen={IsAlertRenseignement} onClose={()=> setIsAlertRenseignement(false)} className="w-[400px] h-[200px]">
+            <div className="flex justify-center items-center">
+            <div className="flex flex-col p-4">
+              <TitleH1 text="Renseignement Général complet" className="text-center p-4"></TitleH1>
+              <Button  label="Fermer" onClick={()=> setIsAlertRenseignement(false)}></Button>
+            </div>
+            </div>
+          </Modal>
+          <Modal isOpen={IsAlertRenseignementError} onClose={()=> setIsAlertRenseignementError(false)} className="w-[400px] h-[200px]">
+           <div className="flex justify-center items-center">
+           <div className="flex flex-col p-4">
+              <TitleH1 text="Il y a une erreur sur le Renseignement" className="text-center p-4"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertRenseignement(false)}></Button>
+            </div>
+           </div>
+          </Modal>
+          <Modal isOpen={IsAlertActivite} onClose={()=> setIsAlertActivite(false)} className="w-[400px] h-[200px]">
+           <div className=" flex justify-center items-center">
+           <div className="flex flex-col p-4">
+              <TitleH1 text="Renseignement Activité complet" className=" p-4 text-center"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertActivite(false)}></Button>
+            </div>
+           </div>
+          </Modal>
+          <Modal isOpen={IsAlertActiviteError  } onClose={()=> setIsAlertActiviteError(false)} className="w-[400px] h-[200px]">
+            <div className="flex justify-center items-center">
+            <div className="flex flex-col p-4">
+              <TitleH1 text="Il y a une erreur sur le Renseignement Activité" className="p-4 text-center"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertActiviteError(false)}></Button>
+            </div>
+            </div>
+          </Modal>
+          <Modal isOpen={IsAlertSiege} onClose={()=> setIsAlertSiege(false)} className="w-[400px] h-[200px] ">
+           <div className="flex justify-center items-center">
+           <div className="flex flex-col p-6">
+              <TitleH1 text="Renseignement Siege complet" className="p-4text-center"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertSiege(false)}></Button>
+            </div>
+            </div>          
+           </Modal>
+          <Modal isOpen={IsAlertSiegeError} onClose={()=> setIsAlertSiegeError(false)} className="w-[400px] h-[200px]">
+           <div className="flex justify-center items-center">
+           <div className="flex flex-col p-4">
+              <TitleH1 text="Il y a une erreur sur le Renseignement Siege" className="text-center p-4"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertSiegeError(false)}></Button>
+            </div>
+           </div>
+          </Modal>
+          <Modal isOpen={IsAlertAutre} onClose={()=> setIsAlertAutre(false)} className="w-[400px] h-[200px]">
+           <div className="flex justify-center items-center">
+           <div className="flex flex-col p-4">
+              <TitleH1 text="Information Verifier" className="p-4 text-center"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertAutre(false)}></Button>
+            </div>
+           </div>
+          </Modal>
+          <Modal isOpen={IsAlertAutreError} onClose={()=> setIsAlertAutreError(false)} className="w-[400px] h-[200px]">
+            <div className="flex justify-center items-center">
+            <div className="flex flex-col p-4">
+              <TitleH1 text="Il y a une erreur " className="p-4 text-center"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertAutreError(false)}></Button>
+            </div>
+            </div>
+          </Modal>
+          <Modal isOpen={IsAlertCode} onClose={()=> setIsAlertCode(false)} className="w-[400px] h-[200px]">
+            <div className="flex justify-center items-center">
+            <div className="flex flex-col p-4">
+              <TitleH1 text={` Votre Identifiant est de ${parsedDataRegistre.id}`} className="p-4 text-center"></TitleH1>
+              <Button label="Fermer" onClick={()=> setIsAlertCode(false)}></Button>
+            </div>
+            </div>
+          </Modal>
       </div>
     );
     }

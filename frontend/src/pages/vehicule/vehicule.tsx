@@ -15,10 +15,9 @@ function VehiculePage() {
 
       //Links navbar
     const links = [
-      { title: "Ajouter de véhicule sur Référence Fiscal", link: "/ajoutvehicule" },
+      { title: "Saisie vehicule", link: "/ajoutvehicule" },
       { title: "Rectification des véhicules des contribuables sur Référence Fiscal", link: "/rectificationvehicule" },
-      { title: "Téléchargement des véhicules sur Référence Fiscal", link: "/TelechargementVehicule" },
-     
+      { title: "Téléchargement des véhicules sur Référence Fiscal", link: "/TelechargementVehicule" },     
       { title: "Mise à jour des caractéristiques des vehicules sur Référence Fiscal", link: "/MiseJourCaracteristiqueVehicule" },
       { title: "Consultation des vehicules sur Référence Fiscal", link: "/ConsultationVehicule" },
      

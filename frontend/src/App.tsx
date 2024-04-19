@@ -86,6 +86,7 @@ import RepriseInfo from "./pages/autresOperations/RepriseActivite/RepriseInfo";
 import InfoBlocage from "./pages/autresOperations/BlocageAdministratif/InfoBlocage";
 import InfoDeblocage from "./pages/autresOperations/DeblocageAdministratif/InfoDeblocage";
 import InfoContribuableRadie from "./pages/autresOperations/RelanceDeffaillants/InfoContribuablrRadie";
+import Impression from "./pages/etat/ImpressionDuplicataCessation/Impression";
 function App() {
   
   return (
@@ -179,6 +180,7 @@ function App() {
         <Route path="/InfoBlocage" element={<InfoBlocage/>}></Route>
         <Route path="/InfoDeblocage" element={<InfoDeblocage/>}></Route>
         <Route path="/InfoContribuableRadie" element={<InfoContribuableRadie/>}></Route>
+        <Route path="/Impression" element={<Impression/>}></Route>      
         <Route path="*" element={<ErrorPage />}></Route>        
 
       </Routes>

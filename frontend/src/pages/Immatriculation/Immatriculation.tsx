@@ -104,9 +104,7 @@ function Immatriculation() {
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Carte de résident pour les étrangers</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Certificat de résidence et/ou Facture de la JIRAMA moins de trois mois</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Plan de répérage</h1>
-          <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Récépissé et bordereau de versement de l'IS ou de l'IR</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Carte statistique</h1>
-          <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Titre de propriété du local (pour le contrat de bail ou contrat de domiciliation ou lettre d'occupation ou mise à disposition)</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Autres pièces originales (autorisation ministérielle, carte grise, licence, ...)</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Procuration légalisée si représentant</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Référence de la demande</h1>
@@ -124,7 +122,6 @@ function Immatriculation() {
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Plan de répérage</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Certificat d'existence</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Carte statistique</h1>
-          <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Titre de propriété du local (pour le contrat de bail ou contrat de domiciliation ou lettre d'occupation ou mise à disposition)</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Autres pièces originales (autorisation ministérielle, carte grise, licence, ...)</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Procuration légalisée si représentant</h1>
           <h1 className=" text-center font-[Tara] text-gray-800/70  mt-4 flex flex-row"><CiSquareCheck className="text-2xl mr-2 " />Référence de la demande</h1>

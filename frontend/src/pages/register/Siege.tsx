@@ -5,6 +5,7 @@ import { Label } from "../../components/label/label";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { Layout } from "./Layout";
 import { useEffect, useState } from "react";
+import Select from "../../components/inputs/selectInput";
 
 function Siege() {
     const location = useLocation();
@@ -33,6 +34,36 @@ province : string,
 
 })
 
+const Fokontany = [
+     "MANGA",
+     "AMBOVOALANANA", 
+     "TSARAMANDROSO AMBANY",    
+     "TSARAMANDROSO AMBONY",
+      "MAHAVOKY SUD",
+      "MANJARISOA",
+      "MORAFENO",
+      "MAHABIBOKELY",
+       "ABATTOIR\/MAROVATO",
+       "MANGARIVOTRA",
+       "ARANTA",
+       "ANTANIMASAJA",
+       "MAHATSINJO",
+       "TANAMBAO SOTEMA",
+        "AMBOHIMANDAMINA",
+         "ANTANIMALANDY",
+         "AMBONDRONA",
+         "FIOFIO",
+         "AMBALAVOLA",
+         "ANTANAMBAO AMBALAVATO",
+         "TSARARANO AMBONY",
+        "TSARARANO ANOSIKELY",
+         "TSARARANO AMBANY",
+         "AMBOROVY",
+         "MAHAVOKY NORD",
+        
+]
+
+
 const [isStorageUpdated, setIsStorageUpdated] = useState(false);
 
   useEffect(() => {
@@ -58,6 +89,50 @@ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
             <TitleH3 text="Etape 3:" className="mt-2"></TitleH3>
           <TitleH1 text="Renseignements sur le siège" className="ml-2"></TitleH1>
           </div>
+    <div className='flex justify-between mt-6 '>
+    <Label text="Province "></Label>
+    <Input
+      type="text" 
+      value={Siege.province = "MAHAJANGA "}    
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Région"></Label>
+    <Input
+      type="text" 
+      value={Siege.region = "BOENY"}
+           
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="District "></Label>
+    <Input
+      type="text"
+      value={Siege.district = "MAHAJANGA"}
+     
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Commune "></Label>
+    <Input
+      type="text" 
+      value={Siege.commune = "MAHAJANGA I"}
+
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Fokontany"></Label>
+    <Select
+  options={Fokontany.map((option) => ({ value: option, label: option }))}
+  value={Siege.fonkotany}
+  onChange={(options) => {setSiege({...Siege , fonkotany: options})}}    
+  className=""
+/>
+
+  </div>
+ 
+  
+
           <div className="flex justify-between mt-6">
           <Label text="Adresse actuelle (siège) " />
           <Input type="text" 
@@ -68,46 +143,9 @@ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
         
  
   <div>
-    <div className='flex justify-between mt-6 '>
-    <Label text="Fokontany"></Label>
-    <Input
-      type="text" 
-      value={Siege.fonkotany}
-      onChange={(e)=> {setSiege({...Siege , fonkotany: e.target.value})}}    
-    ></Input>
-  </div>
- 
-  <div className='flex justify-between mt-6 '>
-    <Label text="Commune "></Label>
-    <Input
-      type="text" 
-      value={Siege.commune}
-      onChange={(e)=>{setSiege({...Siege , commune: e.target.value})}}    
-    ></Input>
-  </div>
-  <div className='flex justify-between mt-6 '>
-    <Label text="District "></Label>
-    <Input
-      type="text"
-      value={Siege.district}
-      onChange={(e)=>{setSiege({...Siege , district : e.target.value})}} 
-    ></Input>
-  </div>
-  <div className='flex justify-between mt-6 '>
-    <Label text="Région"></Label>
-    <Input
-      type="text" 
-      value={Siege.region}
-      onChange={(e)=>{setSiege({...Siege , region: e.target.value})}}     
-    ></Input>
-  </div>
-  <div className='flex justify-between mt-6 '>
-    <Label text="Province "></Label>
-    <Input
-      type="text" 
-      onChange={(e)=> {setSiege({...Siege , province: e.target.value})}}    
-    ></Input>
-  </div>
+
+  
+  
     </div>
   
           

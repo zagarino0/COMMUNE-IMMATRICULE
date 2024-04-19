@@ -4,6 +4,7 @@ import { Button } from "../../components/common";
 import Input from "../../components/inputs";
 import { useState } from "react";
 import axios from "axios";
+import PasswordInput from "../../components/inputs/InputPassword";
 
 
 function LoginClient() {
@@ -67,14 +68,12 @@ const handleLogin = () => {
   flex 
   flex-col
   ">
-  <Input
-  type="password"
-  placeholder={`Votre mot de passe `}
-  className=" mt-6 "
-  
+  <PasswordInput
+ 
+ placeholder="Entrer votre mot de passe..."
   value={mdp}
   onChange={(e)=>{setMdp( e.target.value)}}
-  ></Input>
+  ></PasswordInput>
 
   </div>
 

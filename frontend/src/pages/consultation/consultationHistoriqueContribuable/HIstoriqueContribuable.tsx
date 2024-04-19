@@ -40,7 +40,7 @@ function HIstoriqueContribuable() {
     console.log(DataHistorique)
     
 
-  const headers = ["Ref ", "Motif", "Date de modification"];
+  const headers = ["Ref ", "Motif", "Date"];
  
  //const data = DataHistorique.map((item)=>[item.id_history_contribuable , item.motif , item.date_modification])
  const filteredData = DataHistorique.filter ((item:any)=>
@@ -70,9 +70,9 @@ const handleSearchButtonClick = () => {
   <div className="flex flex-col mt-2">
             {/**card recherche  */} 
                     <div className="mt-6 flex  justify-between ">
-                        <Label text="Date de modification" className="mt-4" ></Label>
-                        <Input type="text" className="w-96 ml-5 "placeholder="Date EX: 2023-01-01" onChange={handleSearch}></Input>
-                        <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                        <Label text="Date" className="mt-4" ></Label>
+                        <Input type="date" className="w-96 ml-5 "placeholder="Date EX: 2023-01-01" onChange={handleSearch}></Input>
+                        {/* <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}
                     </div>
         </div>
   {/* <div className="mt-4 text-xl font-semibold">

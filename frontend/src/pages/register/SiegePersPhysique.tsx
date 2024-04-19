@@ -14,6 +14,7 @@ import { TitleH1, TitleH3 } from "../../components/title";
 import { MdOutlineCached } from "react-icons/md";
 import { ModalLogin } from "../Home/Modal/ModalLogin";
 import { useEffect, useState } from "react";
+import Select from "../../components/inputs/selectInput";
 interface LayoutProps {
   children?: React.ReactElement;
   currentPath?: string;
@@ -26,7 +27,7 @@ const parsedData = JSON.parse(registrationData as string);
 const [Siege, setSiege] = useState<{
 id_contribuable: string,
 adresse_actuelle : string,
-fokontany: string,
+fonkotany: string,
 commune : string,
 district: string,
 region: string ,
@@ -35,7 +36,7 @@ province : string,
 }>({
   id_contribuable: parsedData.id,
   adresse_actuelle : "",
-  fokontany: "",
+  fonkotany: "",
   commune : "",
   district: "",
   region: "" ,
@@ -111,6 +112,36 @@ const links = [
     </nav>
   );
 
+  
+const Fokontany = [
+  "MANGA",
+  "AMBOVOALANANA", 
+  "TSARAMANDROSO AMBANY",    
+  "TSARAMANDROSO AMBONY",
+   "MAHAVOKY SUD",
+   "MANJARISOA",
+   "MORAFENO",
+   "MAHABIBOKELY",
+    "ABATTOIR\/MAROVATO",
+    "MANGARIVOTRA",
+    "ARANTA",
+    "ANTANIMASAJA",
+    "MAHATSINJO",
+    "TANAMBAO SOTEMA",
+     "AMBOHIMANDAMINA",
+      "ANTANIMALANDY",
+      "AMBONDRONA",
+      "FIOFIO",
+      "AMBALAVOLA",
+      "ANTANAMBAO AMBALAVATO",
+      "TSARARANO AMBONY",
+     "TSARARANO ANOSIKELY",
+      "TSARARANO AMBANY",
+      "AMBOROVY",
+      "MAHAVOKY NORD",
+     
+]
+
   return (
     <div className="h-full w-full bg-gray-200 ">
       <ModalLogin isOpen={isModal} onClose={()=> setIsModal(false)} quitter={()=> setIsModal(false)}></ModalLogin>
@@ -140,13 +171,57 @@ const links = [
     </div>
   <div className="flex flex-col  w-full h-full ">
   <Navbar content={contentNavbar}  />
-      <main className="w-full h-full">     <div className="flex justify-center w-full h-full mt-28 p-8">
-      <div className="flex flex-col w-[1000px]">
-        <div className="flex flex-row">
-          <TitleH3 text="Etape 3:" className="mt-2"></TitleH3>
-        <TitleH1 text="Renseignements sur le siège" className="ml-2"></TitleH1>
-        </div>
-        <div className="flex justify-between mt-6">
+      <main className="w-full h-full">    <div className="flex justify-center w-full h-full mt-28 p-8">
+        <div className="flex flex-col w-[1000px]">
+          <div className="flex flex-row">
+            <TitleH3 text="Etape 3:" className="mt-2"></TitleH3>
+          <TitleH1 text="Renseignements sur le siège" className="ml-2"></TitleH1>
+          </div>
+    <div className='flex justify-between mt-6 '>
+    <Label text="Province "></Label>
+    <Input
+      type="text" 
+      value={Siege.province = "MAHAJANGA "}    
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Région"></Label>
+    <Input
+      type="text" 
+      value={Siege.region = "BOENY"}
+           
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="District "></Label>
+    <Input
+      type="text"
+      value={Siege.district = "MAHAJANGA"}
+     
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Commune "></Label>
+    <Input
+      type="text" 
+      value={Siege.commune = "MAHAJANGA I"}
+
+    ></Input>
+  </div>
+  <div className='flex justify-between mt-6 '>
+    <Label text="Fokontany"></Label>
+    <Select
+  options={Fokontany.map((option) => ({ value: option, label: option }))}
+  value={Siege.fonkotany}
+  onChange={(options) => {setSiege({...Siege , fonkotany: options})}}    
+  className=""
+/>
+
+  </div>
+ 
+  
+
+          <div className="flex justify-between mt-6">
           <Label text="Adresse actuelle (siège) " />
           <Input type="text" 
           value={Siege.adresse_actuelle}
@@ -156,59 +231,22 @@ const links = [
         
  
   <div>
-    <div className='flex justify-between mt-6 '>
-    <Label text="Fokontany"></Label>
-    <Input
-      type="text" 
-      value={Siege.fokontany}
-      onChange={(e)=> {setSiege({...Siege , fokontany: e.target.value})}}    
-    ></Input>
-  </div>
- 
-  <div className='flex justify-between mt-6 '>
-    <Label text="Commune "></Label>
-    <Input
-      type="text" 
-      value={Siege.commune}
-      onChange={(e)=>{setSiege({...Siege , commune: e.target.value})}}    
-    ></Input>
-  </div>
-  <div className='flex justify-between mt-6 '>
-    <Label text="District "></Label>
-    <Input
-      type="text"
-      value={Siege.district}
-      onChange={(e)=>{setSiege({...Siege , district : e.target.value})}} 
-    ></Input>
-  </div>
-  <div className='flex justify-between mt-6 '>
-    <Label text="Région"></Label>
-    <Input
-      type="text" 
-      value={Siege.region}
-      onChange={(e)=>{setSiege({...Siege , region: e.target.value})}}     
-    ></Input>
-  </div>
-  <div className='flex justify-between mt-6 '>
-    <Label text="Province "></Label>
-    <Input
-      type="text" 
-      onChange={(e)=> {setSiege({...Siege , province: e.target.value})}}    
-    ></Input>
-  </div>
-  </div>
 
-        
-       <div className="flex justify-between mt-6">
-       <div className="w-40">
-          <Button label="Précédent" onClick={()=> navigate("/ActivitePersPysique")}></Button>
+  
+  
+    </div>
+  
+          
+         <div className="flex justify-between mt-6">
+         <div className="w-40">
+            <Button label="Précédent" onClick={()=>navigate("/Activite")}></Button>
+          </div>
+          <div className="w-40">
+            <Button label="Suivant" onClick={handleButtonClick}></Button>
+          </div>
+         </div>
         </div>
-        <div className="w-40">
-          <Button label="Suivant" onClick={handleButtonClick}></Button>
-        </div>
-       </div>
-      </div>
-    </div></main>
+      </div></main>
   </div>
   <div className="bg-black w-full h-16 p-3 flex justify-center">
              <p className="text-justify  text-white ">© 2022-2023, Direction Générale des Impôts, SSIF</p>

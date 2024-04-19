@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 import axios from "axios"
+import PasswordInput from "../../components/inputs/InputPassword"
 function LoginPage() {
   
   const [code, setUsername] = useState("");
@@ -33,7 +34,7 @@ function LoginPage() {
       setPassword("");
       
       navigate("/validation")
-    } catch (error ) {
+    } catch (error : any) {
       // Handle errors from the server
       console.error("Login failed:", error.message);
       alert("Authentific ation échoué.Veillez-ressayer encore .");
@@ -62,13 +63,13 @@ const ImageContent = (
   flex 
   flex-col
   ">
-  <Input
-  type="password"
-  placeholder={`Votre mot de passe `}
-  value={pwd}
-  onChange={(e) => setPassword(e.target.value)}
-  className=" mt-6 "
-  ></Input>
+    <PasswordInput
+ 
+  placeholder="Entrer votre mot de passe..."
+ value={pwd}
+ onChange={(e)=>{setPassword( e.target.value)}}
+ ></PasswordInput>
+
   </div>
 
   <Button 

@@ -7,6 +7,8 @@ import { Label } from "../../../components/label/label";
 import { TitleH1 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../../components/modals/modals";
+import { useState } from "react";
 
 function InfoContribuableRadie() {
     let navigate = useNavigate();
@@ -18,11 +20,12 @@ function InfoContribuableRadie() {
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
 
-    const HandleCessation = async () => {
+    const HandleContribuableRadie = async () => {
 
       const Data ={
         "reference_fiscal": parsedDataSelected.reference_fiscal,
-        "comment" : " Blocage d'activité contribuable",
+        "comment" : Motif.comment,
+        "motif" : Motif.motif ,
         "id_user" : userData.id_user         
       }
       try {
@@ -42,7 +45,9 @@ function InfoContribuableRadie() {
     const content = (
       <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="BLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
+        <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
+       Mise en Contribuable Radié : {parsedDataSelected.reference_fiscal} 
+     </div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
@@ -244,18 +249,65 @@ function InfoContribuableRadie() {
   
           <div className="flex justify-center mt-12">
           <div className="w-96 ">
-            <Button label="Accorder" onClick={HandleCessation}></Button>
+            <Button label="Accorder" onClick={()=>setIsModalRadieMotif(true)}></Button>
           </div>
           </div>
         </div>
       </div>
     );
     
+  const [isModalRadieMotif , setIsModalRadieMotif] = useState(false)
+  const [Motif , setModif ] = useState<{
+    motif : string ,
+    comment : string
+  }>({
+    motif : "",
+    comment : ""
+  })
     return (
         <MainLayout>
          <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-         <Card contentCard={content} className="w-[800px] h-[1800px] "></Card>
+         <Card contentCard={content} className="w-[800px] h-[1300px] "></Card>
          </div>
+         <Modal isOpen={isModalRadieMotif} onClose={()=>setIsModalRadieMotif(false)} className="w-[550px]  p-6">
+   <div className="flex justify-between">
+   <div className="flex flex-col">
+      <Label
+      text="Motif"
+      className="mt-4"
+      
+      ></Label>
+      <Label
+      text="Commentaire"
+      className="mt-4"
+      ></Label>
+     
+    </div>
+
+    <div className="flex flex-col ">
+      
+      <Input
+      type="text"
+      className=""
+       value={Motif.motif}
+       onChange={(e)=> setModif({...Motif , motif : e.target.value})}
+      ></Input>
+     <Input
+      type="text"
+      className=" mt-2"
+       value={Motif.comment}
+       onChange={(e)=>setModif({...Motif , comment : e.target.value})}
+      ></Input>
+    </div>
+   </div>
+    <div className="mt-4">
+    <Button
+      label="Valider"
+      onClick={HandleContribuableRadie}
+      
+      ></Button>
+    </div>
+  </Modal>
         </MainLayout>
        )
 }

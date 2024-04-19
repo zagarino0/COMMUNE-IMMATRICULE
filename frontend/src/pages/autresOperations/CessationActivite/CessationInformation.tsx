@@ -8,6 +8,8 @@ import { Card } from "../../../components/card/card";
 import { MainLayout } from "../../../layouts/main";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Modal from "../../../components/modals/modals";
+import { useState } from "react";
 
 function CessationInformation() {
     let navigate = useNavigate();
@@ -23,8 +25,8 @@ function CessationInformation() {
 
       const Data ={
         "reference_fiscal": parsedDataSelected.reference_fiscal,
-        "motif" : "Cessation",
-        "comment" : " Cessation d'activité contribuable",
+        "motif" : Motif.motif,
+        "comment" : Motif.comment,
         "id_user" : userData.id_user         
       }
       try {
@@ -44,7 +46,7 @@ function CessationInformation() {
     const content = (
       <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="CESSATION D'ACTIVITE"></TitleH1></div>
+        <div className="text-white bg-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] p-2 mt-2 rounded-sm"><h1 className="text-white text-3xl  font-semibold border-b-2 border-[#959824] mt-2" >CESSATION D'ACTIVITE: {parsedDataSelected.reference_fiscal}</h1></div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
@@ -246,18 +248,64 @@ function CessationInformation() {
   
           <div className="flex justify-center mt-12">
           <div className="w-96 ">
-            <Button label="Accorder" onClick={HandleCessation}></Button>
+            <Button label="Accorder" onClick={()=> setIsModalMotif(true)}></Button>
           </div>
           </div>
         </div>
       </div>
     );
-    
+    const [isModalMotif , setIsModalMotif] = useState(false)
+    const [Motif , setMotif] = useState<{
+     motif : string,
+     comment : string
+    }>({
+     motif : "",
+     comment : ""
+    })
     return (
         <MainLayout>
          <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-         <Card contentCard={content} className="w-[800px] h-[1800px] "></Card>
+         <Card contentCard={content} className="w-[800px] h-[1300px] "></Card>
          </div>
+         <Modal isOpen={isModalMotif} onClose={()=>setIsModalMotif(false)} className="w-[550px]  p-6">
+   <div className="flex justify-between">
+   <div className="flex flex-col">
+      <Label
+      text="Motif"
+      className="mt-4"
+      
+      ></Label>
+      <Label
+      text="Commentaire"
+      className="mt-4"
+      ></Label>
+     
+    </div>
+
+    <div className="flex flex-col ">
+      
+      <Input
+      type="text"
+      className=""
+       value={Motif.motif}
+       onChange={(e)=> setMotif({...Motif , motif : e.target.value})}
+      ></Input>
+     <Input
+      type="text"
+      className=" mt-2"
+       value={Motif.comment}
+       onChange={(e)=>setMotif({...Motif , comment : e.target.value})}
+      ></Input>
+    </div>
+   </div>
+    <div className="mt-4">
+    <Button
+      label="Accorder"
+      onClick={HandleCessation}
+      
+      ></Button>
+    </div>
+  </Modal>
         </MainLayout>
        )
 }

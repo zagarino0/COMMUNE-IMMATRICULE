@@ -1,1 +1,12 @@
-[{"id_siege":5,"id_contribuable":"Qs3fSuXAYB","adresse_actuel":"avenue de France  ","district":"Mahajanga","region":"Boeny","province":"Mahajnaga"},{"id_siege":4,"id_contribuable":"fQ1v0iW0","adresse_actuel":"lot 234 J 25","district":"Mahajanga","region":"Boeny","province":"Majunga"},{"id_siege":1,"id_contribuable":"NOewonMZFL","adresse_actuel":"lot 213 J 200","district":"Mahajanga","region":"Boeny","province":"Mahajanga"},{"id_siege":7,"id_contribuable":"rZYkBl3nTL","adresse_actuel":"lot 0211 j 0380","district":"Mahajanga","region":"Mahajanga","commune":"Mahajanga","province":"Boeny"},{"id_siege":12,"id_contribuable":"01Zdm5e20","adresse_actuel":"lot 0211 j 0380","fokontany":"fokontany","district":"district","region":"région","commune":"Mahajanga","province":"province"},{"id_siege":14,"id_contribuable":"3GQKpuhF","adresse_actuel":"MAHAVOKY","fokontany":"MAHAVOKY","district":"MAHAVOKY","region":"MAHAVOKY","commune":"MAHAVOKY","province":"MAHAVOKY"}]
+[
+    {
+        "id_siege": 2,
+        "id_contribuable": "KFpW7jHA",
+        "adresse_actuel": "lot 204",
+        "fokontany": "ANTANAMBAO AMBALAVATO",
+        "district": "MAHAJANGA",
+        "region": "BOENY",
+        "commune": "MAHAJANGA I",
+        "province": "MAHAJANGA "
+    }
+]

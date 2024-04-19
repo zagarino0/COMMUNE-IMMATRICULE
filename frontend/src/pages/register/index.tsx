@@ -36,6 +36,10 @@ export const ResgisterPage : React.FC<LayoutProps>  =({  currentPath ,  location
     return randomString;
   };
 
+ 
+  
+// const registrationData = localStorage.getItem("registrationData");
+// const parsedDataRegistre = JSON.parse(registrationData as string);
 
 const [Value , setValue] = useState<{
   id:string,
@@ -56,7 +60,7 @@ const [Value , setValue] = useState<{
   dateagrement: string,
   referenceagrement: string,
   periodegrace:string,
-  datecreation: string,
+  datecreation: string, 
   capital: string,
   rib: string,
   numero_compte_bancaire:string
@@ -64,9 +68,9 @@ const [Value , setValue] = useState<{
 id: generateId(),
 raisonsocial:"",  
 type:"",
-situationmatrimoinial:"",
+situationmatrimoinial: "",
 cin:"",
-sexe:"",
+sexe: "",
 etranger:false,
 numero_passeport:"",
 datedelivrancepasseport:"",
@@ -111,7 +115,7 @@ const links = [
      <Link to="#" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2">Contact</Link>
      </div>
      <div className="w-[180px]">
-     <Button label="Se connecter" onClick={()=> setIsModal(true)} icon={CiLogin } ></Button>
+     <Button label="Se connecter" onClick={()=>{ setIsModal(true) }} icon={CiLogin } ></Button>
      </div>
     </div>
 )
@@ -204,7 +208,7 @@ const links = [
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Nom et Prénoms ou Raison Social" />
-          <Input type="text" value={Value.raisonsocial} onChange={(e)=>{setValue({...Value , raisonsocial: e.target.value})}} />
+          <Input type="text" value={Value.raisonsocial } onChange={(e)=>{setValue({...Value , raisonsocial: e.target.value})}} />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Type" />
@@ -243,7 +247,7 @@ const links = [
     <Label text="Situation matrimoniale "></Label>
     <Input
       type="text" 
-      value={Value.situationmatrimoinial}
+      value={Value.situationmatrimoinial }
       onChange={(e)=> {setValue({...Value , situationmatrimoinial : e.target.value})}}    
     ></Input>
   </div>
@@ -251,7 +255,7 @@ const links = [
     <Label text="Période grace"></Label>
     <Input
       type="text" 
-      value={Value.periodegrace}
+      value={Value.periodegrace }
       onChange={(e)=> {setValue({...Value , periodegrace : e.target.value})}}    
     ></Input>
   </div>
@@ -261,16 +265,16 @@ const links = [
     <Checkbox
       label="Masculin"
       onChange={() => {
-        setValue({ ...Value, sexe: "Masculin" });
+        setValue({ ...Value, sexe: "Masculin"  });
       }}
-      checked={Value.sexe === "Masculin"}
+      checked={Value.sexe === "Masculin" }
     ></Checkbox>
     <Checkbox
       label="Feminin"
       onChange={() => {
         setValue({ ...Value, sexe: "Feminin" });
       }}
-      checked={Value.sexe === "Feminin"}
+      checked={Value.sexe === "Feminin" }
     ></Checkbox>
   </div>
 </div>
@@ -280,17 +284,17 @@ const links = [
   <div className="flex justify-between w-[200px]">
     <Checkbox
       label="Oui"
-      onChange={(checked) => {
-        setValue({ ...Value, etranger: checked });
+      onChange={() => {
+        setValue({ ...Value, etranger: true});
       }}
-      checked={Value.etranger === true}
+      checked={Value.etranger === true   }
     ></Checkbox>
     <Checkbox
       label="Non"
-      onChange={(checked) => {
-        setValue({ ...Value, etranger: !checked });
+      onChange={() => {
+        setValue({ ...Value, etranger: false});
       }}
-      checked={Value.etranger === false}
+      checked={Value.etranger === false   }
     ></Checkbox>
   </div>
  </div>
@@ -300,7 +304,7 @@ const links = [
   <Label text="CIN"></Label>
   <Input
     type="text"     
-    value={Value.cin}
+    value={Value.cin }
     onChange={(e)=>{setValue({...Value , cin: e.target.value})}}
   ></Input>
 </div>
@@ -308,7 +312,7 @@ const links = [
   <Label text="délivré le"></Label>
   <Input
     type="date"     
-    value={Value.datedelivrancecin}
+    value={Value.datedelivrancecin }
     onChange={(e)=>{setValue({...Value , datedelivrancecin: e.target.value})}}
   ></Input>
 </div>
@@ -316,7 +320,7 @@ const links = [
     <Label text="Lieu de délivrance"></Label>
     <Input
       type="text"
-      value={Value.lieudelivrancecin}
+      value={Value.lieudelivrancecin }
       onChange={(e)=> {setValue({...Value , lieudelivrancecin: e.target.value})}}     
     ></Input>
   </div>
@@ -330,7 +334,7 @@ const links = [
   <Label text="Passport"></Label>
   <Input
     type="text"     
-    value={Value.numero_passeport}
+    value={Value.numero_passeport }
     onChange={(e)=>{setValue({...Value , numero_passeport: e.target.value})}}
   ></Input>
 </div>
@@ -338,7 +342,7 @@ const links = [
   <Label text="Délivré le"></Label>
   <Input
     type="date"     
-    value={Value.datedelivrancepasseport}
+    value={Value.datedelivrancepasseport }
     onChange={(e)=>{setValue({...Value , datedelivrancepasseport: e.target.value})}}
   ></Input>
 </div>
@@ -353,7 +357,7 @@ const links = [
     <Label text="Date naissance"></Label>
     <Input
       type="date"
-      value={Value.datenaissance}
+      value={Value.datenaissance }
       onChange={(e)=>{setValue({...Value, datenaissance : e.target.value})}}     
     ></Input>
   </div>
@@ -361,7 +365,7 @@ const links = [
     <Label text="Lieu naissance "></Label>
     <Input
       type="text"
-      value={Value.lieunaissance}
+      value={Value.lieunaissance }
       onChange={(e)=>{setValue({...Value , lieunaissance : e.target.value})}}     
     ></Input>
   </div>
@@ -370,51 +374,51 @@ const links = [
         <div className="flex justify-between mt-6">
           <Label text="Forme juridique" />
           <Input type="text"
-          value={Value.formejuridique}
+          value={Value.formejuridique }
           onChange={(e)=>{setValue({...Value , formejuridique : e.target.value})}}
           />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Régime Fiscale" />
           <Input type="text" 
-          value={Value.regimefiscal}
+          value={Value.regimefiscal }
           onChange={(e)=>{setValue({...Value , regimefiscal : e.target.value})}}
           />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Date de Création" />
           <Input type="date"  
-          value={Value.datecreation}
+          value={Value.datecreation }
           onChange={(e)=>{setValue({...Value , datecreation : e.target.value})}}
           />
         </div>
         <div className="flex justify-between mt-6">
           <Label text="Capital en Ar" />
           <Input type="text"
-          value={Value.capital}
+          value={Value.capital }
           onChange={(e)=>{setValue({...Value , capital : e.target.value})}}
           />
         </div>
         <div className='flex justify-between mt-6 '>
     <Label text="RIB "></Label>
     <div className="flex justify-between w-[300px]">
-    <Checkbox label="Disponible" onChange={()=>{setValue({...Value , rib : "Disponible"})}} checked={Value.rib == "Disponible"}></Checkbox>
-    <Checkbox label="Pas encore" onChange={()=>{setValue({...Value , rib : "Pas encore"})}} checked={Value.rib == "Pas encore"}></Checkbox>
+    <Checkbox label="Disponible" onChange={()=>{setValue({...Value , rib : "Disponible"})}} checked={Value.rib === "Disponible" }></Checkbox>
+    <Checkbox label="Pas encore" onChange={()=>{setValue({...Value , rib : "Pas encore"})}} checked={Value.rib === "Pas encore" }></Checkbox>
     </div>
     
   </div>
   <div className="flex justify-between mt-6">
           <Label text="Numéro compte bancaire" />
           <Input type="text"
-          value={Value.numero_compte_bancaire}
+          value={Value.numero_compte_bancaire }
           onChange={(e)=>{setValue({...Value , numero_compte_bancaire : e.target.value})}}
           
           />
         </div>
         <div className="flex justify-between mt-6">
-          <Label text="Date agrement" />
+          <Label text="Autorisation" />
           <Input type="date"
-          value={Value.dateagrement}
+          value={Value.dateagrement }
           onChange={(e)=>{setValue({...Value , dateagrement : e.target.value})}}
           
           />
@@ -422,9 +426,9 @@ const links = [
         </div>
 
         <div className="flex justify-between mt-6">
-          <Label text="Référence agrement" />
+          <Label text="Référence autorisation" />
           <Input type="text"
-          value={Value.referenceagrement}
+          value={Value.referenceagrement }
           onChange={(e)=>{setValue({...Value , referenceagrement : e.target.value})}}
           />
         </div>
@@ -435,7 +439,7 @@ const links = [
     </div></main>
   </div>
   <div className="bg-black w-full h-16 p-3 flex justify-center">
-             <p className="text-justify  text-white ">© 2022-2023, Direction Générale des Impôts, SSIF</p>
+             <p className="text-justify  text-white ">© 2023-2024, Commune Urbaine Mahajanga , CUM</p>
         </div>
     </div>
   );

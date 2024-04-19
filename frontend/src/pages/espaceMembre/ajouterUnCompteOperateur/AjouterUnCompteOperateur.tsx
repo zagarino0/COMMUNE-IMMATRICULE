@@ -6,6 +6,7 @@ import Input from "../../../components/inputs";
 import { MainLayout } from "../../../layouts/main"
 import axios from "axios";
 import Select from "../../../components/inputs/selectInput";
+import PasswordInput from "../../../components/inputs/InputPassword";
 
 function AjouterUnCompteOperateurPage() {
   const options = [
@@ -96,16 +97,20 @@ value={Compte.code}
 onChange={(e)=>{setCompte({...Compte , code : e.target.value })}}
 placeholder="Login" className="mt-6"></Input>
 
-<Input type="password"
-value={Compte.pwd}
-onChange={(e)=>{setCompte({...Compte , pwd : e.target.value })}}
-placeholder="Mot de passe" className="mt-6"></Input>
+<PasswordInput
+ 
+ placeholder="Entrer votre mot de passe..." 
+  value={Compte.pwd}
+  onChange={(e)=>{setCompte({ ...Compte , pwd : e.target.value})}}
+  ></PasswordInput>
 
-<Input type="password" 
-value={Compte.confirm_password}
-onChange={(e)=>{setCompte({...Compte , confirm_password : e.target.value })}}
-placeholder="Resaisir le mot de passe" className="mt-6"></Input>
-
+<PasswordInput
+ 
+ placeholder="Confirmer votre mot de passe..."
+  
+  value={Compte.confirm_password}
+  onChange={(e)=>{setCompte({ ...Compte , confirm_password : e.target.value})}}
+  ></PasswordInput>
 <Button type="submit" text="Enregistrer" onClick={handleRegister} className="mt-6 w-96"></Button>
 
   </div>

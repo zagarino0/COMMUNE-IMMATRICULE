@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-import { Button } from "../../../components/common";
+// import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
@@ -39,9 +39,6 @@ const data = filteredData.map((item :any) => [
 const handleSearch = (e:any) => {
   setSearchTerm(e.target.value);
 };
-const handleSearchButtonClick = () => {
-  console.log(filteredData);
-};
 
 
   
@@ -71,7 +68,7 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     // Use navigate to navigate to the determined route
     navigate(routeToNavigate, { state: { DataSelected } });
   };
-  const handleTableRowClick = (rowIndex) => {
+  const handleTableRowClick = (rowIndex : any) => {
     if (selectedRowIndex === rowIndex) {
       // If the clicked row is already selected, unselect it
       setSelectedRowIndex(null);
@@ -84,18 +81,20 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     }
   };
   const contentCard=(
-      <div >
+      <div className="p-6" >
 
-<div className="flex justify-center items-center mt-4" >
-<div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Mise en Contribuable Radié</div>
+<div className="flex justify-center items-center " >
+<div className=" flex flex-col mx-6"> <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
+       Mise en Contribuable Radié 
+     </div>
+
 <div className="mt-6 flex flex-col  ">
 
  {/**card recherche  */} 
- <div className="mt-6 flex  justify-between ">
+ <div className="mt-6 flex  justify-center ">
         <Label text="Reference " className="mt-2" ></Label>
-        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
-            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+        <Input type="text" className="w-96 ml-8 " placeholder="reférence " onChange={handleSearch}></Input>
+            
       </div>
 
 
@@ -121,7 +120,7 @@ headers={headers}
 data={data}
 ></Table>
 </div>
-<div className="mt-4">
+<div className="mt-8">
 <button  onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></button>
 </div>
 </div>
@@ -130,8 +129,8 @@ data={data}
   )
 return (
  <MainLayout>
-  <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-  <Card contentCard={contentCard} className="w-[800px] h-[600px] "></Card>
+  <div className="mt-16">
+  <Card contentCard={contentCard} className="w-[800px]  "></Card>
   </div>
  </MainLayout>
 )

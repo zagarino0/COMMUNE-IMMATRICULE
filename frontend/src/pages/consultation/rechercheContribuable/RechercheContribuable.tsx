@@ -120,18 +120,18 @@ useEffect(() => {
     
 
       const exportToExcelAllData = () => {
-        const allData = DataContribuable.map((item:any) => ({
-          "Référence ": item.id,
-          "Raison social" : item.raison_social ,
-          "Référence Fiscale" : item.reference_fiscal,
-          "Type" : item.type ,
-          "CIN" : item.cin ,
-          "Passport": item.numero_passeport ,
-          "sexe" : item.sexe
-          // ... add other properties you want to export
-        }));
+        // const allData = DataContribuable.map((item:any) => ({
+        //   "Référence ": item.id,
+        //   "Raison social" : item.raison_social ,
+        //   "Référence Fiscale" : item.reference_fiscal,
+        //   "Type" : item.type ,
+        //   "CIN" : item.cin ,
+        //   "Passport": item.numero_passeport ,
+        //   "sexe" : item.sexe
+        //   // ... add other properties you want to export
+        // }));
       
-        const ws = XLSX.utils.json_to_sheet(allData);
+        const ws = XLSX.utils.json_to_sheet(DataContribuable);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'AllData');
         XLSX.writeFile(wb, 'all_data.xlsx');

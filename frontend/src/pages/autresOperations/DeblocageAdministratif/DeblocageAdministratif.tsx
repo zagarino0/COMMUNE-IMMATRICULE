@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-import { Button } from "../../../components/common";
+// import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
-import { TitleH1, TitleH3 } from "../../../components/title";
+import { TitleH3 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ useEffect(() => {
 console.log(DataValide);
 
 
-const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
+const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" ]
 const filteredData = DataValide.filter((item:any) =>
 item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
 );
@@ -32,16 +32,12 @@ const data = filteredData.map((item :any) => [
   item.raison_social,
   item.reference_fiscal,
   item.type,
-  item.cin ,
-  item.numero_passeport ,
-  item.sexe,
+ 
 ]);
 const handleSearch = (e:any) => {
   setSearchTerm(e.target.value);
 };
-const handleSearchButtonClick = () => {
-  console.log(filteredData);
-};  
+
 
 // Selectionner contribuable 
 
@@ -70,7 +66,7 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     navigate(routeToNavigate, { state: { DataSelected } });
   };
 
- const handleTableRowClick = (rowIndex) => {
+ const handleTableRowClick = (rowIndex : any) => {
   setSelectedRowIndex(rowIndex);
   // Update input fields or perform other actions based on the selected row data
   const selectedRowData = DataValide[rowIndex];
@@ -84,13 +80,12 @@ const contentCard=(
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2" text="DEBLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
-
+<div className="text-white bg-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] p-2 mt-2 rounded-sm"><h1 className="text-white text-3xl  font-semibold border-b-2 border-[#959824] mt-2" >DEBLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE</h1></div>
     {/**card recherche  */} 
-    <div className="mt-6 flex  justify-between ">
+    <div className="mt-6 flex  justify-center ">
         <Label text="Reference " className="mt-2" ></Label>
-        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
-            <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+        <Input type="text" className="w-96 ml-8 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
+           
       </div>
 {/* <div className="mt-6 flex flex-col  ">
 

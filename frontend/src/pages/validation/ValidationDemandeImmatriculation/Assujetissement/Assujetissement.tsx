@@ -16,11 +16,13 @@ import axios from "axios";
 import { IoIosPerson } from "react-icons/io";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { ImStatsDots } from "react-icons/im";
-import { RiArrowGoBackFill, RiSubtractFill } from "react-icons/ri";
+import { RiArrowGoBackFill, RiDeleteBinLine, RiSubtractFill } from "react-icons/ri";
 import { FaUniversity } from "react-icons/fa";
 import { BiBody } from "react-icons/bi";
-import { MdOpenInNew, MdOutlineCached, MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
+import { MdOpenInBrowser, MdOpenInNew, MdOutlineCached, MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
+import Modal from "../../../../components/modals/modals";
+import { BsPencil } from "react-icons/bs";
 
 
 interface Assujetissement {
@@ -79,6 +81,7 @@ interface Actionnaire {
 }
 
 function Assujetissement() {
+  const [DataSelected , setDataSelected] = useState([]);
 
   function generatePassword() {
     const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.!@#$%^&*()<>?/";
@@ -90,6 +93,35 @@ function Assujetissement() {
     return randomString;
   }
   
+
+  const Fokontany = [
+    "MANGA",
+    "AMBOVOALANANA", 
+    "TSARAMANDROSO AMBANY",    
+    "TSARAMANDROSO AMBONY",
+     "MAHAVOKY SUD",
+     "MANJARISOA",
+     "MORAFENO",
+     "MAHABIBOKELY",
+      "ABATTOIR\/MAROVATO",
+      "MANGARIVOTRA",
+      "ARANTA",
+      "ANTANIMASAJA",
+      "MAHATSINJO",
+      "TANAMBAO SOTEMA",
+       "AMBOHIMANDAMINA",
+        "ANTANIMALANDY",
+        "AMBONDRONA",
+        "FIOFIO",
+        "AMBALAVOLA",
+        "ANTANAMBAO AMBALAVATO",
+        "TSARARANO AMBONY",
+       "TSARARANO ANOSIKELY",
+        "TSARARANO AMBANY",
+        "AMBOROVY",
+        "MAHAVOKY NORD",
+       
+]
   const [bool , setBool] = useState<{
     Principaux_renseignement : boolean,
     activite : boolean,
@@ -112,7 +144,9 @@ function Assujetissement() {
     autre: false
   })
   
-
+  const [isModalImpot , setIsModalImpot] = useState(false)
+  const [isModalAddImpot , setIsModalAddImpot] = useState(false)
+  const [isModalModifie , setIsModalModifie] = useState(false)
   const [add , setAdd] = useState(false);
 
     
@@ -206,13 +240,13 @@ console.log(ContribuableData);
 
     ];
   
-    const data = entries.map((entry) => [
+    const data = entries.map((entry : any) => [
         entry.id,
         entry.imposition,
         entry.date_debut,
         entry.periodicite,
         entry.annee,
-      <Checkbox checked={entry.exonere}></Checkbox>,
+      <Checkbox onChange={()=> window} checked={entry.exonere}></Checkbox>,
         entry.period_1,
         entry.period_2,
         entry.etat,
@@ -1225,10 +1259,10 @@ const [isModalDirigeant , setIsModalDirigeant] = useState(false);
     <div>
       <div className='flex justify-between mt-6 '>
       <Label text="Fokontany"></Label>
-      <Input
-        type="text"    
+      <Select
+        options={Fokontany.map((option) => ({ value: option, label: option }))}   
         value={ siege ? siege.fokontany : ""}
-        onChange={e => 
+        onChange={(e ) => 
           setContribuableData({
             ...ContribuableData,
             siege: {
@@ -1237,71 +1271,40 @@ const [isModalDirigeant , setIsModalDirigeant] = useState(false);
             }
           })
         }
-      ></Input>
+        className=""
+      />
     </div>
    
     <div className='flex justify-between mt-6 '>
       <Label text="Commune "></Label>
       <Input
         type="text"
-        value={siege ? siege.commune : ""}
-        onChange={e => 
-          setContribuableData({
-            ...ContribuableData,
-            siege: {
-              ...ContribuableData.siege,  
-              commune: e.target.value  
-            }
-          })
-        } 
+        value={siege.commune = "MAHAJANGA I"}
+        
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="District "></Label>
       <Input
         type="text"     
-        value={siege? siege.district : ""}
-        onChange={e => 
-          setContribuableData({
-            ...ContribuableData,
-            siege: {
-              ...ContribuableData.siege,  
-              district: e.target.value  
-            }
-          })
-        }
+        value={siege.district = "MAHAJANGA"}
+        
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Région"></Label>
       <Input
         type="text"     
-        value={siege ? siege.region : ""}
-        onChange={e => 
-          setContribuableData({
-            ...ContribuableData,
-           siege: {
-              ...ContribuableData.siege,  
-              region: e.target.value  
-            }
-          })
-        }
+        value={siege.region = "BOENY"}
+        
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
       <Label text="Province "></Label>
       <Input
         type="text" 
-        value={siege ? siege.province : ""}
-        onChange={e => 
-          setContribuableData({
-            ...ContribuableData,
-            siege: {
-              ...ContribuableData.siege,  
-              province: e.target.value  
-            }
-          })
-        } 
+        value={siege.province = "MAHAJANGA "}
+        
       ></Input>
     </div>
     <div className="flex justify-between">      
@@ -2053,13 +2056,14 @@ selectedRowIndex={selectedRowIndexDirigeant}
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Imposition" className="mt-4"></Label>
-<Select 
- options={DataCode.map((item) => ({
-  value: item.libelle,
-  label: item.libelle,
-}))}
 
- value={Assujetissement.imposition} onChange={(options)=>{setAssujetissement({...Assujetissement , imposition : options })}} className="w-96 "/>
+ <div className="flex flex-row">
+ <Input
+ type="text"
+ value={DataSelected ? DataSelected.libelle : "" === Assujetissement.imposition}
+ />
+<MdOpenInBrowser className="ml-2 text-3xl mt-1 cursor-pointer"  onClick={()=>setIsModalImpot(true)}/>
+ </div>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Date début" className="mt-4"></Label>
@@ -2167,16 +2171,290 @@ onChange={(e)=> setCoordonnees({...Coordonnees , latitude : e.target.value })}
 </div>
 {/* /saisirmotifrejet */}
 </div>
+
+
   
     </div>
 
 
   )
+  //  code Impot
+  const [Impot , setImpot ] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+
+
+  const [ImpotValue , setImpotValue] = useState({
+    libelle : "",
+    abbreviation: ""
+  })
+  
+  // get all data from backend Impot
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/impot/')
+      .then((response) => setImpot(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+ 
+
+const handleSearch = (e:any) => {
+    setSearchTerm(e.target.value);
+  };
+
+
+  function filterImpotData(impot: any[], searchTerm: string): any[] {
+    return impot.filter((item: any) => {
+      const codeString = item.code.toString(); // Convert code to string
+      return typeof codeString === 'string' && codeString.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  }
+  
+
+  const HandleAddCodeImpot =  (e : any)  =>{
+    e.preventDefault();
+    
+    
+    console.log(ImpotValue)
+    try {
+       axios.post('http://localhost:3500/impot', ImpotValue)
+       .then((response) => setDataCode(response.data))
+       .catch((error) => console.error(error));
+      console.log("données ajoutées avec succès " , ImpotValue);
+    
+      // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/impot/')
+    .then((response) => setImpot(response.data))
+    .catch((error) => console.error(error));
+     
+    setIsModalAddImpot(false)
+     setImpotValue({
+      libelle : "",
+      abbreviation : ""
+     })
+    } catch(error){
+  console.error("erreur lors de l'ajout de donnée" , error)
+    }
+      
+  }
+
+
+  const handleDelete = (code :any) => {
+    try {
+      // Make the DELETE request to your backend API to delete the data by ID
+      axios.delete(`http://localhost:3500/impot/${code}`);
+  
+      // Update the list of data after successful deletion
+      setImpot((prevData) => prevData.filter((data : any) => data.code !== code));
+  
+      console.log(`Data with ID ${code} deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
+  const [selectedEditData, setSelectedEditData] = useState(null);
+  const headerModalImpot = ["Code Impôt" , "Libellé" , "Abbrévation", "" ,""];
+  const DataImpotModal = filterImpotData(Impot, searchTerm).map((item: any) => [
+    item.code,
+    item.libelle,
+    item.abbreviation,
+    <span
+    key={item.code} // Make sure to use a unique key
+    className='cursor-pointer'
+    onClick={() => handleDelete(item.code)}
+  >
+    <RiDeleteBinLine />
+  </span>,
+    <span
+     key={`edit-${item.code}`} // Make sure to use a unique key
+     className='cursor-pointer'
+     onClick={() => {
+       setSelectedEditData(item);
+       setIsModalModifie(true)
+     }}
+   >
+     <BsPencil />
+   </span>
+  ]);
+  
+
+
+  const HandleUpdateImpot = (e : any)  => {
+    e.preventDefault();
+    
+    try {
+      // Make the PUT/PATCH request to update the data in the database
+       const response : any =   axios.put(
+        `http://localhost:3500/impot/${selectedEditData.code}`,
+        selectedEditData
+      );
+    console.log(response)
+    setIsModalModifie(false)
+      // Récupérer les données depuis le backend
+      axios.get('http://localhost:3500/impot/')
+      .then((response) => setImpot(response.data))
+      .catch((error) => console.error(error));
+   console.log('Data updated successfully.');
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }
+
+  const handleTableRowClick = (rowIndex: any) => {
+    // Check if the clicked row is already selected
+    const isSelected = rowIndex === selectedRowIndex;
+  
+    // Toggle selection
+    const newSelectedRowIndex = isSelected ? null : rowIndex;
+    setSelectedRowIndex(newSelectedRowIndex);
+  
+    // Extract the property values from the data object
+    const selectedRowData = isSelected ? null : Impot[rowIndex];
+  
+    // Set the selected data
+    setDataSelected(selectedRowData);
+    console.log('Selected Row Data:', selectedRowData);
+  };
+  
+
   return (
   <MainLayout>
   <div className="  overflow-y-auto h-[500px] mt-14 mb-8 ">
   <Card contentCard={contentCard} className="w-[800px] h-[7000px]"></Card>
   </div>
+  {/* Modal Impot  */}
+  <Modal isOpen={isModalImpot} onClose={()=>{setIsModalImpot(false)}} className=" w-[600px]  h-[500px] p-6">
+ <div className="flex flex-col ">
+ <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
+      Impôt
+     </div>
+
+ <div className="flex justify-center mt-6">
+      <Label
+      text="Code "
+      className="mt-2"
+      ></Label>
+      <Input
+      type="text"
+      className="ml-8"
+      placeholder="Code Impôt"
+       onChange={handleSearch}
+      >
+      </Input>
+     </div>
+    <div className="flex justify-center mt-6">
+    <Table
+    headers={headerModalImpot}
+    data={DataImpotModal}
+    
+onClick={handleTableRowClick}
+selectedRowIndex={selectedRowIndex}
+    >
+
+    </Table>
+    </div>
+    <div className="flex justify-between mt-4">
+     <Button
+     text="Ajouter"
+     onClick={()=>setIsModalAddImpot(true)}
+     ></Button>
+      <Button
+     text="Choisir"
+     onClick={()=>setIsModalImpot(false)}
+     ></Button>
+     <Button
+     text="Quitter"
+     onClick={()=>setIsModalImpot(false)}
+     ></Button>
+    </div>
+ </div>
+  </Modal>
+
+  <Modal isOpen={isModalAddImpot} onClose={()=>setIsModalAddImpot(false)} className="w-[550px]  p-6">
+   <div className="flex justify-between">
+   <div className="flex flex-col">
+      <Label
+      text="Libellé"
+      className="mt-4"
+        
+      ></Label>
+      <Label
+      text="Abbrevation"
+      className="mt-4"
+      ></Label>
+     
+    </div>
+
+    <div className="flex flex-col ">
+      
+      <Input
+      type="text"
+      className=""
+       value={ImpotValue.libelle}
+       onChange={(e)=>setImpotValue({...ImpotValue , libelle : e.target.value})}
+      ></Input>
+     <Input
+      type="text"
+      className=" mt-2"
+      value={ImpotValue.abbreviation}
+      onChange={(e)=> setImpotValue({...ImpotValue , abbreviation : e.target.value})}
+      ></Input>
+    </div>
+   </div>
+    <Button
+      text="Ajouter"
+      className=" mt-4 w-full"
+       onClick={HandleAddCodeImpot }
+      ></Button>
+  </Modal>
+
+  <Modal isOpen={isModalModifie} onClose={()=>setIsModalModifie(false)} className="w-[550px]  p-6">
+  <div className="flex justify-between">
+   <div className="flex flex-col">
+      <Label
+      text="Libellé"
+      className="mt-4"
+      
+      ></Label>
+      <Label
+      text="Abbrevation"
+      className="mt-4"
+      ></Label>
+     
+    </div>
+
+    <div className="flex flex-col ">
+      
+      <Input
+      type="text"
+      className=""
+      value={selectedEditData ? selectedEditData.libelle : ''}
+      onChange={(e) =>
+        setSelectedEditData((prevData : any) => ({
+          ...prevData,
+          libelle: e.target.value,
+        }))
+      }
+      ></Input>
+     <Input
+      type="text"
+      className=" mt-2"
+      value={selectedEditData ? selectedEditData.abbreviation : ''}
+      onChange={(e) =>
+        setSelectedEditData((prevData : any) => ({
+          ...prevData,
+          abbreviation: e.target.value,
+        }))
+      }
+      ></Input>
+    </div>
+   </div>
+    <Button
+      text="Modifier"
+      className=" mt-4 w-full"
+      onClick={HandleUpdateImpot}
+      ></Button>
+  </Modal>
       </MainLayout>
   )
   }
