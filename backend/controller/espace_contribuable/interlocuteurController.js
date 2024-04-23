@@ -10,22 +10,22 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setInterlocuteur = async (req, res) => {
-    const id = data.interlocuteurs.length === 0 ? 1 : data.interlocuteurs[data.interlocuteurs.length - 1].id + 1;
+    const id_interlocuteur = data.interlocuteurs.length === 0 ? 1 : data.interlocuteurs[data.interlocuteurs.length - 1].id_interlocuteur + 1;
     const id_contribuable = req.body.id_contribuable;
-    const nom = req.body.nom;
-    const titre = req.body.titre;
-    const adresse = req.body.adresse;
-    const telephone = req.body.telephone;
-    const email = req.body.email;
+    const nom_interlocuteur = req.body.nom_interlocuteur;
+    const titre_interlocuteur = req.body.titre_interlocuteur;
+    const adresse_interlocuteur = req.body.adresse_interlocuteur;
+    const telephone_interlocuteur = req.body.telephone_interlocuteur;
+    const email_interlocuteur = req.body.email_interlocuteur;
 
     const newInterlocuteur = {
-        "id": id,
+        "id_interlocuteur": id_interlocuteur,
         "id_contribuable": id_contribuable,
-        "nom": nom,
-        "titre": titre,
-        "adresse": adresse,
-        "telephone": telephone,
-        "email": email
+        "nom_interlocuteur": nom_interlocuteur,
+        "titre_interlocuteur": titre_interlocuteur,
+        "adresse_interlocuteur": adresse_interlocuteur,
+        "telephone_interlocuteur": telephone_interlocuteur,
+        "email_interlocuteur": email_interlocuteur
     }
 
     console.log(newInterlocuteur);
@@ -39,8 +39,8 @@ const setInterlocuteur = async (req, res) => {
 }
 
 const getInterlocuteurById = (req, res) => {
-    const id = req.params.id;
-    const interlocuteur = data.interlocs.find(inter => inter.id === id);
+    const id_interlocuteur = req.params.id_interlocuteur;
+    const interlocuteur = data.interlocs.find(inter => inter.id_interlocuteur === id_interlocuteur);
     res.json(interlocuteur);
 }
 
@@ -56,19 +56,19 @@ const getInterlocuteurByIdContribuable = (req, res) => {
 }
 
 const updateInterlocuteur = async (req, res) => {
-    const id = req.params.id;
+    const id_interlocuteur = req.params.id_interlocuteur;
     const id_contribuable = req.body.id_contribuable;
-    const interlocuteur = data.interlocs.find(inter => inter.id == id_interlocuteur && inter.id_contribuable === id_contribuable);
+    const interlocuteur = data.interlocs.find(inter => inter.id_interlocuteur == id_interlocuteur && inter.id_contribuable === id_contribuable);
     if(!interlocuteur)
         return res.status(404).json({'message': 'Interlocuteur introuvable'});
 
-    if(req.body.nom)interlocuteur.nom = req.body.nom;
-    if(req.body.titre)interlocuteur.titre = req.body.titre;
-    if(req.body.adresse)interlocuteur.adresse = req.body.adresse;
-    if(req.body.telephone)interlocuteur.telephone = req.body.telephone;
-    if(req.body.interlocuteur) interlocuteur.interlocuteur = req.body.interlocuteur;
+    if(req.body.nom_interlocuteur)interlocuteur.nom_interlocuteur = req.body.nom_interlocuteur;
+    if(req.body.titre_interlocuteur)interlocuteur.titre_interlocuteur = req.body.titre_interlocuteur;
+    if(req.body.adresse_interlocuteur)interlocuteur.adresse_interlocuteur = req.body.adresse_interlocuteur;
+    if(req.body.telephone_interlocuteur)interlocuteur.telephone_interlocuteur = req.body.telephone_interlocuteur;
+    if(req.body.email_interlocuteur)interlocuteur.email_interlocuteur = req.body.email_interlocuteur;
 
-    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id != id_interlocuteur && inter.id_contribuable != id_contribuable);
+    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur != id_interlocuteur && inter.id_contribuable != id_contribuable);
     const unsortedInterlocuteur = [...filteredInterlocuteur, interlocuteur];
     data.setInterlocuteurs(unsortedInterlocuteur);
 
@@ -83,17 +83,17 @@ const updateInterlocuteur = async (req, res) => {
 const updateInterlocuteurByContribuable = async (req, res) => {
     const id_interlocuteur = req.params.id_interlocuteur;
     const id_contribuable = req.body.id_contribuable;
-    const interlocuteur = data.interlocs.find(inter => inter.id == id_interlocuteur && inter.id_contribuable === id_contribuable);
+    const interlocuteur = data.interlocs.find(inter => inter.id_interlocuteur == id_interlocuteur && inter.id_contribuable === id_contribuable);
     if(!interlocuteur)
         return res.status(404).json({'message': 'Interlocuteur introuvable'});
 
-    if(req.body.nom)interlocuteur.nom = req.body.nom;
-    if(req.body.titre)interlocuteur.titre = req.body.titre;
-    if(req.body.adresse)interlocuteur.adresse = req.body.adresse;
-    if(req.body.telephone)interlocuteur.telephone = req.body.telephone;
-    if(req.body.interlocuteur) interlocuteur.interlocuteur = req.body.interlocuteur;
+    if(req.body.nom_interlocuteur)interlocuteur.nom_interlocuteur = req.body.nom_interlocuteur;
+    if(req.body.titre_interlocuteur)interlocuteur.titre_interlocuteur$ = req.body.titre_interlocuteur;
+    if(req.body.adresse_interlocuteur)interlocuteur.adresse_interlocuteur = req.body.adresse_interlocuteur;
+    if(req.body.telephone_interlocuteur)interlocuteur.telephone_interlocuteur = req.body.telephone_interlocuteur;
+    if(req.body.email_interlocuteur) interlocuteur.email_interlocuteur = req.body.email_interlocuteur;
 
-    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id != id && inter.id_contribuable != id_contribuable);
+    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur != id && inter.id_contribuable != id_contribuable);
     const unsortedInterlocuteur = [...filteredInterlocuteur, interlocuteur];
     data.setInterlocuteurs(unsortedInterlocuteur);
     const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
@@ -123,17 +123,17 @@ const updateInterlocuteurByContribuable = async (req, res) => {
 const updateInterlocuteurAValide = async (req, res) => {
     const id_interlocuteur = req.params.id_interlocuteur;
     const id_contribuable = req.body.id_contribuable;
-    const interlocuteur = data.interlocuteurs.find(inter => inter.id == id_interlocuteur && inter.id_contribuable === id_contribuable);
+    const interlocuteur = data.interlocuteurs.find(inter => inter.id_interlocuteur == id_interlocuteur && inter.id_contribuable === id_contribuable);
 
     if(!interlocuteur)
         res.status(404).json({'message': 'interlocuteur introuvable'});
-    if(req.body.nom)interlocuteur.nom = req.body.nom;
-    if(req.body.titre)interlocuteur.titre = req.body.titre;
-    if(req.body.adresse)interlocuteur.adresse = req.body.adresse;
-    if(req.body.telephone)interlocuteur.telephone = req.body.telephone;
-    if(req.body.interlocuteur) interlocuteur.interlocuteur = req.body.interlocuteur;
+    if(req.body.nom_interlocuteur)interlocuteur.nom_interlocuteur = req.body.nom_interlocuteur;
+    if(req.body.titre_interlocuteur)interlocuteur.titre_interlocuteur = req.body.titre_interlocuteur;
+    if(req.body.adresse_interlocuteur)interlocuteur.adresse_interlocuteur = req.body.adresse_interlocuteur;
+    if(req.body.telephone_interlocuteur)interlocuteur.telephone_interlocuteur = req.body.telephone_interlocuteur;
+    if(req.body.email_interlocuteur) interlocuteur.email_interlocuteur = req.body.email_interlocuteur;
 
-    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id != id_interlocuteur && inter.id_contribuable != id_contribuable);
+    const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_interlocuteur != id_interlocuteur && inter.id_contribuable != id_contribuable);
     const unsortedInterlocuteur = [...filteredInterlocuteur, interlocuteur];
     data.setInterlocuteurs(unsortedInterlocuteur);
 

@@ -168,7 +168,7 @@ const updateActiviteAValide = async (req, res) => {
     )    
 
     res.json({'success': 'Contribuable à été modifiée'});
-}
+} 
 
 module.exports = {
     setActivite,

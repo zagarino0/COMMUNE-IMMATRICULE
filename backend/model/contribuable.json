@@ -1,1 +1,28 @@
-[{"id":"KFpW7jHA","raison_social":"George","reference_fiscal":"000000000002","type":"Personne physique","situation_matrimoiniale":"Célibataire","cin":"234567890","sexe":"Masculin","etranger":false,"numero_passeport":"","date_de_delivrance_passeport":"","date_de_delivrance_cin":"2024-04-03","lieu_de_delivrance_cin":"Antsohihy","date_de_naissance":"2024-04-13","lieu_de_naissance":"Majunga","forme_juridique":"Forme","regime_fiscal":"regime","date_agrement":"2024-04-04","reference_agrement":"3456789","periode_grace":"12/10","date_creation":"2024-04-12","capital":"23890","RIB":"Disponible","numero_compte_bancaire":"34567890°","actif":true,"mot_de_passe":"$h&!yuaLQ0"}]
+[
+    {
+        "id": "fQ1v0iW0",
+        "raison_social": "Mytropic",
+        "reference_fiscal": "000000000002",
+        "type": "Personne morale",
+        "situation_matrimoiniale": "",
+        "cin": "",
+        "sexe": "",
+        "etranger": false,
+        "numero_passeport": "",
+        "date_de_delivrance_passeport": "",
+        "date_de_delivrance_cin": "",
+        "lieu_de_delivrance_cin": "",
+        "date_de_naissance": "",
+        "lieu_de_naissance": "",
+        "forme_juridique": "nom de la forme juridique ",
+        "regime_fiscal": "Regime fiscal",
+        "date_agrement": "",
+        "reference_agrement": "",
+        "periode_grace": "",
+        "date_creation": "2024-01-03",
+        "capital": "1208765432",
+        "RIB": "Pas encore",
+        "actif": true,
+        "mot_de_passe": "8QmCmB>TNK"
+    }
+]
