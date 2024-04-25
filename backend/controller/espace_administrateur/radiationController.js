@@ -88,7 +88,7 @@ const setRadiation = async (req, res) => {
     const interlocuteur = data.interlocuteurs.find(act => act.id_contribuable === contribuable.id);
     if(interlocuteur){
         const filteredInterlocuteur = data.interlocuteurs.filter(inter => inter.id_contribuable !== contribuable.id);
-        data.setInterlocuteurTemps([...data.interlocuteurTemps = data]);
+        data.setInterlocuteurTemps([...data.interlocuteurTemps, interlocuteur]);
         data.setInterlocuteur(filteredInterlocuteur);
     }
 
