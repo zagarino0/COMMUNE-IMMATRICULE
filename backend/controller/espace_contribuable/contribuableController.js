@@ -142,7 +142,8 @@ const setContribuable = async (req, res) => {
         "id_cessation": id_cessation,
         "id_contribuable": id,
         "date_cessation": "",
-        "cessation": false
+        "cessation": false,
+        "reprise": false
     }
 
     const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
@@ -633,9 +634,13 @@ const cessationActivite = async (req, res) => {
     if (!contribuable)
         return res.status(400).json({ 'message': 'contribuable introuvable' });
 
+    if(contribuable.type === 'Personne morale' || contribuable.type === 'personne morale')
+        return res.status(400).json({'message': 'Il est impossible d\'effectuer la cessation d\'une personne morale'})
+
     contribuable.actif = false;
     const cessation = data.cessations.find(ces => ces.id_contribuable === contribuable.id);
     cessation.cessation = true;
+    cessation.reprise = false;
     cessation.date_cessation = new Date();
 
     const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
@@ -691,6 +696,7 @@ const repriseActivite = async (req, res) => {
         return res.status(400).json({ 'message': `La cessation de l'activité du contribuable ${contribuable.reference_fiscal} n'est pas encore plus de 3 mois` });
 
     cessation.cessation = false;
+    cessation.reprise = true;
     cessation.date_cessation = '';
 
     const filteredContribuable = data.contribs.filter(con => con.id !== contribuable.id);
@@ -906,9 +912,6 @@ const blockageContribuable = async (req, res) => {
     const contribuable = data.contribs.find(con => con.reference_fiscal == reference_fiscal);
     if(!contribuable)
         return res.status(400).json({'message': 'contribuable introuvable'});
-
-    if(contribuable.type == 'Personne morale' || contribuable.type == 'personne morale')
-        return res.status(400).json({'message': 'personne morale impossible à bloquer'});
 
     const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && !mod.blockage);
     if(!modification)

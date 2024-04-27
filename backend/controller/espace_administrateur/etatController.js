@@ -96,7 +96,7 @@ const getCessationContribuable = (req, res) => {
     let contribuable = [];
     data.contribuables.map(con => {
         data.cessations.map(ces => {
-            if(con.id === ces.id_contribuable && ces.cessation)
+            if(con.id === ces.id_contribuable && ces.cessation && !con.actif)
                 contribuable.push({...con, ...ces});
         })
     })
@@ -106,15 +106,33 @@ const getCessationContribuable = (req, res) => {
 }
 
 const getCessationContribuableByAll = (req, res) => {
-    const reference_fiscal = req.body.reference_fiscal;
-    const contribuable = data.contribuables.find(con => con.reference_fiscal === reference_fiscal);
-    if(!contribuable)
-        return req.status(400).json({'message': 'Contribuable introuvable'})
-    contribuable.cessation = data.cessations.find(ces => ces.reference_fiscal === reference_fiscal);
-    if(contribuable.cessation.cessation)
-        return res.status(404).json({'message': 'Contribuable introuvable'})
-    res.json(contribuable);
+    const contribuable = data.contribuables;
+    const contribuableCesse = [];
+
+    contribuable.map(con => {
+        data.cessations.map(ces => {
+            if(con.id_contribuable == ces.id_contribuable && ces.cessation && !con.actif)
+                contribuableCesse.push({...con, ...ces});
+        })
+    })
+    res.json(contribuableCesse);
+    contribuableCesse = [];
 }
+
+const getAllContribuableReprise = (req, res) => {
+    const contribuable = data.contribuables;
+    const contribuableReprise = [];
+
+    contribuable.map(con => {
+        data.cessations.map(ces => {
+            if(con.id_contribuable == ces.id_contribuable && ces.reprise && con.actif)
+                contribuableReprise.push({...con, ...ces});
+        })
+    })
+    res.json(contribuableReprise);
+    contribuableReprise = [];
+}
+
 
 const getCessationContribuableById = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
@@ -183,7 +201,7 @@ module.exports = {
     getCessationContribuableByAll,
     getCessationContribuableById,
     getAllContribuableValide,
-
+    getAllContribuableReprise,
     getContribuableRadieById,
     getContribuableRadies,
     getContribuableRadieByAll

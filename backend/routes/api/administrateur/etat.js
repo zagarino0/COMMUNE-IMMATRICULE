@@ -33,6 +33,10 @@ router.route('/contribuable/cesse')
     .get(etatController.getCessationContribuable)
     .post(etatController.getCessationContribuableByAll);
 
+router.route('/contribuable/reprise')
+    .get(etatController.getAllContribuableReprise);
+    
+
 router.route('/contribuable/cesse/:id_contribuable')
     .get(etatController.getCessationContribuableById),
 
