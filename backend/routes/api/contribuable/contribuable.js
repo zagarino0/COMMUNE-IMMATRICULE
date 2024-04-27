@@ -45,6 +45,9 @@ router.route('/rejetmiseajour')
 router.route('/miseenveille')
     .post(contribuableController.miseEnVeilleuseContribuable);
 
+router.route('/cessation/attestation')
+    .post(contribuableController.attestationContribuable);
+
 router.route('/reveille')
     .post(contribuableController.reveilleContribuable);
 
