@@ -102,7 +102,7 @@ const updateDirigeant = async (req, res) => {
     if(req.body.telephone) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
 
 
-    const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
+    const filteredDirigeant = data.dirigeants.filter(dir => dir.id != id_dirigeant && dir.id_contribuable != id_contribuable);
     const unsortedDirigeant = [...filteredDirigeant, dirigeant];
 
     data.setDirigeants(unsortedDirigeant.sort((a, b) => a.id_dirigeant > b.id_dirigeant ? 1 : a.id_dirigeant < b.id_dirigeant ? -1 : 0));
@@ -164,34 +164,31 @@ const updateDirigeantByContribuable = async (req, res) => {
 const updateDirigeantAValide = async (req, res) => {
     const id_dirigeant = req.params.id_dirigeant;
     const id_contribuable = req.body.id_contribuable
-    const dirigeant = data.dirigeants.find(dir => dir.id == id_dirigeant && dir.id_contribuable === id_contribuable);
+    const dirigeant = data.dirigeants.find(dir => dir.id == id_dirigeant && dir.id_contribuable == id_contribuable);
 
-    console.log(dirigeant)
+    if(req.body.associe_unique) dirigeant.associe_unique = req.body.associe_unique;
+    if(req.body.resident) dirigeant.resident = req.body.resident;
+    if(req.body.avec_rf) dirigeant.avec_rf = req.body.avec_rf;
+    if(req.body.salarie) dirigeant.salarie = req.body.salarie;
+    if(req.body.aucune) dirigeant.aucune = req.body.aucune;
+    if(req.body.nom) dirigeant.nom = req.body.nom;
+    if(req.body.fonction) dirigeant.fonction = req.body.fonction;
+    if(req.body.cin) dirigeant.cin = req.body.cin;
+    if(req.body.passport) dirigeant.passport = req.body.passport;
+    if(req.body.adresse) dirigeant.adresse = req.body.adresse;
+    if(req.body.rf) dirigeant.rf = req.body.rf;
+    if(req.body.email) dirigeant.email = req.body.email;
+    if(req.body.telephone) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
 
-    // if(req.body.associe_unique) dirigeant.associe_unique = req.body.associe_unique;
-    // if(req.body.resident) dirigeant.resident = req.body.resident;
-    // if(req.body.avec_rf) dirigeant.avec_rf = req.body.avec_rf;
-    // if(req.body.salarie) dirigeant.salarie = req.body.salarie;
-    // if(req.body.aucune) dirigeant.aucune = req.body.aucune;
-    // if(req.body.nom) dirigeant.nom = req.body.nom;
-    // if(req.body.fonction) dirigeant.fonction = req.body.fonction;
-    // if(req.body.cin) dirigeant.cin = req.body.cin;
-    // if(req.body.passport) dirigeant.passport = req.body.passport;
-    // if(req.body.adresse) dirigeant.adresse = req.body.adresse;
-    // if(req.body.rf) dirigeant.rf = req.body.rf;
-    // if(req.body.email) dirigeant.email = req.body.email;
-    // if(req.body.telephone) dirigeant.fax_dirigeant = req.body.fax_dirigeant;
+    const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
+    const unsortedDirigeant = [...filteredDirigeant, dirigeant];
 
+    data.setDirigeants(unsortedDirigeant);
 
-    // const filteredDirigeant = data.dirigeants.filter(dir => dir.id !== id_dirigeant && dir.id_contribuable !== id_contribuable);
-    // const unsortedDirigeant = [...filteredDirigeant, dirigeant];
-
-    // data.setDirigeants(unsortedDirigeant.sort((a, b) => a.id_dirigeant > b.id_dirigeant ? 1 : a.id_dirigeant < b.id_dirigeant ? -1 : 0));
-
-    // await fsPromises.writeFile(
-    //     path.join(__dirname, '..', '..', 'model', 'model_temp', 'dirigeant.json'),
-    //     JSON.stringify(data.dirigeants)
-    // )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'dirigeant.json'),
+        JSON.stringify(data.dirigeants)
+    )
         res.json({'success': 'Modification effectué'});
 }
 

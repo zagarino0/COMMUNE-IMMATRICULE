@@ -1,6 +1,6 @@
 [
     {
-        "id": "1",
+        "id_dirigeant": "1",
         "id_contribuable": "Qs3fSuXAYB",
         "associe_unique": false,
         "resident": true,
@@ -17,7 +17,7 @@
         "telephone": "+261334567678"
     },
     {
-        "id": "1",
+        "id_dirigeant": "1",
         "id_contribuable": "fQ1v0iW0",
         "associe_unique": false,
         "resident": true,
@@ -34,7 +34,7 @@
         "telephone": "+2345865437"
     },
     {
-        "id": "1",
+        "id_dirigeant": "1",
         "id_contribuable": "rZYkBl3nTL",
         "associe_unique": false,
         "resident": false,
@@ -51,7 +51,7 @@
         "telephone": "poiuy"
     },
     {
-        "id": "1",
+        "id_dirigeant": "1",
         "id_contribuable": "01Zdm5e20",
         "associe_unique": false,
         "resident": true,
@@ -82,10 +82,10 @@
         "rf": "",
         "email": "email",
         "telephone": "8784",
-        "id": "2"
+        "id_dirigeant": "2"
     },
     {
-        "id": "1",
+        "id_dirigeant": "1",
         "id_contribuable": "3GQKpuhF",
         "associe_unique": false,
         "resident": true,

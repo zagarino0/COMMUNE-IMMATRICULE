@@ -28,8 +28,6 @@ const setInterlocuteur = async (req, res) => {
         "email_interlocuteur": email_interlocuteur
     }
 
-    console.log(newInterlocuteur);
-
     data.setInterlocuteurs([...data.interlocuteurs, newInterlocuteur]);
     res.json(data.interlocuteurs);
     await fsPromises.writeFile(
