@@ -30,6 +30,9 @@ const setOneActionnaireNonValide = async (req, res) => {
         "cin_passeport_actionnaire": req.body.cin_passeport_actionnaire,
         "adresse_actionnaire": req.body.adresse_actionnaire,
         "autre_activite_actionnaire": req.body.autre_activite_actionnaire,
+        "siege_actionnaire": req.body.siege_actionnaire,
+        "gerant_actionnaire": req.body.gerant_actionnaire,
+        "cin_ou_passeport_gerant_actionnaire": req.body.cin_ou_passeport_gerant_actionnaire,
         "nif_actionnaire": req.body.nif_actionnaire,
         "email_actionnaire": req.body.email_actionnaire,
         "numero_actionnaire": req.body.numero_actionnaire,
@@ -94,6 +97,10 @@ const updateActionnaire = async (req, res) => {
     if(req.body.numero_actionnaire) actionnaire.numero_actionnaire = req.body.numero_actionnaire;
     if(req.body.associe_unique_actionnaire) actionnaire.associe_unique_actionnaire = req.body.associe_unique_actionnaire;
     if(req.body.action_ou_actionnaire) actionnaire.action_ou_actionnaire = req.body.action_ou_actionnaire;
+    if(req.body.siege_actionnaire) actionnaire.siege_actionnaire = req.body.siege_actionnaire;
+    if(req.body.gerant_actionnaire) actionnaire.gerant_actionnaire = req.body.gerant_actionnaire;
+    if(req.body.cin_ou_passeport_gerant_actionnaire) actionnaire.cin_ou_passeport_gerant_actionnaire = req.body.cin_ou_passeport_gerant_actionnaire;
+
 
     const filteredActionnaire = data.actionnaires.filter(act => act.id_actionnaire != id_actionnaire && act.id_contribuable != id_contribuable);
     const unsortedActionnaire = [...filteredActionnaire, actionnaire];
@@ -125,6 +132,9 @@ const updateActionnaireByContribuable = async (req, res) => {
     if(req.body.numero_actionnaire) actionnaire.numero_actionnaire = req.body.numero_actionnaire;
     if(req.body.associe_unique_actionnaire) actionnaire.associe_unique_actionnaire = req.body.associe_unique_actionnaire;
     if(req.body.action_ou_actionnaire) actionnaire.action_ou_actionnaire = req.body.action_ou_actionnaire;
+    if(req.body.siege_actionnaire) actionnaire.siege_actionnaire = req.body.siege_actionnaire;
+    if(req.body.gerant_actionnaire) actionnaire.gerant_actionnaire = req.body.gerant_actionnaire;
+    if(req.body.cin_ou_passeport_gerant_actionnaire) actionnaire.cin_ou_passeport_gerant_actionnaire = req.body.cin_ou_passeport_gerant_actionnaire;
 
     const filteredActionnaire = data.actionnaires.filter(act => act.id_actionnaire != id_actionnaire && act.id_contribuable != id_contribuable);
     const unsortedActionnaire = [...filteredActionnaire, actionnaire];
@@ -171,6 +181,9 @@ const updateActionnaireNonValide = async (req, res) => {
     if(req.body.numero_actionnaire) actionnaire.numero_actionnaire = req.body.numero_actionnaire;
     if(req.body.associe_unique_actionnaire) actionnaire.associe_unique_actionnaire = req.body.associe_unique_actionnaire;
     if(req.body.action_ou_actionnaire) actionnaire.action_ou_actionnaire = req.body.action_ou_actionnaire;
+    if(req.body.siege_actionnaire) actionnaire.siege_actionnaire = req.body.siege_actionnaire;
+    if(req.body.gerant_actionnaire) actionnaire.gerant_actionnaire = req.body.gerant_actionnaire;
+    if(req.body.cin_ou_passeport_gerant_actionnaire) actionnaire.cin_ou_passeport_gerant_actionnaire = req.body.cin_ou_passeport_gerant_actionnaire;
     
     const filteredActionnaire = data.actionnaires.filter(act => act.id_actionnaire != id_actionnaire && act.id_contribuable != id_contribuable);
     const unsortedActionnaire = [...filteredActionnaire, actionnaire];
