@@ -8,7 +8,7 @@ router.route('/')
 router.route('/avalide')
     .post(actionnaireController.setOneActionnaireNonValide);
 
-router.route('/:id_actionnaire')
+router.route('/:id')
     .get(actionnaireController.getActionnaireById)
     .put(actionnaireController.updateActionnaire)
     .delete(actionnaireController.deleteOneActionnaireNonValide);
@@ -16,10 +16,10 @@ router.route('/:id_actionnaire')
 router.route('/contribuable/:id_contribuable')
     .get(actionnaireController.getActionnaireByIdContribuable);
 
-router.route('/avalide/:id_actionnaire')
+router.route('/avalide/:id')
     .put(actionnaireController.updateActionnaireNonValide);
 
-router.route('/contribuable/:id_actionnaire')
+router.route('/contribuable/:id')
     .put(actionnaireController.updateActionnaireByContribuable)
 
 module.exports = router;
