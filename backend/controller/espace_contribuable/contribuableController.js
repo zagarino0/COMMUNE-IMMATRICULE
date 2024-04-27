@@ -906,6 +906,10 @@ const blockageContribuable = async (req, res) => {
     const contribuable = data.contribs.find(con => con.reference_fiscal == reference_fiscal);
     if(!contribuable)
         return res.status(400).json({'message': 'contribuable introuvable'});
+
+    if(contribuable.type == 'Personne morale' || contribuable.type == 'personne morale')
+        return res.status(400).json({'message': 'personne morale impossible à bloquer'});
+
     const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id && !mod.blockage);
     if(!modification)
         return res.status(400).json({'message': 'contribuable déjà bloqué'});
