@@ -691,7 +691,7 @@ const getAllContribuableBloque = (req, res) => {
         // if(!data.modifications.find(mod => mod.id_contribuable === con.id && mod.blockage))
         //     return res.status(404).json({'message': 'erreur quoi'})
         const modif = data.modifications.find(mod => mod.id_contribuable == con.id);
-        if(modif.blockage){
+        if(modif.blockage && ( con.type == 'Personne physique' || con.type == 'personne physique' )){
             con.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === con.id);
             con.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === con.id);
             con.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
@@ -715,7 +715,7 @@ const getAllContribuableDeBloque = (req, res) => {
         // if(!data.modifications.find(mod => mod.id_contribuable === con.id && mod.blockage))
         //     return res.status(404).json({'message': 'erreur quoi'})
         const modif = data.modifications.find(mod => mod.id_contribuable == con.id);
-        if(!modif.blockage){
+        if(!modif.blockage && (con.type == 'Personne physique' || con.type == 'personne physique')){
             con.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === con.id);
             con.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === con.id);
             con.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
