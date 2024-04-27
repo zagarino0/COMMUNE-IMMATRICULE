@@ -18,6 +18,9 @@ router.route('/contribuable/nouvellementimmatricule')
     .get(etatController.getContribuableNouvellementImmatricule)
     .post(etatController.getDemandeImmatriculationRejeteByReferenceFiscal);
 
+router.route('/contribuable/attestation')
+    .get(etatController.getAllContribuableAttestee);
+
 router.route('/contribuable/veille')
     .get(etatController.getContribuableVeilleuse)
     .post(etatController.getContribuableVeilleuseByReferenceFiscal);

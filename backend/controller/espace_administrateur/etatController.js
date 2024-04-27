@@ -3,7 +3,8 @@ const data = {
     contribuablesRejetes: require('../../model/model_delete/contribuable.json'),
     cessations: require('../../model/cessation_activite.json'),
     history: require('../../model/history.json'),
-    setHistory: function (data) {this.history = data }
+    setHistory: function (data) {this.history = data },
+    attestation: require('../../model/attestation.json')
 }
 
 const getAllContribuableValide = (req, res) => {
@@ -111,7 +112,7 @@ const getCessationContribuableByAll = (req, res) => {
 
     contribuable.map(con => {
         data.cessations.map(ces => {
-            if(con.id_contribuable == ces.id_contribuable && ces.cessation && !con.actif)
+            if(con.id == ces.id_contribuable && ces.cessation && !con.actif)
                 contribuableCesse.push({...con, ...ces});
         })
     })
@@ -125,7 +126,7 @@ const getAllContribuableReprise = (req, res) => {
 
     contribuable.map(con => {
         data.cessations.map(ces => {
-            if(con.id_contribuable == ces.id_contribuable && ces.reprise && con.actif)
+            if(con.id == ces.id_contribuable && ces.reprise && con.actif)
                 contribuableReprise.push({...con, ...ces});
         })
     })
@@ -133,10 +134,29 @@ const getAllContribuableReprise = (req, res) => {
     contribuableReprise = [];
 }
 
+const getAllContribuableAttestee = (req, res) => {
+    const contribuable = data.contribuables;
+    const contribuableCesse = [];
+
+    contribuable.map(con => {
+        data.cessations.map(ces => {
+            data.attestation.map(att => {
+                if(con.id == ces.id_contribuable && ces.cessation && !con.actif && con.id === att.id_contribuable && att.attestation){
+                    con.cessation = ces;
+                    con.attestation = att;
+                    contribuableCesse.push(con);
+                }
+            })
+        })
+    })
+    res.json(contribuableCesse);
+    contribuableCesse = [];
+}
+
 
 const getCessationContribuableById = (req, res) => {
     const id_contribuable = req.params.id_contribuable;
-    const contribuable = data.contribuables.find(con => con.id_contribuable === id_contribuable);
+    const contribuable = data.contribuables.find(con => con.id === id_contribuable);
     contribuable.cessation = data.cessations.find(ces => ces.id_contribuable === id_contribuable && ces.cessation);
     if(contribuable.cessation.cessation)
         return res.status(404).json({'message': 'Contribuable introuvable'});
@@ -184,6 +204,7 @@ const getContribuableRadieById = (req, res) => {
     res.json(contribuable);
 }
 
+
 module.exports = {
     getAllContribuableValide,
     getContribuableValideByReferenceFiscal,
@@ -204,6 +225,7 @@ module.exports = {
     getAllContribuableReprise,
     getContribuableRadieById,
     getContribuableRadies,
-    getContribuableRadieByAll
+    getContribuableRadieByAll,
+    getAllContribuableAttestee
 
 }

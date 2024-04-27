@@ -13,6 +13,8 @@ const data = {
     setHistory: function (data) { this.history = data },
     history_contribuable: require('../../model/history_contribuable.json'),
     setHistoryContribuable: function (data) {this.history_contribuable = data},
+    attestation: require('../../model/attestation.json'),
+    setAttestation: function (data) {this.attestation = data},
 
 
     //Temp model
@@ -36,6 +38,8 @@ const data = {
     setCoordonneesTemps: function (data) { this.coordonneeTemps = data },
     cessationTemps: require('../../model/model_temp/cessation_activite.json'),
     setCessationsTemps: function (data) { this.cessationTemps = data },
+    modificationTemps: require('../../model/model_temp/modificationContribuable.json'),
+    setModificationTemps: function (data) { this.modificationTemps = data},
 
     //real model
     actionnaires: require('../../model/actionnaire.json'),
@@ -146,6 +150,14 @@ const setContribuable = async (req, res) => {
         "reprise": false
     }
 
+    const id_attestation = data.attestation.length === 0 ? 1 : data.attestation[data.attestation.length - 1].id_attestation + 1;
+    const attestation = {
+        "id_attestation": id_attestation,
+        "id_contribuable": id,
+        "id_user": req.body.id_user,
+        "attestation": true
+    }
+
     const id_history_contribuable = data.history_contribuable.length === 0 ? 1 : data.history_contribuable[data.history_contribuable.length - 1].id_history_contribuable + 1;
     const history_contribuable = {
         'id_history_contribuable': id_history_contribuable,
@@ -159,6 +171,7 @@ const setContribuable = async (req, res) => {
     data.setModifications([...data.modifications, modification]);
     data.setValidationTemps([...data.validationTemps, validation]);
     data.setCessationsTemps([...data.cessationTemps, cessation]);
+    data.setAttestation([...data.attestation, attestation]);
 
     console.log(validation);
     console.log(data.validation);
@@ -183,6 +196,10 @@ const setContribuable = async (req, res) => {
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'contribuable.json'),
         JSON.stringify(data.contribuables)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'attestation.json'),
+        JSON.stringify(data.modifications)
     )
 }
 
@@ -239,6 +256,7 @@ const validationContribuable = async (req, res) => {
     const validation = data.validationTemps.find(val => val.id_contribuable === contribuable.id);
     validation.validite = true;
     validation.date_validation = new Date();
+
     const filterdValidation = data.validationTemps.filter(val => val.id_contribuable !== contribuable.id);
     data.setValidationTemps(filterdValidation);
     data.setValidation([...data.validation, validation]);
@@ -306,11 +324,21 @@ const validationContribuable = async (req, res) => {
         data.setCoordonneesTemps(filteredCoordonnees);
         data.setCoordonnees([...data.coordonnees, coordonnees]);
     }
+
+    //cessation
     const cessation = data.cessationTemps.find(coo => coo.id_contribuable === contribuable.id);
     if (cessation) {
         const filteredCessation = data.cessationTemps.filter(coo => coo.id_contribuable !== contribuable.id);
         data.setCessationsTemps(filteredCessation);
         data.setCessations([...data.cessations, cessation]);
+    }
+
+    //modification
+    const modification = data.modificationTemps.find(mod => mod.id_contribuable === contribuable.id);
+    if(modification){
+        const filteredModification = data.modificationTemps.filter(mod => mod.id_contribuable !== contribuable.id);
+        data.setModificationTemps(filteredModification);
+        data.setModifications([...data.modifications, modification]);
     }
 
     const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
@@ -995,7 +1023,7 @@ const deleteContribuable = async (req, res) => {
     data.setContribs(filterdContribuable);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'history.json'),
-        JSON.stringify(data.contribs)
+        JSON.stringify(data.history)
     )
     res.json(contribuable);
 }
@@ -1021,6 +1049,48 @@ const getToutContribuableATelecharger = (req, res) => {
     res.json(allContrib);
 }
 
+const attestationContribuable = async (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const contribuable = data.contribuables.map(con => con.reference_fiscal == reference_fiscal);
+    if(!contribuable)
+        return res.status(404).json({'message': `contribuable avec la reference fiscal ${reference_fiscal} est introuvable`});
+
+    const attestation = data.attestation.find(att => att.id_contribuable === contribuable.id);
+    attestation.attestation = true;
+    
+    const filteredAttestation = data.attestation.filter(att => att.id_contribuable !== contribuable.id);
+    const unsortedAttestation = [...filteredAttestation, attestation];
+
+    data.setAttestation(unsortedAttestation);
+
+    const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
+
+    const history = {
+        'id_history': id_history,
+        'id_contribuable': contribuable.id,
+        'id_user': req.body.id_user,
+        'motif': req.body.motif,
+        'comment': req.body.comment,
+        'date_history': new Date()
+    }
+
+    data.setHistory([...data.history, history]);
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'attestation.json'),
+        JSON.stringify(data.attestation)
+    )
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'history.json'),
+        JSON.stringify(data.history)
+    )
+
+    res.json({'success': 'attestation bien reçue'});
+
+}
+
+
 module.exports = {
     setContribuable,
     getToutContribuableATelecharger,
@@ -1039,6 +1109,7 @@ module.exports = {
     miseEnVeilleuseContribuable,
     reveilleContribuable,
     deleteContribuable,
-    blockageContribuable
+    blockageContribuable,
+    attestationContribuable
 
 }
