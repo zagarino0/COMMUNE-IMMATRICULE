@@ -4,7 +4,7 @@ const data = {
     contribs: require('../../model/contribuable.json'),
     setContribs: function (data) { this.contribs = data },
     modifications: require('../../model/modificationContribuable.json'),
-    setModifications: function (data) { this.modifications },
+    setModifications: function (data) { this.modifications = data},
     validation: require('../../model/validation.json'),
     setValidation: function (data) { this.validation = data },
     cessations: require('../../model/cessation_activite.json'),
@@ -451,6 +451,7 @@ const validationContribuable = async (req, res) => {
         JSON.stringify(data.modifications)
     )
     res.json({ "message": `Le contribuable dont l'id ${contribuable.id} est validé` });
+    
 }
 
 const updateContribuable = async (req, res) => {
