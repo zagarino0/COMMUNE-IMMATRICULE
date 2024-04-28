@@ -57,9 +57,6 @@ const setRadiation = async (req, res) => {
     if(!contribuable)
         return res.status(404).json({'message': 'contribuable introuvable'});
     
-    if(contribuable.type == 'Personne physique' || contribuable.type == 'personne physique')
-        return res.status(404).json({'message': 'Il est impossible de radier une personne physique'});
-
     const filteredContribuable = data.contribuables.filter(con => con.id_contribuable !== contribuable.id);
     data.setContribuable([filteredContribuable]);
     data.setContribuableNonValide([...data.contribuablesNonValide, contribuable])

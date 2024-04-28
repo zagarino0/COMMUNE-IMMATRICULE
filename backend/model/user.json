@@ -1,14 +1,1 @@
-[
-    {
-        "id_user": 8,
-        "code": "RAK",
-        "password": "$2b$10$EFofHpFtSfMKNFdJBhBAOupt64lViJ/v7/eef7Ad6y0N90ENWL5uS",
-        "nom": "RAKOTO",
-        "prenom": "RAVE",
-        "numero_matricule": "7689",
-        "type_operateur": "Directeur financier",
-        "date_creation_compte": "13/3/2024",
-        "actif": true,
-        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiUkFLIiwiaWF0IjoxNzExMjY2MDMxLCJleHAiOjE3MTEzNTI0MzF9.2LWX6lbY9nNc9tQhbGpw56IOZ77iwhDF6kSiQruoLjw"
-    }
-]
+[]

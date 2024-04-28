@@ -16,7 +16,6 @@ const data = {
     attestation: require('../../model/attestation.json'),
     setAttestation: function (data) {this.attestation = data},
 
-
     //Temp model
     actionnairesTemps: require('../../model/model_temp/actionnaire.json'),
     setActionnaireTemps: function (data) { this.actionnairesTemps = data },
@@ -1089,7 +1088,6 @@ const attestationContribuable = async (req, res) => {
     res.json({'success': 'attestation bien reçue'});
 
 }
-
 
 module.exports = {
     setContribuable,
