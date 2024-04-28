@@ -167,18 +167,16 @@ const setContribuable = async (req, res) => {
 
     data.setHistoryContribuable([...data.history_contribuable, history_contribuable])
     data.setContribuable([...data.contribuables, newContribuable]);
-    data.setModifications([...data.modifications, modification]);
+    data.setModificationTemps([...data.modifications, modification]);
     data.setValidationTemps([...data.validationTemps, validation]);
     data.setCessationsTemps([...data.cessationTemps, cessation]);
     data.setAttestation([...data.attestation, attestation]);
 
-    console.log(validation);
-    console.log(data.validation);
     res.json(data.contribuables);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
-        JSON.stringify(data.modifications)
+        JSON.stringify(data.modificationTemps)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'history_contribuable.json'),
@@ -443,6 +441,14 @@ const validationContribuable = async (req, res) => {
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'validation.json'),
         JSON.stringify(data.validation)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'model_temp', 'modificationContribuable.json'),
+        JSON.stringify(data.modificationTemps)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'modificationContribuable.json'),
+        JSON.stringify(data.modifications)
     )
     res.json({ "message": `Le contribuable dont l'id ${contribuable.id} est validé` });
 }
