@@ -57,4 +57,6 @@ router.route('/:id')
 router.route('/download')
     .get(contribuableController.getToutContribuableATelecharger);
 
+router.route('/blockage')
+
 module.exports = router;

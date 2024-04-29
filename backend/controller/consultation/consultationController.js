@@ -4,6 +4,7 @@ const data = {
     assujetissement: require('../../model/assujetissement.json'),
     //Real
     validations: require('../../model/validation.json'),
+    cessations: require('../../model/cessation_activite.json'),
     contribuables: require('../../model/contribuable.json'),
     modifications: require('../../model/modificationContribuable.json'),
     activites: require('../../model/activite.json'),
@@ -715,10 +716,11 @@ const getAllContribuableDeBloque = (req, res) => {
         // if(!data.modifications.find(mod => mod.id_contribuable === con.id && mod.blockage))
         //     return res.status(404).json({'message': 'erreur quoi'})
         const modif = data.modifications.find(mod => mod.id_contribuable == con.id);
-        if(!modif.blockage && (con.type == 'Personne physique' || con.type == 'personne physique')){
+        const cess = data.cessations.find(cess => cess.id_contribuable === con.id);
+        if(!modif.blockage && cess.reprise){
             con.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === con.id);
             con.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === con.id);
-            con.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
+            con.actiite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
             con.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === con.id);
             con.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === con.id);
             con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
