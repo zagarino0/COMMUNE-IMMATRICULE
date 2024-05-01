@@ -726,8 +726,8 @@ const repriseActivite = async (req, res) => {
     contribuable.actif = true;
 
     const cessation = data.cessations.find(ces => ces.id_contribuable === contribuable.id);
-    if (cessation.cessation && ((new Date()).getMonth() - (new Date(cessation.date_cessation)).getMonth()) < 3)
-        return res.status(400).json({ 'message': `La cessation de l'activité du contribuable ${contribuable.reference_fiscal} n'est pas encore plus de 3 mois` });
+    // if (cessation.cessation && ((new Date()).getMonth() - (new Date(cessation.date_cessation)).getMonth()) < 3)
+    //     return res.status(400).json({ 'message': `La cessation de l'activité du contribuable ${contribuable.reference_fiscal} n'est pas encore plus de 3 mois` });
 
     cessation.cessation = false;
     cessation.reprise = true;
