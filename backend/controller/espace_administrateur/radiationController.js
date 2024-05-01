@@ -105,7 +105,7 @@ const setRadiation = async (req, res) => {
         data.setDirigeantTemps([...data.dirigeantTemps, ...dirigeant]);
         data.setDirigeants(filteredDirigeant);
     }
-
+ 
     const autre = data.autres.find(act => act.id_contribuable === contribuable.id);
     if(autre.length !== 0){
         const filteredAutre = data.autres.filter(act => act.id_contribuable !== contribuable.id);
