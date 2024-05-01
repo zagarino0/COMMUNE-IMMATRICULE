@@ -167,7 +167,7 @@ const setContribuable = async (req, res) => {
 
     data.setHistoryContribuable([...data.history_contribuable, history_contribuable])
     data.setContribuable([...data.contribuables, newContribuable]);
-    data.setModificationTemps([...data.modifications, modification]);
+    data.setModificationTemps([...data.modificationTemps, modification]);
     data.setValidationTemps([...data.validationTemps, validation]);
     data.setCessationsTemps([...data.cessationTemps, cessation]);
     data.setAttestation([...data.attestation, attestation]);
