@@ -51,6 +51,7 @@ const data = {
 }
 
 const fsPromises = require('fs').promises;
+const path = require('path');
 
 const setRadiation = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
