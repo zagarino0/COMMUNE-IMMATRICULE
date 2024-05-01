@@ -107,7 +107,7 @@ const setRadiation = async (req, res) => {
     }
  
     const autre = data.autres.find(act => act.id_contribuable === contribuable.id);
-    if(autre.length !== 0){
+    if(autre){
         const filteredAutre = data.autres.filter(act => act.id_contribuable !== contribuable.id);
         data.setAutreTemps([...data.autreTemps, autre]);
         data.setAutres(filteredAutre);
