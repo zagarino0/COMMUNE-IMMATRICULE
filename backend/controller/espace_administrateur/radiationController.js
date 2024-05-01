@@ -248,7 +248,7 @@ const getAllRadiation = (req, res) => {
     radiationsContribuable.etablissement = data.etablissementTemps.filter(eta => eta.id_contribuable === contribuable.id);
     radiationsContribuable.interlocuteur = data.interlocuteurTemps.filter(inter => inter.id_contribuable === contribuable.id);
     radiationsContribuable.siege = data.siegeTemps.filter(sie => sie.id_contribuable === contribuable.id);
-    res.json(radiation);
+    res.json(radiationsContribuable);
 }
 
 const consultationradiation = (req, res) => {
