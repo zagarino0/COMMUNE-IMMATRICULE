@@ -102,7 +102,7 @@ const setRadiation = async (req, res) => {
     const dirigeant = data.dirigeants.filter(act => act.id_contribuable === contribuable.id);
     if(dirigeant){
         const filteredDirigeant = data.dirigeants.filter(act => act.id_contribuable !== contribuable.id);
-        data.dirigeantTemps([...data.dirigeantTemps, ...dirigeant]);
+        data.setDirigeantTemps([...data.dirigeantTemps, ...dirigeant]);
         data.setDirigeants(filteredDirigeant);
     }
 

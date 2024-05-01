@@ -1,1 +1,16 @@
-[{"id_modification":1,"id_contribuable":"6548","nombre_modification":0,"blockage":false,"date_blockage":""},{"id_modification":1,"id_contribuable":"6548","nombre_modification":0,"blockage":false,"date_blockage":""}]
+[
+    {
+        "id_modification": 1,
+        "id_contribuable": "6548",
+        "nombre_modification": 0,
+        "blockage": false,
+        "date_blockage": ""
+    },
+    {
+        "id_modification": 1,
+        "id_contribuable": "6548",
+        "nombre_modification": 0,
+        "blockage": false,
+        "date_blockage": ""
+    }
+]
