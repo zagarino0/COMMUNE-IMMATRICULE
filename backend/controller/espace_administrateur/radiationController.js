@@ -50,6 +50,7 @@ const data = {
     setHistory: function (data) {this.history = data}
 }
 
+const fsPromises = require('fs').promises;
 
 const setRadiation = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
