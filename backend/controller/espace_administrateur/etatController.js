@@ -136,7 +136,7 @@ const getAllContribuableReprise = (req, res) => {
 
 const getAllContribuableAttestee = (req, res) => {
     const contribuable = data.contribuables;
-    const contribuableCesse = [];
+    let contribuableCesse = [];
 
     contribuable.map(con => {
         data.cessations.map(ces => {
