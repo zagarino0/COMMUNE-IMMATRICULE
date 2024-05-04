@@ -377,8 +377,7 @@ const getAllContribuableValide = (req, res) => {
             con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
             con.vehicule = data.vehicule.length === 0 ? null : data.vehicule.filter(veh => veh.nif_proprietaire === con.reference_fiscal);
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
-            
-            
+                        
             contribuableValide.push({...con});
         }
     })

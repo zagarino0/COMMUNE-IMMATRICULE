@@ -90,14 +90,17 @@ const setContribuable = async (req, res) => {
 
     const id = req.body.id;
     const reference_fiscal = data.contribuables.length === 0 ? 1 : data.contribuables.length + 1;
+    
     const nombre_zero = (data.contribuables.length < 10) ? '00000000000' : ((data.contribuables.length >= 10 && data.contribuables.length < 100) ? '0000000000' : ((data.contribuables.length >= 100 && data.contribuables.length < 1000) ? '000000000' : ((data.contribuables.length >= 1000 && data.contribuables.length < 10000) ? '00000000' : ((data.contribuables.length >= 10000 && data.contribuables.length < 100000) ? '0000000' : ((data.contribuables.length >= 100000 && data.contribuables.length < 1000000) ? '000000' : ((data.contribuables.length >= 1000000 && data.contribuables.length < 10000000) ? '00000' : ((data.contribuables.length >= 10000000 && data.contribuables.length < 100000000) ? '0000' : ((data.contribuables.length >= 100000000 && data.contribuables.length < 1000000000) ? '000' : ((data.contribuables.length >= 1000000000 && data.contribuables.length < 10000000000) ? '00' : ((data.contribuables.length >= 10000000000 && data.contribuables.length < 100000000000) ? '0' : ''))))))))));
 
     const valeur_reference = nombre_zero + "" + reference_fiscal;
 
+    const new_value = data.contribuables.find(con => con.reference_fiscal === valeur_reference) ? (parseInt(data.contribuables.find(con => con.reference_fiscal === valeur_reference).reference_fiscal) + 1) + nombre_zero : valeur_reference; 
+
     const newContribuable = {
         "id": id,
         "raison_social": req.body.raisonsocial,
-        "reference_fiscal": valeur_reference,
+        "reference_fiscal": new_value,
         "type": req.body.type,
         "situation_matrimoiniale": req.body.situationmatrimoinial,
         "cin": req.body.cin,
