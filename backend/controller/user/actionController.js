@@ -5,16 +5,17 @@ const data = {
 }
 
 const getAllAction = (req, res) => {
-    let history = [];
-    data.users.map(use => {
-        data.history.map(his => {
-            if (use.id === his.id_user && (new Date(his.date_history)) >= (new Date(date_debut)) && (new Date(his.date_history)) <= (new Date())) {
-                history.push({ ...use, ...his })
+    const histories = data.history;
+    const users = data.users;
+
+    histories.map(his => {
+        users.map(us => {
+            if(us.id_user === his.id_user){
+                his.user = us;
             }
         })
     })
-    res.json(history);
-    history = [];
+    res.json(histories);
 }
 
 const getActionByUserId = (req, res) => {
