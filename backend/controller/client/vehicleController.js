@@ -3,7 +3,9 @@ const data = {
     setVehicles: function (data) { this.vehicles = data },
     history: require('../../model/history.json'),
     setHistory: function (data) {this.history = data},
-    contribuable: require('../../model/contribuable.json')
+    contribuable: require('../../model/contribuable.json'),
+    vehiculeContribuable: require('../../model/vehicule_contribuable.json'),
+    setVehiculeContribuable: function (data) {this.vehiculeContribuable = data}
 };
 
 const path = require('path');
@@ -16,33 +18,33 @@ const getAllVehicles = (req, res) => {
 
 const addNewVehicles = async (req, res) => {
     const vehicles = req.body.vehicles;
-    const id_vehicles = [];
-    const id_contribuable = [];
+    const reference_fiscal = req.body.reference_fiscal;
+    
     if(vehicles.lenght === 0)
         return res.status(404).json({'message': 'aucun vehicule trouvé'});
     
-    vehicles.map(veh => {
-        id_vehicles.push(veh.id_vehicule);
-        id_contribuable.push(veh.id_contribuable);
-    })
-
     const id_history = data.history.length === 0 ? 1 : data.history[data.history.length - 1].id_history + 1;
     const history = {
         'id_history': id_history,
-        'id_vehicule': id_vehicles,
-        'id_contribuable': id_contribuable,
+        'id_vehicule': vehicles,
+        'id_contribuable': reference_fiscal,
         'id_user': req.body.id_user,
         'motif': "Creation des vehicules",
         'comment': req.body.comment,
         'date_history': new Date()
     }
 
+    const newVehicule = {
+        'reference_fiscal': reference_fiscal,
+        'id_vehicules': vehicles
+    }
+
     data.setHistory([...data.history, history]);
-    data.setVehicles([...data.vehicles, ...vehicles]);
-    
+    data.setVehiculeContribuable([...data.vehiculeContribuable, newVehicule])
+
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'vehicule.json'),
-        JSON.stringify(data.vehicles)
+        path.join(__dirname, '..', '..', 'model', 'vehicule_contribuable.json'),
+        JSON.stringify(data.vehiculeContribuable)
     )
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'history.json'),

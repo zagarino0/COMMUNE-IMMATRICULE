@@ -1,18 +1,21 @@
 const data = {
     history: require('../../model/history.json'),
     setHistory: function (data) { this.history = data },
-    users: require('../../model/user.json')
+    users: require('../../model/user.json'),
+    contribuable: require('../../model/contribuable.json')
 }
 
 const getAllAction = (req, res) => {
     const histories = data.history;
-    const users = data.users;
 
     histories.map(his => {
-        users.map(us => {
-            if(us.id_user === his.id_user){
-                his.user = us;
-            }
+        data.users.map(us => {
+            if(his.id_user === us.id_user)
+                his.userinfos = us;
+        })
+        data.contribuable.map(con => {
+            if(his.id_contribuable === con.id)
+                his.contribuableInfos = con;
         })
     })
     res.json(histories);

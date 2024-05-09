@@ -2,6 +2,8 @@ const data = {
     //vehicule
     vehicule: require('../../model/vehicule.json'),
     assujetissement: require('../../model/assujetissement.json'),
+    vehiculecontribuable: require('../../model/vehicule_contribuable.json'),
+
     //Real
     validations: require('../../model/validation.json'),
     cessations: require('../../model/cessation_activite.json'),
