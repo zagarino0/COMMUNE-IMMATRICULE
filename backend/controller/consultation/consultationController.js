@@ -377,7 +377,18 @@ const getAllContribuableValide = (req, res) => {
             con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
             con.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === con.id);
             con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
-            con.vehicule = data.vehicule.length === 0 ? null : data.vehicule.filter(veh => veh.nif_proprietaire === con.reference_fiscal);
+            const vehicule = [];
+            data.vehicule.map(veh => {
+                data.vehiculecontribuable.map(vdh => {
+                    if(vdh.reference_fiscal === con.reference_fiscal){
+                        vdh.id_vehicules.map(idvcl => {
+                            if(idvcl === veh.id_vehicule)
+                                vehicule.push(veh);
+                        })
+                    }
+                })
+            })
+            con.vehicules = vehicule.length === 0 ? null : vehicule;
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
                         
             contribuableValide.push({...con});
@@ -399,7 +410,12 @@ const getAllContribuableInactif = (req, res) => {
             con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
             con.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === con.id);
             con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
-            con.vehicule = data.vehicule.length === 0 ? null : data.vehicule.filter(veh => veh.nif_proprietaire === con.reference_fiscal);
+            const vehicule = [];
+            data.vehicule.map(veh => {
+                data.vehiculecontribuable.map(vdh => {
+
+                })
+            })
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
             contribuableInactif.push({...con});
     })
@@ -702,7 +718,12 @@ const getAllContribuableBloque = (req, res) => {
             con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
             con.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === con.id);
             con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
-            con.vehicule = data.vehicule.length === 0 ? null : data.vehicule.filter(veh => veh.nif_proprietaire === con.reference_fiscal);
+            const vehicule = [];
+            data.vehicule.map(veh => {
+                data.vehiculecontribuable.map(vdh => {
+
+                })
+            })
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
             contribluableBloque.push({...con});
         }
@@ -727,7 +748,12 @@ const getAllContribuableDeBloque = (req, res) => {
             con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
             con.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === con.id);
             con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
-            con.vehicule = data.vehicule.length === 0 ? null : data.vehicule.filter(veh => veh.nif_proprietaire === con.reference_fiscal);
+            const vehicule = [];
+            data.vehicule.map(veh => {
+                data.vehiculecontribuable.map(vdh => {
+
+                })
+            })
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
             contribluableDeBloque.push({...con});
         }
@@ -814,7 +840,12 @@ const getListeDemandeAValide = (req, res) => {
         con.etablissement = data.etablissementTemps.length === 0 ? null : data.etablissementTemps.filter(eta => eta.id_contribuable === con.id);
         con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
         con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.find(sie => sie.id_contribuable === con.id);
-        con.vehicule = data.vehicule.length === 0 ? null : data.vehicule.filter(veh => veh.nif_proprietaire === con.reference_fiscal);
+        const vehicule = [];
+        data.vehicule.map(veh => {
+            data.vehiculecontribuable.map(vdh => {
+
+            })
+        })
         con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
         contribuablesNonValides.push({ ...con });
     })
