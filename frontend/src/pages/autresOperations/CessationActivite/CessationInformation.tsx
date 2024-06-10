@@ -16,8 +16,7 @@ function CessationInformation() {
     const selectedData = localStorage.getItem("selectedCessationData");
     const  parsedDataSelected = JSON.parse(selectedData as string);
     console.log(parsedDataSelected)
-    const {activite} = parsedDataSelected ;
-    const {siege} = parsedDataSelected ;
+
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
 
@@ -36,17 +35,19 @@ function CessationInformation() {
         // Check the response status or do something with the response
         console.log("Server Response:", response.data );
         alert(`Cessation pour ${parsedDataSelected.raison_social} réussi`)
+        setIsModalMotif(false)
+        localStorage.removeItem("selectedCessationData")
         navigate('/CessationActivite')
       } catch (error) {
         // Handle errors
         console.error("Error:", error);
-        alert("Il y a une erreur")
+        alert(`Il y a une erreur :  ${error}`)
       }
     }
     const content = (
       <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-white bg-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] p-2 mt-2 rounded-sm"><h1 className="text-white text-3xl  font-semibold border-b-2 border-[#959824] mt-2" >CESSATION D'ACTIVITE: {parsedDataSelected.reference_fiscal}</h1></div>
+        <div className="text-[#959824] text-4xl  font-semibold border-b-2  mt-2"><TitleH1 className="text-[#959824] text-4xl  text-center font-semibold border-b-2  mt-2" text="CESSATION D'ACTIVITE"></TitleH1></div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
@@ -176,55 +177,28 @@ function CessationInformation() {
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Activité" />
+            <Label text="Situation matrimoniale" />
             <Input type="text"
-            value={activite ? activite.activite : ""}
+            value={parsedDataSelected ? parsedDataSelected.situation_matrimoiniale : ""}
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Province" />
+            <Label text="Autorisation" />
             <Input type="text"
-            value={siege ? siege.province : ""}
+            value={parsedDataSelected ? parsedDataSelected.reference_agrement : ""}
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Région" />
+            <Label text="Date autorisation" />
+            <Input type="date"
+            value={parsedDataSelected? parsedDataSelected.date_agrement : ""}
+            />
+          </div>
+          <div className="flex justify-between mt-6">
+            <Label text="Capital" />
             <Input type="text"
-            value={siege ? siege.region : ""}
+            value={parsedDataSelected? parsedDataSelected.capital : ""}
             />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="District" />
-            <Input type="text"
-            value={siege ? siege.district : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Commune" />
-            <Input type="text"
-            value={siege ? siege.commune : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Fokontany" />
-            <Input type="text"
-            value={siege ? siege.fokontany : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Adresse" />
-            <Input type="text" 
-            value={siege? siege.adresse_actuel : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="N° Statistique" />
-            <div className="flex flex-col">
-            <Input type="text" 
-            value={activite ? activite.statistique : ""}
-            />
-          
-            </div>
           </div>
          
           <div className="flex justify-between mt-6">
@@ -245,10 +219,11 @@ function CessationInformation() {
             value={parsedDataSelected ?parsedDataSelected.forme_juridique : ""}
             />
           </div>
+
   
           <div className="flex justify-center mt-12">
           <div className="w-96 ">
-            <Button label="Accorder" onClick={()=> setIsModalMotif(true)}></Button>
+            <Button label="Accorder" onClick={()=>setIsModalMotif(true)}></Button>
           </div>
           </div>
         </div>
@@ -265,7 +240,7 @@ function CessationInformation() {
     return (
         <MainLayout>
          <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-         <Card contentCard={content} className="w-[800px] h-[1300px] "></Card>
+         <Card contentCard={content} className="w-[1200px] mt-10"></Card>
          </div>
          <Modal isOpen={isModalMotif} onClose={()=>setIsModalMotif(false)} className="w-[550px]  p-6">
    <div className="flex justify-between">

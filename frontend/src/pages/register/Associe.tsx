@@ -8,8 +8,8 @@ import Table from "../../components/table/table";
 import { IoAdd } from "react-icons/io5";
 import Button from "../../components/common/Button";
 import { RiSubtractFill } from "react-icons/ri";
-import { MdOutlineZoomInMap } from "react-icons/md";
-import { MdZoomOutMap } from "react-icons/md";
+//import { MdOutlineZoomInMap } from "react-icons/md";
+//import { MdZoomOutMap } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { AiOutlineSave } from "react-icons/ai";
 import Checkbox from "../../components/common/checkbox";
@@ -30,7 +30,9 @@ import { RiArrowGoBackFill } from "react-icons/ri";
   numero_actionnaire: string,
   associe_unique_actionnaire: boolean,
   action_ou_actionnaire: string,
-  
+  siege: string,
+  gerant : string ,
+  cin_passport_gerant : string
 }
 function Associe() {
     const location = useLocation(); 
@@ -59,6 +61,11 @@ function Associe() {
       numero_actionnaire: "",
       associe_unique_actionnaire: false,
       action_ou_actionnaire: "",
+      siege : "",
+      gerant : "",
+      cin_passport_gerant : ""
+
+      
     })
     const [add , setAdd] = useState(false);
 
@@ -99,20 +106,23 @@ function Associe() {
     setEntries((prevEntries) => [...prevEntries, { ...Actionnaire, id: newId.toString() }]);
 
         // Reset the Actionnaire state to clear the form
-        setActionnaire<Actionnaire>({
-          id_contribuable: parsedData.id,
+        setActionnaire({
+          id_contribuable  : parsedData.id ,
           type: "",
           nom_actionnaire: "",
           fonction_actionnaire: "",
-          resident_actionnaire: "",
+          resident_actionnaire: true,
           cin_passeport_actionnaire: "",
           adresse_actionnaire: "",
           autre_activite_actionnaire: "",
           nif_actionnaire: "",
           email_actionnaire: "",
           numero_actionnaire: "",
-          associe_unique_actionnaire: "",
+          associe_unique_actionnaire: false,
           action_ou_actionnaire: "",
+          siege: "",
+          gerant : "",
+          cin_passport_gerant : ""
         });
         setAdd(false); 
       };
@@ -134,11 +144,11 @@ function Associe() {
       
       const [EntriesSelected , setEntriesSelected] = useState([])
       const [selectedRowIndexEntries  , setSelectedRowIndexEntries] = useState(null) 
-      const handleTableRowClickEntries = (rowIndex) => {
+      const handleTableRowClickEntries = (rowIndex : any) => { 
         if (rowIndex === selectedRowIndexEntries) {
           // If the clicked row is already selected, unselect it
           setSelectedRowIndexEntries(null);
-          setEntriesSelected({});
+          setEntriesSelected([]);
         } else {
           // Extract the property values from the data object
           const selectedRowData = entries[rowIndex];
@@ -166,9 +176,12 @@ function Associe() {
         "Numéro Tél",
         "Associe unique actionnaire",
         "Action ou actionnaire",
+        "Gerant",
+        "N° CIN ou N° passport",
+        "Siege"
       ];
     
-      const data = entries.map((entry) => [
+      const data = entries.map((entry : any) => [
         entry.type,
         entry.nom_actionnaire,
         entry.fonction_actionnaire,
@@ -181,7 +194,10 @@ function Associe() {
         entry.email_actionnaire,
         entry.numero_actionnaire,
         entry.associe_unique_actionnaire,
-        entry.action_ou_actionnaire
+        entry.action_ou_actionnaire,
+        entry.gerant ,
+        entry.cin_passport_gerant ,
+        entry.siege
       ]);
     
     const content = (
@@ -200,7 +216,7 @@ function Associe() {
     <div className="flex justify-between w-[700px]">
     <Checkbox label="Personne physique" onChange={()=>{setActionnaire({...Actionnaire , type : "Personne physique" })}}  checked={Actionnaire.type === "Personne physique"  }></Checkbox>
     <Checkbox label="Personne morale" onChange={()=>{setActionnaire({...Actionnaire , type : "Personne morale"})}} checked={Actionnaire.type === "Personne morale"}></Checkbox>
-    <Checkbox label="Personne morale etrangère/Etat" onChange={()=>{setActionnaire({...Actionnaire , type :"Personne morale etrangère/Etat"})}} checked={Actionnaire.type=== "Personne morale etrangère/Etat" }></Checkbox>
+    <Checkbox label="Personne morale etrangère/Etat " onChange={()=>{setActionnaire({...Actionnaire , type :"Personne morale etrangère/Etat"})}} checked={Actionnaire.type=== "Personne morale etrangère/Etat" }></Checkbox>
     </div>
   </div>
   {Actionnaire.type === "Personne physique" && (
@@ -319,10 +335,39 @@ function Associe() {
    {Actionnaire.type === "Personne morale" && (
     <>
     <div className="flex justify-between mt-6">
-      <Label text="RF"></Label>
+    <div className="flex justify-between mt-6">
+      
+    </div>
+    
+         </div>
+     <div className="flex justify-between mt-6">
+     <Label text="RF"></Label>
       <Input type="text"
        value={Actionnaire.nif_actionnaire}
        onChange={(e)=>{setActionnaire({...Actionnaire , nif_actionnaire : e.target.value })}}
+      ></Input>
+
+      </div>    
+    <div className="flex justify-between mt-6">
+      <Label text="Siege"></Label>
+      <Input type="text"
+      value={Actionnaire.siege}
+      onChange={(e)=>{setActionnaire({...Actionnaire , siege : e.target.value })}}
+      ></Input>
+    </div>
+    
+    <div className="flex justify-between mt-6">
+      <Label text="Gérant"></Label>
+      <Input type="text"
+      value={Actionnaire.gerant}
+      onChange={(e)=>{setActionnaire({...Actionnaire , gerant : e.target.value })}}
+      ></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="CIN Gérant / Passport"></Label>
+      <Input type="text"
+      value={Actionnaire.cin_passport_gerant}
+      onChange={(e)=>{setActionnaire({...Actionnaire , cin_passport_gerant : e.target.value })}}
       ></Input>
     </div>
     

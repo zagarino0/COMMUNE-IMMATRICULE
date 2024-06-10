@@ -7,13 +7,17 @@ import { MainLayout } from "../../../layouts/main";
 import axios from "axios";
 import * as XLSX from 'xlsx';
 interface Date {
+ reference_fiscal:string,
  date_debut : string , 
- date_fin : string
+ date_fin : string,
+ numero_immatriculation: string
 } 
 function TelechargementVehicule() {
  const [Date , setDate ] = useState<Date>({
+  reference_fiscal:"",
   date_debut: "",
-  date_fin : "" 
+  date_fin : "" ,
+  numero_immatriculation:"",
  }) 
 
 const [ Data , setData ] = useState([])
@@ -25,7 +29,7 @@ const [ Data , setData ] = useState([])
     .then((response) => setData(response.data))
     .catch((error) => console.error(error)); 
 
-    const allData = Data.map((item) => ({
+    const allData = Data.map((item:any) => ({
       "numimmatriculation": item.numero_immatriculation,
       "marque": item.marque ,
       "type" : item.type,
@@ -47,6 +51,7 @@ const [ Data , setData ] = useState([])
       "zone": item.zone ,
       "age": item.age,
     }));
+    console.log(allData)
   
     const ws = XLSX.utils.json_to_sheet(allData);
     const wb = XLSX.utils.book_new();
@@ -56,34 +61,46 @@ const [ Data , setData ] = useState([])
   const contentCard = (
     <div className="m-4">
        
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 "> Préparation des données véhicules sur RFonline à télécharger</div>
+        <div className="text-[#959824] text-3xl text-center font-semibold border-b-2  mt-2 "> PREPARATION DES DONNEES VEHICULES SUR RFonline A TELECHARGER</div>
         {/* <div className="mt-6 flex flex-row justify-between ">
 <Label text="Numéro RFonline" className="mt-4"></Label>
 <Input type="text" className="w-96  "></Input>
 
 </div> */}
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Date début" className="mt-4"></Label>
-<Input type="date" className="w-96  "
-value={Date.date_debut}
-onChange={(e)=>setDate({...Date , date_debut : e.target.value})}
-></Input>
 
-</div>
-<div className="mt-6 flex flex-row justify-between ">
-<Label text="Date fin " className="mt-4"></Label>
-<Input type="date" className="w-96  "
-value={Date.date_fin}
-onChange={(e)=>setDate({...Date , date_fin : e.target.value})}
-></Input>
+  <div className="mt-4 px-20">
+    <p className="font-[Courier]">Veuillez remplir le champ ci-dessous: </p>
 
-</div>
+  </div>
+
+    <div className=" p-8 mt-4 bg-[#c0c0c0]">
+   
+
+      <div className="mt-4 flex flex-row justify-between ">
+          <Label text="Date début" className="mt-4"></Label>
+          <Input type="date" className="w-96  "
+                value={Date.date_debut}
+                onChange={(e)=>setDate({...Date , date_debut : e.target.value})}>
+          </Input>
+      </div>
+
+      <div className="mt-4 flex flex-row justify-between item-center ">
+          <Label text="Date fin " className="mt-4"></Label>
+          <Input type="date" className="w-96  "
+                value={Date.date_fin}
+                onChange={(e)=>setDate({...Date , date_fin : e.target.value})}>   
+          </Input>
+      </div>
+      
+     
+
+    </div>
 {/* <div className="mt-6 flex flex-row justify-between ">
 <Label text="Numéro Véhicules" className="mt-4"></Label>
 <Input type="text" className="w-96  "></Input>
 
 </div> */}
-<div className="flex justify-center w-full mt-12">
+<div className="flex justify-center w-full mt-8">
 <div className="w-96">
 <Button label="Préparer" onClick={HandleDataDonwnload}></Button>
 </div> 
@@ -92,8 +109,8 @@ onChange={(e)=>setDate({...Date , date_fin : e.target.value})}
 )
   return (
     <MainLayout>
-    <div className=" mt-14 mb-8">
-    <Card contentCard={contentCard} className="w-[900px] h-[400px]"></Card>
+    <div className=" mt-14">
+    <Card contentCard={contentCard} className="w-[1100px] h-[400px]"></Card>
     </div>
         </MainLayout>
   )

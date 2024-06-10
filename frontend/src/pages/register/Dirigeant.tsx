@@ -6,6 +6,7 @@ import { IoAdd } from "react-icons/io5";
 import Table from "../../components/table/table";
 import { Label } from "../../components/label/label";
 import { AiOutlineSave } from "react-icons/ai";
+import { CgDanger } from "react-icons/cg";
 import Checkbox from "../../components/common/checkbox";
 import Input from "../../components/inputs";
 import { TitleH1, TitleH3 } from "../../components/title";
@@ -67,11 +68,11 @@ function Dirigeant() {
 // select Data in the table      
 const [EntriesSelected , setEntriesSelected] = useState([])
 const [selectedRowIndexEntries  , setSelectedRowIndexEntries] = useState(null) 
-const handleTableRowClickEntries = (rowIndex ) => {
+const handleTableRowClickEntries = (rowIndex:any ) => {
   if (rowIndex === selectedRowIndexEntries) {
     // If the clicked row is already selected, unselect it
     setSelectedRowIndexEntries(null);
-    setEntriesSelected({});
+    setEntriesSelected([]);
   } else {
     // Extract the property values from the data object
     const selectedRowData = entries[rowIndex];
@@ -131,7 +132,7 @@ const handleTableRowClickEntries = (rowIndex ) => {
     }));
 
     // Add the current entry to the list of entries
-    setEntries((prevEntries) => [...prevEntries, { ...Dirigeant, id: newId.toString() }]);
+    setEntries((prevEntries ) => [...prevEntries, { ...Dirigeant, id: newId.toString() }]);
 
       // Reset the Actionnaire state to clear the form
       setDirigeant({
@@ -169,7 +170,7 @@ const handleTableRowClickEntries = (rowIndex ) => {
         "telephone",
     ];
   
-    const data = entries.map((entry) => [
+    const data = entries.map((entry : any) => [
       
      
        
@@ -195,18 +196,20 @@ const handleTableRowClickEntries = (rowIndex ) => {
         <TitleH3 text="Procéder comme suit:" className="mt-2"></TitleH3>
         { add === true && ( 
           <div>
-
+  <div className="mt-4">
+          <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+          </div>
 
   <>
   <div className="flex justify-between mt-6">
-    <Label text="Nom "></Label>
+    <Label text="Nom *"></Label>
     <Input type="text"
     value={Dirigeant.nom}
     onChange={(e)=>{setDirigeant({...Dirigeant , nom: e.target.value})}}
     ></Input>
   </div>
   <div className="flex justify-between mt-6">
-    <Label text="Fonction"></Label>
+    <Label text="Fonction *"></Label>
     <Input type="text"
     value={Dirigeant.fonction}
     onChange={(e)=>{setDirigeant({...Dirigeant , fonction : e.target.value})}}
@@ -222,7 +225,7 @@ const handleTableRowClickEntries = (rowIndex ) => {
     { Dirigeant.resident == false && (
       <>
       <div className="flex justify-between mt-6">
-<Label text="Numero CIN"></Label>
+<Label text="Numero CIN *"></Label>
 <Input type="text"
 value={Dirigeant.cin}
 onChange={(e)=>{setDirigeant({...Dirigeant , cin : e.target.value})}}
@@ -235,7 +238,7 @@ onChange={(e)=>{setDirigeant({...Dirigeant , cin : e.target.value})}}
     { Dirigeant.resident == true && (
       <>
       <div className="flex justify-between mt-6">
-<Label text="Numéro Passeport ou Carte Résident"></Label>
+<Label text="Numéro Passeport ou Carte Résident *"></Label>
 <Input type="text"
 value={Dirigeant.passport}
 onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
@@ -246,7 +249,7 @@ onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
 
     }
   <div className="flex justify-between mt-6">
-    <Label text="Adresse  "></Label>
+    <Label text="Adresse * "></Label>
     <Input type="text"
      value={Dirigeant.adresse}
      onChange={(e)=>{setDirigeant({...Dirigeant ,adresse: e.target.value})}}
@@ -274,14 +277,14 @@ onChange={(e)=>{setDirigeant({...Dirigeant , passport : e.target.value })}}
 
     }
   <div className="flex justify-between mt-6">
-    <Label text="Email "></Label>
+    <Label text="Email *"></Label>
     <Input type="text"
      value={Dirigeant.email}
      onChange={(e)=>{setDirigeant({...Dirigeant , email: e.target.value})}}
     ></Input>
   </div>
   <div className="flex justify-between mt-6">
-    <Label text="Telephone "></Label>
+    <Label text="Telephone *"></Label>
     <Input type="text"
      value={Dirigeant.telephone}
      onChange={(e)=>{setDirigeant({...Dirigeant , telephone: e.target.value})}}

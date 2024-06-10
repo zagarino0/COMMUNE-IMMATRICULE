@@ -3,6 +3,7 @@ import Button from "../../components/common/Button";
 import { Label } from "../../components/label/label";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { Layout } from "./Layout";
+import { CgDanger } from "react-icons/cg";
 import Checkbox from "../../components/common/checkbox";
 import { useState } from "react";
 import axios from "axios";
@@ -220,7 +221,7 @@ if(parsedDataDirigeant){
         localStorage.removeItem("interlocuteurData");
         localStorage.removeItem("associeData");
         
-         navigate("/register");
+         navigate("/Choose");
         } catch (error) {
           // Handle errors
           console.error("Error:", error);
@@ -234,27 +235,34 @@ if(parsedDataDirigeant){
 }
   const content = (
     <div className="flex justify-center w-full h-full mt-28 p-8">
+      
       <div className="flex flex-col w-[1000px]">
         <div className="flex flex-row">
+
           <TitleH3 text="Etape 8:" className="mt-2"></TitleH3>
         <TitleH1 text="Confirmation des étapes" className="ml-2"></TitleH1>
         </div>
+
+        <div className="mt-4">
+          <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+          </div>
+        
         <div className="flex justify-between mt-6">
-            <Label text="M'envoyer par e-mail les informations saisies " />
+            <Label text="M'envoyer par e-mail les informations saisies *" />
       <div className="flex justify-between w-[300px]">
     <Checkbox label="Oui" onChange={(checked)=>setAutre({ ...Autre , information_mail: checked})} checked={Autre.information_mail == true }></Checkbox>
     <Checkbox label="Non" onChange={(checked)=>setAutre({...Autre , information_mail: !checked})} checked={Autre.information_mail == false}></Checkbox>
     </div>
     </div>
     <div className="flex justify-between mt-6">
-            <Label text="Votre exerice dépasse t-il 12 mois ? " />
+            <Label text="Votre exerice dépasse t-il 12 mois ? * " />
       <div className="flex justify-between w-[300px]">
     <Checkbox label="Oui(18 mois)" onChange={(checked)=>setAutre({ ...Autre , depaseement_12_mois: checked})} checked={Autre.depaseement_12_mois == true}></Checkbox>
     <Checkbox label="Non(12 mois)" onChange={(checked)=>setAutre({...Autre , depaseement_12_mois: !checked})} checked={Autre.depaseement_12_mois == false}></Checkbox>
     </div>
     </div>
     <div className="flex justify-between mt-6">
-            <Label text="Je certifie que ces renseignements sont complets et exacts " />
+            <Label text="Je certifie que ces renseignements sont complets et exacts *" />
       <div className="flex justify-between w-[300px]">
     
     <Checkbox onChange={(checked)=>setAutre({...Autre , certification: checked})} checked={Autre.certification }></Checkbox>

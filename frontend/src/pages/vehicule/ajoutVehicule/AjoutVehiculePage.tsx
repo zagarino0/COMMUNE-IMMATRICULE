@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Card } from "../../../components/card/card"
 import { Button } from "../../../components/common"
+import { CgDanger } from "react-icons/cg";
 import Input from "../../../components/inputs"
 import Select from "../../../components/inputs/selectInput"
 import { Label } from "../../../components/label/label"
@@ -115,6 +116,8 @@ function AjoutVehiculePage() {
           { value: 'Transport en commun', label: 'Transport en commun' },
           { value: 'Transport Urbaine', label: 'Transport Urbaine' },
           { value: 'Transport marchandise', label: 'Transport marchandise' },
+          { value: 'Taxi ville', label: 'Taxi ville' },
+          { value: 'Bus scolaire', label: 'Bus scolaire' },
         ];
         const optionsZone = [
           { value: 'Commune Urbaine de Mahajanga', label: 'Commune Urbaine de Mahajanga' },
@@ -124,74 +127,80 @@ function AjoutVehiculePage() {
         <div className="flex justify-center items-center">
           <form onSubmit={handleSubmit}>
   <div className="flex flex-col ">
-  <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Ajout de véhicule</div>
-  
-    <div className="flex flex-col  ">
+  <div className="text-[#959824] text-4xl font-semibold border-b-2 text-center mt-6">AJOUT DE VEHICULE</div>
+  <div className="mt-8">
+    <p className="font-[Courier]">Veuillez fournir les renseignements suivants selon les infos dans la Carte grise du Contribuable: </p>
+      <br />
+     <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+    <p className="mt-4 px-6 font-semibold ">Principaux renseignements sur le VEHICULE</p>
+  </div>
+
+    <div className="flex flex-col bg-[#c0c0c0] p-10 w-[1100px]">
  <div className="flex flex-row mt-6 justify-between">
- <Label text="Numéro d'immatriculation " className="mt-4"></Label>
+ <Label text="Numéro d'immatriculation  * " className="mt-4"></Label>
  <Input type="text"  placeholder="Numéro d'immatriculation" className="w-96 "
  value={value.numimmatriculation_v}
  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, numimmatriculation_v: e.target.value })}
  ></Input>
  </div>
 <div className="flex flex-row mt-6 justify-between">
-<Label text="Marque " className="mt-4"></Label>
+<Label text="Marque * " className="mt-4"></Label>
 <Input type="text" placeholder="Marque" className="w-96  "
 value={value.marque_v}
 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, marque_v: e.target.value })}
 ></Input>
 </div>
   <div className="flex flex-row mt-6 justify-between">
-  <Label text="Type " className="mt-4 "></Label>
+  <Label text="Type * " className="mt-4 "></Label>
   <Input type="text" placeholder="Type " className="w-96 "
   value={value.type_v}
   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, type_v: e.target.value })}
   ></Input>
   </div>
   <div className="flex flex-row mt-6 justify-between">
-  <Label text="Genre " className="mt-4"></Label>
+  <Label text="Genre * " className="mt-4"></Label>
   <Input type="text" placeholder="Genre" className="w-96 "
   value={value.genre_v}
   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, genre_v: e.target.value })}
   ></Input>
   </div>
  <div className="flex flex-row mt-6 justify-between">
- <Label text="Puissance :" className="mt-4"></Label>
+ <Label text="Puissance *:" className="mt-4"></Label>
  <Input type="text" placeholder="Puissance" className="w-96 "
  value={value.puissance_v}
  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, puissance_v: e.target.value })}
  ></Input>
  </div>
 <div className="flex flex-row mt-6 justify-between">
-<Label text="Nombre de place sur carte grise :" className="mt-4"></Label>
+<Label text="Nombre de place sur carte grise * :" className="mt-4"></Label>
 <Input type="text" placeholder="Nombre de place sur carte grise" className="w-96 !"
 value={value.nbplacecartegrise_v}
 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nbplacecartegrise_v: e.target.value })}
 ></Input>
 </div>
   <div className="flex flex-row mt-6 justify-between">
-  <Label text="Nombre de place licence :" className="mt-4"></Label>
+  <Label text="Nombre de place licence * :" className="mt-4"></Label>
   <Input type="text" placeholder="Nombre de place licence" className="w-96 "
   value={value.nbplacelicence_v}
   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nbplacelicence_v: e.target.value })}
   ></Input>
   </div>
   <div className="flex flex-row mt-6 justify-between">
-  <Label text="Charge Utile :" className="mt-4"></Label>
+  <Label text="Charge Utile *:" className="mt-4"></Label>
   <Input type="text" placeholder="Charge Utile" className="w-96"
   value={value.chargeutile_v}
   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, chargeutile_v: e.target.value })}
   ></Input>
   </div>
   <div className="flex flex-row mt-6 justify-between">
-  <Label text="Date de mise en Circulation :" className="mt-4"></Label>
+  <Label text="Date de mise en Circulation *:" className="mt-4"></Label>
   <Input type="date" placeholder="Date de mise en Circulation" className="w-96 "
   value={value.datemisecirculation_v}
   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datemisecirculation_v: e.target.value })}
   ></Input>
   </div>
   <div className="flex flex-row mt-6 justify-between">
-  <Label text="Poids à vide :" className="mt-4"></Label>
+  <Label text="Poids à vide *:" className="mt-4"></Label>
   <Input type="text" placeholder="Poids à vide" className="w-96 "
   value={value.poidsavide_v}
   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, poidsavide_v: e.target.value })}
@@ -206,7 +215,7 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, dated
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between">
-<Label text="RF propriétaire" className="mt-4"></Label>
+<Label text="RF propriétaire *" className="mt-4"></Label>
 <Input type="text" placeholder="RF propriétaire" className="w-96 "
 value={value.nifproprietaire_v}
 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, nifproprietaire_v: e.target.value })}
@@ -221,7 +230,7 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, ancni
 ></Input>
 </div>
 <div className="mt-6 flex flex-row justify-between">
-<Label text="Exploitation :" className="mt-4"></Label>
+<Label text="Exploitation *:" className="mt-4"></Label>
 <Select options={optionsExploitation} value={value.exploitation_v} onChange={(option=>{setValue({...value , exploitation_v: option})})} className="w-96 "/>
 </div>
 <div className="mt-6 flex flex-row justify-between">
@@ -247,8 +256,11 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, datev
 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, age_v : e.target.value })}
     ></Input>
 </div>
-<Button type="submit" text="Enregistrer" className="mt-6"></Button>
+
     </div>
+        <div className=""> 
+            <Button type="submit" text="Enregistrer" className="mt-6"></Button>
+        </div>
   </div>
   </form>
   </div>
@@ -257,8 +269,8 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, age_v
   return (
     <div>
       <MainLayout>
-        <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-            <Card className="w-[1000px] h-[1800px] " contentCard={contentCard}></Card>
+        <div className="overflow-y-auto h-[500px] mt-14 mb-8">
+            <Card className="w-[1300px]  " contentCard={contentCard}></Card>
         </div>
     </MainLayout>
       <Modal isOpen={isModalSuccess} onClose={() => setIsModalSuccess(false)} className="w-[300px] h-[150px]">

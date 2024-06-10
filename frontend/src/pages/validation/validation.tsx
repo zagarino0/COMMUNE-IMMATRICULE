@@ -15,8 +15,8 @@ function ValidationPage() {
       //Links navbar
       const links = [
         
-        { title: "Validation des démandes d'immatriculation ", link: "/ValidationDemandeImmatriculation" },
-        { title: "Validation des mise à jour sur les renseignements des contribuables", link: "/demandeDeNIFValider" },        
+        { title: "Valider des démandes d'immatriculation ", link: "/ValidationDemandeImmatriculation" },
+        { title: "Valider des mise à jour sur les renseignements des contribuables", link: "/demandeDeNIFValider" },        
        // { title: "Rectification des principaux renseignements des contribuables", link: "/rectificationprincipauxrenseignementcontribuable" },
        
         
@@ -28,8 +28,8 @@ function ValidationPage() {
     const contentCard =(
       <div className="flex justify-center item-center ">
   <div className="flex flex-col py-6">
-  <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
-          Zone pour la validation des demandes des contribuables 
+  <div className=" font-semibold text-[#959824]  text-4xl mt-6 border-b-8  border-[#959824] ">
+          ZONE POUR LA VALIDATION DES DEMANDES DES CONTRIBUABLES 
         </div>
         <div className="font-semibold mt-6 text-sm ">
           cette fonction vous donne la possibilité de :  
@@ -38,7 +38,7 @@ function ValidationPage() {
         {links.map((link) => (
           <li
             key={link.title}
-            className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2 hover:border-[#959824] ${
+            className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2  hover:text-[#1956e3] ${
               selectedLink === link.title.toLowerCase() 
               
             } `}
@@ -53,7 +53,7 @@ function ValidationPage() {
   return (
     <MainLayout>
 <div className=" overflow-y-auto h-[500px] mt-28 mb-8  ">
-<Card contentCard={contentCard} className="w-[1000px] h-[400px] "></Card>
+<Card contentCard={contentCard} className="w-[1300px] h-[400px] "></Card>
 </div>
     </MainLayout>
   )

@@ -1,3 +1,5 @@
+
+
 import axios from "axios";
 import { Card } from "../../../components/card/card";
 
@@ -16,8 +18,6 @@ function RepriseInfo() {
     const selectedData = localStorage.getItem("selectedRepriseData");
     const  parsedDataSelected = JSON.parse(selectedData as string);
     console.log(parsedDataSelected)
-    const {activite} = parsedDataSelected ;
-    const {siege} = parsedDataSelected ;
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
 
@@ -30,24 +30,28 @@ function RepriseInfo() {
         "comment" : Motif.comment,
         "id_user" : userData.id_user         
       }
+
+      console.log(Data)
       try {
         // Make a POST request to your server endpoint
         const response = await axios.post("http://localhost:3500/contribuable/activite/reprise", Data);
         
         // Check the response status or do something with the response
         console.log("Server Response:", response.data );
+        setIsModalRadieMotif(false)
         alert(`Réprise pour ${parsedDataSelected.raison_social} réussi`)
         navigate('/RepriseActivite')
       } catch (error) {
         // Handle errors
         console.error("Error:", error);
-        alert("Vous ne pouvez pas faire une réprise d'activité avant 3 mois")
+        // alert("Vous ne pouvez pas faire une réprise d'activité avant 3 mois")
+        alert(`Il y a une erreur :  ${error}`)
       }
     }
     const content = (
-      <div className="flex justify-center w-full h-full  p-5">
+      <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2"><h1 className=" rounded-md text-white p-5 text-3xl   font-semibold  bg-[#959824] mt-2" >REPRISE D'ACTIVITE : {parsedDataSelected.reference_fiscal}</h1></div>
+        <div className="text-[#959824] text-4xl  font-semibold border-b-2  mt-2"><TitleH1 className="text-[#959824] text-4xl  font-semibold border-b-2 text-center mt-2" text="REPRISE D'ACTIVITE"></TitleH1></div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
@@ -177,55 +181,28 @@ function RepriseInfo() {
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Activité" />
+            <Label text="Situation matrimoniale" />
             <Input type="text"
-            value={activite ? activite.activite : ""}
+            value={parsedDataSelected ? parsedDataSelected.situation_matrimoiniale : ""}
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Province" />
+            <Label text="Autorisation" />
             <Input type="text"
-            value={siege ? siege.province : ""}
+            value={parsedDataSelected ? parsedDataSelected.reference_agrement : ""}
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Région" />
+            <Label text="Date autorisation" />
+            <Input type="date"
+            value={parsedDataSelected? parsedDataSelected.date_agrement : ""}
+            />
+          </div>
+          <div className="flex justify-between mt-6">
+            <Label text="Capital" />
             <Input type="text"
-            value={siege ? siege.region : ""}
+            value={parsedDataSelected? parsedDataSelected.capital : ""}
             />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="District" />
-            <Input type="text"
-            value={siege ? siege.district : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Commune" />
-            <Input type="text"
-            value={siege ? siege.commune : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Fokontany" />
-            <Input type="text"
-            value={siege ? siege.fokontany : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Adresse" />
-            <Input type="text" 
-            value={siege? siege.adresse_actuel : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="N° Statistique" />
-            <div className="flex flex-col">
-            <Input type="text" 
-            value={activite ? activite.statistique : ""}
-            />
-          
-            </div>
           </div>
          
           <div className="flex justify-between mt-6">
@@ -246,28 +223,27 @@ function RepriseInfo() {
             value={parsedDataSelected ?parsedDataSelected.forme_juridique : ""}
             />
           </div>
-  
+
           <div className="flex justify-center mt-12">
           <div className="w-96 ">
-            <Button label="Accorder" onClick={()=> setIsModalRadieMotif(true)}></Button>
+            <Button label="Accorder" onClick={()=>setIsModalRadieMotif(true)}></Button>
           </div>
           </div>
         </div>
       </div>
     );
-    
     const [isModalRadieMotif , setIsModalRadieMotif] = useState(false)
-  const [Motif , setModif ] = useState<{
-    motif : string ,
-    comment : string
-  }>({
-    motif : "",
-    comment : ""
-  })
+    const [Motif , setModif ] = useState<{
+      motif : string ,
+      comment : string
+    }>({
+      motif : "",
+      comment : ""
+    })
     return (
         <MainLayout>
          <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-         <Card contentCard={content} className="w-[800px] h-[1300px] "></Card>
+         <Card contentCard={content} className="w-[1200px] "></Card>
          </div>
          <Modal isOpen={isModalRadieMotif} onClose={()=>setIsModalRadieMotif(false)} className="w-[550px]  p-6">
    <div className="flex justify-between">

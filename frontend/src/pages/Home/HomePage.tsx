@@ -1,26 +1,25 @@
 import { Navbar } from "../../components/navbar/Nabvar"
-// import Repoblika from "../../assets/Repoblika.png"
 import "../../components/font/font.css";
 import Button from "../../components/common/Button";
-import { GoPencil } from "react-icons/go";
+//import { GoPencil } from "react-icons/go";
 import { CiLogin } from "react-icons/ci";
-import { GrServices } from "react-icons/gr";
-import { FaRegPenToSquare } from "react-icons/fa6";
-import { IoDocumentTextOutline } from "react-icons/io5";
-import { HiOutlineClipboardDocumentList } from "react-icons/hi2"
+//import { GrServices } from "react-icons/gr";
+//import { FaRegPenToSquare } from "react-icons/fa6";
+//import { IoDocumentTextOutline } from "react-icons/io5";
+//import { HiOutlineClipboardDocumentList } from "react-icons/hi2"
 import { Link } from "react-router-dom";
 import { ModalLogin } from "./Modal/ModalLogin";
 import { useState } from "react";
 
-function HomePage() {
+function HomePage() {                                                                                                                                                                                  
    const [isModal , setIsModal] = useState(false);
     const content =(
         <div className="flex justify-between ">
          <a href="#" className="font-semibold flex flex-row "><p className="text-3xl text-[#959824]  ">E</p><p className="text-3xl">-immatriculation</p></a>
-         <div className="flex justify-between py-3 w-[350px]">
-         <Link to="/Immatriculation" className="font-[Tara]  hover:border-b-2 hover:border-[#959824]">Immatriculation</Link>
-         <a href="https://mairie-mahajanga.mg/" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2 ">Site CUM</a>
-         <a href="#" className="font-[Tara]   hover:border-b-2 hover:border-[#959824] ml-2">Contact</a>
+         <div className="flex justify-center py-3  ml-2 ">
+         <Link to="/Immatriculation" className="font-[Tara] text-1xl hover:border-b-2 hover:border-[#959824]  ">Immatriculation</Link>
+         <a href="https://mairie-mahajanga.mg/" className="font-[Tara]  text-1xl  hover:border-b-2 hover:border-[#959824] ml-3 ">Site CUM</a>
+         <a href="#" className="font-[Tara]   hover:border-b-2 text-1xl hover:border-[#959824] ml-3">Contact</a>
          </div>
          <div className="w-[180px]">
          <Button label="Se connecter" onClick={()=> setIsModal(true)} icon={CiLogin } ></Button>
@@ -33,17 +32,13 @@ function HomePage() {
     <div className=" w-full h-full bg-gray-200 ">
       
         <Navbar content={content} className="h-16 "></Navbar>
-        <div className=" flex justify-center py-14 bg-hoteldeville ">
-            <div className="flex flex-col mt-60">
-           
-            <div className="bg-white w-[600px] h-[100px] rounded flex items-center justify-center ">
-            <p className="text-center font-[kaldera] text-4xl ">Bienvenue sur E-immatriculation</p>
-            </div>
-            </div>
+        <div className=" flex justify-center py-14 bg-hoteldeville">
+            <div className="flex flex-col  h-[1000px]"></div>
         </div>
         
         <div className="flex justify-center  w-full h-full  py-14">
-       <div className="flex flex-col">
+      {/**
+       *  <div className="flex flex-col">
        <div className="bg-white shadow-b-xl rounded flex justify-center w-[800px] h-[320px] py-8">
            <div className="flex flex-col p-8">
            <h1 className="text-2xl text-center font-[Tara]   flex flex-row"><GrServices className="mr-2 text-4xl" />Immatricuation</h1>
@@ -99,8 +94,10 @@ function HomePage() {
         </div>
         
        </div>
+       */}
         </div>
-        <div className="w-full h-full bg-[#959824] flex justify-between py-14 px-8">
+       {/**
+        *  <div className="w-full h-full bg-[#959824] flex justify-between py-14 px-8">
  <div className="h-[200px] w-60">
 <h1 className="text-white flex flex-row font-[Tara]"><div className="bg-white w-[5px] rounded h-[30px] mr-4"></div>DGI</h1>
 <p className="text-justify font-[Tara] text-white mt-8">DIRECTION GÉNÉRALE DES IMPOTS
@@ -129,8 +126,9 @@ Antananarivo, 101, Madagascar</p>
  </div>
  
         </div>
+        */}
         <div className="bg-black w-full h-16 p-3 flex justify-center">
-             <p className="text-justify  text-white ">© 2023-2024, Commune Urbaine Mahajanga , CUM</p>
+             <p className="text-justify  text-white ">© 2023-2024, Commune Urbaine Mahajanga, <span className="text-[#959824]">Developped_by BOUANA SERVICE</span> </p>
         </div>
         <ModalLogin isOpen={isModal} onClose={()=>setIsModal(false)} quitter={()=>setIsModal(false)}></ModalLogin>
     </div>

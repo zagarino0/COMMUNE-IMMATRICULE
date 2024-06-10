@@ -722,7 +722,7 @@ const repriseActivite = async (req, res) => {
     const motif = req.body.motif;
     const comment = req.body.comment;
     const id_user = req.body.id_user;
-    const contribuable = data.contribs.find(con => con.id_contribuable === reference_fiscal);
+    const contribuable = data.contribs.find(con => con.reference_fiscal === reference_fiscal);
     if (!contribuable)
         return res.status(404).json({ 'message': 'Contribuable introuvable' });
 
@@ -786,7 +786,6 @@ const debloquageContribuable = async (req, res) => {
 
     const modification = data.modifications.find(mod => mod.id_contribuable === contribuable.id);
     modification.blockage = false;
-    modification.date_blockage = '';
 
     const filteredModification = data.modifications.filter(mod => mod.id_contribuable !== contribuable.id);
     const unsortedModification = [...filteredModification, modification];

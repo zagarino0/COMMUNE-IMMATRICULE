@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
 import { FaRegHandshake } from "react-icons/fa6";
 import { TiShoppingBag } from "react-icons/ti";
-import Repoblika from "../../assets/Repoblika.png"
 import { CiLogin } from "react-icons/ci"
 import { Navbar } from "../../components/navbar/Navbar";
 import { IoStatsChartOutline } from "react-icons/io5";
@@ -76,13 +75,8 @@ const links = [
       <ModalLogin isOpen={isModal} onClose={()=> setIsModal(false)} quitter={()=> setIsModal(false)}></ModalLogin>
       <Navbar content={content} className="h-16"></Navbar>
      
-      <div className=" flex justify-center py-14 bg-hoteldeville ">
-        <div className="flex flex-col">
-        <img src={Repoblika} alt="repoblika photo" />
-        <div className="bg-white w-[600px] h-[100px] rounded flex items-center justify-center ">
-        <p className="text-center font-[kaldera] text-4xl ">Formulaire d'inscription</p>
-        </div>
-        </div>
+      <div className=" flex justify-center py-80 bg-hoteldeville ">
+  
     </div>
     <div className="flex justify-center  w-full h-full  py-14">
 <div className="flex flex-col">
@@ -103,7 +97,7 @@ const links = [
       <main className="w-full h-full">{children}</main>
   </div>
   <div className="bg-black w-full h-16 p-3 flex justify-center">
-             <p className="text-justify  text-white ">© 2022-2023, Direction Générale des Impôts, SSIF</p>
+             <p className="text-justify  text-white ">© 2022-2023  Developped by BOUANA SERVICE</p>
         </div>
     </div>
   );

@@ -37,7 +37,7 @@ function LoginPage() {
     } catch (error : any) {
       // Handle errors from the server
       console.error("Login failed:", error.message);
-      alert("Authentific ation échoué.Veillez-ressayer encore .");
+      alert(`Erreur serveur : ${error}`	);
     }
   };
 const ImageContent = (

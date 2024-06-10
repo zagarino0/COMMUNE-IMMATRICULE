@@ -51,7 +51,7 @@ let navigate = useNavigate();
     } catch (error) {
       // Handle errors
       console.error("Error:", error);
-      alert('il y a une erreur')
+      alert(`Il y a une erreur :  ${error}`)
     }
   };
   const ContentPage = (

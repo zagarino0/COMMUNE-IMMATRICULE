@@ -7,27 +7,33 @@ import { Label } from "../../../components/label/label";
 import { TitleH1 } from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import Modal from "../../../components/modals/modals";
+import { useState } from "react";
 
 function InfoBlocage() {
     let navigate = useNavigate();
     const selectedData = localStorage.getItem("selectedBlocageData");
     const  parsedDataSelected = JSON.parse(selectedData as string);
     console.log("Data from Bloc :",parsedDataSelected)
-    const {activite} = parsedDataSelected ;
-    const {siege} = parsedDataSelected ;
+  
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
-
+    const [Motif , setMotif ] = useState<{
+      motif : string ,
+      comment : string ,
+    }>({
+      motif : "",
+      comment: ""  
+    })
     const HandleCessation = async () => {
 
       const Data ={
         "reference_fiscal": parsedDataSelected.reference_fiscal,
         "comment" : Motif.comment,
-        "id_user" : userData.id_user,
-        "motif": Motif.motif         
+        "motif" : Motif.motif,
+        "id_user" : userData.id_user         
       }
+      console.log(Data)
       try {
         // Make a POST request to your server endpoint
         const response = await axios.post("http://localhost:3500/contribuable/bloquer", Data);
@@ -35,6 +41,7 @@ function InfoBlocage() {
         // Check the response status or do something with the response
         console.log("Server Response:", response.data );
         alert(`Mise en veille pour ${parsedDataSelected.raison_social} réussi`)
+        setIsModalAccorder(false)
         navigate('/BlocageAdministratif')
       } catch (error) {
         // Handle errors
@@ -43,9 +50,9 @@ function InfoBlocage() {
       }
     }
     const content = (
-      <div className="flex justify-center w-full h-full  p-4">
+      <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] "><h1 className="text-white text-3xl  font-semibold  bg-[#959824] p-4 rounded-md mt-2" >BLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE</h1></div>
+        <div className="text-[#959824] text-4xl  font-semibold border-b-2  mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2  mt-2" text="BLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
@@ -175,55 +182,28 @@ function InfoBlocage() {
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Activité" />
+            <Label text="Situation matrimoniale" />
             <Input type="text"
-            value={activite ? activite.activite : ""}
+            value={parsedDataSelected ? parsedDataSelected.situation_matrimoiniale : ""}
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Province" />
+            <Label text="Autorisation" />
             <Input type="text"
-            value={siege ? siege.province : ""}
+            value={parsedDataSelected ? parsedDataSelected.reference_agrement : ""}
             />
           </div>
           <div className="flex justify-between mt-6">
-            <Label text="Région" />
+            <Label text="Date autorisation" />
+            <Input type="date"
+            value={parsedDataSelected? parsedDataSelected.date_agrement : ""}
+            />
+          </div>
+          <div className="flex justify-between mt-6">
+            <Label text="Capital" />
             <Input type="text"
-            value={siege ? siege.region : ""}
+            value={parsedDataSelected? parsedDataSelected.capital : ""}
             />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="District" />
-            <Input type="text"
-            value={siege ? siege.district : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Commune" />
-            <Input type="text"
-            value={siege ? siege.commune : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Fokontany" />
-            <Input type="text"
-            value={siege ? siege.fokontany : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="Adresse" />
-            <Input type="text" 
-            value={siege? siege.adresse_actuel : ""}
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <Label text="N° Statistique" />
-            <div className="flex flex-col">
-            <Input type="text" 
-            value={activite ? activite.statistique : ""}
-            />
-          
-            </div>
           </div>
          
           <div className="flex justify-between mt-6">
@@ -247,64 +227,42 @@ function InfoBlocage() {
   
           <div className="flex justify-center mt-12">
           <div className="w-96 ">
-            <Button label="Accorder" onClick={()=> setIsModalMotif(true)}></Button>
+            <Button label="Accorder" onClick={()=> setIsModalAccorder(true)}></Button>
           </div>
           </div>
         </div>
       </div>
     );
-const [isModalMotif , setIsModalMotif] = useState(false) 
-const [Motif , setMotif] = useState<{
-comment : string
-motif : string
-}>({
-comment : "",
-motif: ""
-})
+    
+    const [IsModalAccorder , setIsModalAccorder] = useState(false)
     return (
         <MainLayout>
          <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-         <Card contentCard={content} className="w-[800px] h-[1300px] "></Card>
+         <Card contentCard={content} className="w-[1200px] mt-10 "></Card>
          </div>
-         <Modal isOpen={isModalMotif} onClose={()=>setIsModalMotif(false)} className="w-[550px]  p-6">
-   <div className="flex justify-between">
-   <div className="flex flex-col">
-      <Label
-      text="Motif"
-      className="mt-4"
-      
-      ></Label>
-      <Label
-      text="Commentaire"
-      className="mt-4"
-      ></Label>
-     
-    </div>
-
-    <div className="flex flex-col ">
-      
-      <Input
-      type="text"
-      className=""
-       value={Motif.motif}
-       onChange={(e)=> setMotif({...Motif , motif : e.target.value})}
-      ></Input>
-     <Input
-      type="text"
-      className=" mt-2"
-       value={Motif.comment}
-       onChange={(e)=>setMotif({...Motif , comment : e.target.value})}
-      ></Input>
-    </div>
-   </div>
-    <div className="mt-4">
-    <Button
-      label="Accorder"
-      onClick={HandleCessation}
-      
-      ></Button>
-    </div>
-  </Modal>
+        <Modal isOpen={IsModalAccorder} onClose={()=> setIsModalAccorder(false)} className=" w-[500px] p-6">
+          <div className="flex justify-center ">
+              <div className="flex flex-col">
+                  <div className="flex justify-between">
+                       <Label text="Motif"></Label>
+                       <Input type="text" className="ml-4"
+                       value={Motif.motif}
+                       onChange={(e)=>setMotif({...Motif , motif: e.target.value})}
+                       ></Input>
+                  </div>
+                  <div className="flex justify-between mt-4">
+                       <Label text="Commentaire" className="mt-2"></Label>
+                       <Input type="text" className="ml-4"
+                       value={Motif.comment}
+                       onChange={(e)=> setMotif({...Motif , comment : e.target.value })}
+                       ></Input>
+                  </div>
+                 <div className="mt-4">
+                 <Button label="Valider" onClick={HandleCessation} ></Button>
+                 </div>
+              </div>
+          </div>
+         </Modal>
         </MainLayout>
        )
 }

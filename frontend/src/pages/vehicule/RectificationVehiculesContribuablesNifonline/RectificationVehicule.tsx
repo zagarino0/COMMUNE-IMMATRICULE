@@ -5,25 +5,26 @@ import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
-import { TitleH2, TitleH3 } from "../../../components/title";
+import { TitleH3} from "../../../components/title";
 import { MainLayout } from "../../../layouts/main";
 import Modal from "../../../components/modals/modals";
 import axios from "axios";
 
 function RectificationVehicule() {
-
+  
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-  const [DataSelected , setDataSelected] = useState([]);
+  const [DataSelected , setDataSelected] = useState<any>([]);
   const [EntriesSelected , setEntriesSelected] = useState([])
   const [selectedRowIndexEntries  , setSelectedRowIndexEntries] = useState(null)
   const [isModal , setIsModal] = useState(false);
   const ContribuableLocaleStorage = localStorage.getItem("selectedContribuableRectificationAddVehicule");
+  
   const [Contribuable] = useState(
     JSON.parse(ContribuableLocaleStorage as string)
   );
 
   const {activite} = Contribuable ;
-  console.log(Contribuable)
+  console.log("contribuable",Contribuable)
 
 const [VehiculeData , setVehiculeData] = useState([])
  useEffect(() => {
@@ -35,12 +36,20 @@ const [VehiculeData , setVehiculeData] = useState([])
 
 console.log(VehiculeData)
   
-  const headerVehiculeTable = ["Numéro immatriculation" , "genre" , "puissance"]
-  const dataVehiculeTable  = VehiculeData.map((item)=>[item.numero_immatriculation ,item.genre ,  item.puissance])
+
+  const headerVehiculeTable = ["Numéro immatriculation" ,"Type", "Genre","Marque", "Puissance"]
+  const dataVehiculeTable  = VehiculeData.map((item:any)=>[
+    item.numero_immatriculation,
+    item.type,
+    item.genre,
+    item.marque,
+    item.puissance
+  ])
 
 
 
-  const handleTableRowClick = (rowIndex) => {
+
+  const handleTableRowClick = (rowIndex:any) => {
     setSelectedRowIndex(rowIndex);
     
     // Extract the property values from the data object
@@ -61,17 +70,23 @@ console.log(VehiculeData)
       const newEntry = {
         id: newId.toString(),
         numero_immatriculation: DataSelected.numero_immatriculation,
+        type : DataSelected.type,
         genre: DataSelected.genre,
         puissance: DataSelected.puissance,
-        id_vehicule : DataSelected.id_vehicule
+        id_vehicule : DataSelected.id_vehicule,
+        marque: DataSelected.marque
+   
+
         // Add other properties as needed
       };
     // Update the entries state with the new entry
-  setEntries((prevEntries) => [...prevEntries, newEntry]);
+  setEntries((prevEntries : any) => [...prevEntries, newEntry]);
 
   // Reset the selected row index and data
-  setSelectedRowIndex(null);
-  setDataSelected({});
+
+  setSelectedRowIndex(null); 
+
+  setDataSelected([]);
 
   // Close the modal
   setIsModal(false);
@@ -79,11 +94,17 @@ console.log(VehiculeData)
 
   
     
-   const headers = ["Numéro Immatriculation", "genre", "Puissance"];
-   const data = entries.map((item:any)=>[item.numero_immatriculation ,item.genre ,  item.puissance])
+   const headers = ["Numéro Immatriculation","Type", "genre","Marque", "Puissance"];
+   const data = entries.map((item:any)=>[
+    item.numero_immatriculation ,
+    item.type,
+    item.genre ,
+    item.marque,
+    item.puissance
+  ])
   
 
-   const handleTableRowClickEntries = (rowIndex) => {
+   const handleTableRowClickEntries = (rowIndex:any) => {
     setSelectedRowIndexEntries(rowIndex);
     
     // Extract the property values from the data object
@@ -98,7 +119,8 @@ console.log(VehiculeData)
     const HandleSaveVehiculeTable = async () => {
       if (entries){
         const DataVehicule = {
-          "vehicles" : entries
+          "vehicles" : entries ,
+          "id_contribuable" : Contribuable 
         }
       try {
        const response = await axios.post("http://localhost:3500/vehicle/all" , DataVehicule);
@@ -114,7 +136,7 @@ console.log(VehiculeData)
       // Delete the Data From the Table 
       const handleDeleteButtonClick = (idToDelete: string) => {
         // Filter out the entry with the specified ID
-        const updatedEntries = EntriesSelected.filter((entry) => entry.id_vehicule !== idToDelete);
+        const updatedEntries = EntriesSelected.filter((entry:any) => entry.id_vehicule !== idToDelete);
       
         // Update the entries state with the filtered entries
         setEntriesSelected(updatedEntries);
@@ -128,61 +150,68 @@ console.log(VehiculeData)
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Rectification des véhicules des contribuables ayant la Référence Fiscale: {Contribuable.reference_fiscal}</div>
-<TitleH2 text="Principaux renseignements sur ce contribuables" className="mt-6"></TitleH2>
-<div className="mt-6 flex  justify-between ">
-<Label text="Raison social" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={Contribuable? Contribuable.raison_social : ""}
-></Input>
-</div>
-<div className="flex justify-between mt-6">
-          <Label text="Type" />
-          <div className="flex justify-between">
-          <label className="">
-    <input
-      type="radio"
-      value="Personne physique"
-      className='mr-2'
-      checked={  Contribuable.type === "Personne physique"}
-    />
-    Personne physique
-  </label>
-  <label className=' ml-4'>
-    <input
-      type="radio"
-      value="Personne morale"
-      className='mr-2'
-      checked={Contribuable.type === "Personne morale"}
-      
-    />
-    Personne morale
-  </label>
-          </div>
-   
 
-</div>
-<div className="mt-6 flex  justify-between ">
-<Label text="Activités" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={activite ? activite.activite : ""}
-></Input>
-</div>
-<div className="mt-6 flex  justify-between ">
-<Label text="Précision sur les activités" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={activite ? activite.precision_activite: ""}
-></Input>
-</div>
-<div className="mt-6 flex  justify-between ">
-<Label text="Adresse (siège)" className="mt-4"></Label>
-<Input type="text" className="w-96  "></Input>
-</div>
+<div className="text-[#959824] text-2xl  text-center font-semibold border-b-2  mt-2">RECTIFICATION DES VEHICULES DES CONTRIBUABLES AYANT LA REFERANCE FISCAL: {Contribuable.reference_fiscal}</div>
+<TitleH3 text="Principaux renseignements sur ce CONTRIBUABLE" className="mt-6 px-8"></TitleH3>
+        <div className="bg-[#c0c0c0] p-6 w-[1050px] item-center  px-6">
+        <div className="mt-4 flex  justify-between ">
+        <Label text="Raison social" className="mt-4"></Label>
+        <Input type="text" className="w-96  "
+        value={Contribuable? Contribuable.raison_social : ""}
+        ></Input>
+        </div>
+        <div className="flex justify-between mt-6">
+                  <Label text="Type" />
+                  <div className="flex justify-between">
+                  <label className="">
+            <input
+              type="radio"
+              value="Personne physique"
+              className='mr-2'
+              checked={  Contribuable.type === "Personne physique"}
+            />
+            Personne physique
+          </label>
+          <label className=' ml-4'>
+            <input
+              type="radio"
+              value="Personne morale"
+              className='mr-2'
+              checked={Contribuable.type === "Personne morale"}
+              
+            />
+            Personne morale
+          </label>
+                  </div>
+          
+
+        </div>
+        <div className="mt-6 flex  justify-between ">
+        <Label text="Forme juridique" className="mt-4"></Label>
+        <Input type="text" className="w-96  "
+        value={Contribuable ? Contribuable.forme_juridique : ""}
+        ></Input>
+        </div>
+        <div className="mt-6 flex  justify-between ">
+        <Label text="Date autorisation" className="mt-4"></Label>
+        <Input type="date" className="w-96  "
+        value={Contribuable ? Contribuable.date_agrement : ""}
+        ></Input>
+        </div>
+        <div className="mt-6 flex  justify-between ">
+        <Label text="Date création" className="mt-4"></Label>
+        <Input type="date" className="w-96"
+        value={Contribuable ? Contribuable.date_creation : ""}
+        ></Input>
+        </div>
+        </div>
+
+
 {/* <div className="mt-6">
 <Button text="Rechercher"></Button>
 </div> */}
-<div className="mt-10">
-<Table
+<div className="mt-8 flex justify-center">
+<Table  className=" border-x-2  items-center mt-4 w-[950px]"
 onClick={handleTableRowClickEntries}
 selectedRowIndex={selectedRowIndexEntries}
 
@@ -204,25 +233,34 @@ data={data}
   )
 return (
  <MainLayout>
-  <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-  <Card contentCard={contentCard} className="w-[800px] h-[1100px] "></Card>
+  <div className="overflow-y-auto h-[500px] mt-12 ">
+  <Card contentCard={contentCard} className="w-[1100px] h-[1000px] "></Card>
   </div>
-  <Modal isOpen={isModal} onClose={()=> setIsModal(false)} className="w-[500px] h-[550px] p-4">
- <div>
- <div className="text-[#959824] text-xl  font-semibold border-b-2 border-[#959824] mt-2">Listes des véhicules</div>
- <div className="mt-4">
-<Table
-headers={headerVehiculeTable}
-data={dataVehiculeTable}
 
-onClick={handleTableRowClick}
-selectedRowIndex={selectedRowIndex}
-></Table>
+
+  <Modal isOpen={isModal} onClose={()=> setIsModal(false)} className="w-[1100px]  h-[560px] p-4">
+
+ <div className="text-[#959824] text-4xl  font-semibold border-b-2 px-4 mt-2">Listes des véhicules</div>
+ <div className=" p-4">
+<div className="flex flex-row">
+  <Label text="Numéro Immatriculation"></Label>
+  <Input type="text" className="ml-8" ></Input>
+</div>
  </div>
- <div className="flex justify-between mt-4">
-<Button text="Ajouter" onClick={handleButtonClickSave}></Button>
- </div>
- </div>
+      <div className=" mt-4 overflow-y-auto flex justify-center">
+            <Table className="border-x-2  w-[980px]"
+                headers={headerVehiculeTable}
+                data={dataVehiculeTable}
+                onClick={handleTableRowClick}
+                selectedRowIndex={selectedRowIndex}>
+
+            </Table>
+      </div>
+
+          <div className="flex justify-between px-14 mt-4">
+              <Button text="Ajouter" onClick={handleButtonClickSave}></Button>
+          </div>
+
 
   </Modal>
  </MainLayout>

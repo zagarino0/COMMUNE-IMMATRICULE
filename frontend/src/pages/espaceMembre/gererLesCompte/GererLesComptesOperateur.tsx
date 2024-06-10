@@ -20,15 +20,15 @@ interface User {
 
 function GererLesComptesOperateurDeVotreCentrePage() {
 
-  const [Compte, setCompte] = useState<User>({
-    login_operatreur: "",
-    nom: "",
-    prenom: "",
-    numero_matricule: "",
-    code: "",
-    type_operateur:"", 
-    actif : ""
-  });
+  // const [Compte, setCompte] = useState<User>({
+  //   login_operatreur: "",
+  //   nom: "",
+  //   prenom: "",
+  //   numero_matricule: "",
+  //   code: "",
+  //   type_operateur:"", 
+  //   actif : ""
+  // });
 
   const [DataUser, setDataUser] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState ("")
@@ -39,18 +39,19 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     axios.get('http://localhost:3500/user/actif')
       .then((response) => setDataUser(response.data))
       .catch((error) => console.error(error));
-  }, [setCompte]);
+  }, []);
 
   const handleDesactivate = async (code: string) => {
     const UserCode = {
       "code" : code,
     };
     try {
-      await axios.post(`http://localhost:3500/user/desactivation`, UserCode);
+      await axios.post(`http://localhost:3500/user/desactivatin`, UserCode);
       setDataUser((prevData) => prevData.filter((data) => data.code !== code));
 
       alert(`L'utilisateur avec le code : ${code} est désactivé.`);
     } catch (error) {
+      alert(`Il y a une erreur :  ${error}` )
       console.error('Error deactivating user:', error);
     }
   };
@@ -66,23 +67,24 @@ function GererLesComptesOperateurDeVotreCentrePage() {
       alert(`L'utilisateur avec le code : ${code} est suprimmé.`);
     } catch (error) {
       console.error('Error deactivating user:', error);
+      alert(`erreur  : ${error}`)
     }
   };
 
-  const handleReactivation = async (code: string) => {
-    const UserCode = {
-      "code" : code,
-    };
-    try {
-      await axios.post(`http://localhost:3500/actif/code`, UserCode);
-      setDataUser((prevData) => prevData.filter((data) => data.code !== code));
+  // const handleReactivation = async (code: string) => {
+  //   const UserCode = {
+  //     "code" : code,
+  //   };
+  //   try {
+  //     await axios.post(`http://localhost:3500/actif/code`, UserCode);
+  //     setDataUser((prevData) => prevData.filter((data) => data.code !== code));
 
-      alert(`L'utilisateur avec le code : ${code} est activé.`);
-    } catch (error) {
-      console.error('Error deactivating user:', error);
-    }
-  };
-  const headers = ["Nom", "Prenom", "Code", "Type opérateur", "Actif", "Numéro matriculé", "Désactiver", "Activer", "Supprimer"];
+  //     alert(`L'utilisateur avec le code : ${code} est activé.`);
+  //   } catch (error) {
+  //     console.error('Error deactivating user:', error);
+  //   }
+  // };
+  const headers = ["Nom", "Prenom", "Code", "Type opérateur", "Actif", "Numéro matriculé", "Désactiver",  "Supprimer"];
   
   const filteredData = DataUser.filter((item:any) =>
      item.numero_matricule.toLowerCase().includes(searchTerm.toLowerCase())
@@ -93,44 +95,29 @@ function GererLesComptesOperateurDeVotreCentrePage() {
     item.prenom,
     item.code,
     item.type_operateur,
-    <Checkbox checked = {item.actif} />,
+    <Checkbox onChange={()=>window} checked = {item.actif} />,
     item.numero_matricule,
-    <Button text="Désactiver" key={item.code} className='cursor-pointer' onClick={() => handleDesactivate(item.code)} />,
-    <Button text="Activer" className='cursor-pointer' onClick={() => handleReactivation(item.code)}/>,
-    <Button text="Supprimer" className='cursor-pointer' onClick={() => handleDelete(item.code)} />,
+    <Button text="Désactiver" key={item.code} className='cursor-pointer px-2 text-align-center h-[40px]' onClick={() => handleDesactivate(item.code)} />,
+    // <Button text="Activer" className='cursor-pointer text-align-center px-2 h-[40px]' onClick={() => handleReactivation(item.code)}/>,
+    <Button text="Supprimer" className='cursor-pointer text-align-center  px-2 h-[40px]' onClick={() => handleDelete(item.code)} />,
   ]);
 
   const handleSearch = (e:any) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    console.log(filteredData);
-  };
  
-  const handleGetUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3500/user/`, { params: Compte });
-      console.log("Search results:", response.data);
-      setDataUser(response.data);
-    
-    } catch (error) {
-      console.error("Search failed:", error.message);
-      alert("Search failed. Please try again.");
-    }
-  };
-
   const contentCard = (
     <div className="flex justify-center items-center">
       <div className="flex flex-col">
-        <div className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-8">Gestion compte opérateur</div>
+        <div className="text-[#959824] text-4xl text-center font-semibold border-b-2  mt-8">GESTION DE COMPTE OPERATEUR</div>
         
         <div className="flex flex-col ">
           {/**card recherche  */} 
-            <div className="mt-6 flex  justify-between ">
+            <div className="mt-6 flex  justify-center ">
                 <Label text="numéro matricule" className="mt-4" ></Label>
                 <Input type="text" className="w-96 ml-5 "placeholder="numéro immatricule EX:1234556" onChange={handleSearch}></Input>
-                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+
             </div>
           {/**
            * 
@@ -142,12 +129,8 @@ function GererLesComptesOperateurDeVotreCentrePage() {
 
           <Button text="Rechercher" className="mt-6" onClick={handleSearch}></Button>
            * 
-           */}
-
-             
-          
-        
-          <div className="overflow-y-auto w-[700px] mt-6">
+           */}    
+          <div className="overflow-y-auto w-[1200px] mt-6">
             <Table headers={headers} data = {data} />
           </div>
         </div>
@@ -157,8 +140,8 @@ function GererLesComptesOperateurDeVotreCentrePage() {
 
   return (
     <MainLayout>
-      <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-        <Card className="w-[900px] h-[1000px]" contentCard={contentCard} />
+      <div className="overflow-y-auto h-[550px] mt-14 mb-8">
+        <Card className="w-[1300px] mt-10 " contentCard={contentCard} />
       </div>
     </MainLayout>
   );

@@ -57,7 +57,7 @@ import BlocageAdministratif from "./pages/autresOperations/BlocageAdministratif/
 import CessationActivite from "./pages/autresOperations/CessationActivite/CessationActivite";
 import CessationInformation from "./pages/autresOperations/CessationActivite/CessationInformation";
 import RepriseActivite from "./pages/autresOperations/RepriseActivite/RepriseActivite";
-import ImpressionDuplicataCessation from "./pages/etat/ImpressionDuplicataCessation/ImpressionDuplicataCessation";
+
 import ListeNIFDelivre from "./pages/etat/ListeNIFDelivre/ListeNIFDelivre";
 import DeblocageAdministratif from "./pages/autresOperations/DeblocageAdministratif/DeblocageAdministratif";
 import ConsulationContribuableDebloque from "./pages/consultation/ConsulationContribuableDebloque/ConsulationContribuableDebloque";
@@ -86,7 +86,15 @@ import RepriseInfo from "./pages/autresOperations/RepriseActivite/RepriseInfo";
 import InfoBlocage from "./pages/autresOperations/BlocageAdministratif/InfoBlocage";
 import InfoDeblocage from "./pages/autresOperations/DeblocageAdministratif/InfoDeblocage";
 import InfoContribuableRadie from "./pages/autresOperations/RelanceDeffaillants/InfoContribuablrRadie";
-import Impression from "./pages/etat/ImpressionDuplicataCessation/Impression";
+import ImpressionDuplicataCessation from "./pages/autresOperations/ImpressionDuplicataCessation/ImpressionDuplicataCessation";
+import Impression from "./pages/autresOperations/ImpressionDuplicataCessation/Impression";
+import Choose from "./pages/Choose/choose";
+import InfoContribuableDece from "./pages/autresOperations/ContribuableDece/InfoContribuableDece";
+import ContribuableDece from "./pages/autresOperations/ContribuableDece/ContribuableDece";
+import ImpressionCessation from "./pages/autresOperations/CessationActivite/ImpressionCessation";
+import InfoTest from "./pages/etat/ListeAttestation/InfoTest";
+
+
 function App() {
   
   return (
@@ -182,6 +190,12 @@ function App() {
         <Route path="/InfoContribuableRadie" element={<InfoContribuableRadie/>}></Route>
         <Route path="/Impression" element={<Impression/>}></Route>      
         <Route path="*" element={<ErrorPage />}></Route>        
+        <Route path="/Choose" element={<Choose />}></Route>   
+        <Route path="/InfoContribuableDece" element={<InfoContribuableDece/>}></Route>
+        <Route path="/ContribuableDece" element={<ContribuableDece/>}></Route>   
+        <Route path="/ImpressionCessation" element={<ImpressionCessation/>}></Route> 
+        <Route path="/InfoTest" element={<InfoTest/>}></Route> 
+
 
       </Routes>
     </Router>

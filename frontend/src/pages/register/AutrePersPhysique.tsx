@@ -61,12 +61,12 @@ if (parsedDataRegistre){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-    setIsAlertRenseignement(true);
+    alert("contribuable ajouté")
    
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-   setIsAlertRenseignementError(true);
+   alert("erreur contribuable")
   }
 }
 
@@ -88,7 +88,7 @@ if(parsedDataActivite){
   try {
     // Make a POST request to your server endpoint
     const response = await axios.post("http://localhost:3500/activite", Activite);
-   setIsAlertActivite(true);
+   alert('activite ajoutée')
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   
@@ -96,7 +96,7 @@ if(parsedDataActivite){
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-    setIsAlertActiviteError(true);
+ alert('erreur activite')
   }
 
 }
@@ -106,14 +106,14 @@ if(parsedDataSiege){
   try {
     // Make a POST request to your server endpoint
     const response = await axios.post("http://localhost:3500/siege", parsedDataSiege);
-   setIsAlertSiege(true);
+   alert('siege ajouté')
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
   
    
   } catch (error) {
     // Handle errors
-    setIsAlertSiegeError(true);
+    alert('erreur siege')
     console.error("Error:", error);
   }
 }
@@ -126,8 +126,8 @@ if(Autre){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-    setIsAlertAutre(true);
-    setIsAlertCode(true);
+    alert("Autre ajouté")
+    alert(`Votre identifiant est : ${parsedDataRegistre.id}`)
     
         localStorage.removeItem("registrationData");
         localStorage.removeItem("activiteData");
@@ -137,10 +137,10 @@ if(Autre){
         localStorage.removeItem("interlocuteurData");
         localStorage.removeItem("associeData");
         
-  navigate("/register"); 
+  navigate("/Choose"); 
   } catch (error) {
     // Handle errors
-    setIsAlertAutreError(true);
+    alert('Il y a une erreur ')
     console.error("Error:", error);
   }
 }
@@ -210,7 +210,7 @@ if(Autre){
        
         <div className=" flex justify-center py-14 bg-hoteldeville ">
           <div className="flex flex-col">
-          <img src={Repoblika} alt="repoblika photo" />
+
           <div className="bg-white w-[600px] h-[100px] rounded flex items-center justify-center ">
           <p className="text-center font-[kaldera] text-4xl ">Formulaire d'inscription</p>
           </div>

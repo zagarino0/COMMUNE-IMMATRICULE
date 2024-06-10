@@ -3,13 +3,14 @@ import { Card } from "../../../components/card/card"
 import { MainLayout } from "../../../layouts/main"
 import { TiDocumentText } from "react-icons/ti";
 import Table from "../../../components/table/table";
-import { Button } from "../../../components/common";
+//import { Button } from "../../../components/common";
 // import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label";
 import Input from "../../../components/inputs";
 import { TitleH3 } from "../../../components/title";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import DateFormatConverter from "../../../components/date/Date";
 
 
 function HIstoriqueContribuable() {
@@ -34,13 +35,13 @@ function HIstoriqueContribuable() {
         // Récupérer les données depuis le backend
         axios.get('http://localhost:3500/history/contribuable')
           .then((response) => setDataHistorique(response.data))
-          .catch((error) => console.error(error));
+          .catch((error) => {console.error(error);alert(`Il y a une erreur :  ${error}`)});
       }, []);
     
     console.log(DataHistorique)
     
 
-  const headers = ["Ref ", "Motif", "Date"];
+  const headers = ["numéro ","référence fiscal","Contribuable", "Motif", "Date de modification"];
  
  //const data = DataHistorique.map((item)=>[item.id_history_contribuable , item.motif , item.date_modification])
  const filteredData = DataHistorique.filter ((item:any)=>
@@ -50,29 +51,31 @@ function HIstoriqueContribuable() {
  const data = filteredData.map((item:any)=>
  [
   item.id_history_contribuable,
+  item.id_contribuable      ,
+  item.nom_contribuable,
   item.motif,
-  item.date_modification,
+  <DateFormatConverter isoDate={item.date_modification}></DateFormatConverter>
  ]);
 
  const handleSearch = (e:any) => {
   setSearchTerm(e.target.value);
 };
 
-const handleSearchButtonClick = () => {
+{/**const handleSearchButtonClick = () => {
   console.log(filteredData);
-};
+}; */}
  
  const contentCard = (
       <div className="p-8 flex flex-col">
-  <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
-    Consultation de l'historique des contribuables
+  <div className=" font-semibold text-[#959824] text-center  text-4xl mt-6 border-b-2 ">
+    CONSULTATION DE L'HISTORIQUE DES CONTRIBUABLES
   </div>
   <div className="flex flex-col mt-2">
             {/**card recherche  */} 
-                    <div className="mt-6 flex  justify-between ">
-                        <Label text="Date" className="mt-4" ></Label>
+                    <div className="mt-6 flex  justify-center ">
+                        <Label text="Date de modification" className="mt-4" ></Label>
                         <Input type="date" className="w-96 ml-5 "placeholder="Date EX: 2023-01-01" onChange={handleSearch}></Input>
-                        {/* <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}
+                        {/**<Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}
                     </div>
         </div>
   {/* <div className="mt-4 text-xl font-semibold">
@@ -91,23 +94,23 @@ const handleSearchButtonClick = () => {
   <div className="mt-4">
   <Button text="Rechercher" className="rounded w-40"></Button>
   </div> */}
-  <div className="flex justify-center items-center mt-12" >
+  <div className="flex justify-center w-[1300px] mt-4" >
   
-  <Table
+  <Table className="w-[1200px] border"
   headers={headers}
   data={data}
   ></Table>
   </div>
   <div className="flex justify-start mt-6">
  
-  <Link to="/ConsultationHistoriqueRF"  className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link>
+  {/* <Link to="/ConsultationHistoriqueRF"  className=" text-[#1956e3] flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></Link> */}
   </div>
       </div>
     )
     return (
       <MainLayout>
-     <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-     <Card contentCard={contentCard} className="w-[1000px] h-[700px] "></Card> 
+     <div className="overflow-y-auto mt-8  ">
+     <Card contentCard={contentCard} className="w-[1400px]  "></Card> 
      </div>
      </MainLayout>
     )

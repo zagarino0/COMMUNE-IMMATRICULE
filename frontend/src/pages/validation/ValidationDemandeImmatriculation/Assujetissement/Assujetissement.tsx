@@ -19,15 +19,16 @@ import { ImStatsDots } from "react-icons/im";
 import { RiArrowGoBackFill, RiDeleteBinLine, RiSubtractFill } from "react-icons/ri";
 import { FaUniversity } from "react-icons/fa";
 import { BiBody } from "react-icons/bi";
-import { MdOpenInBrowser, MdOpenInNew, MdOutlineCached, MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
+import { MdDeleteOutline, MdOpenInBrowser, MdOpenInNew, MdOutlineCached, MdOutlineZoomInMap, MdPermIdentity, MdZoomOutMap } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import Modal from "../../../../components/modals/modals";
 import { BsPencil } from "react-icons/bs";
+import { TitleH1 } from "../../../../components/title";
 
 
 interface Assujetissement {
   id_contribuable: string,
-  imposition:string,
+  imposition:any,
   date_debut:string,
   periodicite: string,
   annee: string,
@@ -78,6 +79,9 @@ interface Actionnaire {
   type : string  ,
   associe_unique_actionnaire : string,
   cin_passeport_actionnaire: string,
+  gerant : string ,
+  cin_passport_gerant : string,
+  siege : string ,
 }
 
 function Assujetissement() {
@@ -221,9 +225,22 @@ console.log(ContribuableData);
         date_assujetissement: "",
   
       });
+
+      setDataSelected([])
        
     };
   
+
+     // Delete the Data From the Table 
+ const handleDeleteButtonClickImpot = (idToDelete: string) => {
+  // Filter out the entry with the specified ID
+  const updatedEntries = entries.filter((entry : any) => entry.id !== idToDelete);
+
+  // Update the entries state with the filtered entries
+  setEntries(updatedEntries);
+
+  
+};
     const headers = [
       "numero",
       "imposition",
@@ -269,16 +286,60 @@ console.log(ContribuableData);
 
 
   // associe Table 
-  const HeadersAssocie = ["Type association" , "Nom actionnaire" , "Fonction" , " Résident" , "N° CIN ou Passport" , " Adresse Actionnaire" , "Autre activité " , " Référence contribuable " , "Référence fiscal actionnaire" , "Action ou actionnaire" , "associe unique" , "Email actionnaire" , "numéro actionnaire" ]
-  const DataAssocie = actionnaire ? actionnaire.map((item )=>[item.type , item.nom_actionnaire , item.fonction_actionnaire , item.resident_actionnaire , item.cin_passport_actionnaire , item.adresse_actionnaire , item.autre_activite_actionnaire , item.id_contribuable , item.nif_actionnaire , item.action_ou_actionnaire , item.associe_unique_actionnaire, item.email_actionnaire , item.numero_actionnaire ]) : [];
+  const HeadersAssocie = ["Type association" , "Nom actionnaire" , "Fonction" , " Résident" , "N° CIN ou Passport" , " Adresse Actionnaire" , "Autre activité " , " Référence contribuable " , "Référence fiscal actionnaire" , "Action ou actionnaire" , "associe unique" , "Email actionnaire" , "numéro actionnaire" , "Gérant" , "CIN / Passport Gérant" , "Siege","supprimer" , "modifier"]
+  const DataAssocie = actionnaire ? actionnaire.map((item :any )=>[item.type , item.nom_actionnaire , item.fonction_actionnaire , item.resident_actionnaire , item.cin_passport_actionnaire , item.adresse_actionnaire , item.autre_activite_actionnaire , item.id_contribuable , item.nif_actionnaire , item.action_ou_actionnaire , item.associe_unique_actionnaire, item.email_actionnaire , item.numero_actionnaire , item.gerant  , item.cin_passport_gerant , item.siege , 
+  <span
+    key={item.id} // Make sure to use a unique key
+    className='cursor-pointer'
+    onClick={() =>{window}}
+  >
+    <RiDeleteBinLine />
+  </span>,
+    <span
+     key={`edit-${item.code}`} // Make sure to use a unique key
+     className='cursor-pointer'
+     onClick={() => {
+     window     }}
+   >
+     <BsPencil />
+   </span>]) : [];
 
  // Etablissement table 
- const Headersetablissement  = ["activité" ,"adresse" , "commune" ,"fokontany" , "district", "province" , "date ouverture", "email" , "fax", "identifiant contribuable" , "nom commercial" ,"proprietaire local" , "region" , "téléphone" , "titre"]
- const DataEtablissment = etablissement ? etablissement.map((item)=>[item.activite , item.adresse , item.commune , item.fokontany , item.district , item.province ,item.date_ouverture , item.email , item.fax , item.id_contribuable , item.nom_commercial , <Checkbox checked={item.proprietaire_local}></Checkbox> , item.region , item.telephone_1 , item.titre]) : [];
+ const Headersetablissement  = ["activité" ,"adresse" , "commune" ,"fokontany" , "district", "province" , "date ouverture", "email" , "fax", "identifiant contribuable" , "nom commercial" ,"proprietaire local" , "region" , "téléphone" , "titre" ,"supprimer" , "modifier"]
+ const DataEtablissment = etablissement ? etablissement.map((item :any)=>[item.activite , item.adresse , item.commune , item.fokontany , item.district , item.province ,item.date_ouverture , item.email , item.fax , item.id_contribuable , item.nom_commercial , <Checkbox checked={item.proprietaire_local}></Checkbox> , item.region , item.telephone_1 , item.titre ,
+<span
+    key={item.id} // Make sure to use a unique key
+    className='cursor-pointer'
+    onClick={() =>{window}}
+  >
+    <RiDeleteBinLine />
+  </span>,
+    <span
+     key={`edit-${item.id}`} // Make sure to use a unique key
+     className='cursor-pointer'
+     onClick={() =>  window}
+   >
+     <BsPencil />
+   </span>]) : [];
 
  // Table dirigeant
- const HeaderDirigent = ["Nom" , "fonction" , "cin" , "passport" , "RF" , "email" , "telephone"]
- const datadirigeant = dirigeant ? dirigeant.map((item)=>[item.nom ,item.fonction , item.cin , item.passport , item.rf , item.email , item.telephone]): [];
+ const HeaderDirigent = ["Nom" , "fonction" , "cin" , "passport" , "RF" , "email" , "telephone" ,"supprimer" , "modifier"]
+ const datadirigeant = dirigeant ? dirigeant.map((item:any)=>[item.nom ,item.fonction , item.cin , item.passport , item.rf , item.email , item.telephone , 
+  <span
+    key={item.id} // Make sure to use a unique key
+    className='cursor-pointer'
+    onClick={() =>{window}}
+  >
+    <RiDeleteBinLine />
+  </span>,
+    <span
+     key={`edit-${item.id}`} // Make sure to use a unique key
+     className='cursor-pointer'
+     onClick={() => window}
+   >
+     <BsPencil />
+   </span>]
+ ): [];
 
 
  // valider contribuable 
@@ -376,10 +437,10 @@ console.log(ContribuableData);
     
      }
 
-// Delete contribuable 
-const handlesupression = () =>{
+// // Delete contribuable 
+// const handlesupression = () =>{
 
-}
+// }
 
  const [DataCode , setDataCode] = useState([])
     useEffect(() => {
@@ -416,7 +477,7 @@ const handlesupression = () =>{
 
 // data selected associe table 
 const [selectedRowIndexAssocie, setSelectedRowIndexAssocie] = useState(null);
-const [DataSelectedAssocie , setDataSelectedAssocie] = useState<Actionnaire>([]);
+const [DataSelectedAssocie , setDataSelectedAssocie] = useState<any>([]);
 
 
 const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
@@ -426,12 +487,12 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
      setIsStorageUpdatedAssocie(false);
   }, [DataSelectedAssocie, isStorageUpdatedAssocie]);
   
-  const handleSelectedDataTableAssocie = (rowIndex: key) => {
+  const handleSelectedDataTableAssocie = (rowIndex: any) => {
     // Check if the clicked row is already selected
     if (rowIndex === selectedRowIndexAssocie) {
       // If selected, unselect it
       setSelectedRowIndexAssocie(null);
-      setDataSelectedAssocie(null);
+      setDataSelectedAssocie([]);
     } else {
       // If not selected, select it
       setSelectedRowIndexAssocie(rowIndex);
@@ -443,16 +504,16 @@ const [isStorageUpdatedAssocie, setIsStorageUpdatedAssocie] = useState(false);
   
 
     
-// unselected Data from Associe 
-const unselectRowAssocie = () => {
-  setSelectedRowIndexAssocie(null);
-  setDataSelectedAssocie([]);
-}
+// // unselected Data from Associe 
+// const unselectRowAssocie = () => {
+//   setSelectedRowIndexAssocie(null);
+//   setDataSelectedAssocie([]);
+// }
 
 
 // data selected Etablissement  table 
 const [selectedRowIndexEtablissement, setSelectedRowIndexEtablissement] = useState(null);
-const [DataSelectedEtablisement, setDataSelectedEtablissment] = useState<Etablissement>([]);
+const [DataSelectedEtablisement, setDataSelectedEtablissment] = useState<any>([]);
 
 
 const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useState(false);
@@ -462,14 +523,14 @@ const [isStorageUpdatedEtablissement, setIsStorageUpdatedEtablissement] = useSta
      setIsStorageUpdatedEtablissement(false);
   }, [DataSelectedEtablisement, isStorageUpdatedEtablissement]);
   
-  const handleSelectedDataTableEtablissment = (rowIndex: key) => {
+  const handleSelectedDataTableEtablissment = (rowIndex: any) => {
     // Check if the clicked row is already selected
     const isRowSelected = rowIndex === selectedRowIndexEtablissement;
   
     // If the row is selected, unselect it
     if (isRowSelected) {
       setSelectedRowIndexEtablissement(null);
-      setDataSelectedEtablissment({});
+      setDataSelectedEtablissment([]);
     } else {
       // If the row is not selected, select it
       setSelectedRowIndexEtablissement(rowIndex);
@@ -493,14 +554,14 @@ const [isStorageUpdatedDirigeant, setIsStorageUpdatedDirigeant] = useState(false
      setIsStorageUpdatedDirigeant(false);
   }, [DataSelectedDirigeant, isStorageUpdatedDirigeant]);
   
-  const handleSelectedDataTableDirigeant = (rowIndex: key) => {
+  const handleSelectedDataTableDirigeant = (rowIndex: any) => {
     // Check if the clicked row is already selected
     const isRowSelected = rowIndex === selectedRowIndexDirigeant;
   
     // If the row is selected, unselect it
     if (isRowSelected) {
       setSelectedRowIndexDirigeant(null);
-      setDataSelectedDirigeant({});
+      setDataSelectedDirigeant([]);
     } else {
       // If the row is not selected, select it
       setSelectedRowIndexDirigeant(rowIndex);
@@ -549,17 +610,26 @@ if (ContribuableData){
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
-    alert("Enseignement générale")
+    alert("renseignements sur le contribuable Modifié ")
    
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-    alert("erreur contribuable")
+    alert(`Il y a une erreur renseignements sur le contribuable ${error} `)
   }
   }
 
   }
 
+
+const Periodicite = [
+  "ANNUEL",
+  "MENSUEL",
+  "TRIMESTRIEL",
+  "BIMESTRIEL",
+  "SEMESTRIEL",
+  "JOURNALIER"
+]
 // Modifie activité contribuable 
 const HandleModifieActivite = async () =>{
 
@@ -593,7 +663,7 @@ try {
 } catch (error) {
   // Handle errors
   console.error("Error:", error);
-  alert("Erreur activité")
+  alert(`erreur activité Modification ${error}`)
 }
 
 }
@@ -626,16 +696,16 @@ if(siege){
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-    alert("Error Siège")
+    alert(`Erreur Siège ${error} `)
   }
   }
 
 }
 
 // ajout donné actionnaire dans Table  actionnaire
-const AjoutDataAssocieTable = () => {
+// const AjoutDataAssocieTable = () => {
 
-}
+// }
 
 
 
@@ -670,6 +740,9 @@ const DeleteAssocieData = async (rowIndex: key) => {
     console.error('Erreur lors de la sélection :', error);
   }
 };
+
+
+
 
 //Modification Donné selectionner 
 const HandleModifieActionnaire = async () => {
@@ -772,12 +845,12 @@ if(interlocuteur){
     "titre_interlocuteur": interlocuteur.titre_interlocuteur,
     "adresse_interlocuteur": interlocuteur.adresse_interlocuteur,
     "telephone_interlocuteur": interlocuteur.telephone_interlocuteur,
-    "email_interlocuteur": interlocuteur.email_interlocuteur ,
+    "email_interlocuteur": interlocuteur.email_interlocuteur,
   }
   console.log( "Interlocuteur" , DataInterlocuteur)
   try {
     // Make a POST request to your server endpoint
-    const response = await axios.put(`http://localhost:3500/interlocuteur/avalide/${interlocuteur.id_interlocuteur}`, DataInterlocuteur);
+    const response = await axios.put(`http://localhost:3500/interlocuteur/avalide/${interlocuteur.id}`, DataInterlocuteur);
   
     // Check the response status or do something with the response
     console.log("Server Response:", response.data);
@@ -798,30 +871,31 @@ const HandleModificationDirigeant = async () => {
   if(dirigeant){
     const DataDirigeant = {
       "id_contribuable": ContribuableData.id ,
-      "adresse": dirigeant.adresse,
-      "associe_unique" : dirigeant.associe_unique,
-      "aucune": dirigeant.aucune,
-      "avec_rf": dirigeant.avec_rf,
-      "cin": dirigeant.cin,
-      "email": dirigeant.email,
-      "fonction": dirigeant.fonction,
-      "id": dirigeant.id,
-      "nom": dirigeant.nom,
-      "passport": dirigeant.passport,
-      "resident": dirigeant.resident,
-      "rf": dirigeant.rf,
-      "salarie": dirigeant.salarie,
-      "telephone": dirigeant.telephone,
+      "adresse": DataSelectedDirigeant.adresse,
+      "associe_unique" : DataSelectedDirigeant.associe_unique,
+      "aucune": DataSelectedDirigeant.aucune,
+      "avec_rf": DataSelectedDirigeant.avec_rf,
+      "cin": DataSelectedDirigeant.cin,
+      "email": DataSelectedDirigeant.email,
+      "fonction": DataSelectedDirigeant.fonction,
+      "id": DataSelectedDirigeant.id,
+      "nom": DataSelectedDirigeant.nom,
+      "passport": DataSelectedDirigeant.passport,
+      "resident": DataSelectedDirigeant.resident,
+      "rf": DataSelectedDirigeant.rf,
+      "salarie": DataSelectedDirigeant.salarie,
+      "telephone": DataSelectedDirigeant.telephone,
     }
     console.log( "Dirigeant :" , DataDirigeant)
     try {
       // Make a POST request to your server endpoint
-      const response = await axios.put(`http://localhost:3500/dirigeant/avalide/${dirigeant.id}`, DataDirigeant);
+      const response = await axios.put(`http://localhost:3500/dirigeant/avalide/${DataSelectedDirigeant.id}`, DataDirigeant);
     
       // Check the response status or do something with the response
       console.log("Server Response:", response.data);
     
-     alert("Dirigeant Modifié")
+     alert("Dirigeant Modifié");
+    
     } catch (error) {
       // Handle errors
       console.error("Error:", error);
@@ -831,10 +905,32 @@ const HandleModificationDirigeant = async () => {
 }
 
 
+
+// select Data in the table      
+const [EntriesSelected , setEntriesSelected] = useState([])
+const [selectedRowIndexEntries  , setSelectedRowIndexEntries] = useState(null) 
+const handleTableRowClickEntries = (rowIndex:any ) => {
+  if (rowIndex === selectedRowIndexEntries) {
+    // If the clicked row is already selected, unselect it
+    setSelectedRowIndexEntries(null);
+    setEntriesSelected([]);
+  } else {
+    // Extract the property values from the data object
+    const selectedRowData = entries[rowIndex];
+
+    // Select the clicked row
+    setSelectedRowIndexEntries(rowIndex);
+    setEntriesSelected(selectedRowData);
+  }
+
+  
+  console.log('Selected entiers Data:', EntriesSelected);
+};
+
 // Modal pour ajouter les nouvelle information
-const [isModalAssocie , setIsModalAssocie] = useState(false);
-const [isModalEtablissemnt , setIsModalEtablissement] = useState(false);
-const [isModalDirigeant , setIsModalDirigeant] = useState(false);
+// const [isModalAssocie , setIsModalAssocie] = useState(false);
+// const [isModalEtablissemnt , setIsModalEtablissement] = useState(false);
+// const [isModalDirigeant , setIsModalDirigeant] = useState(false);
 
 
   // Partie sur le contribualble à modifier et à valider sur l'interface
@@ -1445,7 +1541,7 @@ onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_a
       <Label text="Adresse"></Label>
       <Input type="text"
       value={DataSelectedAssocie? DataSelectedAssocie.adresse_actionnaire : ""}
-      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , adresse_actionnaire : e.targte.value})}
+      onChange={(e )=> setDataSelectedAssocie({...DataSelectedAssocie , adresse_actionnaire : e.targte.value})}
       ></Input>
     </div>
     </>
@@ -1461,7 +1557,27 @@ onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passeport_a
       onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , nif_actionnaire : e.target.value})}
       ></Input>
     </div>
-    
+    <div className="flex justify-between mt-6">
+      <Label text="Gérant"></Label>
+      <Input type="text"
+      value={DataSelectedAssocie?DataSelectedAssocie.gerant : ""}
+      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , gerant: e.target.value})}
+      ></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="CIN /Passport"></Label>
+      <Input type="text"
+      value={DataSelectedAssocie?DataSelectedAssocie.cin_passport_gerant : ""}
+      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , cin_passport_gerant : e.target.value})}
+      ></Input>
+    </div>
+    <div className="flex justify-between mt-6">
+      <Label text="Siege"></Label>
+      <Input type="text"
+      value={DataSelectedAssocie?DataSelectedAssocie.siege : ""}
+      onChange={(e)=> setDataSelectedAssocie({...DataSelectedAssocie , siege : e.target.value})}
+      ></Input>
+    </div>
     </>
   )
 
@@ -1569,13 +1685,7 @@ selectedRowIndex={selectedRowIndexAssocie }
       onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , activite : e.target.value})}
       ></Input>
     </div>
-    <div className="flex justify-between mt-6">
-      <Label text="Titre "></Label>
-      <Input type="text"
-      value={DataSelectedEtablisement? DataSelectedEtablisement.titre : ""}
-      onChange={(e)=>setDataSelectedEtablissment({...DataSelectedEtablisement , titre : e.target.value})}
-      ></Input>
-    </div>
+   
     <div className="flex justify-between mt-6">
       <Label text="Date Ouverture "></Label>
       <Input type="date"
@@ -1591,11 +1701,14 @@ selectedRowIndex={selectedRowIndexAssocie }
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
-      <Label text="Fokontany "></Label>
-      <Input type="text"
-      value={DataSelectedEtablisement?DataSelectedEtablisement.fokontany : ""}
-      onChange={(e)=>setDataSelectedEtablissment({...DataSelectedEtablisement , fokonatny : e.target.value })}
-      ></Input>
+      <Label text="Fokontany "></Label>        
+      <Select
+      options={Fokontany.map((option) => ({ value: option, label: option }))}
+      value={DataSelectedEtablisement.fokontany}
+      onChange={(options) => {setDataSelectedEtablissment({...DataSelectedEtablisement , fokontany: options})}}    
+      className=""
+    />
+
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Province "></Label>
@@ -1626,7 +1739,7 @@ selectedRowIndex={selectedRowIndexAssocie }
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
-      <Label text="Téléphone 1  "></Label>
+      <Label text="Téléphone   "></Label>
       <Input type="text"
       value={DataSelectedEtablisement? DataSelectedEtablisement.telephone_1 : ""}
       onChange={(e)=> setDataSelectedEtablissment({...DataSelectedEtablisement , telephone_1 : e.target.value})}
@@ -1831,7 +1944,7 @@ onChange={(e)=> setDataSelectedDirigeant({...DataSelectedDirigeant , passport : 
   
         
         <div className="flex justify-center mt-6">
-        <button className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
+        <button onClick={HandleModificationDirigeant} className="border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
         <button onClick={()=> setAdd(false)}  className="border-[2px] ml-4 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><RiArrowGoBackFill  className="text-2xl mr-2"/> Annuler</button>
         </div>
           </div>
@@ -2060,7 +2173,7 @@ selectedRowIndex={selectedRowIndexDirigeant}
  <div className="flex flex-row">
  <Input
  type="text"
- value={DataSelected ? DataSelected.libelle : "" === Assujetissement.imposition}
+ value={  Assujetissement.imposition = DataSelected.libelle   }
  />
 <MdOpenInBrowser className="ml-2 text-3xl mt-1 cursor-pointer"  onClick={()=>setIsModalImpot(true)}/>
  </div>
@@ -2081,10 +2194,12 @@ onChange={(e)=>{setAssujetissement({...Assujetissement , date_fin : e.target.val
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Périodicité" className="mt-4"></Label>
-<Input type="text" className="w-96  "
-value={Assujetissement.periodicite}
-onChange={(e)=>{setAssujetissement({...Assujetissement , periodicite : e.target.value})}}
-></Input>
+<Select
+  options={Periodicite.map((option) => ({ value: option, label: option }))}
+  value={Assujetissement.periodicite}
+  onChange={(options) => {setAssujetissement({...Assujetissement , periodicite : options})}}    
+  className=""
+/>
 </div>
 <div className="mt-6 flex flex-row justify-between ">
 <Label text="Année" className="mt-4"></Label>
@@ -2136,9 +2251,14 @@ value={Assujetissement.date_assujetissement}
 onChange={(e)=>{setAssujetissement({...Assujetissement , date_assujetissement: e.target.value})}}
 ></Input>
 </div>
+<div className="flex flex-row">
 <button onClick={handleButtonClickSave} className=" mt-6 w-40 -border-[2px] p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><AiOutlineSave className="text-2xl mr-2"></AiOutlineSave> Sauver</button>
-<div className="w-[750px] mt-6 overflow-y-auto h-[400px]">
+<button onClick={()=> handleDeleteButtonClickImpot(EntriesSelected.id)}  className=" mt-6 w-40 -border-[2px] ml-6 p-2 border-black rounded hover:bg-black/70 hover:text-white flex flex-row"><MdDeleteOutline className="text-2xl mr-2"></MdDeleteOutline> Effacer</button>
+</div>
+<div className="  mt-6 overflow-y-auto h-[400px]">
   <Table
+  onClick={handleTableRowClickEntries}
+  selectedRowIndex={selectedRowIndexEntries}
 headers={headers}
 data={data}
 ></Table>
@@ -2205,7 +2325,7 @@ const handleSearch = (e:any) => {
 
   function filterImpotData(impot: any[], searchTerm: string): any[] {
     return impot.filter((item: any) => {
-      const codeString = item.code.toString(); // Convert code to string
+      const codeString = item.libelle.toString(); // Convert code to string
       return typeof codeString === 'string' && codeString.toLowerCase().includes(searchTerm.toLowerCase());
     });
   }
@@ -2284,7 +2404,7 @@ const handleSearch = (e:any) => {
     
     try {
       // Make the PUT/PATCH request to update the data in the database
-       const response : any =   axios.put(
+       const response  =   axios.put(
         `http://localhost:3500/impot/${selectedEditData.code}`,
         selectedEditData
       );
@@ -2317,13 +2437,15 @@ const handleSearch = (e:any) => {
   };
   
 
+  
+
   return (
   <MainLayout>
   <div className="  overflow-y-auto h-[500px] mt-14 mb-8 ">
-  <Card contentCard={contentCard} className="w-[800px] h-[7000px]"></Card>
+  <Card contentCard={contentCard} className="w-[1300px] h-[8000px]"></Card>
   </div>
   {/* Modal Impot  */}
-  <Modal isOpen={isModalImpot} onClose={()=>{setIsModalImpot(false)}} className=" w-[600px]  h-[500px] p-6">
+  <Modal isOpen={isModalImpot} onClose={()=>{setIsModalImpot(false)}} className=" w-[1200px] mb-8 mt-8   p-6">
  <div className="flex flex-col ">
  <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
       Impôt
@@ -2331,13 +2453,13 @@ const handleSearch = (e:any) => {
 
  <div className="flex justify-center mt-6">
       <Label
-      text="Code "
+      text="Impôt  "
       className="mt-2"
       ></Label>
       <Input
       type="text"
       className="ml-8"
-      placeholder="Code Impôt"
+      placeholder="Impôt"
        onChange={handleSearch}
       >
       </Input>
@@ -2370,7 +2492,7 @@ selectedRowIndex={selectedRowIndex}
  </div>
   </Modal>
 
-  <Modal isOpen={isModalAddImpot} onClose={()=>setIsModalAddImpot(false)} className="w-[550px]  p-6">
+  <Modal isOpen={isModalAddImpot} onClose={()=>setIsModalAddImpot(false)} className="w-[1250px]  p-6">
    <div className="flex justify-between">
    <div className="flex flex-col">
       <Label
@@ -2455,6 +2577,7 @@ selectedRowIndex={selectedRowIndex}
       onClick={HandleUpdateImpot}
       ></Button>
   </Modal>
+ 
       </MainLayout>
   )
   }

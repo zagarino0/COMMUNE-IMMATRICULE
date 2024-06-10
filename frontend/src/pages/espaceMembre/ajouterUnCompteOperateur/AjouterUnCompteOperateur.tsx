@@ -6,7 +6,6 @@ import Input from "../../../components/inputs";
 import { MainLayout } from "../../../layouts/main"
 import axios from "axios";
 import Select from "../../../components/inputs/selectInput";
-import PasswordInput from "../../../components/inputs/InputPassword";
 
 function AjouterUnCompteOperateurPage() {
   const options = [
@@ -72,9 +71,9 @@ function AjouterUnCompteOperateurPage() {
     const contentCard =(
       <div className="flex items-center justify-center ">
 <div className="flex flex-col">
-<div className="text-[#959824] text-3xl text-center font-semibold border-b-2 border-[#959824] mt-6">Ajouter un compte  opérateur </div>
+<div className="text-[#959824] text-4xl text-center font-semibold border-b-2  mt-6">AJOUTER UN COMPTE  OPERATEUR </div>
 
-  <div className="flex flex-col mt-6 p-12 ml-24">
+  <div className="flex flex-col mt-4 ml-24">
 
 <Input type="text"
 value={Compte.nom}
@@ -89,7 +88,7 @@ placeholder="Prénom" className="mt-6"></Input>
 <Input type="text" 
 value={Compte.numero_matricule}
 onChange={(e)=>{setCompte({...Compte , numero_matricule : e.target.value })}}
-placeholder="Numéro matricule" className="mt-6"></Input>
+placeholder="Numéro matricule" className="mt-6 flex-col"></Input>
 
 <Select options={options} value={Compte.type_operateur} onChange={(e)=>{setCompte({...Compte , type_operateur : e })}} className="mt-6"></Select>
 <Input type="text" 
@@ -97,21 +96,17 @@ value={Compte.code}
 onChange={(e)=>{setCompte({...Compte , code : e.target.value })}}
 placeholder="Login" className="mt-6"></Input>
 
-<PasswordInput
- 
- placeholder="Entrer votre mot de passe..." 
-  value={Compte.pwd}
-  onChange={(e)=>{setCompte({ ...Compte , pwd : e.target.value})}}
-  ></PasswordInput>
+<Input type="password"
+value={Compte.pwd}
+onChange={(e)=>{setCompte({...Compte , pwd : e.target.value })}}
+placeholder="Mot de passe" className="mt-6"></Input>
 
-<PasswordInput
- 
- placeholder="Confirmer votre mot de passe..."
-  
-  value={Compte.confirm_password}
-  onChange={(e)=>{setCompte({ ...Compte , confirm_password : e.target.value})}}
-  ></PasswordInput>
-<Button type="submit" text="Enregistrer" onClick={handleRegister} className="mt-6 w-96"></Button>
+<Input type="password" 
+value={Compte.confirm_password}
+onChange={(e)=>{setCompte({...Compte , confirm_password : e.target.value })}}
+placeholder="Resaisir le mot de passe" className="mt-6"></Input>
+
+<Button type="submit" text="Enregistrer" onClick={handleRegister} className="mt-6 text-2xl w-96"></Button>
 
   </div>
 </div>
@@ -120,8 +115,8 @@ placeholder="Login" className="mt-6"></Input>
     )  
   return (
     <MainLayout>
-        <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-        <Card className="w-[800px] h-[800px] flex justify-center" contentCard={contentCard}></Card>
+        <div className="overflow-y-auto h-[500px] mt-14">
+        <Card className="w-[1200px] bg-white flex justify-center" contentCard={contentCard}></Card>
         </div>
     </MainLayout>
   )

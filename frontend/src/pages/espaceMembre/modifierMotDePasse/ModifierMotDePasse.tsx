@@ -62,10 +62,10 @@ function ModifierMotDePassePage() {
   const ContentCard = (
     <div className="flex justify-center items-center">
 <div className="flex flex-col">
-  <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">
-    Modification mot de passe 
+  <div className="text-[#959824] text-3xl font-semibold border-b-2  mt-6">
+    MODIFICATION MOT DE PASSE 
   </div>
-<div className="flex flex-col p-2  border-[#959824] mt-14">
+<div className="flex flex-col p-2 text-align-center border-[#959824] mt-4">
 <Input type="text"
 value={Mot_de_pass.code}
 onChange={(e)=>{ setMot_de_pass({...Mot_de_pass , code : e.target.value })}}
@@ -88,15 +88,15 @@ value={Mot_de_pass.confirm_mot_de_pass}
 onChange={(e)=>{ setMot_de_pass({...Mot_de_pass , confirm_mot_de_pass : e.target.value })}}
 ></Input>
 
-<Button type="submit" text="Enregistrer" onClick={handleChangePassword} className="mt-6" ></Button>
+<Button type="submit" text="Enregistrer" onClick={handleChangePassword} className="mt-8 text-2xl" ></Button>
 </div>
 </div>
     </div>
   )
 return (
 <MainLayout>
-    <div className="mt-24">
-   <Card contentCard={ContentCard} className="w-[500px] h-[500px]"></Card>
+    <div className="mt-20">
+   <Card contentCard={ContentCard} className="w-[600px] h-[450px]"></Card>
     </div>
 </MainLayout>
   )

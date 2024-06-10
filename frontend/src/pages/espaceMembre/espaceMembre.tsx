@@ -25,17 +25,17 @@ function EspaceMembrePage() {
     const contentCard =(
       <div className="flex justify-center item-center ">
   <div className="flex flex-col py-6">
-  <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
-          Votre profil
+  <div className=" font-semibold text-[#959824] mx-4 text-4xl mt-6 border-b-8 border-[#959824]">
+          VOTRE PROFIL
         </div>
-        <div className="font-semibold mt-6 text-sm ">
+        <div className="font-semibold mx-4 mt-6 text-sm ">
           cette fonction vous de la possibilité de :  
         </div>
   <ul className="flex flex-col mt-4">
         {links.map((link) => (
           <li
             key={link.title}
-            className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2 hover:border-[#959824] ${
+            className={`mx-4 font-semibold mt-4 text-gray-500 hover:border-b-4 hover:text-[#2351db] ${
               selectedLink === link.title.toLowerCase() 
               
             } `}
@@ -49,8 +49,8 @@ function EspaceMembrePage() {
     )
   return (
     <MainLayout>
-       <div className="h-screen">
-       <Card contentCard={contentCard} className='w-[800px] h-[500px] bg-white mt-24'></Card>
+       <div className="overflow-y-auto h-[600px]">
+       <Card contentCard={contentCard} className='w-[900px] h-[430px] bg-white mt-28'></Card>
        </div>
     </MainLayout>
   )

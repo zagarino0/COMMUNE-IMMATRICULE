@@ -19,8 +19,14 @@ function InfoContribuableRadie() {
     const {siege} = parsedDataSelected ;
     const userAdminData = localStorage.getItem("userAdministrationData");
     const userData  = JSON.parse(userAdminData as string);
-
-    const HandleContribuableRadie = async () => {
+    const [Motif , setMotif ] = useState<{
+      motif : string ,
+      comment : string ,
+    }>({
+      motif : "",
+      comment: ""  
+    })
+    const HandleCessation = async () => {
 
       const Data ={
         "reference_fiscal": parsedDataSelected.reference_fiscal,
@@ -30,7 +36,7 @@ function InfoContribuableRadie() {
       }
       try {
         // Make a POST request to your server endpoint
-        const response = await axios.post("http://localhost:3500/contribuable/bloquer", Data);
+        const response = await axios.post("http://localhost:3500/radiation", Data);
         
         // Check the response status or do something with the response
         console.log("Server Response:", response.data );
@@ -39,15 +45,13 @@ function InfoContribuableRadie() {
       } catch (error) {
         // Handle errors
         console.error("Error:", error);
-        alert("Il y a une erreur")
+        alert(`Il y a une erreur :  ${error}`)
       }
     }
     const content = (
       <div className="flex justify-center w-full h-full  p-8">
         <div className="flex flex-col w-[1000px]">
-        <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
-       Mise en Contribuable Radié : {parsedDataSelected.reference_fiscal} 
-     </div>
+        <div className="text-[#959824] text-3xl  font-semibold border-b-2  mt-2"><TitleH1 className="text-[#959824] text-3xl  font-semibold border-b-2  mt-2" text="BLOCAGE (ADMINISTRATIF) / MISE EN VEULLEUSE D'UN CONTRIBUABLE"></TitleH1></div>
           <div className="flex flex-row mt-6">
             
           <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
@@ -249,65 +253,43 @@ function InfoContribuableRadie() {
   
           <div className="flex justify-center mt-12">
           <div className="w-96 ">
-            <Button label="Accorder" onClick={()=>setIsModalRadieMotif(true)}></Button>
+            <Button label="Accorder" onClick={()=> setIsModalAccorder(true)}></Button>
           </div>
           </div>
         </div>
       </div>
     );
     
-  const [isModalRadieMotif , setIsModalRadieMotif] = useState(false)
-  const [Motif , setModif ] = useState<{
-    motif : string ,
-    comment : string
-  }>({
-    motif : "",
-    comment : ""
-  })
+    
+    const [IsModalAccorder , setIsModalAccorder] = useState(false)
     return (
         <MainLayout>
          <div className="overflow-y-auto h-[500px] mt-14 mb-8">
-         <Card contentCard={content} className="w-[800px] h-[1300px] "></Card>
+         <Card contentCard={content} className="w-[1200px]  "></Card>
          </div>
-         <Modal isOpen={isModalRadieMotif} onClose={()=>setIsModalRadieMotif(false)} className="w-[550px]  p-6">
-   <div className="flex justify-between">
-   <div className="flex flex-col">
-      <Label
-      text="Motif"
-      className="mt-4"
-      
-      ></Label>
-      <Label
-      text="Commentaire"
-      className="mt-4"
-      ></Label>
-     
-    </div>
-
-    <div className="flex flex-col ">
-      
-      <Input
-      type="text"
-      className=""
-       value={Motif.motif}
-       onChange={(e)=> setModif({...Motif , motif : e.target.value})}
-      ></Input>
-     <Input
-      type="text"
-      className=" mt-2"
-       value={Motif.comment}
-       onChange={(e)=>setModif({...Motif , comment : e.target.value})}
-      ></Input>
-    </div>
-   </div>
-    <div className="mt-4">
-    <Button
-      label="Valider"
-      onClick={HandleContribuableRadie}
-      
-      ></Button>
-    </div>
-  </Modal>
+         <Modal isOpen={IsModalAccorder} onClose={()=> setIsModalAccorder(false)} className=" w-[500px] p-6">
+          <div className="flex justify-center ">
+              <div className="flex flex-col">
+                  <div className="flex justify-between">
+                       <Label text="Motif"></Label>
+                       <Input type="text" className="ml-4"
+                       value={Motif.motif}
+                       onChange={(e)=>setMotif({...Motif , motif: e.target.value})}
+                       ></Input>
+                  </div>
+                  <div className="flex justify-between mt-4">
+                       <Label text="Commentaire" className="mt-2"></Label>
+                       <Input type="text" className="ml-4"
+                       value={Motif.comment}
+                       onChange={(e)=> setMotif({...Motif , comment : e.target.value })}
+                       ></Input>
+                  </div>
+                 <div className="mt-4">
+                 <Button label="Valider" onClick={HandleCessation} ></Button>
+                 </div>
+              </div>
+          </div>
+         </Modal>
         </MainLayout>
        )
 }

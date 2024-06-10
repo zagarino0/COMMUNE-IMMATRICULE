@@ -1,3 +1,28 @@
 
 @import url('https://fonts.cdnfonts.com/css/kaldera');
 @import url('https://fonts.cdnfonts.com/css/tara-2');
+
+.bg-hoteldeville{
+    background-image: url('hoteldeville'), url('majunga02.jpg');
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+    animation: slideBackground1 10ms infinite linear, slideBackground2 10s infinite linear;
+  }
+  
+  @keyframes slideBackground1 {
+    0% {
+      background-position: 0 20;
+    }
+    100% {
+      background-position: 100% 0;
+    }
+  }
+  
+  @keyframes slideBackground2 {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100% 0;
+    }
+  }

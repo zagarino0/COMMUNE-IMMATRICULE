@@ -15,7 +15,7 @@ function EtatPage() {
 
       //Links navbar
     const links = [
-      { title: "Impression duplicata Cessation", link: "/ImpressionDuplicataCessation" },
+     
       { title: "Liste des RFes délivrés", link: "/ListeNIFDelivre" },
       { title: "Liste des mots de passe délivrés ", link: "/LivreMotPassDelivre" },
      // { title: "Liste des actifs", link: "/ListeActif" },
@@ -26,7 +26,7 @@ function EtatPage() {
       { title: "Liste des demandes d'immatriculation rejetées", link: "/ListeDemandeImmatriculationRejete" },
       { title: "Liste des demandes de mise à jour rejetées ", link: "/ListeDemandeMJRRejete" },
       { title: "Liste des Contribuables nouvellement immatriculés", link: "/ListeContribuableNouvellementImmatricule" },
-      { title: "Liste des Cessations ", link: "/ListeAttestation" },
+      { title: "Liste des Attestations ", link: "/ListeAttestation" },
      // { title: "Liste des Cartes de Régularité", link: "/ListeCarteRegularite" },
      // { title: "Liste Protocolaire", link: "/ListeProtocolaire" },
       { title: "Liste des Utilisateurs", link: "/ListeUtilisateur" },
@@ -35,17 +35,17 @@ function EtatPage() {
     ];
   
       const contentCard =(
-        <div className="flex justify-center item-center ">
+        <div className="flex justify-center ">
     <div className="flex flex-col ">
-    <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
+    <div className=" font-semibold text-[#959824]  text-4xl mt-4  border-b-8 border-[#959824]">
            Etat
           </div>
        
-    <ul className="flex flex-col mt-4">
+    <ul className="flex flex-col  mt-2">
           {links.map((link) => (
             <li
               key={link.title}
-              className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2 hover:border-[#959824] ${
+              className={`mx-4 font-semibold mt-3 text-gray-500 hover:border-b-4 hover:text-[#2351db] ${
                 selectedLink === link.title.toLowerCase() 
                 
               } `}
@@ -59,8 +59,8 @@ function EtatPage() {
       )
   return (
     <MainLayout>
-      <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-        <Card contentCard={contentCard} className='w-[800px] h-[1000px]  '></Card>
+      <div className="overflow-y-auto  mt-10">
+        <Card contentCard={contentCard} className='w-[600px] h-[500px]   '></Card>
         </div>
     </MainLayout>
   )

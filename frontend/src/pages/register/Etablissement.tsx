@@ -6,11 +6,13 @@ import { Label } from "../../components/label/label";
 import Table from "../../components/table/table";
 import { Layout } from "./Layout";
 import { AiOutlineSave } from "react-icons/ai";
+import { CgDanger } from "react-icons/cg";
 // import { MdOutlineZoomInMap, MdZoomOutMap } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Select from "../../components/inputs/selectInput";
 
 function Etablissement() {
   const location = useLocation(); 
@@ -66,6 +68,34 @@ id:string
     
   })
 
+  const Fokontany = [
+    "MANGA",
+    "AMBOVOALANANA", 
+    "TSARAMANDROSO AMBANY",    
+    "TSARAMANDROSO AMBONY",
+     "MAHAVOKY SUD",
+     "MANJARISOA",
+     "MORAFENO",
+     "MAHABIBOKELY",
+      "ABATTOIR\/MAROVATO",
+      "MANGARIVOTRA",
+      "ARANTA",
+      "ANTANIMASAJA",
+      "MAHATSINJO",
+      "TANAMBAO SOTEMA",
+       "AMBOHIMANDAMINA",
+        "ANTANIMALANDY",
+        "AMBONDRONA",
+        "FIOFIO",
+        "AMBALAVOLA",
+        "ANTANAMBAO AMBALAVATO",
+        "TSARARANO AMBONY",
+       "TSARARANO ANOSIKELY",
+        "TSARARANO AMBANY",
+        "AMBOROVY",
+        "MAHAVOKY NORD",
+       
+]
 
 
       // select Data in the table
@@ -168,8 +198,7 @@ id:string
     
       const headers = [
         "nom_commercial",
-        "activite",
-        "titre",
+        "activite",       
         "date_ouverture",
         "adresse",
         "fokontany",
@@ -188,7 +217,6 @@ id:string
         
         entry.nom_commercial,
         entry.activite,
-        entry.titre,
         entry.date_ouverture,
         entry.adresse,
         entry.fokontany,
@@ -216,17 +244,20 @@ id:string
           { add === true && ( 
             <div>
   
-  
+  <div className="mt-4">
+          <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+          </div>
+
     <>
     <div className="flex justify-between mt-6">
-      <Label text="Nom commercial"></Label>
+      <Label text="Nom commercial *"></Label>
       <Input type="text"
       value={Etablissement.nom_commercial}
       onChange={(e)=>{setEtablissment({...Etablissement , nom_commercial: e.target.value})}}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
-      <Label text="Activité"></Label>
+      <Label text="Activité *"></Label>
       <Input type="text"
        value={Etablissement.activite}
        onChange={(e)=>{setEtablissment({...Etablissement , activite: e.target.value})}}
@@ -234,56 +265,58 @@ id:string
     </div>
    
     <div className="flex justify-between mt-6">
-      <Label text="Date Ouverture "></Label>
+      <Label text="Date Ouverture *"></Label>
       <Input type="date"
        value={Etablissement.date_ouverture}
        onChange={(e)=>{setEtablissment({...Etablissement , date_ouverture: e.target.value})}}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
-      <Label text="Adresse  / Lot "></Label>
+      <Label text="Adresse  / Lot *"></Label>
       <Input type="text"
        value={Etablissement.adresse}
        onChange={(e)=>{setEtablissment({...Etablissement , adresse: e.target.value})}}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
-      <Label text="Fokontany "></Label>
-      <Input type="text"
-       value={Etablissement.fokontany}
-       onChange={(e)=>{setEtablissment({...Etablissement , fokontany: e.target.value})}}
-      ></Input>
+      <Label text="Fokontany *"></Label>
+      <Select
+  options={Fokontany.map((option) => ({ value: option, label: option }))}
+  value={Etablissement.fokontany}
+  onChange={(options) => {setEtablissment({...Etablissement , fokontany: options})}}    
+  className=""
+/>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Province "></Label>
       <Input type="text"
-       value={Etablissement.province}
+       value={Etablissement.province = "MAHAJANGA "}
        onChange={(e)=>{setEtablissment({...Etablissement , province: e.target.value})}}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Région  "></Label>
       <Input type="text"
-       value={Etablissement.region}
+       value={Etablissement.region = "BOENY"}
        onChange={(e)=>{setEtablissment({...Etablissement , region: e.target.value})}}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="District  "></Label>
       <Input type="text"
-       value={Etablissement.district}
+       value={Etablissement.district = "MAHAJANGA"}
        onChange={(e)=>{setEtablissment({...Etablissement , district: e.target.value})}}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
       <Label text="Commune "></Label>
       <Input type="text"
-       value={Etablissement.commune}
+       value={Etablissement.commune = "MAHAJANGA I"}
        onChange={(e)=>{setEtablissment({...Etablissement , commune: e.target.value})}}
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
-      <Label text="Téléphone 1  "></Label>
+      <Label text="Téléphone 1 * "></Label>
       <Input type="text"
        value={Etablissement.telephone_1}
        onChange={(e)=>{setEtablissment({...Etablissement , telephone_1: e.target.value})}}
@@ -304,7 +337,7 @@ id:string
       ></Input>
     </div>
     <div className="flex justify-between mt-6">
-      <Label text="E-mail "></Label>
+      <Label text="E-mail *"></Label>
       <Input type="text"
        value={Etablissement.email}
        onChange={(e)=>{setEtablissment({...Etablissement , email: e.target.value})}}
@@ -342,7 +375,7 @@ id:string
           <Label text={`3.Cliquer sur "Ajouter dans la liste"`} className="mt-2" />
           </div>
           
-    <div className="w-[1000px] mt-6 overflow-y-auto h-96">
+    <div className="w-[1300px] mt-6 overflow-y-auto h-96">
   <Table
 onClick={handleTableRowClickEntries}
 selectedRowIndex={selectedRowIndexEntries}

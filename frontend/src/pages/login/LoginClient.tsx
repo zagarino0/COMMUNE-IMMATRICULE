@@ -48,7 +48,7 @@ const handleLogin = () => {
     })
     .catch((error) => {
       console.error('Login error:', error);
-      alert('Erreur serveur');    
+      alert(`Erreur serveur : ${error}`);    
   
     });
 };

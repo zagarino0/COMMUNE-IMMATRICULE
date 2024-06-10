@@ -6,7 +6,7 @@ import Button from "../../components/common/Button";
 import Checkbox from "../../components/common/checkbox";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { useEffect, useState } from "react";
-
+import { CgDanger } from "react-icons/cg";
 
 function Activite() {
  
@@ -25,7 +25,7 @@ function Activite() {
     date_registre_commerce: string,
     debut_exercice: string,
     cloture_exercice : string,
-    nif: string,
+    reference_fiscal: string,
     statistique:boolean,
     nombre_salarie: string
   }>({
@@ -38,7 +38,7 @@ function Activite() {
     date_registre_commerce: "",
     debut_exercice: "",
     cloture_exercice : "",
-    nif: "",
+    reference_fiscal: "",
     statistique:false,
     nombre_salarie:""
 
@@ -71,8 +71,13 @@ function Activite() {
             <TitleH3 text="Etape 2:" className="mt-2"></TitleH3>
           <TitleH1 text="Renseignements sur les activités" className="ml-2"></TitleH1>
           </div>
+
+          <div className="mt-4">
+          <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+          </div>
+
           <div className="flex justify-between mt-6">
-            <Label text="Activités " />
+            <Label text="Activités *" />
             <Input type="text"
             value={Activite.activite}
             onChange={(e)=> setActivite({...Activite , activite: e.target.value})}
@@ -82,7 +87,7 @@ function Activite() {
    
     <div>
       <div className='flex justify-between mt-6 '>
-      <Label text="Précision sur les activités "></Label>
+      <Label text="Précision sur les activités *"></Label>
       <Input
         type="text"  
         value={Activite.precision_activite}
@@ -90,15 +95,15 @@ function Activite() {
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
-      <Label text="Numéro d'identification Fiscale (DGI) "></Label>
+      <Label text="Référence Fiscale (RF) *"></Label>
       <Input
         type="text"  
-        value={Activite.nif}
-        onChange={(e)=> {setActivite({...Activite , nif : e.target.value})}}   
+        value={Activite.reference_fiscal}
+        onChange={(e)=> {setActivite({...Activite , reference_fiscal : e.target.value})}}   
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
-      <Label text="Numéro statistique "></Label>
+      <Label text="Numéro statistique *"></Label>
       <div className="flex flex-col">
       <div className="flex justify-between w-[300px]">
       <Checkbox label="Disponible" onChange={(checked)=>setActivite({...Activite , statistique: checked})} checked={Activite.statistique === true}></Checkbox>
@@ -118,7 +123,7 @@ function Activite() {
     </div>
   
     <div className='flex justify-between mt-6 '>
-      <Label text="Date de délivrance statistique "></Label>
+      <Label text="Date de délivrance statistique * "></Label>
       <Input
         type="date"  
         value={Activite.date_delivrance_statistique}
@@ -126,7 +131,7 @@ function Activite() {
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
-      <Label text="Registre de commerce"></Label>
+      <Label text="Registre de commerce *"></Label>
       <Input
         type="text"
         value={Activite.registre_commerce}
@@ -134,7 +139,7 @@ function Activite() {
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
-      <Label text="Date de registre de commerce"></Label>
+      <Label text="Date de registre de commerce *"></Label>
       <Input
         type="date"
         value={Activite.date_registre_commerce}
@@ -142,7 +147,7 @@ function Activite() {
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
-      <Label text="Début de l'exercice comptable  "></Label>
+      <Label text="Début de l'exercice comptable * "></Label>
       <Input
         type="date"     
         value={Activite.debut_exercice}
@@ -152,7 +157,7 @@ function Activite() {
     </div>
   
           <div className="flex justify-between mt-6">
-            <Label text="Clôture de l'exercice comptable" />
+            <Label text="Clôture de l'exercice comptable *" />
             <Input type="date"
             value={Activite.cloture_exercice}
             onChange={(e)=> setActivite({...Activite , cloture_exercice: e.target.value})}
@@ -160,7 +165,7 @@ function Activite() {
           </div>
             
           <div className="flex justify-between mt-6">
-            <Label text="Nombre salarié" />
+            <Label text="Nombre salarié *" />
             <Input type="text" value={Activite.nombre_salarie} onChange={(e)=>setActivite({...Activite , nombre_salarie: e.target.value})} />
           </div>
          <div className="flex justify-between mt-6">

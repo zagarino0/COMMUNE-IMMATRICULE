@@ -11,6 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { TitleH3 } from "../../../components/title";
 import { TiDocumentText } from "react-icons/ti";
+import DateFormatConverter from "../../../components/date/Date";
 
 function ValidationDemandeImmatriculation() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
@@ -83,11 +84,12 @@ const [searchTerm, setSearchTerm] = useState("");
         // Récupérer les données depuis le backend
         axios.get('http://localhost:3500/consultation/contribuable/avalide')
           .then((response) => setData(response.data))
-          .catch((error) => console.error(error));
+          .catch((error) => {console.error(error);alert(`Il y a une erreur :  ${error}`)});
       }, []);
     
+   
      
-const headers = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type" ];
+const headers = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type" , " Date autorisation" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"];
 //const data = Data.map((item)=>[item.id , item.raison_social , item.capital , item.forme_juridique , item.reference_fiscal , item.type])
   // [Data.id , Data.raison_social , Data.nom_commercial , Data.forme_juridique]
 
@@ -99,7 +101,12 @@ const headers = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type
     item.id , 
     item.raison_social , 
     item.reference_fiscal , 
-    item.type , 
+    item.type,
+    <DateFormatConverter isoDate={item.date_agrement}></DateFormatConverter> ,
+    item.regime_fiscal,
+    item.forme_juridique ,
+   <DateFormatConverter isoDate={item.date_creation}></DateFormatConverter> ,
+    item.RIB
   ]);
 
   
@@ -141,7 +148,7 @@ const headers = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type
     setSelectedRowIndex(newSelectedRowIndex);
   
     // Extract the property values from the data object
-    const selectedRowData = isSelected ? null : Data[rowIndex];
+    const selectedRowData = isSelected ? [] : Data[rowIndex];
   
     // Set the selected data
     setDataSelected(selectedRowData);
@@ -277,7 +284,7 @@ className=""
 ></Table>
 </div>
 
-<button  className="flex flex-row mt-2 " onClick={handleButtonClick}><TiDocumentText  className="mr-2  text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
+<button  className="flex flex-row mt-2 " onClick={handleButtonClick}><TiDocumentText  className="mr-2 text-[#1956e3] text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
 </div>
    </div>
    </div>
@@ -285,7 +292,7 @@ className=""
 return (
   <MainLayout>
   <div className=" mt-24 mb-8">
-  <Card contentCard={ContentSearch} className="w-[1000px] h-[500px]"></Card>
+  <Card contentCard={ContentSearch} className="w-[1300px] "></Card>
   </div>
       </MainLayout>
 )

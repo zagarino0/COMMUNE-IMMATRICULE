@@ -72,11 +72,11 @@ const motif = "Mal saisie ou information non complet"
         } 
     try {
       // Make a POST request to your server endpoint
-      const response =  axios.put(`http://localhost:3500/vehicle/${value.id_vehicule}`, DataVehicule);
+      const response = axios.put(`http://localhost:3500/vehicle/${value.id_vehicule}`, DataVehicule);
     
       // Check the response status or do something with the response
        console.log("Server Response:", response.data);
-    
+
      alert("Véhicule Modifié ");
      localStorage.removeItem("selectedVehiculeMJA");
      navigate("/MiseJourCaracteristiqueVehicule") 
@@ -90,7 +90,7 @@ const motif = "Mal saisie ou information non complet"
         <div className="flex justify-center items-center">
           <form onSubmit={ModifieVehicule}>
   <div className="flex flex-col ">
-  <div className="text-[#959824] text-3xl font-semibold border-b-2 border-[#959824] mt-6">Mise à jour des caractéristiques du vehicule : {value.numero_immatriculation}</div>
+  <div className="text-[#959824] text-3xl font-semibold border-b-2 mt-6">Mise à jour des caractéristiques du vehicule : {value.numero_immatriculation}</div>
   
     <div className="flex flex-col  ">
  <div className="flex flex-row mt-6 justify-between">
@@ -221,8 +221,8 @@ onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue({ ...value, age: 
   return (
     <div>
       <MainLayout>
-        <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-            <Card className="w-[1000px] h-[1800px] " contentCard={contentCard}></Card>
+        <div className="overflow-y-auto h-[550px] mt-20 mb-8 ">
+            <Card className="w-[1100px] h-[1350px] " contentCard={contentCard}></Card>
         </div>
     </MainLayout>
       <Modal isOpen={isModalSuccess} onClose={() => setIsModalSuccess(false)} className="w-[300px] h-[150px]">

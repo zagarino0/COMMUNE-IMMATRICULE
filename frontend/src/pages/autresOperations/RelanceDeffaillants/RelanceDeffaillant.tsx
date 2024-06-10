@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-// import { Button } from "../../../components/common";
+//import { Button } from "../../../components/common";
 import Input from "../../../components/inputs";
 import { Label } from "../../../components/label/label";
 import Table from "../../../components/table/table";
@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { TitleH3 } from "../../../components/title";
 import { TiDocumentText } from "react-icons/ti";
+import DateFormatConverter from "../../../components/date/Date";
 
 function RelanceDeffaillant() {
 
@@ -19,26 +20,37 @@ useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/etat/contribuable/valide')
       .then((response) => setData(response.data))
-      .catch((error) => console.error(error));
+      .catch((error) => {console.error(error);alert(`Il y a une erreur :  ${error}`)});
   }, []);
 console.log(Data);
 
   
 
-const headers= [ "Référence" , "Raison social" , "référence fiscal" , "Type" ] 
+const headers=[ "Référence" , "Raison social" , "référence fiscal" , "Type"  , "Date d'agrement" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"]
 const filteredData = Data.filter((item:any) =>
 item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
+&&  item.type === "Personne morale"
+ 
 );
-const data = filteredData.map((item :any) => [
-  item.id,
-  item.raison_social,
-  item.reference_fiscal,
-  item.type,
 
+console.log(filteredData)
+const data = filteredData.map((item :any) => [
+  item.id , 
+  item.raison_social , 
+  item.reference_fiscal , 
+  item.type,
+  <DateFormatConverter isoDate={item.date_agrement}></DateFormatConverter> ,
+  item.regime_fiscal,
+  item.forme_juridique ,
+ <DateFormatConverter isoDate={item.date_creation}></DateFormatConverter> ,
+  item.RIB
 ]);
 const handleSearch = (e:any) => {
   setSearchTerm(e.target.value);
 };
+{/**const handleSearchButtonClick = () => {
+  console.log(filteredData);
+}; */}
 
 
   
@@ -68,7 +80,7 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     // Use navigate to navigate to the determined route
     navigate(routeToNavigate, { state: { DataSelected } });
   };
-  const handleTableRowClick = (rowIndex : any) => {
+  const handleTableRowClick = (rowIndex :any) => {
     if (selectedRowIndex === rowIndex) {
       // If the clicked row is already selected, unselect it
       setSelectedRowIndex(null);
@@ -81,20 +93,18 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
     }
   };
   const contentCard=(
-      <div className="p-6" >
+      <div >
 
-<div className="flex justify-center items-center " >
-<div className=" flex flex-col mx-6"> <div className="text-white  py-3 px-4 rounded bg-[#959824] text-3xl  font-semibold  mt-2">
-       Mise en Contribuable Radié 
-     </div>
-
+<div className="flex justify-center mt-4" >
+<div className="mt-4 flex flex-col mx-6">
+<div className="text-[#959824] text-4xl  text-center font-semibold border-b-2  mt-2">MISE  EN CONTRIBUABLE RADIE</div>
 <div className="mt-6 flex flex-col  ">
 
  {/**card recherche  */} 
  <div className="mt-6 flex  justify-center ">
         <Label text="Reference " className="mt-2" ></Label>
-        <Input type="text" className="w-96 ml-8 " placeholder="reférence " onChange={handleSearch}></Input>
-            
+        <Input type="text" className="w-96 ml-5 " placeholder="reférence EX:005" onChange={handleSearch}></Input>
+        {/**<Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}    
       </div>
 
 
@@ -112,7 +122,7 @@ const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
 <Button text="Lister" className="mt-6"></Button> */}
 </div>
-<div className="mt-10">
+<div className="mt-8 flex justify-center w-[1300px]">
 <Table
 onClick={handleTableRowClick}
 selectedRowIndex={selectedRowIndex}
@@ -120,8 +130,8 @@ headers={headers}
 data={data}
 ></Table>
 </div>
-<div className="mt-8">
-<button  onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></button>
+<div className="mt-6 px-10">
+<button  onClick={handleButtonClick} className="flex flex-row  mr-6"><TiDocumentText  className="mr-2 text-[#1956e3]  text-xl"/><TitleH3 text="Voir l'information général du contribuable  " className="text-xs"></TitleH3></button>
 </div>
 </div>
       </div>
@@ -129,8 +139,8 @@ data={data}
   )
 return (
  <MainLayout>
-  <div className="mt-16">
-  <Card contentCard={contentCard} className="w-[800px]  "></Card>
+  <div className="overflow-y-auto h-[550px] mt-14 mb-8">
+  <Card contentCard={contentCard} className="w-[1300px]  "></Card>
   </div>
  </MainLayout>
 )

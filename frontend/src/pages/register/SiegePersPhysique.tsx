@@ -149,10 +149,8 @@ const Fokontany = [
      
       <div className=" flex justify-center py-14 bg-hoteldeville ">
         <div className="flex flex-col">
-        <img src={Repoblika} alt="repoblika photo" />
-        <div className="bg-white w-[600px] h-[100px] rounded flex items-center justify-center ">
-        <p className="text-center font-[kaldera] text-4xl ">Formulaire d'inscription</p>
-        </div>
+    
+     
         </div>
     </div>
     <div className="flex justify-center  w-full h-full  py-14">

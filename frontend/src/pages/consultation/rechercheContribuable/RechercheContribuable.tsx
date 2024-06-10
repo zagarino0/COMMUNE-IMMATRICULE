@@ -12,15 +12,19 @@ import { TitleH3 } from "../../../components/title";
 import { ImFilePdf } from "react-icons/im";
 import { TiDocumentText } from "react-icons/ti";
 import axios from "axios";
-import { Button } from "../../../components/common";
+//import { Button } from "../../../components/common";
 import * as XLSX from 'xlsx';
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+
+import DateFormatConverter from "../../../components/date/Date";
 
 function RechercheContribuablePage() {
 
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-  const [DataSelected , setDataSelected] = useState([]);
+  const [DataSelected , setDataSelected] = useState([]);      
+  const navigate = useNavigate()// Initialize useHistory
+  const [isStorageUpdated, setIsStorageUpdated] = useState(false);
+  const [DataContribuable ,setDataContribuble] = useState([]);
+  const [searchTerm, setSearchTerm] = useState ("")
 
     // const [Contribuable , setContribuable ]  =  useState<{
     //   domaine_recherche : string ,
@@ -50,18 +54,18 @@ function RechercheContribuablePage() {
   
 
 
-const [DataContribuable ,setDataContribuble] = useState([]);
-const [searchTerm, setSearchTerm] = useState ("")
+
 useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/etat/contribuable/valide')
-      .then((response) => setDataContribuble(response.data))
+      .then((response) => setDataContribuble (response.data))
       .catch((error) => console.error(error));
   }, []);
+  console.log(DataContribuable)
+  console.log(DataSelected)
 
+  
 
- 
-    
 
   // const handleSearchClient = async () => {
   //   const DataSearch ={
@@ -87,7 +91,7 @@ useEffect(() => {
   // };
     
 
-  const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "CIN" , "Passport" , "Sexe"]
+  const headers = [ "Référence" , "Raison social" , "référence fiscal" , "Type" , "Date d'agrement" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"]
   const filteredData = DataContribuable.filter((item:any)=>
   item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -95,21 +99,22 @@ useEffect(() => {
     item.id , 
     item.raison_social , 
     item.reference_fiscal , 
-    item.type , 
-    item.cin , 
-    item.numero_passeport , 
-    item.sexe,
-
+    item.type,
+    <DateFormatConverter isoDate={item.date_agrement}></DateFormatConverter> ,
+    item.regime_fiscal,
+    item.forme_juridique ,
+   <DateFormatConverter isoDate={item.date_creation}></DateFormatConverter> ,
+    item.RIB
   ]);
 
   const handleSearch = (e:any) => {
     setSearchTerm(e.target.value);
   };
-
-  const handleSearchButtonClick = () => {
+{/**const handleSearchButtonClick = () => {
     console.log(filteredData);
   };
-      // const options = [
+     */}
+    // const options = [
       //   { value: 'référence', label: 'référence' },
       //   { value: 'Raison sociale', label: 'Raison sociale' },
       //   { value: 'Référence fiscal', label: 'Référence fiscal' },
@@ -120,18 +125,18 @@ useEffect(() => {
     
 
       const exportToExcelAllData = () => {
-        // const allData = DataContribuable.map((item:any) => ({
-        //   "Référence ": item.id,
-        //   "Raison social" : item.raison_social ,
-        //   "Référence Fiscale" : item.reference_fiscal,
-        //   "Type" : item.type ,
-        //   "CIN" : item.cin ,
-        //   "Passport": item.numero_passeport ,
-        //   "sexe" : item.sexe
-        //   // ... add other properties you want to export
-        // }));
+        const allData = DataContribuable.map((item:any) => ({
+          "Référence ": item.id,
+          "Raison social" : item.raison_social ,
+          "Référence Fiscale" : item.reference_fiscal,
+          "Type" : item.type ,
+          "CIN" : item.cin ,
+          "Passport": item.numero_passeport ,
+          "sexe" : item.sexe
+          // ... add other properties you want to export
+        }));
       
-        const ws = XLSX.utils.json_to_sheet(DataContribuable);
+        const ws = XLSX.utils.json_to_sheet(allData);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'AllData');
         XLSX.writeFile(wb, 'all_data.xlsx');
@@ -141,71 +146,77 @@ useEffect(() => {
 
       const tableRef = useRef(null);
 
+
+      const printRef = useRef<HTMLDivElement>(null);
       const downloadPDF = () => {
         // Use querySelector to get the table element
-        const table = document.querySelector("#yourTableId"); // Replace with the actual ID or class of your table
-    
-        if (!table) {
-          console.error("Table not found");
-          return;
+        if (printRef.current) {
+          const content = printRef.current.innerHTML;
+          const originalContent = document.body.innerHTML;
+      
+          // Ajoutez une feuille de style pour l'impression
+          const printStyle = document.createElement('style');
+          printStyle.innerHTML =
+            '@media print { body { visibility: hidden; } .print-content { visibility: visible; } }';
+          document.head.appendChild(printStyle);
+      
+          document.body.innerHTML = `<div class="print-content">${content}</div>`;
+      
+          window.print();
+      
+          // Supprimez la feuille de style après l'impression
+          document.head.removeChild(printStyle);
+      
+          // Restaurez le contenu original après l'impression
+          document.body.innerHTML = originalContent;
+          window.location.reload();
         }
-    
-        // Convert the table to a canvas
-        html2canvas(table).then((canvas) => {
-          // Convert the canvas to a PDF using jsPDF
-          const pdf = new jsPDF();
-          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
-    
-          // Download the PDF
-          pdf.save('table.pdf');
-        });
       };
 
     
       
-      
- const navigate = useNavigate()// Initialize useHistory
 
- const [isStorageUpdated, setIsStorageUpdated] = useState(false);
 
  useEffect(() => {
-   // Store Value data in localStorage
    localStorage.setItem("selectedRechercheConsulationData", JSON.stringify(DataSelected ));
-   // Reset the dummy state to trigger rerender
    console.log(DataSelected)
    setIsStorageUpdated(false);
  }, [DataSelected, isStorageUpdated]);
  
  const handleButtonClick = () => {
-   // Trigger a rerender by updating the dummy state
    setIsStorageUpdated(true);
-
-   // Use the selectedOption to determine the route to navigate to
    const routeToNavigate = "/VoirContribuableDetail";
-
-   // Use navigate to navigate to the determined route
    navigate(routeToNavigate, { state: { DataSelected } });
  };
 
-const handleTableRowClick = (rowIndex) => {
- setSelectedRowIndex(rowIndex);
- 
- // Extract the property values from the data object
- const selectedRowData = DataContribuable[rowIndex];
+ const handleTableRowClick = (rowIndex: any) => {
+  if (selectedRowIndex === rowIndex) {
+    // Deselect the row if it's already selected
+    setSelectedRowIndex(null);
+    setDataSelected([]);
+    console.log('Deselected Row');
+  } else {
+    // Select the row
+    setSelectedRowIndex(rowIndex);
 
- setDataSelected(selectedRowData);
- console.log('Selected Row Data:', DataSelected);
+    // Extract the property values from the data object
+    const selectedRowData = DataContribuable[rowIndex];
+
+    setDataSelected(selectedRowData);
+    console.log('Selected Row Data:', selectedRowData);
+  }
 };
+
 
     const contentCard = (
         <div className="m-4">
-            <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 m-4">Consultation des Référence Fiscal</div>
+            <div className="text-[#959824] text-4xl  text-center  font-semibold border-b-2  mt-4 m-4">CONSULTATION DES REFERENCES FISCAL</div>
            <div className="flex flex-col m-4">
                   {/**card recherche  */} 
-                  <div className="mt-6 flex  justify-between ">
+                  <div className="mt-6 flex  justify-center ">
                 <Label text="Reférence" className="mt-4" ></Label>
                 <Input type="text" className="w-96 ml-5 "placeholder="Reférence EX:1234556" onChange={handleSearch}></Input>
-                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                {/** <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>*/} 
             </div>
 {/* <div className="mt-6 flex flex-row justify-between">
     <Label text="Domaine de Recherche :" className="mt-4"></Label>
@@ -315,7 +326,7 @@ onChange={(e)=> {setContribuable({...Contribuable , nom_commercial: e.target.val
 <Button text="Lister" onClick={handleSearchClient}></Button>
 </div> */}
 </div> 
-<div className="mt-10">
+<div ref={printRef} className="mt-12 flex justify-center ">
 <Table
 id="yourTableId" ref={tableRef}
 headers={headers}
@@ -326,18 +337,18 @@ selectedRowIndex={selectedRowIndex}
 
 ></Table>
 </div>
-<div className="flex justify-between mt-12">
-<button onClick={exportToExcelAllData} className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
-<button  onClick={downloadPDF}  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
-< button onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></button>
+<div className="flex justify-between m-4 p-6">
+<button onClick={exportToExcelAllData} className="flex flex-row"><SiMicrosoftexcel  className="mr-2 text-xl text-[#19e341]"/><TitleH3 text="Exporter en CSV" className="text-xs"></TitleH3></button>
+<button  onClick={downloadPDF}  className="flex flex-row "><ImFilePdf  className="mr-2 text-xl text-[#e32019]"/><TitleH3 text="Telecharger la liste" className="text-xs"></TitleH3></button>
+< button onClick={handleButtonClick} className="flex flex-row "><TiDocumentText  className="mr-2 text-xl text-[#1956e3]"/><TitleH3 text="Voir ce contribuable en détail " className="text-xs"></TitleH3></button>
 {/* to="/VoirContribuableDetail"  */}
 </div>
         </div>
     )
   return (
     <MainLayout>
-   <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-   <Card contentCard={contentCard} className="w-[800px] h-[1200px] "></Card> 
+   <div className="overflow-y-auto h-[500px] mt-1">
+   <Card contentCard={contentCard} className=" w-[1300px] "></Card> 
    </div>
    </MainLayout>
   )

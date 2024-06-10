@@ -31,7 +31,7 @@ const Table: FC<TableProps> = ({
   const DataCell: FC<DataCellProps> = ({ content, rowIndex }) => (
     <td
       className={`px-6 py-4  whitespace-no-wrap border-b border-gray-200 cursor-pointer  ${
-        selectedRowIndex === rowIndex ? "bg-gray-300" : ""
+        selectedRowIndex === rowIndex ? "bg-[#7d96e3]" : ""
       }`}
       onClick={() => onClick && onClick(rowIndex)} 
     >
@@ -40,7 +40,7 @@ const Table: FC<TableProps> = ({
   );
 
   return (
-    <div className={`overflow-y-auto h-60 ${classTable}`}>
+    <div className={`overflow-y-auto h-80 ${classTable}`}>
       <table id={id} ref={ref} className={`bg-white ${className}`}>
         <thead>
           <tr>
@@ -53,6 +53,7 @@ const Table: FC<TableProps> = ({
               </th>
             ))}
           </tr>
+          
         </thead>
 
         <tbody>
@@ -62,7 +63,9 @@ const Table: FC<TableProps> = ({
                 <DataCell key={cellIndex} content={cell} rowIndex={rowIndex} />
               ))}
             </tr>
+            
           ))}
+       
         </tbody>
       </table>
     </div>

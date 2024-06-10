@@ -15,7 +15,7 @@ function VehiculePage() {
 
       //Links navbar
     const links = [
-      { title: "Saisie vehicule", link: "/ajoutvehicule" },
+      { title: "Ajout de véhicule sur référence fiscal", link: "/ajoutvehicule" },
       { title: "Rectification des véhicules des contribuables sur Référence Fiscal", link: "/rectificationvehicule" },
       { title: "Téléchargement des véhicules sur Référence Fiscal", link: "/TelechargementVehicule" },     
       { title: "Mise à jour des caractéristiques des vehicules sur Référence Fiscal", link: "/MiseJourCaracteristiqueVehicule" },
@@ -26,8 +26,8 @@ function VehiculePage() {
     const contentCard =(
       <div className="flex justify-center item-center ">
   <div className="flex flex-col py-6">
-  <div className=" font-semibold text-[#959824]  text-3xl mt-6 border-b-2 border-[#959824]">
-          Véhicules des contribuables
+  <div className=" font-semibold text-[#959824]  text-4xl mt-6 border-b-8 border-[#959824]">
+          VEHICULE DES CONTRIBUABLES
         </div>
         <div className="font-semibold mt-6 text-sm ">
           Quelle tâche voulez-vous réaliser ?  
@@ -36,7 +36,7 @@ function VehiculePage() {
         {links.map((link) => (
           <li
             key={link.title}
-            className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2 hover:border-[#959824] ${
+            className={`mx-4 font-semibold mt-6 text-gray-500 hover:border-b-2 hover:text-[#1956e3] ${
               selectedLink === link.title.toLowerCase() 
               
             } `}

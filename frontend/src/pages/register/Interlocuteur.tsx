@@ -4,6 +4,7 @@ import Input from "../../components/inputs";
 import { Label } from "../../components/label/label";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { Layout } from "./Layout";
+import { CgDanger } from "react-icons/cg";
 import { useEffect, useState } from "react";
 
 function Interlocuteur() {
@@ -62,8 +63,12 @@ function Interlocuteur() {
             <TitleH3 text="Etape 7:" className="mt-2"></TitleH3>
           <TitleH1 text="Interlocuteur  au sein de l'entreprise" className="ml-2"></TitleH1>
           </div>
+
+          <div className="mt-4">
+          <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+          </div>
           <div className="flex justify-between mt-6">
-            <Label text="Nom " />
+            <Label text="Nom *" />
             <Input type="text" 
             value={Interlocuteur.nom_interlocuteur}
             onChange={(e)=>{setInterlocuteur({...Interlocuteur , nom_interlocuteur : e.target.value})}}
@@ -73,7 +78,7 @@ function Interlocuteur() {
    
     <div>
       <div className='flex justify-between mt-6 '>
-      <Label text="Titre"></Label>
+      <Label text="Titre *"></Label>
       <Input
         type="text"
         value={Interlocuteur.titre_interlocuteur}
@@ -82,7 +87,7 @@ function Interlocuteur() {
     </div>
    
     <div className='flex justify-between mt-6 '>
-      <Label text="Adresse  "></Label>
+      <Label text="Adresse  *"></Label>
       <Input
         type="text"     
         value={Interlocuteur.adresse_interlocuteur}
@@ -90,7 +95,7 @@ function Interlocuteur() {
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
-      <Label text="Téléphone "></Label>
+      <Label text="Téléphone *"></Label>
       <Input
         type="text"    
         value={Interlocuteur.telephone_interlocuteur}
@@ -98,7 +103,7 @@ function Interlocuteur() {
       ></Input>
     </div>
     <div className='flex justify-between mt-6 '>
-      <Label text="E-mail"></Label>
+      <Label text="E-mail *"></Label>
       <Input
         type="text"  
         value={Interlocuteur.email_interlocuteur}

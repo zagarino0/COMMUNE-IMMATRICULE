@@ -413,9 +413,15 @@ const getAllContribuableInactif = (req, res) => {
             const vehicule = [];
             data.vehicule.map(veh => {
                 data.vehiculecontribuable.map(vdh => {
-
+                    if(vdh.reference_fiscal === con.reference_fiscal){
+                        vdh.id_vehicules.map(idvcl => {
+                            if(idvcl === veh.id_vehicule)
+                                vehicule.push(veh);
+                        })
+                    }
                 })
             })
+            con.vehicules = vehicule.length === 0 ? null : vehicule;
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
             contribuableInactif.push({...con});
     })
@@ -721,9 +727,15 @@ const getAllContribuableBloque = (req, res) => {
             const vehicule = [];
             data.vehicule.map(veh => {
                 data.vehiculecontribuable.map(vdh => {
-
+                    if(vdh.reference_fiscal === con.reference_fiscal){
+                        vdh.id_vehicules.map(idvcl => {
+                            if(idvcl === veh.id_vehicule)
+                                vehicule.push(veh);
+                        })
+                    }
                 })
             })
+            con.vehicules = vehicule.length === 0 ? null : vehicule;
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
             contribluableBloque.push({...con});
         }
@@ -739,7 +751,7 @@ const getAllContribuableDeBloque = (req, res) => {
         //     return res.status(404).json({'message': 'erreur quoi'})
         const modif = data.modifications.find(mod => mod.id_contribuable == con.id);
         const cess = data.cessations.find(cess => cess.id_contribuable === con.id);
-        if(!modif.blockage && cess.reprise){
+        if(!modif.blockage && modif.date_blockage != ''){
             con.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === con.id);
             con.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === con.id);
             con.actiite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
@@ -751,9 +763,15 @@ const getAllContribuableDeBloque = (req, res) => {
             const vehicule = [];
             data.vehicule.map(veh => {
                 data.vehiculecontribuable.map(vdh => {
-
+                    if(vdh.reference_fiscal === con.reference_fiscal){
+                        vdh.id_vehicules.map(idvcl => {
+                            if(idvcl === veh.id_vehicule)
+                                vehicule.push(veh);
+                        })
+                    }
                 })
             })
+            con.vehicules = vehicule.length === 0 ? null : vehicule;
             con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
             contribluableDeBloque.push({...con});
         }
@@ -841,11 +859,17 @@ const getListeDemandeAValide = (req, res) => {
         con.interlocuteur = data.interlocuteurTemps.length === 0 ? null : data.interlocuteurTemps.find(inter => inter.id_contribuable === con.id);
         con.siege = data.siegeTemps.length === 0 ? null : data.siegeTemps.find(sie => sie.id_contribuable === con.id);
         const vehicule = [];
-        data.vehicule.map(veh => {
-            data.vehiculecontribuable.map(vdh => {
-
+            data.vehicule.map(veh => {
+                data.vehiculecontribuable.map(vdh => {
+                    if(vdh.reference_fiscal === con.reference_fiscal){
+                        vdh.id_vehicules.map(idvcl => {
+                            if(idvcl === veh.id_vehicule)
+                                vehicule.push(veh);
+                        })
+                    }
+                })
             })
-        })
+            con.vehicules = vehicule.length === 0 ? null : vehicule;
         con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
         contribuablesNonValides.push({ ...con });
     })

@@ -13,6 +13,8 @@ import { Navbar } from "../../components/navbar/Navbar";
 import { IoStatsChartOutline } from "react-icons/io5";
 import { BsHouse } from "react-icons/bs";
 import { RxAvatar } from "react-icons/rx";
+import { CgDanger } from "react-icons/cg";
+
 import { MdOutlineCached } from "react-icons/md";
 import { ModalLogin } from "../Home/Modal/ModalLogin";
 
@@ -176,13 +178,7 @@ const links = [
       <ModalLogin isOpen={isModal} onClose={()=> setIsModal(false)} quitter={()=> setIsModal(false)}></ModalLogin>
       <Navbar content={content} className="h-16"></Navbar>
      
-      <div className=" flex justify-center py-14 bg-hoteldeville ">
-        <div className="flex flex-col">
-        <img src={Repoblika} alt="repoblika photo" />
-        <div className="bg-white w-[600px] h-[100px] rounded flex items-center justify-center ">
-        <p className="text-center font-[kaldera] text-4xl ">Formulaire d'inscription</p>
-        </div>
-        </div>
+      <div className=" flex justify-center py-80 bg-hoteldeville ">
     </div>
     <div className="flex justify-center  w-full h-full  py-14">
 <div className="flex flex-col">
@@ -206,12 +202,16 @@ const links = [
           <TitleH3 text="Etape 1:" className="mt-2"></TitleH3>
         <TitleH1 text="Principaux renseignements sur le contribuable" className="ml-2"></TitleH1>
         </div>
+
+        <div className="mt-4">
+          <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+          </div>
         <div className="flex justify-between mt-6">
-          <Label text="Nom et Prénoms ou Raison Social" />
+          <Label text="Nom et Prénoms ou Raison Social *" />
           <Input type="text" value={Value.raisonsocial } onChange={(e)=>{setValue({...Value , raisonsocial: e.target.value})}} />
         </div>
         <div className="flex justify-between mt-6">
-          <Label text="Type" />
+          <Label text="Type *" />
           <div className="flex justify-between">
           <label className="">
           <input
@@ -244,7 +244,7 @@ const links = [
         {selectedOption === true && (
   <div>
     <div className='flex justify-between mt-6 '>
-    <Label text="Situation matrimoniale "></Label>
+    <Label text="Situation matrimoniale *"></Label>
     <Input
       type="text" 
       value={Value.situationmatrimoinial }
@@ -252,7 +252,7 @@ const links = [
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
-    <Label text="Période grace"></Label>
+    <Label text="Période grace *"></Label>
     <Input
       type="text" 
       value={Value.periodegrace }
@@ -260,7 +260,7 @@ const links = [
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
-  <Label text="Sexe"></Label>
+  <Label text="Sexe *"></Label>
   <div className="flex justify-between w-[200px]">
     <Checkbox
       label="Masculin"
@@ -280,7 +280,7 @@ const links = [
 </div>
 
  <div className="flex justify-between mt-6">
- <Label text="Etranger"></Label>
+ <Label text="Etranger *"></Label>
   <div className="flex justify-between w-[200px]">
     <Checkbox
       label="Oui"
@@ -301,7 +301,7 @@ const links = [
  { Value.etranger == false && (
 <>
 <div className='flex justify-between mt-6 '>
-  <Label text="CIN"></Label>
+  <Label text="CIN *"></Label>
   <Input
     type="text"     
     value={Value.cin }
@@ -317,7 +317,7 @@ const links = [
   ></Input>
 </div>
 <div className='flex justify-between mt-6 '>
-    <Label text="Lieu de délivrance"></Label>
+    <Label text="Lieu de délivrance *"></Label>
     <Input
       type="text"
       value={Value.lieudelivrancecin }
@@ -331,7 +331,7 @@ const links = [
  { Value.etranger == true && (
  <>
   <div className='flex justify-between mt-6 '>
-  <Label text="Passport"></Label>
+  <Label text="Passport "></Label>
   <Input
     type="text"     
     value={Value.numero_passeport }
@@ -354,7 +354,7 @@ const links = [
   
   
   <div className='flex justify-between mt-6 '>
-    <Label text="Date naissance"></Label>
+    <Label text="Date naissance *"></Label>
     <Input
       type="date"
       value={Value.datenaissance }
@@ -362,7 +362,7 @@ const links = [
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
-    <Label text="Lieu naissance "></Label>
+    <Label text="Lieu naissance *"></Label>
     <Input
       type="text"
       value={Value.lieunaissance }
@@ -372,35 +372,35 @@ const links = [
   </div>
 )}
         <div className="flex justify-between mt-6">
-          <Label text="Forme juridique" />
+          <Label text="Forme juridique *" />
           <Input type="text"
           value={Value.formejuridique }
           onChange={(e)=>{setValue({...Value , formejuridique : e.target.value})}}
           />
         </div>
         <div className="flex justify-between mt-6">
-          <Label text="Régime Fiscale" />
+          <Label text="Régime Fiscale *" />
           <Input type="text" 
           value={Value.regimefiscal }
           onChange={(e)=>{setValue({...Value , regimefiscal : e.target.value})}}
           />
         </div>
         <div className="flex justify-between mt-6">
-          <Label text="Date de Création" />
+          <Label text="Date de Création *"  />
           <Input type="date"  
           value={Value.datecreation }
           onChange={(e)=>{setValue({...Value , datecreation : e.target.value})}}
           />
         </div>
         <div className="flex justify-between mt-6">
-          <Label text="Capital en Ar" />
+          <Label text="Capital en Ar *" />
           <Input type="text"
           value={Value.capital }
           onChange={(e)=>{setValue({...Value , capital : e.target.value})}}
           />
         </div>
         <div className='flex justify-between mt-6 '>
-    <Label text="RIB "></Label>
+    <Label text="RIB *"></Label>
     <div className="flex justify-between w-[300px]">
     <Checkbox label="Disponible" onChange={()=>{setValue({...Value , rib : "Disponible"})}} checked={Value.rib === "Disponible" }></Checkbox>
     <Checkbox label="Pas encore" onChange={()=>{setValue({...Value , rib : "Pas encore"})}} checked={Value.rib === "Pas encore" }></Checkbox>
@@ -408,7 +408,7 @@ const links = [
     
   </div>
   <div className="flex justify-between mt-6">
-          <Label text="Numéro compte bancaire" />
+          <Label text="Numéro compte bancaire *" />
           <Input type="text"
           value={Value.numero_compte_bancaire }
           onChange={(e)=>{setValue({...Value , numero_compte_bancaire : e.target.value})}}
@@ -416,7 +416,7 @@ const links = [
           />
         </div>
         <div className="flex justify-between mt-6">
-          <Label text="Autorisation" />
+          <Label text="Autorisation *" />
           <Input type="date"
           value={Value.dateagrement }
           onChange={(e)=>{setValue({...Value , dateagrement : e.target.value})}}
@@ -426,7 +426,7 @@ const links = [
         </div>
 
         <div className="flex justify-between mt-6">
-          <Label text="Référence autorisation" />
+          <Label text="Référence autorisation *" />
           <Input type="text"
           value={Value.referenceagrement }
           onChange={(e)=>{setValue({...Value , referenceagrement : e.target.value})}}

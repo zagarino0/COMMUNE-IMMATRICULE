@@ -37,7 +37,7 @@ function MiseJourCaracteristiqueVehicule() {
   // const data = Data.map((item : any )=>[item.numero_immatriculation  ,item.marque ,  item.puissance , item.poids_a_vide])
   
   const filteredData = Data.filter ((item:any)=>
-  item.numero_immatriculation.toLowerCase().includes(searchTerm.toLowerCase())
+  item.numero_immatriculation && item.numero_immatriculation.toLowerCase().includes(searchTerm.toLowerCase())
   );
   
   const data = filteredData.map((item:any)=>
@@ -53,10 +53,10 @@ function MiseJourCaracteristiqueVehicule() {
    setSearchTerm(e.target.value);
  };
  
- const handleSearchButtonClick = () => {
+ {/**const handleSearchButtonClick = () => {
    console.log(filteredData);
  }
- 
+  */}
 // selection data 
 
 const navigate = useNavigate()// Initialize useHistory
@@ -81,8 +81,21 @@ const handleButtonClick = () => {
   // Use navigate to navigate to the determined route
   navigate(routeToNavigate, { state: { DataSelected } });
 };
+{/**const handleButtonHistoriqueClick = () => {
+  // Trigger a rerender by updating the dummy state
+  setIsStorageUpdated(true);
 
-const handleTableRowClick = (rowIndex:null) => {
+  // Use the selectedOption to determine the route to navigate to
+  const routeToNavigate = "/ConsultationHistoriqueVehicule";
+
+  // Use navigate to navigate to the determined route
+  navigate(routeToNavigate, { state: { DataSelected } });
+};
+ */}
+
+
+
+const handleTableRowClick = (rowIndex:any) => {
 setSelectedRowIndex(rowIndex);
 
 // Extract the property values from the data object
@@ -119,15 +132,15 @@ const handleSearchVehicule = async () => {
 
 <div className="flex justify-center items-center mt-4" >
 <div className="mt-4 flex flex-col mx-6">
-<div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2">Mise à jour des caractéristique des véhicules</div>
-<div className="mt-6 flex  justify-between ">
+<div className="text-[#959824] text-3xl  text-center font-semibold border-b-2  mt-2">MISE A JOUR DES CARACTERISTIQUES DES VEHICULES</div>
+<div className="mt-6">
 
   
              {/**card recherche  */} 
-             <div className="mt-6 flex  justify-between ">
+             <div className="mt-6 flex  justify-center ">
                         <Label text="Numéro immatriculattion" className="mt-4" ></Label>
                         <Input type="text" className="w-96 ml-5 "placeholder="Numéro immatriculattion EX: 7878 TBA" onChange={handleSearch}></Input>
-                        <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+                     {/**   <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}
                     </div>
 {/**
  * <Label text="Numéro véhicules" className="mt-2" ></Label>
@@ -139,14 +152,14 @@ onChange={(e)=> setImmatriculation(e.target.value)}
  */}
 
 </div>
-<div className="mt-10">
-<Table
+<div className="mt-8 overflow-y-auto flex justify-center">
+<Table  className=" border-x-2  items-center mt-4 w-[950px]"
 
 headers={headers}data={data }onClick = {handleTableRowClick}selectedRowIndex={selectedRowIndex}></Table>
 </div>
 <div>
-
-<button  className="flex flex-row mt-4 " onClick={handleButtonClick}><TiDocumentText  className="mr-2  text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
+{/**<button onClick={handleButtonHistoriqueClick } className="flex flex-row"><TiDocumentText  className="text-xl text-[#1956e3]" /><Label text="Voir l'historique de ce vehicule"></Label></button> */}
+<button  className="flex flex-row mt-4 " onClick={handleButtonClick}><TiDocumentText  className="mr-2 text-[#1956e3] text-xl"/><TitleH3 text="Voir les détails du Contribuable " className="text-xs"></TitleH3></button>
 </div>
 </div>
       </div>
@@ -155,7 +168,7 @@ headers={headers}data={data }onClick = {handleTableRowClick}selectedRowIndex={se
 return (
  <MainLayout>
   <div className="overflow-y-auto h-[500px] mt-14 mb-8 ">
-  <Card contentCard={contentCard} className="w-[800px] h-[650px] "></Card>
+  <Card contentCard={contentCard} className="w-[1300px]  "></Card>
   </div>
  </MainLayout>
 )

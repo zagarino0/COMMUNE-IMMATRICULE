@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/card/card";
-import { Button } from "../../../components/common"
+// import { Button } from "../../../components/common"
 import Input from "../../../components/inputs"
-import Select from "../../../components/inputs/selectInput";
+// import Select from "../../../components/inputs/selectInput";
 import { Label } from "../../../components/label/label"
 import Table from "../../../components/table/table";
 import { MainLayout } from "../../../layouts/main";
@@ -11,43 +11,44 @@ import axios from "axios";
 import { TitleH3 } from "../../../components/title";
 import { TiDocumentText } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
+import DateFormatConverter from "../../../components/date/Date";
 
 function DemandeDeNIFAValiderPage() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [DataSelected , setDataSelected] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [Valide , setValide] = useState<{
-    domaine_recherche : string ,
-    reference : string ,
-    cin:string,
-    raison_social : string,
-    adresse : string,
-    nom_commercial: string,
-    date_debut : string ,
-    date_fin : string,
-    reference_fiscal : string
+  // const [Valide , setValide] = useState<{
+  //   domaine_recherche : string ,
+  //   reference : string ,
+  //   cin:string,
+  //   raison_social : string,
+  //   adresse : string,
+  //   nom_commercial: string,
+  //   date_debut : string ,
+  //   date_fin : string,
+  //   reference_fiscal : string
     
-    }>({
-      domaine_recherche : "" ,
-      reference : "" ,
-      cin:"",
-      raison_social:"",
-      adresse:"",
-      nom_commercial:"",
-      date_debut : "" ,
-      date_fin : "",
-      reference_fiscal: ""
-    })
+  //   }>({
+  //     domaine_recherche : "" ,
+  //     reference : "" ,
+  //     cin:"",
+  //     raison_social:"",
+  //     adresse:"",
+  //     nom_commercial:"",
+  //     date_debut : "" ,
+  //     date_fin : "",
+  //     reference_fiscal: ""
+  //   })
 
-    const options = [
-      { value: 'référence', label: 'référence' },
-      { value: 'Raison sociale', label: 'Raison sociale' },
-      { value: 'Référence fiscal', label: 'Référence fiscal' },
-      { value: 'CIN', label: 'CIN' },
-      { value: 'Adresse', label: 'Adresse' },
-      { value: 'Nom commercial', label: 'Nom commercial' },
-    ];
+    // const options = [
+    //   { value: 'référence', label: 'référence' },
+    //   { value: 'Raison sociale', label: 'Raison sociale' },
+    //   { value: 'Référence fiscal', label: 'Référence fiscal' },
+    //   { value: 'CIN', label: 'CIN' },
+    //   { value: 'Adresse', label: 'Adresse' },
+    //   { value: 'Nom commercial', label: 'Nom commercial' },
+    // ];
     
     const [Data , setData] = useState([])
     
@@ -55,52 +56,53 @@ function DemandeDeNIFAValiderPage() {
       // Récupérer les données depuis le backend
       axios.get('http://localhost:3500/consultation/contribuable/miseajouravalide')
         .then((response) => setData(response.data))
-        .catch((error) => console.error(error));
+        .catch((error) => {console.error(error);alert(`Il y a une erreur :  ${error}`)});
     }, []);
   
     
-    // Fonction pour faire un  recherche d'un client avec référence fiscal
-    const handleSearchClient = async () => {
-      const DataSearch ={
-      "reference":Valide.reference,
-      "raison_social":Valide.raison_social,
-      "reference_fiscal": Valide.reference_fiscal,
-      "cin":Valide.cin,
-      "adresse": Valide.adresse,
-      "nom_commercial": Valide.nom_commercial,
-      "date_debut":Valide.date_debut,
-      "date_fin": Valide.date_fin
-      }
-      try {
-        // Make a POST request to your server endpoint
-        const response = await axios.post("http://localhost:3500/consultation/contribuable/miseajouravalide", DataSearch);
-        setData(response.data);
-        // Check the response status or do something with the response
-        console.log("Server Response:", Data );
-      } catch (error) {
-        // Handle errors
-        console.error("Error:", error);
-      }
-    };
+    // // Fonction pour faire un  recherche d'un client avec référence fiscal
+    // const handleSearchClient = async () => {
+    //   const DataSearch ={
+    //   "reference":Valide.reference,
+    //   "raison_social":Valide.raison_social,
+    //   "reference_fiscal": Valide.reference_fiscal,
+    //   "cin":Valide.cin,
+    //   "adresse": Valide.adresse,
+    //   "nom_commercial": Valide.nom_commercial,
+    //   "date_debut":Valide.date_debut,
+    //   "date_fin": Valide.date_fin
+    //   }
+    //   try {
+    //     // Make a POST request to your server endpoint
+    //     const response = await axios.post("http://localhost:3500/consultation/contribuable/miseajouravalide", DataSearch);
+    //     setData(response.data);
+    //     // Check the response status or do something with the response
+    //     console.log("Server Response:", Data );
+    //   } catch (error) {
+    //     // Handle errors
+    //     console.error("Error:", error);
+    //   }
+    // };
 
 
 
-    const headers = ["code", "Raison social", "Référence Fiscal", "Type" , "CIN" , "passeport" , "sexe"];
+    const headers = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type" , " Date autorisation" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"];
     //const data = Data.map((item)=>[item.id , item.raison_social , item.reference_fiscal , item.type , item.cin , item.numero_passeport , item.sexe])
     
     const filteredData = Data.filter((item:any) => 
-    item.code.toLowerCase().includes(searchTerm.toLowerCase())
+    item.code && item.code.toLowerCase().includes(searchTerm.toLowerCase())
     );
     
     const data = filteredData.map((item:any) =>[
-      item.code , 
-      item.raison_social ,  
+      item.id , 
+      item.raison_social , 
       item.reference_fiscal , 
-      item.type , 
-      item.cin ,
-      item.numero_passeport ,
-      item.sexe
-
+      item.type,
+      <DateFormatConverter isoDate={item.date_agrement}></DateFormatConverter> ,
+      item.regime_fiscal,
+      item.forme_juridique ,
+     <DateFormatConverter isoDate={item.date_creation}></DateFormatConverter> ,
+      item.RIB
     ]);
   
     
@@ -108,9 +110,9 @@ function DemandeDeNIFAValiderPage() {
       setSearchTerm(e.target.value);
     };
   
-    const handleSearchButtonClick = () => {
-      console.log(filteredData);
-    };
+    // const handleSearchButtonClick = () => {
+    //   console.log(filteredData);
+    // };
    
     
  const navigate = useNavigate()// Initialize useHistory
@@ -136,19 +138,27 @@ function DemandeDeNIFAValiderPage() {
    navigate(routeToNavigate, { state: { DataSelected } });
  };
 
-const handleTableRowClick = (rowIndex) => {
- setSelectedRowIndex(rowIndex);
- // Update input fields or perform other actions based on the selected row data
- const selectedRowData = Data[rowIndex];
-setDataSelected(selectedRowData)
+ const handleTableRowClick = (rowIndex: any) => {
+  // Check if the clicked row is already selected
+  const isSelected = rowIndex === selectedRowIndex;
 
+  // Toggle selection
+  const newSelectedRowIndex = isSelected ? null : rowIndex;
+  setSelectedRowIndex(newSelectedRowIndex);
+
+  // Extract the property values from the data object
+  const selectedRowData = isSelected ? [] : Data[rowIndex];
+
+  // Set the selected data
+  setDataSelected(selectedRowData);
+  console.log('Selected Row Data:', selectedRowData);
 };
 
     const ContentSearch =(
       <div>     
          <div className="    p-4">
      <div className=" p-4">
-     <div className="text-[#959824] text-3xl  font-semibold border-b-2 border-[#959824] mt-2 ">
+     <div className="text-[#959824] text-3xl  font-semibold border-b-2  mt-2 ">
          DEMANDES DE MISE A JOUR DES RENSEIGNEMENTS SUR LES CONTRIBUABLES A VALIDER
        </div>
            <div className="text-lg  font-semibold  p-4 ">
@@ -160,10 +170,10 @@ setDataSelected(selectedRowData)
 <div className="flex flex-col ">
 
     {/**card recherche  */} 
-    <div className="mt-6 flex  justify-between ">
+    <div className="mt-6 flex  justify-center ">
                 <Label text="code" className="mt-4" ></Label>
                 <Input type="text" className="w-96 ml-5 "placeholder="code EX:1245" onChange={handleSearch}></Input>
-                <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button>
+              {/**  <Button text="Rechercher" className="ml-4" onClick={handleSearchButtonClick}></Button> */}
             </div>
 {/*         
 <div className="flex flex-col py-4">

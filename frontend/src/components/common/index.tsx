@@ -96,14 +96,9 @@ text
   px-6 
   bg-[#959824] 
   text-white 
-  font-[Tara]
+  
   rounded-sm 
-  hover:scale-110
-  hover:shadow-xl 
-  transition 
-  duration-300 
-  ease-in-out
-  font-bold
+   font-bold
   ${className}
   `}>
     {text}

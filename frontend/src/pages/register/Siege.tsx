@@ -4,6 +4,7 @@ import Input from "../../components/inputs";
 import { Label } from "../../components/label/label";
 import { TitleH1, TitleH3 } from "../../components/title";
 import { Layout } from "./Layout";
+import { CgDanger } from "react-icons/cg";
 import { useEffect, useState } from "react";
 import Select from "../../components/inputs/selectInput";
 
@@ -89,6 +90,11 @@ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
             <TitleH3 text="Etape 3:" className="mt-2"></TitleH3>
           <TitleH1 text="Renseignements sur le siège" className="ml-2"></TitleH1>
           </div>
+
+          <div className="mt-4">
+          <p className="flex flex-row px-4 font-[Courier]"><CgDanger className="text-2xl"/> Les champs marqués * sont obligatoires.</p>
+          </div>
+
     <div className='flex justify-between mt-6 '>
     <Label text="Province "></Label>
     <Input
@@ -121,7 +127,7 @@ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
     ></Input>
   </div>
   <div className='flex justify-between mt-6 '>
-    <Label text="Fokontany"></Label>
+    <Label text="Fokontany *"></Label>
     <Select
   options={Fokontany.map((option) => ({ value: option, label: option }))}
   value={Siege.fonkotany}
@@ -134,7 +140,7 @@ const [isStorageUpdated, setIsStorageUpdated] = useState(false);
   
 
           <div className="flex justify-between mt-6">
-          <Label text="Adresse actuelle (siège) " />
+          <Label text="Adresse actuelle (siège) * " />
           <Input type="text" 
           value={Siege.adresse_actuelle}
           onChange={(e)=>{setSiege({...Siege , adresse_actuelle: e.target.value})}}
