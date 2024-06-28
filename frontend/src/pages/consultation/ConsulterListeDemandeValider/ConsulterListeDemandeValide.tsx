@@ -88,7 +88,7 @@ const [searchTerm, setSearchTerm] = useState("")
       
       const handleButtonClick = () => {
         setIsStorageUpdated(true);
-        const routeToNavigate = "/VoirContribuableDetail";
+        const routeToNavigate = "/VoirContribuableDetailDMValide";
         navigate(routeToNavigate, { state: { DataSelected } });
       };
      
@@ -103,7 +103,7 @@ const [searchTerm, setSearchTerm] = useState("")
           setSelectedRowIndex(rowIndex);
       
           // Extract the property values from the data object
-          const selectedRowData = DataContribuable[rowIndex];
+          const selectedRowData = DataValide[rowIndex];
       
           setDataSelected(selectedRowData);
           console.log('Selected Row Data:', selectedRowData);

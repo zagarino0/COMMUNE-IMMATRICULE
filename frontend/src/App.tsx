@@ -1,6 +1,6 @@
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ErrorPage from "./pages/Error";
+import ErrorPage from "./pages/Error"; 
 import LoginPage from "./pages/login";
 import DemandeDeMAJPage from "./pages/validation/demandeDeMAJ/DemandNifValide";
 import MAJRenseignementPage from "./pages/majRenseignement/majRenseignement";
@@ -93,6 +93,9 @@ import InfoContribuableDece from "./pages/autresOperations/ContribuableDece/Info
 import ContribuableDece from "./pages/autresOperations/ContribuableDece/ContribuableDece";
 import ImpressionCessation from "./pages/autresOperations/CessationActivite/ImpressionCessation";
 import InfoTest from "./pages/etat/ListeAttestation/InfoTest";
+import VoirContribuableDetailBloque from "./pages/consultation/consulationContribuablesBloqué/InfoConsultationBloque";
+import VoirContribuableDetailDebloque from "./pages/consultation/ConsulationContribuableDebloque/InfoConsultationDebloque";
+import VoirContribuableDetailDMValide from "./pages/consultation/ConsulterListeDemandeValider/VoirContribuableDetail";
 
 
 function App() {
@@ -195,8 +198,10 @@ function App() {
         <Route path="/ContribuableDece" element={<ContribuableDece/>}></Route>   
         <Route path="/ImpressionCessation" element={<ImpressionCessation/>}></Route> 
         <Route path="/InfoTest" element={<InfoTest/>}></Route> 
-
-
+        <Route path="/VoirContribuableDetailBloque" element={<VoirContribuableDetailBloque/>}></Route>
+        <Route path="/VoirContribuableDetailDebloque" element={<VoirContribuableDetailDebloque/>}></Route> 
+        <Route path="/VoirContribuableDetailDMValide" element={<VoirContribuableDetailDMValide/>}></Route>
+         
       </Routes>
     </Router>
     </>

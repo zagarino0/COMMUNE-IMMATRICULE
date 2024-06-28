@@ -89,7 +89,7 @@ console.log(DataBloque)
   };
   useEffect(() => {
     // Store Value data in localStorage
-    localStorage.setItem("selectedRechercheConsulationData", JSON.stringify(DataSelected ));
+    localStorage.setItem("selectedRechercheConsulationDataBloque", JSON.stringify(DataSelected ));
     console.log(DataSelected)
     setIsStorageUpdated(false);
   }, [DataSelected, isStorageUpdated]);
@@ -97,7 +97,7 @@ console.log(DataBloque)
 
   const handleButtonClick = () => {
     setIsStorageUpdated(true);
-    const routeToNavigate = "/VoirContribuableDetail";
+    const routeToNavigate = "/VoirContribuableDetailBloque";
     navigate(routeToNavigate, { state: { DataSelected } });
   };
 

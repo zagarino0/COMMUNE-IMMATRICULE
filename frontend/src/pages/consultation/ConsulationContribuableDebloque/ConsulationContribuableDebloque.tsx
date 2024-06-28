@@ -119,24 +119,33 @@ useEffect(() => {
     setSearchTerm(e.target.value);
   };
 
-  const handleTableRowClick = (rowIndex : any) => {
-    setSelectedRowIndex(rowIndex);
-    
-    // Extract the property values from the data object
-    const selectedRowData = DataContribuable[rowIndex];
-   
-    setDataSelected(selectedRowData);
-    console.log('Selected Row Data:', DataSelected);
-   };
+  const handleTableRowClick = (rowIndex: any) => {
+    if (selectedRowIndex === rowIndex) {
+      // Deselect the row if it's already selected
+      setSelectedRowIndex(null);
+      setDataSelected([]);
+      console.log('Deselected Row');
+    } else {
+      // Select the row
+      setSelectedRowIndex(rowIndex);
+  
+      // Extract the property values from the data object
+      const selectedRowData = DataDebloque[rowIndex];
+  
+      setDataSelected(selectedRowData);
+      console.log('Selected Row Data:', selectedRowData);
+    }
+  };
+  
    useEffect(() => {
-    localStorage.setItem("selectedRechercheConsulationData", JSON.stringify(DataSelected ));
+    localStorage.setItem("selectedRechercheConsulationDataDebloque", JSON.stringify(DataSelected ));
     console.log(DataSelected)
     setIsStorageUpdated(false);
   }, [DataSelected, isStorageUpdated]);
   
    const handleButtonClick = () => {
     setIsStorageUpdated(true);
-    const routeToNavigate = "/VoirContribuableDetail";
+    const routeToNavigate = "/VoirContribuableDetailDebloque";
     navigate(routeToNavigate, { state: { DataSelected } });
   };
    

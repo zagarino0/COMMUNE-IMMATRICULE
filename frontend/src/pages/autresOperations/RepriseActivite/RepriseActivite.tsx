@@ -20,7 +20,7 @@ function RepriseActivite() {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/etat/contribuable/cesse')
       .then((response) => setData(response.data))
-      .catch((error) => {console.error(error);alert(`Il y a une erreur :  ${error}`)});
+      .catch((error) => {console.error(error)});
   }, []);
   
   console.log(Data)

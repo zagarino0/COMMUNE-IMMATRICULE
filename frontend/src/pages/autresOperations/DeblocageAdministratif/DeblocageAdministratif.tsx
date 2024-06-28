@@ -21,7 +21,7 @@ useEffect(() => {
     axios.get('http://localhost:3500/consultation/contribuable/bloque')
 
       .then((response) => setDataValide(response.data))
-      .catch((error) => {console.error(error);alert(`Il y a une erreur :  ${error}`)});
+      .catch((error) => {console.error(error)});
   }, []);
 console.log(DataValide);
 

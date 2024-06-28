@@ -45,7 +45,7 @@ function LivreMotPassDelivre() {
   };
    console.log(DataContribuable);
    
-    const headers = [ "Référence" , "Raison social" , "mot de passe " , "référence fiscal" , "Type" , "Date d'agrement" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"]
+    const headers = [ "Référence" , "Mot de passe " , "Raison social" , "référence fiscal" , "Type" , "Date d'agrement" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"]
     const filteredData = DataContribuable.filter((item:any) => 
       item.reference_fiscal && item.reference_fiscal.toLowerCase().includes(searchTerm.toLowerCase())
       );
